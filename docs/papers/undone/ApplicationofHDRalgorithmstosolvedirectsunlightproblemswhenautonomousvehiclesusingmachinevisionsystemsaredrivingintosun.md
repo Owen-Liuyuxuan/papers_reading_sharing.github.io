@@ -1,0 +1,1 @@
+# Application of HDR algorithms to solve direct sunlight problems when autonomous vehicles using machine vision systems are driving into sun
