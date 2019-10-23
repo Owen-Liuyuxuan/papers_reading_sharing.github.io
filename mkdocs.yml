@@ -6,6 +6,10 @@ markdown_extensions:
     - codehilite
     - footnotes
     - meta
+
+plugins:
+    - search:
+        separator: '[\s\-\.]+$'
     
 extra_javascript:
     - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML
