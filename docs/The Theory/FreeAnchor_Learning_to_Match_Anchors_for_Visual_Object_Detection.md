@@ -1,6 +1,7 @@
+code_source: https://github.com/zhangxiaosong18/FreeAnchor
 # FreeAnchor: Learning to Match Anchors for Visual Object Detection
 
-这篇论文来自于NIPS2019,介绍了新的方式来实现2D object detection中的matching. [代码](https://github.com/zhangxiaosong18/FreeAnchor)
+这篇论文来自于NIPS2019,介绍了新的方式来实现2D object detection中的matching.
 
 总体思路来说，使用最大似然估计的框架在Object Detection的过程中，采用一个单一的loss，同时完成proposal与object的匹配以及回归训练，将中间matching步骤自动化了
 
