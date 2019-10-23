@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Do Better ImageNet Models Transfer Better? - Reading Collections</title>
+        <title>Robustness to Out-of-Distribution Inputs via Task-Aware Generative Uncertainty - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -221,7 +221,7 @@
                                 <ul class="dropdown-menu">
                                     
     <li>
-        <a href="./" class="dropdown-item active">Do Better ImageNet Models Transfer Better?</a>
+        <a href="../Do Better ImageNet Models Transfer Better/" class="dropdown-item">Do Better ImageNet Models Transfer Better?</a>
     </li>
                                     
     <li>
@@ -233,7 +233,7 @@
     </li>
                                     
     <li>
-        <a href="../Robustness_to_Out-of-Distribution_Inputs_via_Task-Aware_Generative_Uncertainty/" class="dropdown-item">Robustness to Out-of-Distribution Inputs via Task-Aware Generative Uncertainty</a>
+        <a href="./" class="dropdown-item active">Robustness to Out-of-Distribution Inputs via Task-Aware Generative Uncertainty</a>
     </li>
                                     
     <li>
@@ -485,12 +485,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../Robotics_with_DL/Universal Planning Networks/" class="nav-link">
+                                <a rel="prev" href="../Rethinking ImageNet Pre-training/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../FreeAnchor_Learning_to_Match_Anchors_for_Visual_Object_Detection/" class="nav-link">
+                                <a rel="next" href="../ShuffleNet V2: Practical Guidelines for Efficient CNN Architecture Design/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -513,65 +513,49 @@
         
         <ul class="nav flex-column bs-sidenav">
         
+        <a href=https://arxiv.org/pdf/1812.10687.pdf>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
+        </a>
+        
 
         
-            <li class="nav-item main"><a href="#do-better-imagenet-models-transfer-better">Do Better ImageNet Models Transfer Better?</a></li>
-            <li class="nav-item main"><a href="#metrics-in-comparison">metrics in comparison</a></li>
-            <li class="nav-item main"><a href="#_1">经验结论：</a></li>
+            <li class="nav-item main"><a href="#robustness-to-out-of-distribution-inputs-via-task-aware-generative-uncertainty">Robustness to Out-of-Distribution Inputs via Task-Aware Generative Uncertainty</a></li>
                 <li class="nav-item">
-                    <a href="#1-imagenet-logistic-regressionregularization-setting" class="nav-link">1. ImageNet 的准确率能预测logistic regression的准确率，两者有较强的正相关性，但是regularization setting会有影响。</a>
+                    <a href="#_1" class="nav-link">贝叶斯理论背景</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#2-imagenetfine-tunning" class="nav-link">2. ImageNet准确率能预测fine-tunning的表现</a>
+                    <a href="#_2" class="nav-link">网络与实际算法</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#3-imagenet" class="nav-link">3. ImageNet准确率能预测随机初始化时的表现</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#4-backbonetransfer-learning" class="nav-link">4. 选择更好的backbone模型性能提升比得上为transfer learning专门设计的特殊方法</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#5-imagenet-pretraining" class="nav-link">5. 对于分类更细致的如车分类以及飞行器分类，ImageNet Pretraining与随机初始化相比差距不大</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#6-imagenet" class="nav-link">6. ImageNet加速收敛</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#7-pretrained" class="nav-link">7. 如何选择是否pretrained</a>
+                    <a href="#_3" class="nav-link">背后的一些分析</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main">
-<h1 id="do-better-imagenet-models-transfer-better">Do Better ImageNet Models Transfer Better?</h1>
-<p>这篇论文认真地测试了不同ImageNet Models的transfer learning能力。初步实验方式是在12个不同种类不同size的训练集中，用16个pretrained 网络分别进行fix-feature-extractor logistic regression、fine-tuning、re-train.
-都用grid-search 寻找最优学习率等超参数。</p>
-<h1 id="metrics-in-comparison">metrics in comparison</h1>
-<p><img alt="image" src="../res/metrics_for_transfer.png" /></p>
-<h1 id="_1">经验结论：</h1>
-<h2 id="1-imagenet-logistic-regressionregularization-setting">1. ImageNet 的准确率能预测logistic regression的准确率，两者有较强的正相关性，但是regularization setting会有影响。</h2>
-<p>Google使用相同的training setting时，结论前半句成立，在imageNet表现最好的Inception-ResNet v2 and NASNet Large稳坐前两名。但是从公开能获得的checkpoint中开始train的话,ResNet和DenseNet几乎总是最好的，且transfer and basic accuracy的相关性很差，进一步研究发现这个是因为regularization。</p>
-<p>找到四个损害Inception Net transfer accuracy的操作，分别是</p>
-<ol>
-<li>在batchnorm层不使用scale parameter(不学习方差)</li>
-<li>label smoothing(源自inception-v3,在训练时有一定概率不采取原label，而均匀随机选择另一个class作为ground truth)</li>
-<li>dropout</li>
-<li>额外的分类输出(在早期层提前输出结果)</li>
-</ol>
-<p>这些方法对top-1准确率提升不到1%，但是在transfer上造成损害，在相对log比例上来说相当于把最好的backbone换成最弱的backbone，这个不但能在transfer learning的结果上看到差别，在t-SNE的可视化结果中也可见到。</p>
-<h2 id="2-imagenetfine-tunning">2. ImageNet准确率能预测fine-tunning的表现</h2>
-<p>regularizaion 还有training setting的效果在fine-tuning的结果上影响不大(有一定损伤，有些还没有损伤，根据图5，可以说是数据上不显著)。</p>
-<p>但是这个相关性在不同dataset上有不同，在小的数据集上相关性最明显</p>
-<h2 id="3-imagenet">3. ImageNet准确率能预测随机初始化时的表现</h2>
-<p>这个相关性相对小一些，而且更细致地看，数据集大小较小时相关性不显著，但是对于大数据集，相关性会很显著。</p>
-<h2 id="4-backbonetransfer-learning">4. 选择更好的backbone模型性能提升比得上为transfer learning专门设计的特殊方法</h2>
-<p>结果表明pretrained model对transfer结果很重要，本文声称在目前使用的dataset中，它们通过更换并fine-tuning backbone超过了文中提到的N种transfer learning算法。</p>
-<p>本文最后表示transfer tricks与更换backbone并不矛盾，甚至可以相互叠加，但是这个提升幅度值得关注</p>
-<h2 id="5-imagenet-pretraining">5. 对于分类更细致的如车分类以及飞行器分类，ImageNet Pretraining与随机初始化相比差距不大</h2>
-<p>其余大部分数据之中，fine_tune &gt; pretrained &gt; random是显著地</p>
-<h2 id="6-imagenet">6. ImageNet加速收敛</h2>
-<h2 id="7-pretrained">7. 如何选择是否pretrained</h2>
-<p>结论： 数据最少是logistic regression可能是最好的(速度快，性能好)，大一些的dataset,fine-tuning最好，更大的数据集中，随机初始化的最终性能会逼近pretrained</p></div>
+<h1 id="robustness-to-out-of-distribution-inputs-via-task-aware-generative-uncertainty">Robustness to Out-of-Distribution Inputs via Task-Aware Generative Uncertainty</h1>
+<h2 id="_1">贝叶斯理论背景</h2>
+<p>网络训练的时候相当于寻找参数<script type="math/tex">w</script>满足<script type="math/tex">w_{MAP} =argmax_{w}\sum_ip(y_i|x_i,A_i,w)</script>其中<script type="math/tex">y,x,A,w</script>分别为观测值，行动序列以及参数矢量。这个方法可以估测输出结果的不确定性，但是不能估计模型本身参数选择的不确定性。</p>
+<p>
+<script type="math/tex; mode=display">p(y|x,A) =  \int p(y|x,A,w)p(w|D_{train})dw</script>
+理论上来说这个积分是无法求解的。</p>
+<p>尽管贝叶斯方法可以处理由于数据量不足引起的模型不确定性，但是对于与training data分布不同的输入，其估计值不够准确。这些情况记为<script type="math/tex">p(y|x^*,A)</script>
+</p>
+<h2 id="_2">网络与实际算法</h2>
+<p><img alt="image" src="../res/outofDistributionAbstract.png" />
+<img alt="image" src="../res/OutofDistributionUncertainty.png" /></p>
+<p>训练时：</p>
+<div class="codehilite"><pre><span></span><span class="n">根据输入图片</span><span class="err">，</span><span class="n">训练一个</span><span class="o">[</span><span class="n">VAE</span><span class="o">]</span><span class="p">(</span><span class="nl">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1312.6114</span><span class="p">.</span><span class="n">pdf</span><span class="p">)</span><span class="err">，</span><span class="n">另外正常地使用原来需要的模型</span><span class="p">(</span><span class="n">本文为一个卷积</span><span class="o">+</span><span class="n">LSTM模型</span><span class="p">)</span><span class="n">得到</span><span class="err">$</span><span class="n">p</span><span class="p">(</span><span class="n">y</span><span class="o">|</span><span class="n">x</span><span class="p">,</span><span class="n">A</span><span class="p">)</span><span class="err">$</span><span class="w"></span>
+</pre></div>
+
+
+<p>测试时:</p>
+<div class="codehilite"><pre><span></span><span class="err">将测试输入放到</span><span class="n">VAE</span><span class="err">中，在中间隐层中多次采样得到多个输出图片，正常地使用原来的模型得到多个输出结果，对其求均值与方差得到对模型不确定性的估计</span>
+</pre></div>
+
+
+<h2 id="_3">背后的一些分析</h2>
+<p>本文一个与其他文章不同的理由是，不应该单纯地因为测试时输入图片与训练时不同就判断结果会有很大的不确定性。简单的例子比如说天花板的颜色，如果测试时与训练时不同，一个正常好的机器人深度学习模型不会因此得到不同的行动输出，"输出结果的不确定性不会因无关部分的区别而提升"。这个情况在本文的模型中也有所体现，作者实验室能发现VAE测试时输出的图片的天花板颜色与实际的输入不符合，但是最终输出的行动差别不大，也就不会提升对应的不确定性。这也是作者在估计不确定性的时候，坚持要去到最后行动输出时再估计不确定性，而不是从图像的输入就开始估计。</p></div>
                     
                 </div>
         </div>
