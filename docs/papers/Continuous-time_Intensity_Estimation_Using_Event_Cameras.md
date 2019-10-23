@@ -54,3 +54,8 @@ $$
 
 $$[L_1, L_2] = [L_{min} +k, L_{max} -k], k = 0.05*(L_{max}-L_{min})$$
 
+## 在本人(Owen Liu)电脑里面运行得到的结果
+
+![image](res/Continuous_time_intensity_example.png)
+
+上半图为原图，下半图为增强后的图.
