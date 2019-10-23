@@ -182,10 +182,9 @@
                                 {%- for nav_item in nav %}
                                     {%- if nav_item.children %}
                                             {%- for nav_item in nav_item.children %}
-                                                {%- if nav_item.is_page %}{%- if nav_item.meta.time %}
-                                                    {%- if (build_date_utc.strftime('%Y%m') == nav_item.meta.time[0:6])%}
-                                                        <h5>{{nav_item.meta.time[0:4]}}-{{nav_item.meta.time[4:6]}}-{{nav_item.meta.time[6:]}}:
-                                                            <a href="{{ nav_item.url|url }}" >
+                                                {%- if nav_item.is_page %}{%- if nav_item.meta.time %} {%- if (build_date_utc.strftime('%Y%m') == nav_item.meta.time[0:6])%}
+                                                    <h5>{{nav_item.meta.time[0:4]}}-{{nav_item.meta.time[4:6]}}-{{nav_item.meta.time[6:]}}:
+                                                        <a href="{{ nav_item.url|url }}" >
                                                                 {%- if nav_item.title|length>40 %}
                                                                     {{ nav_item.title[0:40] }}......
                                                                 {%-else%}
