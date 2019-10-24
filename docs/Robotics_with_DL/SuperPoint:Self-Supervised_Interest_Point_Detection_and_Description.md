@@ -1,6 +1,7 @@
 time: 20191022
 pdf_source: https://arxiv.org/pdf/1712.07629.pdf
 code_source: https://github.com/rpautrat/SuperPoint
+short_title: SuperPoint
 # SuperPoint: Self-Supervised Interest Point Detection and Description
 
 这篇论文完成的任务是从一张图中使用神经网络提取出keypoints，这些keypoints的关键是要求对旋转，scale，平移鲁棒。

@@ -1,6 +1,7 @@
 time: 20191021
 pdf_source: https://arxiv.org/pdf/1811.00386.pdf
 code_source: https://github.com/cedric-scheerlinck/dvs_image_reconstruction
+short_title: Intensity Estimation With Event Cameras
 # Continuous-time Intensity Estimation Using Event Cameras
 
 这篇文章给出了一个使用event camera增强普通camera的算法。

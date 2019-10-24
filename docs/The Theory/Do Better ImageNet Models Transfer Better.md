@@ -1,3 +1,4 @@
+pdf_source: https://arxiv.org/pdf/1805.08974.pdf
 # Do Better ImageNet Models Transfer Better?
 
 这篇论文认真地测试了不同ImageNet Models的transfer learning能力。初步实验方式是在12个不同种类不同size的训练集中，用16个pretrained 网络分别进行fix-feature-extractor logistic regression、fine-tuning、re-train.

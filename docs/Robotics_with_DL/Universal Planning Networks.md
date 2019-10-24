@@ -1,3 +1,5 @@
+code_source: https://github.com/aravindsrinivas/upn
+pdf_source: https://arxiv.org/pdf/1804.00645.pdf
 # Universal Planning Networks
 
 这篇论文给出了一个通用的用于planning的网络结构，目的是输出一系列的state以接近goal state。它一方面可以用于planning，也可以根据学习到的参数给出强化学习使用的成本函数

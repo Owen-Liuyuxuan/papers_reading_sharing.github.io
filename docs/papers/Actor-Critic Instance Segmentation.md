@@ -1,3 +1,5 @@
+pdf_source: https://arxiv.org/pdf/1904.05126.pdf
+code_source: https://github.com/visinf/acis
 # Actor-Critic Instance Segmentation
 
 这篇论文使用actor critic 强化学习，便于预测一系列的segmentation result

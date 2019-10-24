@@ -1,3 +1,6 @@
+code_source: https://github.com/baidu-research/UnDepthflow
+short_title: UnDepthFlow
+pdf_source: https://arxiv.org/pdf/1810.03654.pdf
 # Joint Unsupervised Learning of Optical Flow and Depth by Watching Stereo Videos
 
 正如题目表示，本文的目标是使用连续的双目视频，同时预测光流、深度以及相机运动。大幅度重用前人的研究，特点是注重对运动以及遮挡物体的去除

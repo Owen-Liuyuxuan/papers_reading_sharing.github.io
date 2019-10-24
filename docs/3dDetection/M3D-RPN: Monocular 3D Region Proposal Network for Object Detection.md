@@ -1,3 +1,6 @@
+pdf_source: https://arxiv.org/pdf/1907.06038.pdf
+code_source: https://github.com/garrickbrazil/M3D-RPN
+short_title: M3D-RPN
 # M3D-RPN: Monocular 3D Region Proposal Network for Object Detection
 
 这篇论文提出了一个使用单目相机进行目标检测的方法，使用了融合2D-3D proposal的方式，use depth-aware convolution,后端优化结合各种信息，提升对$\theta$的预测性能

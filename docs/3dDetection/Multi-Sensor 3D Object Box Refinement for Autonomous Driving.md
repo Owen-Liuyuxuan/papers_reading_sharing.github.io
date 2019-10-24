@@ -1,3 +1,5 @@
+pdf_source: https://arxiv.org/pdf/1909.04942.pdf
+short_title: Multi-Sensor Refinement - Li Peiliang
 # Multi-Sensor 3D Object Box Refinement for Autonomous Driving
 
 这篇论文源自于沈少杰实验室的学长，非常值得注意的是这篇论文从单目视觉3D检测出发，通过不同的trick融合双目以及点云信息(也就是说在添加双目以及添加点云的时候不需要重新train全新的网络，只需要train小网络或者更改post-opimization),是一套非常科学可用的方案。

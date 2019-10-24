@@ -1,3 +1,5 @@
+pdf_source: http://www.roboticsproceedings.org/rss15/p06.pdf
+short_title: DESPOT-α
 # DESPOT-α: Online POMDP Planning With Large State And Observation Spaces
 
 ## Under Construction

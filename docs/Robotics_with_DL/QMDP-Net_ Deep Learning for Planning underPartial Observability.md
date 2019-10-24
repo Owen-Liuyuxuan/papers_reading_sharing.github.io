@@ -1,4 +1,7 @@
-# QMDP-Net: Deep Learning for Planning underPartial Observability
+code_source: https://github.com/AdaCompNUS/qmdp-net
+short_title: QMDP-Net
+pdf_source: https://arxiv.org/pdf/1703.06692.pdf
+# QMDP-Net: Deep Learning for Planning under Partial Observability
 
 这篇论文提出的QMDP网络，目的是当机器人只能观测到场景的一部分且不能确定自己的状态的时候，如果在不确定性中一边探索一边进行规划。
 

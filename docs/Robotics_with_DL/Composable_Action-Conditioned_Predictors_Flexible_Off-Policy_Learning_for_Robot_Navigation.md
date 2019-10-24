@@ -1,3 +1,6 @@
+code_source: https://github.com/gkahn13/CAPs
+pdf_source: https://arxiv.org/pdf/1810.07167.pdf
+short_title: Composable Action-Conditioned Predictors
 # Composable Action-Conditioned Predictors: Flexible Off-Policy Learning for Robot Navigation
 
 这篇论文提出了一个灵活的、少监督的增强学习导航框架。模型的学习过程使用较为有限的监督，同一个模型可在deploy时通过修改reward函数是的机器人达到我们想要的导航效果

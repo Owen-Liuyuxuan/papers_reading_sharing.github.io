@@ -1,3 +1,6 @@
+pdf_source: https://arxiv.org/pdf/1811.08188.pdf
+code_source: https://github.com/tom-roddick/oft
+short_title: OftNet
 # Orthographic Feature Transform for Monocular 3D Object Detection
 
 这篇论文认为对单个摄像头得到的摄像头进行3D detection的时候，还是需要考虑整个场景的三维结构，而不仅仅是在图像坐标系进行研究。

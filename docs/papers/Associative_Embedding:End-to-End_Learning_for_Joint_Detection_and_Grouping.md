@@ -1,6 +1,7 @@
 time:20191014
 pdf_source:https://arxiv.org/pdf/1611.05424.pdf
 code_source:https://github.com/princeton-vl/pose-ae-train
+short_title: Associative Embedding
 # Associative Embedding: End-to-End Learning for Joint Detection and Grouping
 
 这篇论文对我来说是[CornerNet](../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)的前置.两篇也是同一个作者。

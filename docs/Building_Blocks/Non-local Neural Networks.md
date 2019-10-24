@@ -1,3 +1,5 @@
+code_source: https://github.com/facebookresearch/video-nonlocal-net
+pdf_source: https://arxiv.org/pdf/1711.07971.pdf
 # Non-local Neural Networks
 
 non-local单元是另一个可以显著提高3D,2D卷积网络的感受野

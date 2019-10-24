@@ -1,7 +1,7 @@
 time: 20191023
 pdf_source: https://arxiv.org/pdf/1812.10687.pdf
+short_title: Task-Aware Generative Uncertainty
 # Robustness to Out-of-Distribution Inputs via Task-Aware Generative Uncertainty
-
 
 ## 贝叶斯理论背景
 

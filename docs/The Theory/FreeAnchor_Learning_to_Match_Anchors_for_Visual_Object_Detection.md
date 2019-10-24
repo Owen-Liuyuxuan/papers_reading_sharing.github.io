@@ -1,4 +1,6 @@
+pdf_source: https://arxiv.org/pdf/1909.02466.pdf
 code_source: https://github.com/zhangxiaosong18/FreeAnchor
+short_title: FreeAnchor
 # FreeAnchor: Learning to Match Anchors for Visual Object Detection
 
 这篇论文来自于NIPS2019,介绍了新的方式来实现2D object detection中的matching.

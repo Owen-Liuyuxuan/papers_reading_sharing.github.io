@@ -1,3 +1,5 @@
+pdf_source: https://arxiv.org/pdf/1905.09970.pdf
+short_title: Shift RCNN
 # SHIFT R-CNN: DEEP MONOCULAR 3D OBJECT DETECTION WITH CLOSED-FORM GEOMETRIC CONSTRAINTS
 
 这篇论文的在理论上主要是三大贡献，第一是三步走的基于Faster-RCNN的 Shift R-CNN，第二是Volume Displacement Loss (VDL)用于训练网络。

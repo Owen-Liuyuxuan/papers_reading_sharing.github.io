@@ -1,4 +1,7 @@
-# Aggressive  Driving  with  Model  Predictive  Path  Integral  Control
+code_source: https://github.com/AutoRally/autorally
+pdf_source: https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7487277
+short_title: Model Predicvtive Path Integral Control
+# Aggressive Driving with Model Predictive Path Integral Control
 
 本篇论文将Path integral Control使用在自动驾驶之中，Path integral Control属于随机最优控制的算法，概念大概是这样的，使用随机控制值进行探索与预测，然后与其选择其中最优的，综合各个点的成本以及行动轨迹，得到一个经验上的最优控制结果。
 

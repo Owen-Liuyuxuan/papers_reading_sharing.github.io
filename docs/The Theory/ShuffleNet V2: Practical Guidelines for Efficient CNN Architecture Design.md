@@ -1,3 +1,6 @@
+code_source: https://github.com/pytorch/vision/blob/master/torchvision/models/shufflenetv2.py
+pdf_source: https://arxiv.org/abs/1807.11164
+short_title: ShuffleNet V2
 # ShuffleNet V2: Practical Guidelines for Efficient CNN Architecture Design
 
 这篇文章不仅引进了ShuffleNet V2,更重要的是提供了大量优化网络结构、加速运算、提升效率的网络搭建建议。

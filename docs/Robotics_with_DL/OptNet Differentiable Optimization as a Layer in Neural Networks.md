@@ -1,3 +1,6 @@
+code_source: https://github.com/locuslab/optnet
+pdf_source: https://arxiv.org/pdf/1703.00443.pdf
+short_title: OptNet, Optimization as Layer
 # OptNet: Differentiable Optimization as a Layer in Neural Networks
 
 这篇论文定义了一个基于线性二次优化的新的神经网络层

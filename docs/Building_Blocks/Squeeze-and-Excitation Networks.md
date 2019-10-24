@@ -1,3 +1,5 @@
+code_source: https://github.com/hujie-frank/SENet
+pdf_source: https://arxiv.org/pdf/1709.01507.pdf
 # Squeeze-and-Excitation Networks
 
 这篇论文给出了squeeze-and-excitation方法来提高卷积的感受场大小。

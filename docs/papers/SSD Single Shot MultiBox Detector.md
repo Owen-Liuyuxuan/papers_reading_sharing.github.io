@@ -1,3 +1,6 @@
+code_source: https://github.com/amdegroot/ssd.pytorch
+pdf_source: https://arxiv.org/pdf/1512.02325.pdf
+short_title: SSD
 # SSD: Single Shot MultiBox Detector
 
 ![结构](./res/SSD与YOLO结构对比.png)

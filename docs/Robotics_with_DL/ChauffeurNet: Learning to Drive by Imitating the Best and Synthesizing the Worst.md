@@ -1,3 +1,6 @@
+code_source: https://github.com/aidriver/ChauffeurNet
+pdf_source: https://arxiv.org/pdf/1812.03079.pdf
+short_title: ChauffeurNet
 # ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst
 
 这篇RSS论文来自于Waymo,英文名字的翻译意思是"司机网",给出了一个imitation learning系统，并实现了上车测试，为了保证系统的鲁棒性本文做了很多的选择与加强，值得了解。这篇论文有[来自waymo的官方medium英文解读](https://medium.com/waymo/learning-to-drive-beyond-pure-imitation-465499f8bcb2)

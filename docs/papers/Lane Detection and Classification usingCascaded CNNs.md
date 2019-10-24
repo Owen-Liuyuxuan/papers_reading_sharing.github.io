@@ -1,4 +1,7 @@
-# Lane Detection and Classification usingCascaded CNNs
+code_source: https://github.com/fabvio/Cascade-LD
+short_title: Cascade Lane Detection
+pdf-source: https://arxiv.org/pdf/1907.01294.pdf
+# Lane Detection and Classification using Cascaded CNNs
 
 这篇论文给出的是端到端路线点的分割、聚类以及分类的算法。
 

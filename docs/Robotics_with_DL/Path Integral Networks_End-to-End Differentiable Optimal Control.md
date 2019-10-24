@@ -1,6 +1,8 @@
-# Path Integral Networks_End-to-End Differentiable Optimal Control
+pdf_source: https://arxiv.org/pdf/1706.09597.pdf
+short_title: Path Integral Networks
+# Path Integral Networks: End-to-End Differentiable Optimal Control
 
-这篇论文将路径积分控制用在了端到端的可微分最优控制中，
+这篇论文将路径积分控制用在了端到端的可微分最优控制中，Path Integral Control 可以参考[这篇](Aggressive_Driving_with_Model_Predictive_Path_Integral_Control.md)
 
 ## 基本Path Integral算法
 ![神经网络结构](./res/PInet中的PI算法.png)

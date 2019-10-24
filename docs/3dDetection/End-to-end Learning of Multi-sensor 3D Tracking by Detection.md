@@ -1,3 +1,4 @@
+pdf_source: https://www.cs.toronto.edu/~frossard/papers/frossard_etal_tracking.pdf
 # End-to-end Learning of Multi-sensor 3D Tracking by Detection
 
 这篇论文主要讨论的是一个tracking问题，突出贡献是使用了离散优化的概念(在求解时转换为了线性优化问题)，并解决了如何训练这个问题，过程中有较多的数学巧合，但是其实这是一类问题的解决方法,这个问题称为general matching problem,可以[参考引文6](https://www.idiap.ch/~fleuret/papers/berclaz-et-al-tpami2011.pdf)的问题阐述以及附录1。

@@ -1,5 +1,5 @@
-# UNDERSTANDING DEEP LEARNING REQUIRES RETHINKING GENERALIZATION
-
+pdf_source: https://arxiv.org/pdf/1611.03530.pdf
+# Understanding Deep Learning Requires Rethinking Generalization
 这篇文章讨论网络的generalization能力。
 
 一个特殊的实验：

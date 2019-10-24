@@ -1,6 +1,9 @@
+pdf_source: http://zpascal.net/cvpr2018/Qi_Frustum_PointNets_for_CVPR_2018_paper.pdf
+code_source: https://github.com/charlesq34/frustum-pointnets
+short_title: Frustum PointNets
 # Frustum PointNets for 3D Object Detection from RGB-D Data
 
-这篇论文给出了使用RGB-D数据进行3D检测的baseline pipeline,本文的代码可以在[这里](https://github.com/charlesq34/frustum-pointnets)找到.
+这篇论文给出了使用RGB-D数据进行3D检测的baseline pipeline.
 
 ## 网络结构
 

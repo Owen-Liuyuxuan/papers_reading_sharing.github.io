@@ -1,3 +1,5 @@
+pdf_source: https://arxiv.org/pdf/1903.09847.pdf
+short_title: Pseudo-Lidar with Instance Segmentation
 # Monocular 3D Object Detection with Pseudo-LiDAR Point Cloud
 
 这篇论文有多个重要贡献，一是使用单目预测深度图，形成假Lidar数据，并得到人工电云，然后使用[Frustum Pointnet](Frustum_PointNets_for_3D_Object_Detection_from_RGB-D_Data.md)。对得到一个可靠的初始解。

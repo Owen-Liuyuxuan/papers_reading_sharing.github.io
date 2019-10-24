@@ -1,3 +1,5 @@
+pdf_source: https://arxiv.org/pdf/1710.05627.pdf
+short_title: Intention-Net
 # Intention-Net: Integrating Planning and DeepLearning for Goal-Directed Autonomous Navigation
 
 这篇论文提出了Intention Net。给出了两种概念以及，一个是DLM(Discrete Local Motion)及其网络，一个是LPE(local path and environment)及其网络

@@ -1,6 +1,7 @@
 time: 20191013
 pdf_source: https://eccv2018.org/openaccess/content_ECCV_2018/papers/Hei_Law_CornerNet_Detecting_Objects_ECCV_2018_paper.pdf
 code_source:  https://github.com/princeton-vl/CornerNet
+short_title: CornetNet
 # CornerNet: Detecting Objects as Paired Keypoints
 
 这篇文章是[这篇文章](../papers/CornerNet-Lite_Efficient_Keypoint_Based_Object_Detection.md)的前置,实际上也确实有更多的内容,在具体实现上有区别。

@@ -1,8 +1,10 @@
 time: 20191010
 pdf_source:https://arxiv.org/pdf/1904.08242.pdf
+code_source: https://github.com/PythonLidar/pytorch-LONet
+short_title: LO-Net
 # LO-Net: Deep Real-time Lidar Odometry
 
-这篇文章主要有三个贡献，第一提出了scan-to-scan lidar odometry网络，同时估计面的法向以及mask for dynamic regions。第二融合相邻两帧网络进行估计，第三，融合一个mapping module
+这篇文章主要有三个贡献，第一提出了scan-to-scan lidar odometry网络，同时估计面的法向以及mask for dynamic regions。第二融合相邻两帧网络进行估计，第三，融合一个mapping module. 注意Github 链接代码尚未公布。
 
 ## 网络主要结构
 

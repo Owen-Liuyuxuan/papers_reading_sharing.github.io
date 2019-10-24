@@ -1,5 +1,6 @@
 time: 20191023
 pdf_source: https://arxiv.org/pdf/1805.06140.pdf
+short_title: Image Reconstruction with Event Camera
 # Photorealistic Image Reconstruction From Hybrid Intensity and Event Based Sensor
 
 这篇论文解决的任务如下，输入连续的普通图片以及一系列密集的event camera信息，还原出更加真实的原始图片,关于event camera的基础原理以及对图片的增强，这里可参考[这篇论文](../papers/Continuous-time_Intensity_Estimation_Using_Event_Cameras.md)

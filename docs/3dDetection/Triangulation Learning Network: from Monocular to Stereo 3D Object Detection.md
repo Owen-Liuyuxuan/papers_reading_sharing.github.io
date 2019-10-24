@@ -1,3 +1,6 @@
+pdf_source: https://arxiv.org/pdf/1906.01193.pdf
+code_source: https://github.com/Zengyi-Qin/TLNet
+short_title: TLNet
 # Triangulation Learning Network: from Monocular to Stereo 3D Object Detection
 
 这篇论文的主要contribution是三部分，第一部分是一个可靠的单目3D detector baseline；第二部分是Triangulation Learning；第三部分是feature reweighting strategy。

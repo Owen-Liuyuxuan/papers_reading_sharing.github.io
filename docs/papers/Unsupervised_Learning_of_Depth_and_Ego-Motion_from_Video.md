@@ -1,3 +1,6 @@
+pdf_source: https://people.eecs.berkeley.edu/~tinghuiz/projects/SfMLearner/cvpr17_sfm_final.pdf
+code_source: https://github.com/tinghuiz/SfMLearner
+short_title: 
 # Unsupervised Learning of Depth and Ego-Motion from Video
 
 这篇文章对我来说说是[这篇文章](Joint_Unsupervised_Learning_of_Optical_Flow_and_Depth_by_Watching_Stereo_Videos.md)的前置

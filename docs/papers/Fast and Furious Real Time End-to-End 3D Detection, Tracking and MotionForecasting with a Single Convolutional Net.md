@@ -1,3 +1,5 @@
+pdf_source: http://openaccess.thecvf.com/content_cvpr_2018/papers/Luo_Fast_and_Furious_CVPR_2018_paper.pdf
+short_title: Fast and Furious
 # Fast and Furious: Real Time End-to-End 3D Detection, Tracking and MotionForecasting with a Single Convolutional Net
 
 这篇论文的关键是结合时序信息，要同时实现3D detection以及tracking甚至forecasting,使用单一的Lidar数据

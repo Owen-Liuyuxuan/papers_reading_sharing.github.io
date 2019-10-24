@@ -1,3 +1,6 @@
+pdf_source: https://bmvc2019.org/wp-content/uploads/papers/0865-paper.pdf
+code_source: https://github.com/MarvinTeichmann/ConvCRF
+short_title: Convolutional CRF
 # Convolutional CRFs for Semantic Segmentation
 
 这篇论文提出使用卷积版的Conditional Random Field(CRF)用于优化语义分割的结果。首先回顾(对写review的我此时是新学的) FullCRF的算法，然后提出了ConvCRF的算法以及implementation,[作者代码已开源](https://github.com/MarvinTeichmann/ConvCRF)

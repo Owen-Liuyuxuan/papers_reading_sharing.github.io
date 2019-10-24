@@ -1,3 +1,5 @@
+pdf_source: https://arxiv.org/pdf/1605.07148.pdf
+short_title: BackProp Kalman Filter
 # Backprop KF: Learning Discriminative DeterministicState Estimators
 
 这是一篇比较早期的论文，介绍的是可微分卡尔曼滤波。

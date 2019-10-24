@@ -1,3 +1,6 @@
+code_source: https://github.com/NVlabs/PWC-Net
+pdf_source: https://arxiv.org/pdf/1709.02371.pdf
+short_title: PWC-Net
 # PWC-Net: CNNs for Optical Flow Using Pyramid, Warping, and Cost Volume
 
 这篇论文是[Joint Unsupervised Learning of Optical Flow and Depth by Watching Stereo Videos](Joint_Unsupervised_Learning_of_Optical_Flow_and_Depth_by_Watching_Stereo_Videos.md)的前置

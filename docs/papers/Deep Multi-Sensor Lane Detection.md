@@ -1,3 +1,4 @@
+pdf_source: https://arxiv.org/pdf/1905.01555.pdf
 # Deep Multi-Sensor Lane Detection
 
 这篇论文给出用lidar和图片两者共同进行学习侦测道路线的算法

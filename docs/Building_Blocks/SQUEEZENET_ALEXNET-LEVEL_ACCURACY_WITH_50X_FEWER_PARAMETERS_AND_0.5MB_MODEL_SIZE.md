@@ -1,6 +1,7 @@
 time: 20191010
 pdf_source:https://arxiv.org/pdf/1602.07360.pdf
 code_source:https://github.com/DeepScale/SqueezeNet
+short_title: SqueezeNet
 # SQUEEZENET: ALEXNET-LEVEL ACCURACY WITH 50X FEWER PARAMETERS AND <0.5MB MODEL SIZE
 
 本文提出了体积小的网络有什么好处，并且给出了SqueezeNet的具体结构以及相关讨论

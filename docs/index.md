@@ -3,6 +3,7 @@
 对进行的论文阅读进行记录。
 
 注意由于目前存储的论文数量越来越多，如果想要查找某些特定的论文建议按's'键或者点击右上方的"search"按钮，输入对应英文题目进行搜索。
+文章各自的目录中会表明pdf以及开源代码(如有)的外链。
 
 This volume will be basically written in Chinese. The target is to provide fast reference. 
 

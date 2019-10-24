@@ -1,3 +1,5 @@
+pdf_source: https://personalrobotics.cs.washington.edu/workshops/mlmp2018/assets/ppts/boots_iros_mlmp_2018.pdf
+short_title: Robotics_DL Lecture from georgia Tech
 # Machine Learning for Robot Planning and Control from  Byron Boots Georgia Tech Robot Learning Lab
 
 本文先讨论开车这个问题，并引出深度学习在机器人控制与规划中的利用的一个三角图。

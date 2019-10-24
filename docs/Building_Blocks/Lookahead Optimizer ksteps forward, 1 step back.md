@@ -1,3 +1,6 @@
+code_source: https://github.com/alphadl/lookahead.pytorch
+pdf_source: https://arxiv.org/pdf/1907.08610.pdf
+short_title: Lookahead Optimizer
 # Lookahead Optimizer:ksteps forward, 1 step back
 
 ![image](res/look_ahead_optimizer.png)

@@ -1,3 +1,6 @@
+pdf_source: https://arxiv.org/pdf/1611.07759.pdf
+code_source: https://github.com/bostondiditeam/MV3D
+short_title: MV3D
 # Multi-View 3D Detection Network for autonomous Driving
 
 这篇论文结合了多视角，融合Lidar和camera进行三维检测。

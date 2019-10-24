@@ -1,3 +1,6 @@
+code_source: https://github.com/xunhuang1995/AdaIN-style
+pdf_source: https://arxiv.org/pdf/1703.06868.pdf
+short_title: AdaIn Style Transfer
 # Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization
 
 这篇文章提出了Style Transfer相当长一段时间的SOTA或者baseline，也就是AdaIN模块。

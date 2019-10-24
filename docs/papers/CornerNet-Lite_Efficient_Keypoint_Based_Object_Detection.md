@@ -1,5 +1,6 @@
 pdf_source: https://arxiv.org/pdf/1904.08900.pdf
 code_source: https://github.com/princeton-vl/CornerNet-Lite
+short_title: CornetNet-Lite
 # CornerNet-Lite: Efficient Keypoint Based Object Detection
 
 这篇论文在进行object detection的时候，使用的是基于keypoint的方法而不是基于proposal的方法。建议先阅读[这篇论文](../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)

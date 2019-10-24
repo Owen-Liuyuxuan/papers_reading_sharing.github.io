@@ -1,3 +1,5 @@
+pdf_source: https://arxiv.org/abs/1904.08377
+short_title: Gaze Training - Chen Yuying
 # Gaze  Training  by  Modulated  Dropout  Improves  Imitation  Learning
 
 这篇论文源自于实验室师姐。

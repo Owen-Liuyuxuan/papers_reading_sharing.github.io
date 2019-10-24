@@ -1,6 +1,7 @@
 time: 20191012
 pdf_source: https://arxiv.org/pdf/1905.04153.pdf
 code_source:
+short_title: DeepICP
 # DeepICP: An End-to-End Deep Neural Network for 3D Point Cloud Registration
 
 端到端方法实现基于keypoint的点云ICP,输入是两帧相邻的点云，一个对于相对运动的初始估计。

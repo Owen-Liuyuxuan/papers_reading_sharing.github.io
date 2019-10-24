@@ -1,3 +1,6 @@
+pdf_source: https://arxiv.org/pdf/1904.03751.pdf
+code_source: https://github.com/lightaime/deep_gcns
+short_title: Deep GCN
 # Can GCNs Go as Deep as CNNs
 
 这篇论文是近期图卷积网络的重要突破之一。意义在于对基本卷积的一个复制，将基础卷积相关的连接算法移植到图卷积中。

@@ -1,6 +1,9 @@
+pdf_source: https://zpascal.net/cvpr2019/Zhu_Deformable_ConvNets_V2_More_Deformable_Better_Results_CVPR_2019_paper.pdf
+code_source: https://github.com/chengdazhi/Deformable-Convolution-V2-PyTorch/tree/pytorch_1.0.0
+short_title: Deformable ConvNet V2
 # Deformable ConvNets V2: More Deformable, Better Results
 
-这篇论文一方面讨论了一些评价deformable convolution模块性能的metric,并用一些实验引入。在模块设计上给出deformable convolution的细节，代码在[github](https://github.com/chengdazhi/Deformable-Convolution-V2-PyTorch/tree/pytorch_1.0.0)
+这篇论文一方面讨论了一些评价deformable convolution模块性能的metric,并用一些实验引入。在模块设计上给出deformable convolution的细节.
 
 # 结构解读
 

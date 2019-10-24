@@ -1,3 +1,4 @@
+pdf_source: https://arxiv.org/pdf/1811.08883.pdf
 # Rethinking ImageNet Pre-training
 
 这篇论文来自何凯明的论文讨论了pretraining对detection task的影响，分析了数个要素

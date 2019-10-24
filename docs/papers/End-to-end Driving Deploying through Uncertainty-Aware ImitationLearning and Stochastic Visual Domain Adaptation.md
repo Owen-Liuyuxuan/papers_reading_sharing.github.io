@@ -1,4 +1,7 @@
-# End-to-end Driving Deploying through Uncertainty-Aware ImitationLearning and Stochastic Visual Domain Adaptation
+code_source: https://github.com/onlytailei/carla_cil_pytorch
+pdf_source: https://www.ram-lab.com/papers/2019/iros_2019_tai.pdf 
+short_title: Domain Transfer Imitation - Tai Lei
+# End-to-end Driving Deploying through Uncertainty-Aware Imitation Learning and Stochastic Visual Domain Adaptation
 
 这是一篇本实验室师兄的一篇文章。讲的是端到端的带有不确定性估计的模仿学习以及transfer learning的作用
 

@@ -1,3 +1,6 @@
+code_source: https://github.com/uzh-rpg/rpg_public_dronet
+pdf_source: http://rpg.ifi.uzh.ch/docs/RAL18_Loquercio.pdf
+short_title: DroNet
 # DroNet: Learning to Fly by Driving
 
 ![结构](./res/DroNet结构.png)

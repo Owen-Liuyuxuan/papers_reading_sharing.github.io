@@ -1,3 +1,5 @@
+pdf_source: https://arxiv.org/pdf/1903.11444.pdf
+short_title: Color-Embedded 3D Reconstructio Mono3D
 # Accurate Monocular Object Detection via Color-Embedded 3D Reconstruction for Autonomous Driving
 
 这篇文章利用了depth estimation以及Pseudo lidar的思路，是目前单目视觉3D检测的SOTA,但是额外出彩的地方在于其对RGB信息以及深度信息融合时的做法。

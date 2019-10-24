@@ -1,3 +1,4 @@
+pdf_source: https://arxiv.org/pdf/1908.03851.pdf
 # IoU Loss for 2D/3D Object Detection
 
 这篇论文的核心贡献是给出了所谓的IoU Loss,因为拼点的过程中关键点在于提升IoU的值，但是我们目前没有直接梯度优化IoU的方法，这篇文章给出的IoU Loss就是给出一个可微分的损失函数，通过直接优化IoU提高分数

@@ -1,3 +1,6 @@
+code_source: https://github.com/tensorflow/models/tree/master/research/cognitive_mapping_and_planning
+pdf_source: https://arxiv.org/pdf/1702.03920.pdf
+short_title: Cognitive Mapping and Planning
 # Cognitive Mapping and Planning for Visual Navigation
 
 这篇论文在2017年提出了直接利用视觉进行导航的思路

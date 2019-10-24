@@ -1,6 +1,7 @@
 time: 20191015
 pdf_source: https://arxiv.org/pdf/1906.12320.pdf
 code_source: https://github.com/stevenygd/PointFlow
+short_title: PointFlow
 # PointFlow : 3D Point Cloud Generation with Continuous Normalizing Flows
 
 这篇论文有一个[project page](https://www.guandaoyang.com/PointFlow/)，根据[视频](https://youtu.be/jqBiv77xC0M)完成的一个任务可以这样描述。每一个物体的一种点云表达可以理解为从一个由形状决定的概率分布采样点。我们可以利用一个坐标转换函数，将高斯采样点云转换为最后的输出。本文给出的网络可以根据类别，以及一些随机数，采样出不同形状的一个坐标转换函数。
