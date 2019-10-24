@@ -745,7 +745,7 @@
                     <a href="#associative-embedding" class="nav-link">Associative Embedding 简介</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#stached-hourglass-architecture" class="nav-link">Stached Hourglass Architecture</a>
+                    <a href="#stacked-hourglass-architecture" class="nav-link">Stacked Hourglass Architecture</a>
                 </li>
                 <li class="nav-item">
                     <a href="#_1" class="nav-link">多人肢体估计</a>
@@ -759,8 +759,8 @@
 <h2 id="associative-embedding">Associative Embedding 简介</h2>
 <p>这篇论文使用1D embedding，目的是训练网络对来自同一个group的detection输出相似的tags，different tags for detection。</p>
 <p><img alt="image" src="../res/associativeEmbeddingOverview.png" /></p>
-<h2 id="stached-hourglass-architecture">Stached Hourglass Architecture</h2>
-<p>hourglass结构可以在<a href="../Building_Blocks/Stacked&#32;Hourglass&#32;Networks&#32;for&#32;Human&#32;Pose&#32;Estimation.md">这篇论文</a>看到也在<a href="../../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints/">CornerNet</a>这篇论文用过，大家稍有不同，不过总体思路一致。</p>
+<h2 id="stacked-hourglass-architecture">Stacked Hourglass Architecture</h2>
+<p>hourglass结构可以在<a href="../../Building_Blocks/Stacked_Hourglass_Networks_for_Human_Pose_Estimation/">这篇论文</a>看到也在<a href="../../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints/">CornerNet</a>这篇论文用过，大家稍有不同，不过总体思路一致。</p>
 <h2 id="_1">多人肢体估计</h2>
 <p>本文使用前面的backbone预测每一个pixel的detection score for each joint("left writst", "right shoulder")，</p>
 <p>要进一步完成整个keypoint detections。如果有<script type="math/tex">m</script>个关节,则输出<script type="math/tex">2m</script>个channel,其中<script type="math/tex">m</script>个作为detection的heatmap, <script type="math/tex">m</script>个作为grouping的
