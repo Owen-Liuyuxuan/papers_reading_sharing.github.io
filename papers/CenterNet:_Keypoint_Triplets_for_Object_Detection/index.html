@@ -744,6 +744,12 @@
                 <li class="nav-item">
                     <a href="#pipeline" class="nav-link">总体结构与pipeline</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#keypoints" class="nav-link">融合检测keypoints</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#center-pooling-cascade-corner-pooling" class="nav-link">Center Pooling 与 Cascade Corner Pooling</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -751,7 +757,31 @@
 <h1 id="centernet-keypoint-triplets-for-object-detection">CenterNet: Keypoint Triplets for Object Detection</h1>
 <p>CenterNet也就是通过输出每一个object为左上角、右上角与中心点的一个triplet,这个思路源自于<a href="../../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints/">CornerNet</a>。</p>
 <h2 id="pipeline">总体结构与pipeline</h2>
-<p><img alt="image" src="../res/CenterNetArch.png" /></p></div>
+<p><img alt="image" src="../res/CenterNetArch.png" /></p>
+<p>与CornerNet相似的，backbone的选择也是<a href="../../Building_Blocks/Stacked_Hourglass_Networks_for_Human_Pose_Estimation/">stacked hourglass</a></p>
+<p>第一分支经过新的Cascade Corner Pooling(新的操作)得到Corner Heatmaps并通过<a href="../Associative_Embedding:End-to-End_Learning_for_Joint_Detection_and_Grouping/">associative embedding</a>得到初始2D框。</p>
+<p>第二分支经过Center Pooling得到Center Heatmap。</p>
+<p>最后拼在一起得到输出。</p>
+<h2 id="keypoints">融合检测keypoints</h2>
+<p>算法
+1. 选择top-k个中心keypoints
+2. 使用对应offset投影到输入图片中
+3. 对每一个corner heatmap输出的2D box，查找有中心点是否在中心区域
+4. 如果有中心点在中心区域，保留这个框</p>
+<p>对中心区域的定义：</p>
+<p><img alt="image" src="../res/CenterNetCenterRegion.png" /></p>
+<p>满足:
+<script type="math/tex; mode=display">
+\left\{\begin{array}{l}{\operatorname{ct} 1_{x}=\frac{(n+1) \operatorname{tl}_{x}+(n-1) \operatorname{br}_{x}}{2 n}} \\ {\operatorname{ct} l_{y}=\frac{(n+1) \operatorname{tl}_{y}+(n-1) \operatorname{br}_{y}}{2 n}} \\ {\operatorname{cbr}_{x}=\frac{\left.(n-1) \operatorname{tl}\right|_{x}+(n+1) \operatorname{br}_{x}}{2 n}} \\ {\operatorname{cbr}_{y}=\frac{(n-1) \operatorname{tl}_{y}+(n+1) \operatorname{br}_{y}}{2 n}}\end{array}\right.
+</script>
+</p>
+<p>本文主要指代<script type="math/tex">n</script>为3和5,分别对应scale小于和大于150的2Dbox。</p>
+<h2 id="center-pooling-cascade-corner-pooling">Center Pooling 与 Cascade Corner Pooling</h2>
+<p>简单来说，Center Pooling的算法就是取同行、同列的最大值并累加。Cascade Corner Pooling的算法是，取同行、同列的最大值，再在对应的取最值的点寻找同列、同行(错开)的最大值，输出为4个点的累加。</p>
+<p>可视化显示如图
+<img alt="image" src="../res/CenterNet_Visualize_TwoPooling.png" /></p>
+<p>都可以用Corner Pooling实现(../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)。如图</p>
+<p><img alt="image" src="../res/CenterNet_PoolingModule.png" /></p></div>
                     
                 </div>
         </div>
