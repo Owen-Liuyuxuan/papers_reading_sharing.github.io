@@ -12,9 +12,9 @@ short_title: Associative Embedding
 
 ![image](res/associativeEmbeddingOverview.png)
 
-## Stached Hourglass Architecture
+## Stacked Hourglass Architecture
 
-hourglass结构可以在[这篇论文](../Building_Blocks/Stacked&#32;Hourglass&#32;Networks&#32;for&#32;Human&#32;Pose&#32;Estimation.md)看到也在[CornerNet](../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)这篇论文用过，大家稍有不同，不过总体思路一致。
+hourglass结构可以在[这篇论文](../Building_Blocks/Stacked_Hourglass_Networks_for_Human_Pose_Estimation.md)看到也在[CornerNet](../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)这篇论文用过，大家稍有不同，不过总体思路一致。
 
 ## 多人肢体估计
 
