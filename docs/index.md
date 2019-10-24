@@ -15,4 +15,8 @@ Papers are now sorted in FIVE categories
 4. The Theory: General advices for understanding and boosting the performance of deep learning
 5. other interesting or useful papers
 
+## Github
 
+[Github 网页](https://github.com/Owen-Liuyuxuan/papers_reading_sharing.github.io)
+
+欢迎共同记录论文阅读、
