@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Gaze  Training  by  Modulated  Dropout  Improves  Imitation  Learning - Reading Collections</title>
+        <title>DeepICP: An End-to-End Deep Neural Network for 3D Point Cloud Registration - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -414,7 +414,7 @@
     </li>
                                     
     <li>
-        <a href="../DeepICP:_An_End-to-End_Deep_Neural_Network_for_3D_Point_Cloud_Registration/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             DeepICP
         </a>
     </li>
@@ -438,7 +438,7 @@
     </li>
                                     
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../Gaze  Training  by  Modulated  Dropout  Improves  Imitation  Learning/" class="dropdown-item">
             Gaze Training - Chen Yuying
         </a>
     </li>
@@ -707,12 +707,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../Fast and Furious Real Time End-to-End 3D Detection, Tracking and MotionForecasting with a Single Convolutional Net/" class="nav-link">
+                                <a rel="prev" href="../Deep Multi-Sensor Lane Detection/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../Joint_Unsupervised_Learning_of_Optical_Flow_and_Depth_by_Watching_Stereo_Videos/" class="nav-link">
+                                <a rel="next" href="../DroNet Learning to Fly by Driving/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -735,20 +735,55 @@
         
         <ul class="nav flex-column bs-sidenav">
         
-        <a href=https://arxiv.org/abs/1904.08377>
+        <a href=https://arxiv.org/pdf/1905.04153.pdf>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
         </a>
         
 
         
-            <li class="nav-item main"><a href="#gaze-training-by-modulated-dropout-improves-imitation-learning">Gaze  Training  by  Modulated  Dropout  Improves  Imitation  Learning</a></li>
+            <li class="nav-item main"><a href="#deepicp-an-end-to-end-deep-neural-network-for-3d-point-cloud-registration">DeepICP: An End-to-End Deep Neural Network for 3D Point Cloud Registration</a></li>
+                <li class="nav-item">
+                    <a href="#_1" class="nav-link">整体结构</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#_2" class="nav-link">特征提取层</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#_3" class="nav-link">点加权</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#embedding" class="nav-link">深度特征提取(embedding)</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#_4" class="nav-link">对应点生成</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#loss" class="nav-link">Loss 函数</a>
+                </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main">
-<h1 id="gaze-training-by-modulated-dropout-improves-imitation-learning">Gaze  Training  by  Modulated  Dropout  Improves  Imitation  Learning</h1>
-<p>这篇论文源自于实验室师姐。</p>
-<p>核心贡献，用encoder-decoder训练一个Gaze_map生成网络(数据来自于人工标注),然后在模仿学习的时候使用Gaze-modulated Dropout,这个模块的思路是在使用dropout的时候，减少gaze_map相关部分的dropout，就像人眼注视单一区域一样。注意这里使用的dropout是tensorflow默认版本的dropout而不是pytorch默认的dropout2d(spatial-dropout).</p></div>
+<h1 id="deepicp-an-end-to-end-deep-neural-network-for-3d-point-cloud-registration">DeepICP: An End-to-End Deep Neural Network for 3D Point Cloud Registration</h1>
+<p>端到端方法实现基于keypoint的点云ICP,输入是两帧相邻的点云，一个对于相对运动的初始估计。</p>
+<h2 id="_1">整体结构</h2>
+<p><img alt="image" src="../res/DeepICP.png" /></p>
+<h2 id="_2">特征提取层</h2>
+<p>两帧点云首先输入到一个共用的特征提取网络。使用的网络与PointNet++一致。作者的一个理论是说这里会带有一些语义信息，这些语义信息可以有效地帮助避免动态物体。</p>
+<h2 id="_3">点加权</h2>
+<p>理论上来说，具有强特征的点应该会分配更大的权重。这里的做法是对每一个点进行三层全连接，前面两层带有batchnorm以及ReLU，最后一层softplus激活:<script type="math/tex">y = ln(1 + e^x)</script>,最后选出输出权重最大的N个点，这些点以及对应的权重在后续继续使用。</p>
+<h2 id="embedding">深度特征提取(embedding)</h2>
+<p>使用一个mini-PointNet(有待引用说明), 对前面提出的N个keypoint，在半径为<script type="math/tex">d</script>的范围内，收集K个临近点(可重复),对这些点，把他们的相对坐标normalized by <script type="math/tex">d</script>，再加上lidar强度，这些特征与特征提取层的特征concat，</p>
+<p>mini-pointNet 由三层全连接和max-pooling组成，输入是<script type="math/tex">N\times K \times 36</script>的矢量，输出是一个,输出仍然是<script type="math/tex">N\times 32</script>维的向量 </p>
+<h2 id="_4">对应点生成</h2>
+<p>传统ICP直接选择最靠近的点最为对应点，这使得反向传播无法进行，而且由于点云的稀疏特性，很多时候根本不存在对应点，这里提出了使用CPG层.</p>
+<p>首先将N个在源点云的keypoint通过预估计的转移矩阵进行一次坐标变换。在转换后的位置上，将它的临近空间分为<script type="math/tex">(\frac{2r}{s} + 1, \frac{2r}{s} + 1, \frac{2r}{s} + 1)</script> 3D网格，每一个网格的中心{<script type="math/tex">y^{'}_j, j=1,...,C</script>}可理解为可能的对应点，与前文深度特征提取一致，使用特征提取得到<script type="math/tex">N\times C \times 32</script>的矢量。来自源域与目标域的特征送到3D CNN + softmax中，目标是学习一个similarity distance metric.</p>
+<h2 id="loss">Loss 函数</h2>
+<ol>
+<li>对于每一个keypoint，我们通过GT可以知道它最后的cooresponding points，用GT的对应点与预测的对应点之间的误差可以给出一个Loss</li>
+<li>将所有的对应点融合起来，可以用SVD求出R，T，用RT代替预测的对应点求出第二个loss，Tensorflow提供了可微分的SVD实现，</li>
+<li>最终loss为两者的融合</li>
+</ol></div>
                     
                 </div>
         </div>
