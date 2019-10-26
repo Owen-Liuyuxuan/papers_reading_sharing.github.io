@@ -1,4 +1,4 @@
-commit_statement=" "
+commit_statement="add"
 commit_statement=$commit_statement$1
 
 echo "git pull"
