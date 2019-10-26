@@ -19,7 +19,7 @@
 
 ## Getting Started
 
-总览：本文使用[mkdocs](https://www.mkdocs.org/)包,运行“pip install mkdocs”即可完成基础安装，git clone 本repo到本地即可开始工作。
+总览：本文使用[mkdocs](https://www.mkdocs.org/)包,运行“pip install mkdocs, python-markdown-math”即可完成基础安装，进一步还需要安装[这个魔改库](https://github.com/Owen-Liuyuxuan/mkdocs-awesome-pages-plugin).之后git clone 本repo到本地即可开始工作。
 
 编译测试：下载后,在repo目录下运行“mkdocs build”会在本地编译网页，内容放在./site文件夹中，不需要更改，本repo的.gitignore自动忽略了此文件夹。
 
@@ -65,6 +65,5 @@
 
 目前主要需要做(本人不够技术完成)的功能：
 
-1. 让主页有序放置最近的文章(最近X天添加，或者最近的X篇，或者both)
-2. 让主页有一个random walk的按钮，也就是随机跳转至某一篇论文
-3. 优化搜索
+1. 让主页有一个random walk的按钮，也就是随机跳转至某一篇论文
+2. 优化搜索

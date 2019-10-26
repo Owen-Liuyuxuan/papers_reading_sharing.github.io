@@ -10,6 +10,10 @@ markdown_extensions:
 plugins:
     - search:
         separator: '[\s\-\.]+$'
+    - modified-awesome-pages:
+        filename: pages.yml
+        maximum_file_homepage: 20
+        maximum_days_ahead: 30
     
 extra_javascript:
     - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML

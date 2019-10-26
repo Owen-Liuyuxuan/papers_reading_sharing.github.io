@@ -175,48 +175,42 @@
                             <div class="col-md-3">{% include "toc.html" %}</div>
                         {%-else%}
                             <div class="col-md-9">
-                            <h1>Papers collected this Month:{{build_date_utc.strftime('%Y-%m')}}
-
+                            <h1>Latest Collected Papers:
                             </h1>
-                            {%- if nav|length>1 %}
-                                {%- for nav_item in nav %}
-                                    {%- if nav_item.children %}
-                                            {%- for nav_item in nav_item.children %}
-                                                {%- if nav_item.is_page %}{%- if nav_item.meta.time %} {%- if (build_date_utc.strftime('%Y%m') == nav_item.meta.time[0:6])%}
-                                                    <h5>{{nav_item.meta.time[0:4]}}-{{nav_item.meta.time[4:6]}}-{{nav_item.meta.time[6:]}}:
-                                                        <a href="{{ nav_item.url|url }}" >
-                                                            {%- if nav_item.meta.short_title %}
-                                                                {{ nav_item.meta.short_title }}
-                                                            {%-else%}
-                                                                {%- if nav_item.title|length>40 %}
-                                                                    {{ nav_item.title[0:40] }}......
-                                                                {%-else%}
-                                                                    {{ nav_item.title}}
-                                                                {%-endif%}
-                                                            {%-endif%}
-                                                            </a>
-                                                            &nbsp;&nbsp;&nbsp;
-                                                            <span>
-                                                                {% if nav_item.meta.pdf_source %}
-                                                            <a href={{nav_item.meta.pdf_source}}>
-                                                                <i class="fa fa-file-pdf-o"> pdf</i>
-                                                            </a>
-                                                            {% endif %}
+                            <h3>Notice: More papers stored in each sections</h3>
+                            {%- for page_ in nav.pages %}
+                                {%- if page_.shown_in_homepage %}
+                                <h5>{{page_.meta.time[0:4]}}-{{page_.meta.time[4:6]}}-{{page_.meta.time[6:]}}:
+                                    <a href="{{ page_.url|url }}" >
+                                        {%- if page_.meta.short_title %}
+                                            {{ page_.meta.short_title }}
+                                        {%-else%}
+                                            {%- if page_.title|length>40 %}
+                                                {{ page_.title[0:40] }}......
+                                            {%-else%}
+                                                {{ page_.title}}
+                                            {%-endif%}
+                                        {%-endif%}
+                                        </a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <span>
+                                            {% if page_.meta.pdf_source %}
+                                        <a href={{page_.meta.pdf_source}}>
+                                            <i class="fa fa-file-pdf-o"> pdf</i>
+                                        </a>
+                                        {% endif %}
 
-                                                            {% if nav_item.meta.code_source %}
-                                                            <a href={{nav_item.meta.code_source}}>
-                                                                <i class="fa fa-github"> code</i>
-                                                            </a>
-                                                            {% endif %}
-                                                            </span>
-                                                            
-                                                        </h5>
-                                                    {%- endif %}
-                                                {%- endif %}{%- endif %}
-                                            {%- endfor %}
-                                    {%- endif %}
-                                {%- endfor %}
+                                        {% if page_.meta.code_source %}
+                                        <a href={{page_.meta.code_source}}>
+                                            <i class="fa fa-github"> code</i>
+                                        </a>
+                                        {% endif %}
+                                        </span>
+                                        
+                                    </h5>
                             {%- endif %}
+                            {%-endfor%}
+
                             </div>
                         {%- endif %}
                             <div class="col-md-9" role="main">{% include "content.html" %}</div>
