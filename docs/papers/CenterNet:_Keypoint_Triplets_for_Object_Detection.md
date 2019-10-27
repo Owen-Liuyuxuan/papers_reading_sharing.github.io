@@ -45,7 +45,7 @@ $$
 可视化显示如图
 ![image](res/CenterNet_Visualize_TwoPooling.png)
 
-都可以用Corner Pooling实现(../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)。如图
+都可以用[Corner Pooling实现](../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)。如图
 
 ![image](res/CenterNet_PoolingModule.png)
 
