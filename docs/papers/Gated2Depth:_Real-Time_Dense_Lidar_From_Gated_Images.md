@@ -1,6 +1,7 @@
 time: 20191031
 pdf_source: http://openaccess.thecvf.com/content_ICCV_2019/papers/Gruber_Gated2Depth_Real-Time_Dense_Lidar_From_Gated_Images_ICCV_2019_paper.pdf
 code_source: https://github.com/gruberto/Gated2Depth
+short_title: Gated2Depth
 # Gated2Depth: Real-Time Dense Lidar From Gated Images
 
 这篇论文使用Gated Image估计稠密的深度图。亮点有几个，首先是对Gate Imaging的原理认识以及使用，其次是其用稀疏点云作为监督来源，进行半监督的学习.
