@@ -219,6 +219,12 @@
     </li>
                                     
     <li>
+        <a href="../ThunderNet:_Towards_Real-time_Generic_Object_Detection_on_Mobile_Devices/" class="dropdown-item">
+            ThunderNet
+        </a>
+    </li>
+                                    
+    <li>
         <a href="../deformable_convnet_v2/" class="dropdown-item">
             Deformable ConvNet V2
         </a>
@@ -794,7 +800,8 @@
 </div></div>
                             <div class="col-md-9" role="main">
 <h1 id="efficientnet-rethinking-model-scaling-for-convolutional-neural-networks">EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks</h1>
-<p>这篇文章分析了CNN Scale Up的相关原理，然后给出EfficientNet.背后的逻辑是这样的，首先我们可以通过Neural Architecture Search得到一个低分辨率图片的高效率模型，然后依据它对应的Scale Up原理进行扩展。本文用到的baseline出自<a href="https://arxiv.org/pdf/1807.11626.pdf">MnasNet(pdf)</a>,就是通过NAS得到的。本文的<a href="https://github.com/qubvel/efficientnet#about-efficientnet-models">代码</a>提供了keras以及Tensorflow实现。</p>
+<p>这篇文章分析了CNN Scale Up的相关原理，然后给出EfficientNet.背后的逻辑是这样的，首先我们可以通过Neural Architecture Search得到一个低分辨率图片的高效率模型，然后依据它对应的Scale Up原理进行扩展。本文用到的baseline出自<a href="https://arxiv.org/pdf/1807.11626.pdf">MnasNet(pdf)</a>,就是通过NAS得到的。本文的<a href="https://github.com/qubvel/efficientnet#about-efficientnet-models">代码</a>提供了keras以及Tensorflow实现。这个<a href="https://github.com/lukemelas/EfficientNet-PyTorch">repo提供了pytorch实现</a></p>
+<p>这里添加一个<a href="https://medium.com/@fanzongshaoxing/%E6%96%87%E7%AB%A0%E8%A7%A3%E8%AF%BB-efficientnet-rethinking-model-scaling-for-convolutional-neural-networks-icml2019-b55ee9720a4a">medium上的解读</a>.</p>
 <h2 id="model-scaling-observation">Model Scaling Observation</h2>
 <p><img alt="image" src="../res/EfficientNet_ModelScallingIntro.jpg" />
 上图展示的是不同的scale up一个模型的方式。本文的结论是应该根据输入图片的分辨率、channel数目以及网络深度综合Scale Up得到的提升才是最明显的。</p>
