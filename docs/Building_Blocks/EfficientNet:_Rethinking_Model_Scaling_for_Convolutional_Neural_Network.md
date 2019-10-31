@@ -4,7 +4,9 @@ code_source: https://github.com/qubvel/efficientnet#about-efficientnet-models
 short_title: EfficientNet
 # EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks
 
-这篇文章分析了CNN Scale Up的相关原理，然后给出EfficientNet.背后的逻辑是这样的，首先我们可以通过Neural Architecture Search得到一个低分辨率图片的高效率模型，然后依据它对应的Scale Up原理进行扩展。本文用到的baseline出自[MnasNet(pdf)](https://arxiv.org/pdf/1807.11626.pdf),就是通过NAS得到的。本文的[代码](https://github.com/qubvel/efficientnet#about-efficientnet-models)提供了keras以及Tensorflow实现。
+这篇文章分析了CNN Scale Up的相关原理，然后给出EfficientNet.背后的逻辑是这样的，首先我们可以通过Neural Architecture Search得到一个低分辨率图片的高效率模型，然后依据它对应的Scale Up原理进行扩展。本文用到的baseline出自[MnasNet(pdf)](https://arxiv.org/pdf/1807.11626.pdf),就是通过NAS得到的。本文的[代码](https://github.com/qubvel/efficientnet#about-efficientnet-models)提供了keras以及Tensorflow实现。这个[repo提供了pytorch实现](https://github.com/lukemelas/EfficientNet-PyTorch)
+
+这里添加一个[medium上的解读](https://medium.com/@fanzongshaoxing/%E6%96%87%E7%AB%A0%E8%A7%A3%E8%AF%BB-efficientnet-rethinking-model-scaling-for-convolutional-neural-networks-icml2019-b55ee9720a4a).
 
 ## Model Scaling Observation
 ![image](res/EfficientNet_ModelScallingIntro.jpg)
