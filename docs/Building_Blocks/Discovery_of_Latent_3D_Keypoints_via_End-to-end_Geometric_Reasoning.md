@@ -57,7 +57,7 @@ $$
 
 这个方法被称为[Procrustes problem](http://www.entsphere.com/pub/pdf/aGeneralizedSolutionOfTheOrthogonalProcrsutesProblem.pdf)
 
-SVD是可以backprob的实现的(同样使用可微分SVD的[这篇文章](../papers/DeepICP:_An_End-to-End_Deep_Neural_Network_for_3D_Point_Cloud_Registration.md)也提到tensorflow有可微分SVD)
+SVD是可以backprob的实现的(同样使用可微分SVD的[这篇文章](../other_categories/SLAM/DeepICP:_An_End-to-End_Deep_Neural_Network_for_3D_Point_Cloud_Registration.md)也提到tensorflow有可微分SVD)
 
 ## KeypointNet 结构
 

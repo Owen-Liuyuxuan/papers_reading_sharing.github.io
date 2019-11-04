@@ -5,7 +5,8 @@ short_title: TensorMask-Instance Seg
 
 这篇文章提出了one-stage instance segmentation的算法。传统来说，state of the art 的instance segmentation的做法基本上是先进行object detection得到2D框，然后在框内进行Semantic Segmentation。这样的two-stage甚至是Multi-stage的做法(object detection可能就two-stage).还有一种做法是先生成label pixel然后进行聚类。
 
-本文核心思路就是将整个问题转换为一个四维张量$(V, U, H, W)$的回归or分类问题。对每一个坐标点$(h, w)$对应一个矩阵$(V, U)$，设$\alpha$为单位转换比例，则矩阵中的元素$(v, u)$指代原图$(h + \alpha v, w + \alpha u)$是mask的概率，或其他参数。这样整个网络的训练目标就和一个[SSD](../papers/SSD&#32;Single&#32;Shot&#32;MultiBox&#32;Detector.md)或者说Yolo差不多了,这同时又和DeepMask不同，显式地表达$U, V$坐标，并为此适配更多的运算方式.
+本文核心思路就是将整个问题转换为一个四维张量$(V, U, H, W)$的回归or分类问题。对每一个坐标点$(h, w)$对应一个矩阵$(V, U)$，设$\alpha$为单位转换比例，则矩阵中的元素$(v, u)$指代原图$(h + \alpha v, w + \alpha u)$是mask的概率，或其他参数。这样整个网络的训练目标就和一个[SSD](../object_detection_2D/SSD&#32;Single&#32;Shot&#32;MultiBox&#32;Detector.md)或者说Yolo差不多了,这同时又和DeepMask不同，显式地表达$U, V$坐标，并为此适配更多的运算方式.
+
 
 ## 主要表达方式的定义
 

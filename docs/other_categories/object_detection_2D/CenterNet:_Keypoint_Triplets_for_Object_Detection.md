@@ -4,14 +4,14 @@ code_source: https://github.com/Duankaiwen/CenterNet
 short_title: CenterNet
 # CenterNet: Keypoint Triplets for Object Detection
 
-CenterNet也就是通过输出每一个object为左上角、右上角与中心点的一个triplet,这个思路源自于[CornerNet](../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)。
+CenterNet也就是通过输出每一个object为左上角、右上角与中心点的一个triplet,这个思路源自于[CornerNet](CornerNet_Detecting_Objects_as_Paired_Keypoints.md)。
 
 
 ## 总体结构与pipeline
 
 ![image](res/CenterNetArch.png)
 
-与CornerNet相似的，backbone的选择也是[stacked hourglass](../Building_Blocks/Stacked_Hourglass_Networks_for_Human_Pose_Estimation.md)
+与CornerNet相似的，backbone的选择也是[stacked hourglass](../../Building_Blocks/Stacked_Hourglass_Networks_for_Human_Pose_Estimation.md)
 
 第一分支经过新的Cascade Corner Pooling(新的操作)得到Corner Heatmaps并通过[associative embedding](Associative_Embedding:End-to-End_Learning_for_Joint_Detection_and_Grouping.md)得到初始2D框。
 
@@ -45,7 +45,7 @@ $$
 可视化显示如图
 ![image](res/CenterNet_Visualize_TwoPooling.png)
 
-都可以用[Corner Pooling实现](../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)。如图
+都可以用[Corner Pooling实现](CornerNet_Detecting_Objects_as_Paired_Keypoints.md)。如图
 
 ![image](res/CenterNet_PoolingModule.png)
 

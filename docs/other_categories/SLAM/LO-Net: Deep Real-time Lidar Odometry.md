@@ -51,7 +51,7 @@ $$\mathcal{L}_n = \sum_{\alpha \beta}||\mathcal{N}(\hat X^{\alpha\beta}_t) - \ma
 
 ## 里程回归
 
-这里让网络在完全连接层输出7个数值，前三个是平移向量，后面四个是四元数。大部分网络层使用的是[fireConv](../Building_Blocks/SQUEEZENET_ALEXNET-LEVEL_ACCURACY_WITH_50X_FEWER_PARAMETERS_AND_0.5MB_MODEL_SIZE.md)
+这里让网络在完全连接层输出7个数值，前三个是平移向量，后面四个是四元数。大部分网络层使用的是[fireConv](../../Building_Blocks/SQUEEZENET_ALEXNET-LEVEL_ACCURACY_WITH_50X_FEWER_PARAMETERS_AND_0.5MB_MODEL_SIZE.md)
 
 由于点云的特性，feature map的高度远小于宽度(360°点云)，所以在下采样的时候只对宽度进行max pooling
 

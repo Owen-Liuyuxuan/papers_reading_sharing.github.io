@@ -2,7 +2,8 @@ pdf_source: https://arxiv.org/pdf/1606.06630.pdf
 code_source: https://github.com/titu1994/Keras-Multiplicative-LSTM
 # On Multiplicative Integration with Recurrent Neural Networks
 
-这篇论文提出一个在CAPs模型提出的[文章](../Robotics_with_DL/Composable_Action-Conditioned_Predictors_Flexible_Off-Policy_Learning_for_Robot_Navigation.md)中使用的Multiplicative Integration RNN(LSTM, GRU)
+这篇论文提出一个在CAPs模型提出的[文章](../Planning_Control_DL/Composable_Action-Conditioned_Predictors_Flexible_Off-Policy_Learning_for_Robot_Navigation.md)中使用的Multiplicative Integration RNN(LSTM, GRU)
+
 
 本质公式就是
 

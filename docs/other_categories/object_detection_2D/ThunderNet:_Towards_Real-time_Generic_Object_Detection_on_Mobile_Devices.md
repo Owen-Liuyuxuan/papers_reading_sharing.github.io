@@ -13,7 +13,7 @@ short_title: ThunderNet
 
 ![image](res/ThunderNetPipeline.png)
 
-其中SNet网络是基于[ShuffleNetV2](../The&#32;Theory/ShuffleNet&#32;V2:&#32;Practical&#32;Guidelines&#32;for&#32;Efficient&#32;CNN&#32;Architecture&#32;Design.md).默认的输入分辨率是$320\times320$,本文在backbone方面的提升主要是提升感受场的大小。
+其中SNet网络是基于[ShuffleNetV2](../../The&#32;Theory/ShuffleNet_V2:_Practical_Guidelines_for_Efficient_CNN_Architecture_Design.md).默认的输入分辨率是$320\times320$,本文在backbone方面的提升主要是提升感受场的大小。
 
 ## Context Enhancement Module
 

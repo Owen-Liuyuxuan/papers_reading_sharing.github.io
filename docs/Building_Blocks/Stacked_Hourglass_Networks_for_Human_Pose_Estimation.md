@@ -4,8 +4,7 @@ code_source: https://github.com/princeton-vl/pose-hg-train
 short_title: Stacked Hourglass Networks
 # Stacked Hourglass Networks for Human Pose Estimation
 
-这篇文章目前对于本人来说是[这篇文章](CornerNet_Detecting_Objects_as_Paired_Keypoints.md)的前置.
-
+这篇文章目前对于本人来说是[这篇文章](../other_categories/object_detection_2D/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)的前置.
 目前(2019-10-13)，我们主要讨论本文提到的HourGlass 模块
 
 ## HourGlass

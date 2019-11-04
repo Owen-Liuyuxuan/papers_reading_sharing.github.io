@@ -9,8 +9,7 @@ short_title: Robotics_DL Lecture from georgia Tech
 ## MPC
 第一部分先集中讨论MPC，MPC是一个成功的算法以及解决问题的方式，但是大家普遍认为成功的传统MPC有一些问题。总结起来，MPC问题一是非线性(动力学与约束)，问题二是模型不准确。
 
-然后介绍了[MPPI算法](./Aggressive_Driving_with_Model_Predictive_Path_Integral_Control.md)
-
+然后介绍了[MPPI算法](../../Planning_Control_DL/Aggressive_Driving_with_Model_Predictive_Path_Integral_Control.md)
 这里描述的另一个问题是在使用MPPI算法实时学习的时候，存在一个探索的问题，输入需要丰富，同时与实际的输入分布相似。
 
 要缓解这个问题，演讲者使用的其中一个方法是先用human driver得到初始数据，对模型进行初始训练(bootstrapping)。

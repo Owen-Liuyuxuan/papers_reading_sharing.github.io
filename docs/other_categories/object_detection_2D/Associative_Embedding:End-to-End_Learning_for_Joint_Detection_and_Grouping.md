@@ -4,7 +4,7 @@ code_source:https://github.com/princeton-vl/pose-ae-train
 short_title: Associative Embedding
 # Associative Embedding: End-to-End Learning for Joint Detection and Grouping
 
-这篇论文对我来说是[CornerNet](../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)的前置.两篇也是同一个作者。
+这篇论文对我来说是[CornerNet](CornerNet_Detecting_Objects_as_Paired_Keypoints.md)的前置.两篇也是同一个作者。
 
 ## Associative Embedding 简介
 
@@ -14,7 +14,7 @@ short_title: Associative Embedding
 
 ## Stacked Hourglass Architecture
 
-hourglass结构可以在[这篇论文](../Building_Blocks/Stacked_Hourglass_Networks_for_Human_Pose_Estimation.md)看到也在[CornerNet](../Building_Blocks/CornerNet_Detecting_Objects_as_Paired_Keypoints.md)这篇论文用过，大家稍有不同，不过总体思路一致。
+hourglass结构可以在[这篇论文](../../Building_Blocks/Stacked_Hourglass_Networks_for_Human_Pose_Estimation.md)看到也在[CornerNet](CornerNet_Detecting_Objects_as_Paired_Keypoints.md)这篇论文用过，大家稍有不同，不过总体思路一致。
 
 ## 多人肢体估计
 

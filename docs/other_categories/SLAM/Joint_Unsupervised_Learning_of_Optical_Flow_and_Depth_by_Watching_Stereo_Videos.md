@@ -5,10 +5,9 @@ pdf_source: https://arxiv.org/pdf/1810.03654.pdf
 
 正如题目表示，本文的目标是使用连续的双目视频，同时预测光流、深度以及相机运动。大幅度重用前人的研究，特点是注重对运动以及遮挡物体的去除
 
-#　主体流程图
+# 主体流程图
 
-![image](../3dDetection/res/JointLearnOpticalFlowDepth.png)
-
+![image](res/JointLearnOpticalFlowDepth.png)
 这个pipeline分为好几个stages
 
 首先，用PWC-Flow预测左目相机的两张图之间的光流$F_{12}^{opt}$，用MotionNet预测左目相机两张图之间的运动 $T_{12}$, 用PWD-Disp估计双目相机之间的视差，用视差可以转换为深度$D = B f_x / d$。

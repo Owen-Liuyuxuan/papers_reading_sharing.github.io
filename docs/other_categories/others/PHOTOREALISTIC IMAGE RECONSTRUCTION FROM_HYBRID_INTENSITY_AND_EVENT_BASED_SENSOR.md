@@ -3,12 +3,11 @@ pdf_source: https://arxiv.org/pdf/1805.06140.pdf
 short_title: Image Reconstruction with Event Camera
 # Photorealistic Image Reconstruction From Hybrid Intensity and Event Based Sensor
 
-这篇论文解决的任务如下，输入连续的普通图片以及一系列密集的event camera信息，还原出更加真实的原始图片,关于event camera的基础原理以及对图片的增强，这里可参考[这篇论文](../papers/Continuous-time_Intensity_Estimation_Using_Event_Cameras.md)
+这篇论文解决的任务如下，输入连续的普通图片以及一系列密集的event camera信息，还原出更加真实的原始图片,关于event camera的基础原理以及对图片的增强，这里可参考[这篇论文](Continuous-time_Intensity_Estimation_Using_Event_Cameras.md)
 
 ## 工作流程
 
 ![image](res/event_reconstruct_pipeline_DL.png)
-
 这里分为四个步骤，第一步是通过两张基础图片得到深度估计。第二步是使用event frames实现对中间帧的插值，第三步是对插值结果使用VO得到一个位姿估计，第四步是根据深度与姿态得到转换后的强度图。
 
 ## 深度估计
@@ -24,7 +23,7 @@ $$
 
 其中$d$为深度图$\nabla_x, \nabla_y$指的是x,y方向的运算符,
 
-优化以上两个损失函数的加权求和是一个非凸问题，我们需要一个好的局部解作为初始解。这里使用[PWC-Net](../papers/PWC-Net_CNNs_for_Optical_Flow_Using_Pyramid_Warping_and_Cost_Volume.md)生成初始光流，这里使用光流的inverse直接得到深度初始值。
+优化以上两个损失函数的加权求和是一个非凸问题，我们需要一个好的局部解作为初始解。这里使用[PWC-Net](../SLAM/PWC-Net_CNNs_for_Optical_Flow_Using_Pyramid_Warping_and_Cost_Volume.md)生成初始光流，这里使用光流的inverse直接得到深度初始值。
 
 ## 相对位移估计
 

@@ -13,7 +13,6 @@ short_title: Fast and Furious
 ## 融合时序信息的方法
 
 ![image](./res/fast_and_furious方法.png)
-
 第一种方法是Early Fusion,在一开始就使用1D Conv将多个Costmap结合成一个Costmap
 
 第二种方法是Late Fusion,使用3D Conv分两步结合。
