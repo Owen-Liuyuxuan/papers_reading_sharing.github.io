@@ -1,8 +1,8 @@
 title: Others
 arrange:
   - object_detection_2D
-  - Deep-Navagation
+  - Deep-Navigation
   - Segmentation
   - SLAM
   - Summaries
-  - UNDONE Papers
+  - undone
