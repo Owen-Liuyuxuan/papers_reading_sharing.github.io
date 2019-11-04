@@ -7,13 +7,17 @@
 
 This volume will be basically written in Chinese. The target is to provide fast reference. 
 
-Papers are now sorted in FIVE categories
+Papers are now sorted in Several categories
 
 1. 3D object detection. mainly on monocular detection and also many papers in sensor fusion.
 2. Building Blocks for neural networks that boost performance
 3. Robotics with DL: using deep learning related technology to boost robotics algorithms
 4. The Theory: General advices for understanding and boosting the performance of deep learning
-5. other interesting or useful papers
+5. other interesting or useful papers including
+        1. 2D object detection
+        2. Advanced SLAM
+        3. Segmentation
+        4. End to end navigation
 
 ## Github
 
