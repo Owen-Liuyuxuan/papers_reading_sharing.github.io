@@ -1,7 +1,7 @@
 time: 20191105
 pdf_source:https://arxiv.org/pdf/1904.09925.pdf
 short_title: Attention Augmented Convolution
-
+code_source: https://github.com/leaderj1001/Attention-Augmented-Conv2d
 # Attention Augmented Convolutional Networks
 
 这篇文章基于[transformer](Attention_is_all_you_need.md)，将attention直接附加在卷积层中,理论上来说可以用于替代卷积层.
