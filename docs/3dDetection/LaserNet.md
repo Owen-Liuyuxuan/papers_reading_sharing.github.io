@@ -1,6 +1,6 @@
 time: 20191113
 pdf_source: https://arxiv.org/pdf/1903.08701.pdf
-
+short_title: LaserNet
 # LaserNet: An Efficient Probabilistic 3D Object Detector for Autonomous Driving
 
 这篇论文实现3D object detection利用的数据类型主要是点云的Range view图像。目的是避免BEV过于稀疏的问题。
