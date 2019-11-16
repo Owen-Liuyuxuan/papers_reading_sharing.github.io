@@ -24,7 +24,7 @@ short_title: Multi-View Synthesis for Orientation Estimation
 
 ## 深度补全上色
 
-原来的点云只能提供一个稀疏的深度估计，本文利用了作者的[另一篇深度补全算法.pdf](https://arxiv.org/pdf/1802.00036.pdf),将稀疏的点云变成密集的深度图，也就可以对应像素上色。
+原来的点云只能提供一个稀疏的深度估计，本文利用了作者的[另一篇深度补全算法.pdf](https://arxiv.org/pdf/1802.00036.pdf),[简介](../other_categories/others/In_Defense_of_Classical_Image_Processing_Fast_Depth_Completion_on_the_CPU.md),将稀疏的点云变成密集的深度图，也就可以对应像素上色。
 
 ## 其他训练细节
 
