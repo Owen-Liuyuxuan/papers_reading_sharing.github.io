@@ -469,6 +469,12 @@
     </li>
             
     <li>
+        <a href="../../other_categories/others/Jointly_derain_dehaze/" class="dropdown-item">
+            Joint Deraining and Dehazing
+        </a>
+    </li>
+            
+    <li>
         <a href="../../other_categories/others/OptNet_Differentiable_Optimization_as_a_Layer_in_Neural_Networks/" class="dropdown-item">
             OptNet, Optimization as Layer
         </a>
@@ -908,7 +914,7 @@
 <p>这篇论文将点云的空洞卷积引入点云分析中，值得留意的是空洞卷积在<a href="Can&#32;GCNs&#32;Go&#32;as&#32;Deep&#32;as&#32;CNNs.md">这篇文章</a>中已经有提及，且本文并没有引用它，这里可能涉及一些时间上的差别，两者在点云空洞卷积上的计算较为相似，但是本文进一步提出了点云中的空洞池化，可以一看。</p>
 <h2 id="_1">点云空洞卷积</h2>
 <p><img alt="image" src="../res/PointAtrousConvolution_conv.png" /></p>
-<p>与<a href="Can&#32;GCNs&#32;Go&#32;as&#32;Deep&#32;as&#32;CNNs.md">这篇文章</a>相似，在每一个点附近寻找最靠近的K个点,这里与前文不同的地方在于这里采用的是edge convolution的操作，与<a href="https://arxiv.org/pdf/1801.07829.pdf">DGCNN.pdf</a>类似的运算
+<p>与<a href="Can&#32;GCNs&#32;Go&#32;as&#32;Deep&#32;as&#32;CNNs.md">这篇文章</a>相似，在每一个点附近寻找最靠近的K个点,这里与前文不同的地方在于这里采用的是edge convolution的操作，与<a href="https://arxiv.org/pdf/1801.07829.pdf">DGCNN.pdf</a>类似的运算，<a href="../DGCNN/">简介</a>
 <script type="math/tex; mode=display">
 X_{p}^{\prime}=g\left(H_{\Theta}\left(X_{p}, X_{q_{r}}\right), \ldots, H_{\Theta}\left(X_{p}, X_{\left.q_{(r, k)}\right)}\right)\right.
 </script>
