@@ -10,7 +10,7 @@ short_title: PointAtrousNet
 
 ![image](res/PointAtrousConvolution_conv.png)
 
-与[这篇文章](Can&#32;GCNs&#32;Go&#32;as&#32;Deep&#32;as&#32;CNNs.md)相似，在每一个点附近寻找最靠近的K个点,这里与前文不同的地方在于这里采用的是edge convolution的操作，与[DGCNN.pdf](https://arxiv.org/pdf/1801.07829.pdf)类似的运算
+与[这篇文章](Can&#32;GCNs&#32;Go&#32;as&#32;Deep&#32;as&#32;CNNs.md)相似，在每一个点附近寻找最靠近的K个点,这里与前文不同的地方在于这里采用的是edge convolution的操作，与[DGCNN.pdf](https://arxiv.org/pdf/1801.07829.pdf)类似的运算，[简介](DGCNN.md)
 $$
 X_{p}^{\prime}=g\left(H_{\Theta}\left(X_{p}, X_{q_{r}}\right), \ldots, H_{\Theta}\left(X_{p}, X_{\left.q_{(r, k)}\right)}\right)\right.
 $$
