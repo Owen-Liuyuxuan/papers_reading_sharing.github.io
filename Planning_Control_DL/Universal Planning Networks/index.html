@@ -231,6 +231,12 @@
     </li>
             
     <li>
+        <a href="../../other_categories/Summaries/SummaryOfMono3DDetection_in2019/" class="dropdown-item">
+            Summary of Mono 3D Detection in 2019
+        </a>
+    </li>
+            
+    <li>
         <a href="../../other_categories/Summaries/Summary_of_several_iccv2019/" class="dropdown-item">
             ICCV 2019 Clips
         </a>
@@ -929,15 +935,13 @@
 <p><img alt="神经网络结构" src="../res/通用planning——结构.png" /></p>
 <p>给出当前观测<script type="math/tex">o_t</script>以及目标观测<script type="math/tex">o_g</script>作为输入图像，<script type="math/tex">\hat a_t</script>为<script type="math/tex">t</script>时刻预测的行动</p>
 <p>在GDP(Gradien Descent Planner)中，用可学习的编码器<script type="math/tex">f_\phi</script>将观测<script type="math/tex">o_t</script>转换为latent space <script type="math/tex">x_t</script>,再用可学习的模型转换参数<script type="math/tex">\hat x_{t+1} = g_\theta(x_t, a_t)</script>学习<script type="math/tex">n_p</script>步。其中的action <script type="math/tex">a_t</script>为随机初始化，其后使用梯度下降进行优化更新。</p>
-<div class="codehilite"><pre><span></span>个人理解，其实state transition结构可以使用res残差连接更科学。
-</pre></div>
+<pre class="codehilite"><code>个人理解，其实state transition结构可以使用res残差连接更科学。</code></pre>
 
 
 <p>规划过程中的损失函数<script type="math/tex">L_{plan}^{(i)}</script>为最终预测的<script type="math/tex">x_{t+T+1}</script>与<script type="math/tex">x_g</script>的距离（可导）。</p>
 <p>对planner的训练可以用Imitation，因为GDP给出action的算法尽管有梯度的使用，但是是完全可导的。在这个基础上给出相对参考行动的损失函数<script type="math/tex">L_{imitate} = ||\hat a_{t:T} - a^{*}_{t:t+T}||_2^2</script>,用梯度更新编码器以及过程网络的参数。</p>
 <p>本文进一步介绍了使用这个学习到的编码器与系统模型来辅助强化学习的运动生成。</p>
-<div class="codehilite"><pre><span></span>个人理解，这个文章的代码难度在于模仿学习的时候，一方面需要用梯度更新运动，另一方面要进一步的用梯度更新系统参数。pytorch以及Tensorflow默认情况下只会记住一次运算过程中的梯度信息，然后在梯度更新的时候需要删除此前记录的所有运算图。但是这里模仿的时候似乎需要我们记住梯度更新的时候使用的整个运算图(也可能只需要最后一步，并保留最后一步的梯度)
-</pre></div></div>
+<pre class="codehilite"><code>个人理解，这个文章的代码难度在于模仿学习的时候，一方面需要用梯度更新运动，另一方面要进一步的用梯度更新系统参数。pytorch以及Tensorflow默认情况下只会记住一次运算过程中的梯度信息，然后在梯度更新的时候需要删除此前记录的所有运算图。但是这里模仿的时候似乎需要我们记住梯度更新的时候使用的整个运算图(也可能只需要最后一步，并保留最后一步的梯度)</code></pre></div>
                     
                 </div>
         </div>
@@ -948,7 +952,7 @@
         </footer>
         <script>
             var base_url = "../..",
-                shortcuts = {"previous": 80, "help": 191, "search": 83, "next": 78};
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
         <script src="../../js/base.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML" defer></script>
