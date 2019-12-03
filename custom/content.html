@@ -1,2 +1,14 @@
+<span>
+    {% if page.meta.pdf_source %}
+<a href={{page.meta.pdf_source}}>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
+{% endif %}
 
+{% if page.meta.code_source %}
+<a href={{page.meta.code_source}}>
+    <i class="fa fa-github"> code</i>
+</a>
+{% endif %}
+</span>
 {{ page.content }}
