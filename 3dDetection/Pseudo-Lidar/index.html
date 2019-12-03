@@ -942,7 +942,15 @@
         </ul>
     </div>
 </div></div>
-                            <div class="col-md-9" role="main">
+                            <div class="col-md-9" role="main"><span>
+    
+<a href=https://arxiv.org/pdf/1903.09847.pdf>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
+
+
+
+</span>
 <h1 id="monocular-3d-object-detection-with-pseudo-lidar-point-cloud">Monocular 3D Object Detection with Pseudo-LiDAR Point Cloud</h1>
 <p>这篇论文有多个重要贡献，一是使用单目预测深度图，形成假Lidar数据，并得到人工电云，然后使用<a href="../Frustum_PointNets_for_3D_Object_Detection_from_RGB-D_Data/">Frustum Pointnet</a>。对得到一个可靠的初始解。</p>
 <p>第二由于假Lidar有很多噪点，噪音体现在两个方面，一个是有偏移，影响对距离的估计，一个是有长尾——物体边缘的一些点云会拉得很长，原因是物体边缘处的深度估计不准确。 为了缓解第一个问题，使用2D-3D box约束调整3D box的位置，这里引入了一个loss函数在training过程中处理这个问题，在inference的时候将问题转为优化再提高性能。 为了缓解第二个问题，使用instance mask来代表2D proposal而不是bounding box。相当于用segmentation的像素点级的结果输出</p>

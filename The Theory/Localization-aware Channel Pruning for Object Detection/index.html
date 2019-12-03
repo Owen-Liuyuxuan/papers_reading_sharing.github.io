@@ -951,7 +951,15 @@
         </ul>
     </div>
 </div></div>
-                            <div class="col-md-9" role="main">
+                            <div class="col-md-9" role="main"><span>
+    
+<a href=https://arxiv.org/pdf/1911.02237.pdf>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
+
+
+
+</span>
 <h1 id="localization-aware-channel-pruning-for-object-detection">Localization-aware Channel Pruning for Object Detection</h1>
 <p>这篇论文尝试解决的是针对2D物体检测的<a href="../Channel_Pruning_for_Accelerating_Very_Deep_Neural_Networks/">channel pruning</a>问题.localization-aware的动机起源于<a href="https://arxiv.org/pdf/1810.11809.pdf">DCP.pdf</a>,<a href="../Channel_Pruning_for_Accelerating_Very_Deep_Neural_Networks/">原channel prunning的问题</a>的做法是选择channel并线性重建，减少输出的l2变化，问题划归为lasso regression.但是channel中有很多是冗余的，输出也是冗余的，完整的复原并不一定是最有效的，DCP那篇则是基于这个问题对分类问题进行优化，本文则是基于这个问题，在object detection(主要基于SSD算法)中，针对位置输出进行优化。过程中提出了 contextual ROIAlign层.</p>
 <p>本文建议在使用这篇文章之前先补充<a href="https://arxiv.org/pdf/1810.11809.pdf">DCP.pdf</a></p>

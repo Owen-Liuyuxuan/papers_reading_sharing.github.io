@@ -945,7 +945,15 @@
         </ul>
     </div>
 </div></div>
-                            <div class="col-md-9" role="main">
+                            <div class="col-md-9" role="main"><span>
+    
+<a href=https://arxiv.org/pdf/1903.12174.pdf>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
+
+
+
+</span>
 <h1 id="tensormask-a-foundation-for-dense-object-segmentation">TensorMask: A Foundation for Dense Object Segmentation</h1>
 <p>这篇文章提出了one-stage instance segmentation的算法。传统来说，state of the art 的instance segmentation的做法基本上是先进行object detection得到2D框，然后在框内进行Semantic Segmentation。这样的two-stage甚至是Multi-stage的做法(object detection可能就two-stage).还有一种做法是先生成label pixel然后进行聚类。</p>
 <p>本文核心思路就是将整个问题转换为一个四维张量<script type="math/tex">(V, U, H, W)</script>的回归or分类问题。对每一个坐标点<script type="math/tex">(h, w)</script>对应一个矩阵<script type="math/tex">(V, U)</script>，设<script type="math/tex">\alpha</script>为单位转换比例，则矩阵中的元素<script type="math/tex">(v, u)</script>指代原图<script type="math/tex">(h + \alpha v, w + \alpha u)</script>是mask的概率，或其他参数。这样整个网络的训练目标就和一个<a href="../object_detection_2D/SSD&#32;Single&#32;Shot&#32;MultiBox&#32;Detector.md">SSD</a>或者说Yolo差不多了,这同时又和DeepMask不同，显式地表达<script type="math/tex">U, V</script>坐标，并为此适配更多的运算方式.</p>
