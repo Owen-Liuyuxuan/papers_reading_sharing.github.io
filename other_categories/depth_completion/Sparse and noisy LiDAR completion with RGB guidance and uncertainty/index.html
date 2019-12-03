@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst - Reading Collections</title>
+        <title>Sparse and noisy LiDAR completion with RGB guidance and uncertainty - Reading Collections</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
@@ -105,31 +105,31 @@
     <ul class="dropdown-menu">
             
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../../Deep-Navigation/ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst/" class="dropdown-item">
             ChauffeurNet
         </a>
     </li>
             
     <li>
-        <a href="../DroNet Learning to Fly by Driving/" class="dropdown-item">
+        <a href="../../Deep-Navigation/DroNet Learning to Fly by Driving/" class="dropdown-item">
             DroNet
         </a>
     </li>
             
     <li>
-        <a href="../End-to-end Driving Deploying through Uncertainty-Aware ImitationLearning and Stochastic Visual Domain Adaptation/" class="dropdown-item">
+        <a href="../../Deep-Navigation/End-to-end Driving Deploying through Uncertainty-Aware ImitationLearning and Stochastic Visual Domain Adaptation/" class="dropdown-item">
             Domain Transfer Imitation - Tai Lei
         </a>
     </li>
             
     <li>
-        <a href="../Gaze  Training  by  Modulated  Dropout  Improves  Imitation  Learning/" class="dropdown-item">
+        <a href="../../Deep-Navigation/Gaze  Training  by  Modulated  Dropout  Improves  Imitation  Learning/" class="dropdown-item">
             Gaze Training - Chen Yuying
         </a>
     </li>
             
     <li>
-        <a href="../Robustness_to_Out-of-Distribution_Inputs_via_Task-Aware_Generative_Uncertainty/" class="dropdown-item">
+        <a href="../../Deep-Navigation/Robustness_to_Out-of-Distribution_Inputs_via_Task-Aware_Generative_Uncertainty/" class="dropdown-item">
             Task-Aware Generative Uncertainty
         </a>
     </li>
@@ -469,7 +469,7 @@
     <ul class="dropdown-menu">
             
     <li>
-        <a href="../../depth_completion/Sparse and noisy LiDAR completion with RGB guidance and uncertainty/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             LiDAR completion with RGB uncertainty
         </a>
     </li>
@@ -901,12 +901,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../object_detection_2D/ThunderNet:_Towards_Real-time_Generic_Object_Detection_on_Mobile_Devices/" class="nav-link">
+                                <a rel="prev" href="../../undone/aaaaa/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../DroNet Learning to Fly by Driving/" class="nav-link">
+                                <a rel="next" href="../../others/Continuous-time_Intensity_Estimation_Using_Event_Cameras/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -929,79 +929,50 @@
         
         <ul class="nav flex-column bs-sidenav">
         
-        <a href=https://arxiv.org/pdf/1812.03079.pdf>
+        <a href=https://arxiv.org/pdf/1902.05356.pdf>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
         </a>
         
 
         
-        <a href=https://github.com/aidriver/ChauffeurNet>
+        <a href=https://github.com/wvangansbeke/Sparse-Depth-Completion>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
         </a>
 
         
-            <li class="nav-item main"><a href="#chauffeurnet-learning-to-drive-by-imitating-the-best-and-synthesizing-the-worst">ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst</a></li>
+            <li class="nav-item main"><a href="#sparse-and-noisy-lidar-completion-with-rgb-guidance-and-uncertainty">Sparse and noisy LiDAR completion with RGB guidance and uncertainty</a></li>
                 <li class="nav-item">
-                    <a href="#imitation-learning" class="nav-link">Imitation Learning的常见问题</a>
+                    <a href="#_1" class="nav-link">总体框架</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#data-representation" class="nav-link">本文网络的输入输出data representation</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#_1" class="nav-link">网络结构</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#_2" class="nav-link">向专家模仿学习</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#_3" class="nav-link">提升难度</a>
+                    <a href="#_2" class="nav-link">训练细节</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main">
-<h1 id="chauffeurnet-learning-to-drive-by-imitating-the-best-and-synthesizing-the-worst">ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst</h1>
-<p>这篇RSS论文来自于Waymo,英文名字的翻译意思是"司机网",给出了一个imitation learning系统，并实现了上车测试，为了保证系统的鲁棒性本文做了很多的选择与加强，值得了解。这篇论文有<a href="https://medium.com/waymo/learning-to-drive-beyond-pure-imitation-465499f8bcb2">来自waymo的官方medium英文解读</a></p>
-<h2 id="imitation-learning">Imitation Learning的常见问题</h2>
-<ol>
-<li>从raw data到底层 control，generalization难度很大，不适用于不同的传感与底层物理模型，网络被迫开环地学习底层物理模型，浪费网络能力。</li>
-<li>即时转换为本文给出的中层输入输出(processed percepetion and planning and map information -&gt; target poses sequences),降低了网络的仿真难度，30M的数据点仍不足以使传统的Cloning算法得到好的结果。</li>
-</ol>
-<h2 id="data-representation">本文网络的输入输出data representation</h2>
-<p><img alt="image" src="../res/chaffeurInput.gif" /></p>
-<p>八张图分别为:
-1. 城市道路地图
-2. traffic light可通行以及时间信息(实际上是给了连续几张图的)
-3. 速度限制
-4. 目标路径(类似地图APP的指示)
-5. 当前agent位置
-6. 最近一系列的动态障碍物的位置
-7. 过去一段时间的agent poses
-8. 未来的agent poses(输出)</p>
-<p>所有输入图以车辆当前坐标系给出，车辆当前pose会固定在一个<script type="math/tex">(u_0, v_0)</script>点,训练的时候会额外对数据中的车子的heading加一个扰动，相当于训练时的这些feature map会相对有额外的旋转。</p>
-<h2 id="_1">网络结构</h2>
-<p><img alt="image" src="../res/ChauffeurNetStructure.png" /></p>
-<p>整体结构如图，核心部分为"输入-&gt;特征提取-&gt;RNN-&gt;朝向、速度、未来目标点、外来heat map"。additional target 包括road mask以及一个dynamic object prediction</p>
-<p>以下动图表达了Agent RNN的RNN特征(包括memory)
-<img alt="image" src="../res/chauffeurAgentRNN.gif" /></p>
-<h2 id="_2">向专家模仿学习</h2>
-<p>几个cost是常见的，这里主要记录一个trick</p>
-<h3 id="past-motion-dropout">Past Motion Dropout</h3>
-<p>训练的时候，由于专家的路径太平滑，有时候只需要对先前几个时间点的路径点进行插值就能顺利得到后面的目标点，且误差很小，这里为了减轻这个问题，在训练的过程中会随机drop掉一些历史的poses，具体来说就是50%的training data里面历史poses为空，只剩下当前pose</p>
-<h2 id="_3">提升难度</h2>
-<h3 id="_4">合成干扰</h3>
-<p>将一些平滑的专家path中间，随机选一些点水平扰动，然后用平滑的插值重新生成假的专家轨迹，</p>
-<p><img alt="image" src="../res/chauffeurPer.gif" /></p>
-<p>这些新的轨迹可能会碰撞，所以这类data的weight只有正确data的0.1，不过可以很好的增加正常司机不会到达的危险情景</p>
-<h3 id="loss">辅助loss</h3>
-<ol>
-<li>碰撞 loss，主要在于惩罚perturbation的时候的一些碰撞</li>
-<li>on road loss:</li>
-<li>几何loss，加强与原轨迹的重合度</li>
-<li>road masking 与 prediction</li>
-</ol>
-<h3 id="dropout">模仿dropout</h3>
-<p>有一定的概率不需要网络实现imitation，让imitation部分loss为0，只留下前一段写到的附加loss</p></div>
+<h1 id="sparse-and-noisy-lidar-completion-with-rgb-guidance-and-uncertainty">Sparse and noisy LiDAR completion with RGB guidance and uncertainty</h1>
+<p>这篇论文提出了一个不算复杂的方式，在20ms钟内完成对<script type="math/tex">1256 \times 256</script>分辨率的图像与稀疏点云进行图像补全。</p>
+<h2 id="_1">总体框架</h2>
+<p><img alt="image" src="../res/LidarCompletionUncer_pipeline.png" /></p>
+<p>做法总体比较直观，首先RGB图像与稀疏的投影后的lidar深度图进行concat,输入到以<a href="https://github.com/Eromera/erfnet_pytorch">ERFNet</a>为主干的encoder-decoder网络中，(需要注意的是根据<a href="https://github.com/Eromera/erfnet_pytorch">ERFNet</a>的github网页显示，其模型需要私聊才可获得),输出三个部分，一个是lidar map的局部残差,一个是全局深度预测，一个是全局深度的置信度。</p>
+<p>而稀疏的投影后的Lidar深度图补上残差后同时输入到局部分支中，使用数个残差连接的<a href="../../../Building_Blocks/Stacked_Hourglass_Networks_for_Human_Pose_Estimation/">StackedHourGlass</a>模块,再卷积输出两个分支，一个是局部深度预测，一个是局部深度的置信度。</p>
+<p>全局分支与局部分支，将两分支的置信度连接并使用使用softmax层形成分别的权重，再将两者的深度预测值加权求和得到。</p>
+<p>本文具体使用的<a href="../../../Building_Blocks/Stacked_Hourglass_Networks_for_Human_Pose_Estimation/">StackedHourGlass</a>模块如图</p>
+<p><img alt="image" src="../res/LidarCompletionUncer_Hourglass.png" /></p>
+<h2 id="_2">训练细节</h2>
+<p>训练顺序上，作者使用pretrained <a href="https://github.com/Eromera/erfnet_pytorch">ERFNet</a>先单独对两个分支进行训练，然后再加入guidance部分以及加权部分进行端到端训练.</p>
+<p>损失函数方面作者提出了一个新的所谓focal-MSE Loss。数学表达为:</p>
+<p>
+<script type="math/tex; mode=display">
+    \lambda(\hat y, y) = \frac{1}{n} \sum^n_{i=1}(1+0.05 * epoch * |y_i - \hat y_i|) * (y_i - \hat y_i)^2
+</script>
+</p>
+<p>最终损失为
+<script type="math/tex; mode=display">
+\Lambda=w_{1} \cdot \lambda\left(\hat{y}_{g l o b a l}, y\right)+w_{2} \cdot \lambda\left(\hat{y}_{l o c a l}, y\right)+w_{3} \cdot \lambda\left(\hat{y}_{o u t}, y\right)
+</script>
+其中三个参数分别为0.1, 0.1, 1</p></div>
                     
                 </div>
         </div>
