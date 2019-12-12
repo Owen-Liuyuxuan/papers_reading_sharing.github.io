@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>Deep Imitative Models for Flexible Inference,Planning, and Control - Reading Collections</title>
+        <title>YOLACT Real-time Instance Segmentation - Reading Collections</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
@@ -151,37 +151,37 @@
       <ul class="dropdown-menu">
               
     <li>
-        <a href="../../Segmentation/Actor-Critic Instance Segmentation/" class="dropdown-item">
+        <a href="../Actor-Critic Instance Segmentation/" class="dropdown-item">
             Actor-Critic Instance Segmentation
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/CONVOLUTIONAL CRFS  FOR SEMANTIC SEGMENTATION/" class="dropdown-item">
+        <a href="../CONVOLUTIONAL CRFS  FOR SEMANTIC SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/Deep Multi-Sensor Lane Detection/" class="dropdown-item">
+        <a href="../Deep Multi-Sensor Lane Detection/" class="dropdown-item">
             Deep Multi-Sensor Lane Detection
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/Lane Detection and Classification usingCascaded CNNs/" class="dropdown-item">
+        <a href="../Lane Detection and Classification usingCascaded CNNs/" class="dropdown-item">
             Cascade Lane Detection
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/TensorMask:_A_Foundation_for_Dense_Object_Segmentation/" class="dropdown-item">
+        <a href="../TensorMask:_A_Foundation_for_Dense_Object_Segmentation/" class="dropdown-item">
             TensorMask-Instance Seg
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/YOLACT/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             YOLOACT
         </a>
     </li>
@@ -721,12 +721,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../Deep Hough Voting for 3D Object Detection in Point Clouds/" class="nav-link">
+                                <a rel="prev" href="../TensorMask:_A_Foundation_for_Dense_Object_Segmentation/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../END-TO-END LEARNABLE HISTOGRAM FILTERS/" class="nav-link">
+                                <a rel="next" href="../../SLAM/CubeSLAM/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -749,18 +749,62 @@
         
         <ul class="nav flex-column bs-sidenav">
         
+        <a href=https://arxiv.org/pdf/1904.02689.pdf>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
+        </a>
+        
 
         
-            <li class="nav-item main"><a href="#deep-imitative-models-for-flexible-inferenceplanning-and-control">Deep Imitative Models for Flexible Inference,Planning, and Control</a></li>
+        <a href=https://github.com/dbolya/yolact>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
+        </a>
+
+        
+            <li class="nav-item main"><a href="#yolact-real-time-instance-segmentation">YOLACT Real-time Instance Segmentation</a></li>
+                <li class="nav-item">
+                    <a href="#_1" class="nav-link">总体流程</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#fast-nms" class="nav-link">Fast NMS</a>
+                </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
+<a href=https://arxiv.org/pdf/1904.02689.pdf>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
 
+
+
+<a href=https://github.com/dbolya/yolact>
+    <i class="fa fa-github"> code</i>
+</a>
 
 </span>
-<h1 id="deep-imitative-models-for-flexible-inferenceplanning-and-control">Deep Imitative Models for Flexible Inference,Planning, and Control</h1></div>
+<h1 id="yolact-real-time-instance-segmentation">YOLACT Real-time Instance Segmentation</h1>
+<p>这篇论文尝试解决的是one stage instance segmentation的问题。本文有成熟的开源代码以及较快的inference速度，值得了解学习。本文主要的两个贡献，一个是提出了YOLOACT，基于prototype mask以及coefficient的解决方式，另一个是FastNMS</p>
+<h2 id="_1">总体流程</h2>
+<p><img alt="image" src="../res/YOLOACT_architecture.png" /></p>
+<p>本文的backbone选择了基于ResNet的 Feature Pyramid network,这里有一个基于retina的网络<a href="https://github.com/yhenon/pytorch-retinanet">pytorch实现</a>，也有一个<a href="https://git.ram-lab.com/yuxuan/retina_net">魔改过的</a>.</p>
+<h3 id="prediction-head">Prediction head</h3>
+<p>每一个scale包含三个部分
+<img alt="image" src="../res/YOLOACT_prediction_head.png" />
+分别为分类、2D框回归以及mask 参数</p>
+<h3 id="protonet">Protonet</h3>
+<p>这里从P3引出，采用了FCN的方式，作者的理念是，CNN可以产生 spatially coherent的特征，而Fully connected layer便于产生语义特征，因而让FC layers(conv 1*1)产生mask，用FCN产生mask</p>
+<p><img alt="image" src="../res/YOLOACT_Protonet.png" /></p>
+<h3 id="_2">融合</h3>
+<p>
+<script type="math/tex; mode=display">
+M=\sigma\left(P C^{T}\right)
+</script>
+</p>
+<p>其中 <script type="math/tex">P: h\times w \times k, C:n\times k</script>，P代表k个prototype，C代表n个长度为k的nms后的key vector.</p>
+<p>整个网络用分类与回归loss端到端训练</p>
+<h2 id="fast-nms">Fast NMS</h2>
+<p>思路就是允许被删除的bounding box去抑制其他网格，在原版的nms中，box的抑制与iou的计算需要一定迭代计算，这里可以直接并行运算并且用<a href="https://github.com/dbolya/yolact/blob/master/layers/functions/detection.py">pytorch API直接快速实现</a>，只不过会多suppress一些bbox。</p></div>
                     
                 </div>
         </div>
