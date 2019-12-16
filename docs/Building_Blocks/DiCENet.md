@@ -5,7 +5,7 @@ short_title: DiCENet
 
 # DiCENet: Dimension-wise Convolutions for Efficient Networks
 
-这篇论文提出了DiCE模块，DiCE模块是可以理解为是升级版的pointwise convolusion(每个spatial location不同卷积核)或者[depthwise convolution](../3dDetection/M3D-RPN&#32;Monocular&#32;3D&#32;Region&#32;Proposal&#32;Network&#32;for&#32;Object&#32;Detection.md)(本文作者将其理解为Height-wise convolution)
+这篇论文提出了DiCE模块，DiCE模块是可以理解为是升级版的pointwise convolusion(每个spatial location不同卷积核)或者[depthwise convolution](../3dDetection/M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection.md)(本文作者将其理解为Height-wise convolution)
 
 目前这里选读这一篇是因为看好它在单目3D检测中的潜力。因为它在多个轴上分组卷积，会彻底打破系统的平移不变性以及对称性。
 
