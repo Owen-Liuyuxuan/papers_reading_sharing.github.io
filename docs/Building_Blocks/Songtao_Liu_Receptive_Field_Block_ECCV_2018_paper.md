@@ -4,7 +4,7 @@ code_source: https://github.com/ruinmessi/RFBNet
 short_title: Receptive Field Block
 # Receptive Field Block Net for Accurate and Fast Object Detection
 
-这篇文章的作者基于人眼实际细胞的感受野
+这篇文章的作者基于人眼实际细胞的感受野,设计了RFB模块用于分类与检测。
 
 ## RFB 模块感受野可视化
 
