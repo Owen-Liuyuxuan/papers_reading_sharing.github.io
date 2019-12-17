@@ -1,7 +1,7 @@
 time: 20191202
 pdf_source:https://arxiv.org/pdf/1911.09070v1.pdf
 code_source: https://github.com/xuannianz/EfficientDet
-#short_title: EfficientDet
+short_title: EfficientDet
 # EfficientDet: Scalable and Efficient Object Detection
 
 这篇文章系统地提出了 BiFPN(weighted bidirectional feature pyramid network),并提出了一套scale up的方法，最终提出了EfficientDet,根据paper的说法相较于现有的benchmark可以显著地提升速度，减少参数，提升精度.菜单上的代码超链接为官方的Tensorflow implementation, 而非官方的[Pytorch implementation]也已经有链接了.这篇文章本质上是[EfficientNet]这一SOAT模型在检测领域的接续。
