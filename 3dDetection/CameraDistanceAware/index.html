@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Monocular 3D Object Detection with Pseudo-LiDAR Point Cloud - Reading Collections</title>
+        <title>Camera Distance-aware Top-down Approach for 3D Multi-person Pose Estimation from a Single RGB Image - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -373,7 +373,7 @@
     </li>
                                     
     <li>
-        <a href="../CameraDistanceAware/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             camera distance-aware Mono 3D pose estimation
         </a>
     </li>
@@ -463,7 +463,7 @@
     </li>
                                     
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../Pseudo-Lidar/" class="dropdown-item">
             Pseudo-Lidar with Instance Segmentation
         </a>
     </li>
@@ -757,12 +757,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../Orthographic_Feature_Transform_3D_detection/" class="nav-link">
+                                <a rel="prev" href="../Accurate Monocular Object Detection via Color-Embedded 3D Reconstruction for Autonomous Driving/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../SHIFT R-CNN: DEEP MONOCULAR 3D OBJECT DETECTION WITH CLOSED-FORM GEOMETRIC CONSTRAINTS/" class="nav-link">
+                                <a rel="next" href="../Disentangling_Monocular_3D_Object_Detection/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -785,34 +785,57 @@
         
         <ul class="nav flex-column bs-sidenav">
         
-        <a href=https://arxiv.org/pdf/1903.09847.pdf>
+        <a href=https://arxiv.org/pdf/1907.11346.pdf>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
         </a>
         
 
         
-            <li class="nav-item main"><a href="#monocular-3d-object-detection-with-pseudo-lidar-point-cloud">Monocular 3D Object Detection with Pseudo-LiDAR Point Cloud</a></li>
+        <a href=https://github.com/mks0601/3DMPPE_ROOTNET_RELEASE>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
+        </a>
+
+        
+            <li class="nav-item main"><a href="#camera-distance-aware-top-down-approach-for-3d-multi-person-pose-estimation-from-a-single-rgb-image">Camera Distance-aware Top-down Approach for 3D Multi-person Pose Estimation from a Single RGB Image</a></li>
                 <li class="nav-item">
-                    <a href="#2d-3d" class="nav-link">2D 3D约束</a>
+                    <a href="#_1" class="nav-link">总体流程</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#rootnet" class="nav-link">RootNet</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
-<a href=https://arxiv.org/pdf/1903.09847.pdf>
+<a href=https://arxiv.org/pdf/1907.11346.pdf>
     <i class="fa fa-file-pdf-o"> pdf</i>
 </a>
 
 
 
+<a href=https://github.com/mks0601/3DMPPE_ROOTNET_RELEASE>
+    <i class="fa fa-github"> code</i>
+</a>
+
 </span>
-<h1 id="monocular-3d-object-detection-with-pseudo-lidar-point-cloud">Monocular 3D Object Detection with Pseudo-LiDAR Point Cloud</h1>
-<p>这篇论文有多个重要贡献，一是使用单目预测深度图，形成假Lidar数据，并得到人工电云，然后使用<a href="../Frustum_PointNets_for_3D_Object_Detection_from_RGB-D_Data/">Frustum Pointnet</a>。对得到一个可靠的初始解。</p>
-<p>第二由于假Lidar有很多噪点，噪音体现在两个方面，一个是有偏移，影响对距离的估计，一个是有长尾——物体边缘的一些点云会拉得很长，原因是物体边缘处的深度估计不准确。 为了缓解第一个问题，使用2D-3D box约束调整3D box的位置，这里引入了一个loss函数在training过程中处理这个问题，在inference的时候将问题转为优化再提高性能。 为了缓解第二个问题，使用instance mask来代表2D proposal而不是bounding box。相当于用segmentation的像素点级的结果输出</p>
-<h2 id="2d-3d">2D 3D约束</h2>
-<p>将3D框转换为8个坐标点，然后转换为图片坐标，求出最小bounding rectangle对应的四个坐标。BBCL就是这四个坐标与2Dbounding box的L1距离。BBCO则是在inference的时候使用global search的方式(多半是模拟退火)有货对应的L1距离。</p>
-<p>这是一年前的SOTA</p></div>
+<h1 id="camera-distance-aware-top-down-approach-for-3d-multi-person-pose-estimation-from-a-single-rgb-image">Camera Distance-aware Top-down Approach for 3D Multi-person Pose Estimation from a Single RGB Image</h1>
+<p>这篇论文采用了基于几何与相机的特性的方式对人的肢体进行3D detection，pose estimation的输出是关节坐标，本文进一步需要计算人与相机的距离。代码分两部分开源
+分别是<a href="https://github.com/mks0601/3DMPPE_ROOTNET_RELEASE">rootnet</a>与<a href="https://github.com/mks0601/3DMPPE_POSENET_RELEASE">posenet</a>.</p>
+<h2 id="_1">总体流程</h2>
+<p><img alt="image" src="../res/mono3dpose_distanceaware_pipeline.png" /></p>
+<p>流程分为三个网络，第一个网络为DetectNet,简单来说就是two-stage object detection的proposal阶段，采用的res网络以及roialign操作皆为常规。</p>
+<p>第二个网络为rootNet主要负责预测人体在3维空间中的位置，在下文讲解。</p>
+<p>第三个网络为PoseNet，采用的类似于常规的pose-estimation网络，输出的是小图片中人体各个关节的heatmap。</p>
+<h2 id="rootnet">RootNet</h2>
+<p>rootnet主要观测的是图片中2D框大小与深度的一个相关性
+<img alt="image" src="../res/mono3dpose_distanceaware_correlation.png" /></p>
+<p>网络结构如下，</p>
+<p><img alt="image" src="../res/mono3dpose_distanceaware_rootnet.png" />
+<script type="math/tex; mode=display">
+k=\sqrt{\alpha_{x} \alpha_{y} \frac{A_{r e a l}}{A_{i m g}}}
+</script>
+其中<script type="math/tex">\alpha_{x}</script>为相机内参的<script type="math/tex">f_x</script>, <script type="math/tex">A</script>分别为实际面积大小与图片中的大小。<script type="math/tex">A_{real}</script>为一个估计值，网络的责任在于估计这个k值.</p></div>
                     
                 </div>
         </div>
