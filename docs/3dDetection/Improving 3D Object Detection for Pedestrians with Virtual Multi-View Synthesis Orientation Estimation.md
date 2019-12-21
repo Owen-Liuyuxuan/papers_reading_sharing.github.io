@@ -1,10 +1,13 @@
-time: 20191116
+time: 20191221
 pdf_source: https://arxiv.org/pdf/1907.06777.pdf
+code_source: https://github.com/kujason/vmvs
 short_title: Multi-View Synthesis for Orientation Estimation
 # Improving 3D Object Detection for Pedestrians with Virtual Multi-View Synthesis Orientation Estimation
 
 这篇论文讨论的问题是提升3D行人检测过程中对行人朝向角度的预测精度问题。采用的思路是使用几个人工角度合成相片实现很巧妙的pooling.输入是RGB + Lidar
 
+Update:
+    2019.12.21: Code has been [open-sourced](https://github.com/kujason/vmvs)
 ## 总体思路
 
 ![image](res/syn_camera_pipeline.png)
