@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>SHIFT R-CNN: DEEP MONOCULAR 3D OBJECT DETECTION WITH CLOSED-FORM GEOMETRIC CONSTRAINTS - Reading Collections</title>
+        <title>Single-Stage Monocular 3D Object Detection with Virtual Cameras - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -451,7 +451,7 @@
     </li>
                                     
     <li>
-        <a href="../Mono3D_virtualcam/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             Mono3d with virtual cameras
         </a>
     </li>
@@ -499,7 +499,7 @@
     </li>
                                     
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../SHIFT R-CNN: DEEP MONOCULAR 3D OBJECT DETECTION WITH CLOSED-FORM GEOMETRIC CONSTRAINTS/" class="dropdown-item">
             Shift RCNN
         </a>
     </li>
@@ -787,12 +787,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../RefinedMPL/" class="nav-link">
+                                <a rel="prev" href="../M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../Triangulation Learning Network: from Monocular to Stereo 3D Object Detection/" class="nav-link">
+                                <a rel="next" href="../MonoGRNet: A Geometric Reasoning Network for Monocular 3D Object Localization/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -815,62 +815,45 @@
         
         <ul class="nav flex-column bs-sidenav">
         
-        <a href=https://arxiv.org/pdf/1905.09970.pdf>
+        <a href=https://arxiv.org/pdf/1912.08035.pdf>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
         </a>
         
 
         
-            <li class="nav-item main"><a href="#shift-r-cnn-deep-monocular-3d-object-detection-with-closed-form-geometric-constraints">SHIFT R-CNN: DEEP MONOCULAR 3D OBJECT DETECTION WITH CLOSED-FORM GEOMETRIC CONSTRAINTS</a></li>
-            <li class="nav-item main"><a href="#_1">工作流程</a></li>
+            <li class="nav-item main"><a href="#single-stage-monocular-3d-object-detection-with-virtual-cameras">Single-Stage Monocular 3D Object Detection with Virtual Cameras</a></li>
                 <li class="nav-item">
-                    <a href="#2d-3d" class="nav-link">2D 检测与3D结构参数估计</a>
+                    <a href="#virtual-camera" class="nav-link">virtual camera</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#_2" class="nav-link">闭环约束求出相对位置</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#shiftnet" class="nav-link">ShiftNet进一步优化</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#volume-displacement-loss" class="nav-link">Volume Displacement Loss</a>
+                    <a href="#dl-structure" class="nav-link">DL structure</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
-<a href=https://arxiv.org/pdf/1905.09970.pdf>
+<a href=https://arxiv.org/pdf/1912.08035.pdf>
     <i class="fa fa-file-pdf-o"> pdf</i>
 </a>
 
 
 
 </span>
-<h1 id="shift-r-cnn-deep-monocular-3d-object-detection-with-closed-form-geometric-constraints">SHIFT R-CNN: DEEP MONOCULAR 3D OBJECT DETECTION WITH CLOSED-FORM GEOMETRIC CONSTRAINTS</h1>
-<p>这篇论文的在理论上主要是三大贡献，第一是三步走的基于Faster-RCNN的 Shift R-CNN，第二是Volume Displacement Loss (VDL)用于训练网络。</p>
-<h1 id="_1">工作流程</h1>
-<p><img alt="image" src="../res/shiftrcnn结构.png" /></p>
-<h2 id="2d-3d">2D 检测与3D结构参数估计</h2>
-<p>使用Faster-RCNN的RPN输出Proposal以及2D框预测，后续全连接层输出分类、物体大小以及物体方向。</p>
+<h1 id="single-stage-monocular-3d-object-detection-with-virtual-cameras">Single-Stage Monocular 3D Object Detection with Virtual Cameras</h1>
+<p>这篇文章来自于<a href="../Disentangling_Monocular_3D_Object_Detection/">MonoDIS</a>的作者组，采用的是virtual camera的方法，得到了相对不错的结果</p>
+<h2 id="virtual-camera">virtual camera</h2>
+<p><img alt="image" src="../res/mono3d_virtualcam.png" />
+<img alt="image" src="../res/mono3d_virtualcam_inference.png" /></p>
+<p>核心思路，在图中核心区域crop出多个有效区域，然后在里面进行3D detection，重要的有几个insight.</p>
 <ol>
-<li>物体方向回归同样得选择回归<script type="math/tex">sin</script>,<script type="math/tex">cos</script>值，同时多一个<script type="math/tex">L_1</script>cost要求<script type="math/tex">sin^2 + cos^2 = 1</script>，这里只要求输出观测角\alpht_L<script type="math/tex">也就是</script>\alpha_G - \theta_{ray}$</li>
-<li>物体大小回归同样选择回归<script type="math/tex">log</script>值，</li>
-<li>最终加权输出总和</li>
+<li>思路与传统的RCNN有相似之处，也就是使用传统方法(根据3D空间遍历或者其他提示)，从原图中crop出有效框再进行分析，区别在于crop出来的每一张子都还可能有多个target</li>
+<li>每一个3Ddetection预测的深度是相对于虚拟相机位置的深度，突出一个scale invariance.</li>
 </ol>
-<h2 id="_2">闭环约束求出相对位置</h2>
-<p>这个问题最终能转换为一个最小二乘的问题
-<img alt="image" src="../res/MSE.png" /></p>
-<h2 id="shiftnet">ShiftNet进一步优化</h2>
-<p>把上一部分以及第一部分的信息，包括<script type="math/tex">t, \bold b_{2D}， \bold d, (sin(\alpha_L), cos(\alpha_L)), (sin(\alpha_G), cos(\alpha_G))</script>,输入到两层全连接层中然后输出最终目标。</p>
-<h2 id="volume-displacement-loss">Volume Displacement Loss</h2>
-<p>目的是正确地提升3D IOU,但是3D IOU直接搞并不可导。这里给出新的思路, <script type="math/tex">\Delta t</script>为世界坐标中的<script type="math/tex">x, y, z</script>差值</p>
-<p>
-<script type="math/tex; mode=display">\Delta t_{\alpha G}  = R_y(\alpha G) \Delta t</script>
-</p>
-<p>
-<script type="math/tex; mode=display"> L = w \times h \times |\Delta x_{\alpha G}| + w \times l \times |\Delta y_{\alpha G}| + h \times l \times |\Delta z_{\alpha G}|</script>
-</p></div>
+<p>virtual camera具体的实现trick较多，超参数很多，若想要复现，这里建议回看论文的第4章节以及第6.2章节。由于欠缺代码，这个结果比较难以确认。</p>
+<h2 id="dl-structure">DL structure</h2>
+<p><img alt="image" src="../res/mono3d_virtualcam_structure.png" /></p>
+<p>网络的输入输出与<a href="../Disentangling_Monocular_3D_Object_Detection/">MonoDIS</a>是一样的。</p></div>
                     
                 </div>
         </div>
