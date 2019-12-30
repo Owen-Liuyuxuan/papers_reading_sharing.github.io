@@ -1,4 +1,5 @@
 pdf_source: https://arxiv.org/pdf/1905.12365.pdf
+short_title: MonoDIS
 # Disentangling Monocular 3D Object Detection
 
 这篇论文目前在nuScene以及Kitti上实现了单目视觉三维检测的SOTA的性能。
