@@ -30,7 +30,74 @@ short_title: MonoDIS
 $$
 L_{2 \mathrm{D}}^{\mathrm{conf}}\left(p_{2 \mathrm{D}}, y\right)=-\alpha y\left(1-p_{2 \mathrm{D}}\right)^{\gamma} \log p_{2 \mathrm{D}}-\overline{\alpha} \overline{y} p_{2 \mathrm{D}}^{\gamma} \log \left(1-p_{2 \mathrm{D}}\right)
 $$
-2. Loss based on sIoU
+
+<div id="focalLoss" ></div>
+
+<script>
+
+function focal_loss_y(x, gamma){
+    return - Math.pow(1-x, gamma) * Math.log(x)
+}
+
+function get_focal_loss_list(p, gamma){
+    focal = []
+    for (j = 0; j < 100;j++){
+        focal.push(focal_loss_y(p[j], gamma))
+    }
+    return focal
+}
+focalLoss = document.getElementById('focalLoss');
+var p = [];
+for (i = 0; i < 100;i++){
+    p.push(i * 0.01);
+}
+var focal = get_focal_loss_list(p, 0.2)
+slider_steps = []
+for (i = 0.2; i < 4; i += 0.2){
+    slider_steps.push(
+        {
+            method: 'animate',
+            label: Math.floor(i * 100) /100,
+            args: [
+                {
+                    data: [{ x:p, y: get_focal_loss_list(p, i)}],
+                },
+                {
+                transition: {duration: 20},
+                frame: {duration: 20, redraw: false},
+                }
+            ]
+        }
+    )
+}
+
+Plotly.plot(focalLoss, [{
+    x: p,
+    y: focal,
+}], {
+    title: 'Focal Loss for positive samples',
+    xaxis: {
+        title: 'p'
+    },
+    yaxis: {
+        title: 'loss'
+    },
+    sliders: [{
+    pad: {t: 30},
+    currentvalue: {
+      xanchor: 'right',
+      prefix: 'gamma: ',
+      font: {
+        color: '#888',
+        size: 20
+      }
+    },
+    steps: slider_steps
+  }]
+});
+
+</script>
+1. Loss based on sIoU
 $$
 L_{2 \mathrm{D}}^{\mathrm{bb}}(\boldsymbol{b}, \hat{\boldsymbol{b}})=1-\operatorname{sIoU}(\boldsymbol{b}, \hat{\boldsymbol{b}})
 $$
