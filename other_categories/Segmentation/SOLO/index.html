@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>Style Augmentation: Data Augmentation via StyleRandomization - Reading Collections</title>
+        <title>SOLO: Segmenting Objects by Locations - Reading Collections</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
@@ -164,49 +164,49 @@
       <ul class="dropdown-menu">
               
     <li>
-        <a href="../../Segmentation/Actor-Critic Instance Segmentation/" class="dropdown-item">
+        <a href="../Actor-Critic Instance Segmentation/" class="dropdown-item">
             Actor-Critic Instance Segmentation
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/CONVOLUTIONAL CRFS  FOR SEMANTIC SEGMENTATION/" class="dropdown-item">
+        <a href="../CONVOLUTIONAL CRFS  FOR SEMANTIC SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/Deep Multi-Sensor Lane Detection/" class="dropdown-item">
+        <a href="../Deep Multi-Sensor Lane Detection/" class="dropdown-item">
             Deep Multi-Sensor Lane Detection
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/Lane Detection and Classification usingCascaded CNNs/" class="dropdown-item">
+        <a href="../Lane Detection and Classification usingCascaded CNNs/" class="dropdown-item">
             Cascade Lane Detection
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/PointRend/" class="dropdown-item">
+        <a href="../PointRend/" class="dropdown-item">
             PointRend
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/SOLO/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             SOLO for instance Seg
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/TensorMask:_A_Foundation_for_Dense_Object_Segmentation/" class="dropdown-item">
+        <a href="../TensorMask:_A_Foundation_for_Dense_Object_Segmentation/" class="dropdown-item">
             TensorMask-Instance Seg
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/YOLACT/" class="dropdown-item">
+        <a href="../YOLACT/" class="dropdown-item">
             YOLOACT
         </a>
     </li>
@@ -794,12 +794,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../Semantic Image Synthesis with Spatially-Adaptive Normalization/" class="nav-link">
+                                <a rel="prev" href="../PointRend/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../TossingBot Learning to Throw Arbitrary Objectswith Residual Physics/" class="nav-link">
+                                <a rel="next" href="../TensorMask:_A_Foundation_for_Dense_Object_Segmentation/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -822,18 +822,58 @@
         
         <ul class="nav flex-column bs-sidenav">
         
+        <a href=https://arxiv.org/pdf/1912.04488.pdf>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
+        </a>
+        
 
         
-            <li class="nav-item main"><a href="#style-augmentation-data-augmentation-via-stylerandomization">Style Augmentation: Data Augmentation via StyleRandomization</a></li>
+            <li class="nav-item main"><a href="#solo-segmenting-objects-by-locations">SOLO: Segmenting Objects by Locations</a></li>
+                <li class="nav-item">
+                    <a href="#framework" class="nav-link">Framework</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#breaking-translational-invariance" class="nav-link">Breaking Translational Invariance</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#loss-function" class="nav-link">Loss Function</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#decoupled-solo" class="nav-link">Decoupled SOLO</a>
+                </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
+<a href=https://arxiv.org/pdf/1912.04488.pdf>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
+
 
 
 </span>
-<h1 id="style-augmentation-data-augmentation-via-stylerandomization">Style Augmentation: Data Augmentation via StyleRandomization</h1></div>
+<h1 id="solo-segmenting-objects-by-locations">SOLO: Segmenting Objects by Locations</h1>
+<p>这篇文章用一个比较简单的方法实现instance segmentation，思路在于将图片分为<script type="math/tex">S\times S</script>个小grid，然后假设每一个grid里面同类物体只有一个instance，然后要求分类任务输出的结果里面带有"位置类".从而将不同位置的结果分离出来</p>
+<h2 id="framework">Framework</h2>
+<p><img alt="image" src="../res/SOLO_framework.png" />
+<img alt="image" src="../res/SOLO_naive_head.png" /></p>
+<p>本文使用retinanet的思路，使用multi-scale输出，不同的scale分解的图像区块<script type="math/tex">S</script>数目是不同的</p>
+<h2 id="breaking-translational-invariance">Breaking Translational Invariance</h2>
+<p>但是网络中需要注意的地方在于一般的完全卷积网络是平移不变的，也就是在不同位置的相似的物体，在网络中形成的feature应该是相似的，但是在本文中这是不被允许的，因为输出的mask branch中,我们希望同样的画面内容，在不同位置输出的feature完全不同，因而在mask branch中使用<a href="https://github.com/mkocabas/CoordConv-pytorch">Coord Conv</a>而不是不同普通的卷积核，作者中间提到了<a href="https://github.com/christianlandgraf/keras_semiconv">Semi Conv</a>这也是一种选择，不过最终选择的是<a href="https://github.com/mkocabas/CoordConv-pytorch">Coord Conv</a></p>
+<h2 id="loss-function">Loss Function</h2>
+<p>作者面对class imbalance problem,选择了<a href="https://github.com/hubutui/DiceLoss-PyTorch">Dice Loss</a>而不是focal loss.</p>
+<p>其公式为:
+$$
+\begin{aligned}
+    L_{\text {Dice}}&amp;=1-D(\mathbf{p}, \mathbf{q})\</p>
+<p>D(\mathbf{p}, \mathbf{q})&amp;=\frac{2 \sum_{x, y}\left(\mathbf{p}<em>{x, y} \cdot \mathbf{q}</em>{x, y}\right)}{\sum_{x, y} \mathbf{p}<em>{x, y}^{2}+\sum</em>{x, y} \mathbf{q}_{x, y}^{2}}
+\end{aligned}
+$$</p>
+<p>仔细观察<script type="math/tex">D(p, q)</script>的公式，可以了解到这是一个类似于IoU的metric,</p>
+<h2 id="decoupled-solo">Decoupled SOLO</h2>
+<p>由于要分类<script type="math/tex">S^2</script>，这个channel数太大了，同时有很大冗余，因而转而让网络将<script type="math/tex">X, Y</script>上的bin分别分类，inference的时候让对应行列的sigmoid相乘</p>
+<p><img alt="image" src="../res/SOLO_decoupled_head.png" /></p></div>
                     
                 </div>
         </div>
