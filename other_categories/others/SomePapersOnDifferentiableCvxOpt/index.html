@@ -866,7 +866,7 @@
 
 </span>
 <h1 id="some-papers-on-differentiable-convex-optimization">Some Papers on Differentiable Convex Optimization</h1>
-<p>在这个页面计划记录两篇关于可微分凸优化的算法的记录.本文此处会大致记录三篇文章告诉我的一些新的概念,分别是一篇关于凸优化以及Disciplined convex programming的综述[[1]],一篇关于凸优化的导数的paper[[2]],一篇介绍[cvxlayers]的paper[[3]].它们都来自于Stanford Boyd大佬的组。</p>
+<p>在这个页面计划记录两篇关于可微分凸优化的算法的记录.本文此处会大致记录三篇文章告诉我的一些新的概念,分别是一篇关于凸优化以及Disciplined convex programming的综述<a href="https://web.stanford.edu/~boyd/papers/pdf/disc_cvx_prog.pdf">(1)</a>,一篇关于凸优化的导数的paper<a href="https://arxiv.org/pdf/1804.05098.pdf">(2)</a>,一篇介绍[cvxlayers]的paper<a href="http://web.stanford.edu/~boyd/papers/pdf/diff_cvxpy.pdf">(3)</a>.它们都来自于Stanford Boyd大佬的组。</p>
 <h2 id="convex-optimization-and-disciplined-convex-programming">Convex optimization and Disciplined Convex Programming</h2>
 <p>一般凸优化问题定义：
 <script type="math/tex; mode=display">
@@ -877,10 +877,10 @@
 \end{aligned}
 </script>
 </p>
-<p>综述[[1]]对凸优化问题的特殊情况(线性最优，二次最优，最小二乘)进行分类，同时指出了专用问题专用算法以及非线性凸优化普遍方法之间的关系，指出了非线性凸优化一般方法比如内点法在效率上往往会和线性或二次凸优化算法相近，原因是都利用了局部的convexity.</p>
-<p>Disciplined Convex Programming包含两个内容，一个是将符合要求的凸优化问题通过一系列原子操作并转换为标准问题，另一个是一套用于判断用户输入的问题是否为符合要求的DCP的规则系统。在本文作者详细描述了DCP规则系统的算法，并提供了决策树例子。在[cvxlayers]的paper[[3]]中以及代码文档中,我们可以知晓目前库中支持的原子操作(绝大多数的单调函数以及多项式函数)</p>
+<p>综述<a href="https://web.stanford.edu/~boyd/papers/pdf/disc_cvx_prog.pdf">(1)</a>对凸优化问题的特殊情况(线性最优，二次最优，最小二乘)进行分类，同时指出了专用问题专用算法以及非线性凸优化普遍方法之间的关系，指出了非线性凸优化一般方法比如内点法在效率上往往会和线性或二次凸优化算法相近，原因是都利用了局部的convexity.</p>
+<p>Disciplined Convex Programming包含两个内容，一个是将符合要求的凸优化问题通过一系列原子操作并转换为标准问题，另一个是一套用于判断用户输入的问题是否为符合要求的DCP的规则系统。在本文作者详细描述了DCP规则系统的算法，并提供了决策树例子。在[cvxlayers]的paper<a href="http://web.stanford.edu/~boyd/papers/pdf/diff_cvxpy.pdf">(3)</a>中以及代码文档中,我们可以知晓目前库中支持的原子操作(绝大多数的单调函数以及多项式函数)</p>
 <h2 id="kkt-condition-convex-optimization">基于KKT condition的 Convex optimization 导数传递</h2>
-<p>这里采用的思路很接近与<a href="../OptNet_Differentiable_Optimization_as_a_Layer_in_Neural_Networks/">OptNet</a>,paper[[2]]将这个问题的解答拓展到近乎任意凸优化问题，在接近最优的情况下，使用KKT condition进行反传。</p>
+<p>这里采用的思路很接近与<a href="../OptNet_Differentiable_Optimization_as_a_Layer_in_Neural_Networks/">OptNet</a>,paper<a href="https://arxiv.org/pdf/1804.05098.pdf">(2)</a>将这个问题的解答拓展到近乎任意凸优化问题，在接近最优的情况下，使用KKT condition进行反传。</p>
 <p>KKT条件:
 <script type="math/tex; mode=display">
 \begin{aligned}
@@ -946,8 +946,8 @@ g(z, \theta)=\left[\begin{array}{c}
 </script>
 最终的公式与<a href="../OptNet_Differentiable_Optimization_as_a_Layer_in_Neural_Networks/">OptNet</a>是一致的</p>
 <h2 id="convex-optimization-as-a-differentiable-learnable-layer">Convex Optimization as a Differentiable learnable layer</h2>
-<p>在2019 NeurIPS的paper[[3]]中, 作者将初始解<script type="math/tex">x_0</script>,最优化问题参数<script type="math/tex">\theta</script>,最终输出<script type="math/tex">s</script>理解为神经网络层的输入、参数以及输出。进一步地，作者糅合前两个章节的idea,使用 Disciplined Convex Programming使得用户在设计优化层的时候有更高的自由度(不再只局限于一次或二次型等特性)，输入与参数在形成成本函数与约束的计算过程中允许按照DCP规则链接大量的原子操作，形成更为复杂而自然的"一般"优化问题输入(注:<a href="https://github.com/cvxgrp/cvxpylayers">cvxpylayers</a>虽然支持很多别的函数，但是不支持正余弦函数)。使用KKT当优化结果收敛时快速地实现反向传播。</p>
-<p>作者在[[3]]的附录中给出了使用cvxpylayers用最优化问题实现ReLU,Softmax，QP等问题的代码。<a href="https://github.com/cvxgrp/cvxpylayers">cvxpylayers</a>的代码同样也有很多的例程,在RL、控制、网络后优化领域有较强的使用空间。</p></div>
+<p>在2019 NeurIPS的paper<a href="http://web.stanford.edu/~boyd/papers/pdf/diff_cvxpy.pdf">(3)</a>中, 作者将初始解<script type="math/tex">x_0</script>,最优化问题参数<script type="math/tex">\theta</script>,最终输出<script type="math/tex">s</script>理解为神经网络层的输入、参数以及输出。进一步地，作者糅合前两个章节的idea,使用 Disciplined Convex Programming使得用户在设计优化层的时候有更高的自由度(不再只局限于一次或二次型等特性)，输入与参数在形成成本函数与约束的计算过程中允许按照DCP规则链接大量的原子操作，形成更为复杂而自然的"一般"优化问题输入(注:<a href="https://github.com/cvxgrp/cvxpylayers">cvxpylayers</a>虽然支持很多别的函数，但是不支持正余弦函数)。使用KKT当优化结果收敛时快速地实现反向传播。</p>
+<p>作者在<a href="http://web.stanford.edu/~boyd/papers/pdf/diff_cvxpy.pdf">(3)</a>的附录中给出了使用cvxpylayers用最优化问题实现ReLU,Softmax，QP等问题的代码。<a href="https://github.com/cvxgrp/cvxpylayers">cvxpylayers</a>的代码同样也有很多的例程,在RL、控制、网络后优化领域有较强的使用空间。</p></div>
                     
                 </div>
         </div>
