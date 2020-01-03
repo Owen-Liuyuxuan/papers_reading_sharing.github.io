@@ -17,7 +17,7 @@ short_title: Multi-Sensor Refinement - Li Peiliang
 算是比较常见的结构，Faster RCNN->RoI Align->residual prediction
 
 对于深度，网络输出的也是残差，对高度其残差的base估计为
-$z_{roi}=f_y\frac{h}{h_{roio}}$其中$h$为3D物体的高度，$h_{roi}$ 为2D RoI高度，定义的网络输出的长宽高残差$\Delta d  = log\frac{d-p_d}{\sigma_d} d$，其中$d$为$(w,h,l)$
+$z_{roi}=f_y\frac{h}{h_{roio}}$其中$h$为3D物体的高度，$h_{roi}$ 为2D RoI高度,网络输出的深度残差为$log\frac{z_{gt}}{z_{roi}}$，定义的网络输出的长宽高残差$\Delta d  = \frac{d-p_d}{\sigma_d} d$，其中$d$为$(w,h,l)$
 
 最终的输出为中心在相机中的投影,深度,长宽高的残差，以及相对观察角的sin,cos值(观察角用multi-bin回归)
  
