@@ -868,7 +868,7 @@
 <h2 id="_2">单目检测做法</h2>
 <p>算是比较常见的结构，Faster RCNN-&gt;RoI Align-&gt;residual prediction</p>
 <p>对于深度，网络输出的也是残差，对高度其残差的base估计为
-<script type="math/tex">z_{roi}=f_y\frac{h}{h_{roio}}</script>其中<script type="math/tex">h</script>为3D物体的高度，<script type="math/tex">h_{roi}</script> 为2D RoI高度，定义的网络输出的长宽高残差<script type="math/tex">\Delta d  = log\frac{d-p_d}{\sigma_d} d</script>，其中<script type="math/tex">d</script>为<script type="math/tex">(w,h,l)</script>
+<script type="math/tex">z_{roi}=f_y\frac{h}{h_{roio}}</script>其中<script type="math/tex">h</script>为3D物体的高度，<script type="math/tex">h_{roi}</script> 为2D RoI高度,网络输出的深度残差为<script type="math/tex">log\frac{z_{gt}}{z_{roi}}</script>，定义的网络输出的长宽高残差<script type="math/tex">\Delta d  = \frac{d-p_d}{\sigma_d} d</script>，其中<script type="math/tex">d</script>为<script type="math/tex">(w,h,l)</script>
 </p>
 <p>最终的输出为中心在相机中的投影,深度,长宽高的残差，以及相对观察角的sin,cos值(观察角用multi-bin回归)</p>
 <h2 id="refinement">双目Refinement</h2>
