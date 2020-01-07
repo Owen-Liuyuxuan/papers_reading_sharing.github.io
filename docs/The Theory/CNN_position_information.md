@@ -1,4 +1,4 @@
-time: 20190107
+time: 20200107
 pdf_source: https://openreview.net/pdf?id=rJeB36NKvB
 short_title: Position Information in CNN
 # How much Position Information Do Convolutional Neural Networks Encode? 
