@@ -14,7 +14,10 @@ short_title: MonoDIS
 ![image](res/MonoDIS_2d_head.png)
 ![image](res/MonoDIS_3d_head.png)
 
-直觉上来说，就是使用Res34以及feature pyramid network(FPN)提取多尺度特征，输出多个feature map，每一个feature map输出2D detection Output.对每一个Proposal，使用ROIAlign层将对应框resize为14*14，提取出特征后与2D输出连接再输入到全连接层，最终输出3D output
+直觉上来说，就是使用Res34以及feature pyramid network(FPN)提取多尺度特征，输出多个feature map，每一个feature map输出2D detection Output.对每一个Proposal，使用ROIAlign层将对应框resize为14*14，提取出特征后与2D输出连接再输入到全连接层，最终输出3D output.
+
+注意其中的iABN为In-Place Activated BatchNorm,是一个可以较少training time memory cost的模块，其pytorch实现可以在[此处](https://github.com/mapillary/inplace_abn)找到
+
 
 其输出定义:
 ![image](res/MonoDIS_semantic_head.png)
