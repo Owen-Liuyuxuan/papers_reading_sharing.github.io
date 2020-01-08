@@ -9,6 +9,6 @@ jobs:
 
     steps:
     - name: 'Deploy MkDocs with customed awesome plugin'
-      runs:
+      run:
         using: 'docker'
         image: 'Dockerfile'
