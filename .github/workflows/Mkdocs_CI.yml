@@ -8,7 +8,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 'Deploy MkDocs with customed awesome plugin'
-      run:
-        using: 'docker'
-        image: 'Dockerfile'
+    - name: Deploy MkDocs
+      uses: action.yml
