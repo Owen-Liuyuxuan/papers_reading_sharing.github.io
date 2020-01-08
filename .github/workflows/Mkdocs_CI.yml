@@ -8,5 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Deploy MkDocs
-      uses: Owen-Liuyuxuan/mkdocs-deploy-gh-pages@v3.0
+    - name: 'Deploy MkDocs with customed awesome plugin'
+      runs:
+        using: 'docker'
+        image: 'Dockerfile'
