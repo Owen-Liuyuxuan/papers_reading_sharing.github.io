@@ -10,4 +10,4 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Deploy MkDocs
-      uses: Owen-Liuyuxuan/mkdocs-deploy-gh-pages
+      uses: Owen-Liuyuxuan/mkdocs-deploy-gh-pages@v3.0
