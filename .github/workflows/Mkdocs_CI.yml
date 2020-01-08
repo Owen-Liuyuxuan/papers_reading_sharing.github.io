@@ -8,6 +8,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Deploy MkDocs
       uses: Owen-Liuyuxuan/mkdocs-deploy-gh-pages@v3.0
