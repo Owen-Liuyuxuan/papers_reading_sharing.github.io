@@ -14,7 +14,7 @@ This paper is essentially a summary for a bag of training techniques for trainin
 
 ### Channel-Attention  (SE & SK)
 
-Squeeze and Excitation (SE) module has been introduced by [this paper](../Building_Blocks/Squeeze-and-Excitation%20Networks.md)
+Squeeze and Excitation (SE) module has been introduced by [this paper](../Building_Blocks/Squeeze-and-Excitation_Networks.md)
 
 Selective Kernel can be described in:
 
@@ -47,7 +47,7 @@ Auto Augmentation is proposed in [This paper.pdf](https://arxiv.org/pdf/1805.095
 Tensorflow open source code can be found [here](https://github.com/tensorflow/tpu/blob/master/models/official/efficientnet/autoaugment.py)
 ### Mixup
 
-Mix up has been introduced in [Bag of Freebies](../other_categories/object_detection_2D/Bag%20of%20Freebies%20for%20Training%20Object%20Detection%20Neural%20Networks.md)
+Mix up has been introduced in [Bag of Freebies](../other_categories/object_detection_2D/BoFDetection.md)
 
 ### DropBlock
 
