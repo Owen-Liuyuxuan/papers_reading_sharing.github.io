@@ -328,6 +328,12 @@
             LiDAR completion with RGB uncertainty
         </a>
     </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/guideNet/" class="dropdown-item">
+            GuideNet
+        </a>
+    </li>
           
       </ul>
     </li>
@@ -643,6 +649,12 @@
     </li>
                                     
     <li>
+        <a href="../../Building_Blocks/DynanicFilteringNetwork/" class="dropdown-item">
+            Dynamic Filtering Network
+        </a>
+    </li>
+                                    
+    <li>
         <a href="../../Building_Blocks/ELASTIC/" class="dropdown-item">
             Elastic: Dynamic Scaling CNNs
         </a>
@@ -918,7 +930,8 @@
 </span>
 <h1 id="orthographic-feature-transform-for-monocular-3d-object-detection">Orthographic Feature Transform for Monocular 3D Object Detection</h1>
 <p>这篇论文认为对单个摄像头得到的摄像头进行3D detection的时候，还是需要考虑整个场景的三维结构，而不仅仅是在图像坐标系进行研究。</p>
-<pre class="codehilite"><code>在无人车的传统视觉算法中，在单目视觉条件下，如果要测得距离，需要知道摄像头的pitch角度以及所描述的点到摄像头的Z轴距离(经常是摄像头相对地面的高度)。因此这个直觉就是3d detection需要摄像头的外参</code></pre>
+<div class="codehilite"><pre><span></span><span class="err">在无人车的传统视觉算法中，在单目视觉条件下，如果要测得距离，需要知道摄像头的</span><span class="n">pitch角度以及所描述的点到摄像头的Z轴距离</span><span class="p">(</span><span class="err">经常是摄像头相对地面的高度</span><span class="p">)</span><span class="err">。因此这个直觉就是</span><span class="mi">3</span><span class="n">d</span> <span class="n">detection需要摄像头的外参</span>
+</pre></div>
 
 
 <h2 id="_1">主要算法贡献</h2>
