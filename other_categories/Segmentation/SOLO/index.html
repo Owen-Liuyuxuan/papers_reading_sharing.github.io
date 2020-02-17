@@ -947,13 +947,15 @@
 <p>但是网络中需要注意的地方在于一般的完全卷积网络是平移不变的，也就是在不同位置的相似的物体，在网络中形成的feature应该是相似的，但是在本文中这是不被允许的，因为输出的mask branch中,我们希望同样的画面内容，在不同位置输出的feature完全不同，因而在mask branch中使用<a href="https://github.com/mkocabas/CoordConv-pytorch">Coord Conv</a>而不是不同普通的卷积核，作者中间提到了<a href="https://github.com/christianlandgraf/keras_semiconv">Semi Conv</a>这也是一种选择，不过最终选择的是<a href="https://github.com/mkocabas/CoordConv-pytorch">Coord Conv</a></p>
 <h2 id="loss-function">Loss Function</h2>
 <p>作者面对class imbalance problem,选择了<a href="https://github.com/hubutui/DiceLoss-PyTorch">Dice Loss</a>而不是focal loss.</p>
-<p>其公式为:
-$$
+<p>其公式为:</p>
+<p>
+<script type="math/tex; mode=display">
 \begin{aligned}
-    L_{\text {Dice}}&amp;=1-D(\mathbf{p}, \mathbf{q})\</p>
-<p>D(\mathbf{p}, \mathbf{q})&amp;=\frac{2 \sum_{x, y}\left(\mathbf{p}<em>{x, y} \cdot \mathbf{q}</em>{x, y}\right)}{\sum_{x, y} \mathbf{p}<em>{x, y}^{2}+\sum</em>{x, y} \mathbf{q}_{x, y}^{2}}
+    L_{\text {Dice}}&=1-D(\mathbf{p}, \mathbf{q})\\
+D(\mathbf{p}, \mathbf{q})&=\frac{2 \sum_{x, y}\left(\mathbf{p}_{x, y} \cdot \mathbf{q}_{x, y}\right)}{\sum_{x, y} \mathbf{p}_{x, y}^{2}+\sum_{x, y} \mathbf{q}_{x, y}^{2}}
 \end{aligned}
-$$</p>
+</script>
+</p>
 <p>仔细观察<script type="math/tex">D(p, q)</script>的公式，可以了解到这是一个类似于IoU的metric,</p>
 <h2 id="decoupled-solo">Decoupled SOLO</h2>
 <p>由于要分类<script type="math/tex">S^2</script>，这个channel数太大了，同时有很大冗余，因而转而让网络将<script type="math/tex">X, Y</script>上的bin分别分类，inference的时候让对应行列的sigmoid相乘</p>
