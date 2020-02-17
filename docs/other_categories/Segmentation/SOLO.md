@@ -21,10 +21,10 @@ short_title: SOLO for instance Seg
 作者面对class imbalance problem,选择了[Dice Loss]而不是focal loss.
 
 其公式为:
+
 $$
 \begin{aligned}
     L_{\text {Dice}}&=1-D(\mathbf{p}, \mathbf{q})\\
-
 D(\mathbf{p}, \mathbf{q})&=\frac{2 \sum_{x, y}\left(\mathbf{p}_{x, y} \cdot \mathbf{q}_{x, y}\right)}{\sum_{x, y} \mathbf{p}_{x, y}^{2}+\sum_{x, y} \mathbf{q}_{x, y}^{2}}
 \end{aligned}
 $$
