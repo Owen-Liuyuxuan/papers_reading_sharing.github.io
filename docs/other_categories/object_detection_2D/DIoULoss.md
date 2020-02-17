@@ -4,7 +4,7 @@ code_source: https://github.com/Zzh-tju/DIoU-SSD-pytorch
 short_title: Distance-IoU Loss
 # Distance-IoU Loss: Faster and Better Learning for Bounding Box Regression
 
-This paper introduce distance-IoU based on the basic IoU metric and the [GIoU]. [GIoU]的引出本来是为了解决两个bounding box 不重合时损失函数可导性的问题。但是作者通过一个非常有启发性的仿真实验，说明了 GIoU的收敛性问题。 然后提出了尺度上invariant且收敛性更好的DIoU。 作者之后进一步考虑了aspect ratio长宽比的regularization 问题，提出了CIoU.
+This paper introduce distance-IoU based on the basic IoU metric and the [GIoU](../../3dDetection/GeneralizedIoU.md). [GIoU]的引出本来是为了解决两个bounding box 不重合时损失函数可导性的问题。但是作者通过一个非常有启发性的仿真实验，说明了 GIoU的收敛性问题。 然后提出了尺度上invariant且收敛性更好的DIoU。 作者之后进一步考虑了aspect ratio长宽比的regularization 问题，提出了CIoU.
 
 ## Simulation on the convergence of IoU losses
 
@@ -48,5 +48,3 @@ $$
 作者对CIoU的反向传播也做了一个近似优化来提升稳定性，具体看原文以及源码。
 
 
-
-[GIoU]:(../../3dDetection/GeneralizedIoU.md)
