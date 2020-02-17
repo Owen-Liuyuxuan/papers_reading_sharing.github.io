@@ -4,10 +4,10 @@ code_source: https://github.com/flying-cabbage/drift_drl
 short_title: Drifting with RL (Cai, Mei)
 # High-speed Autonomous Drifting with Deep Reinforcement Learning
 
-这篇论文是实验室学长们的一篇合作论文，完成的任务是用强化学习教会车子在Carla中漂移,成果是成功让车子在Carla达到近100km/h的过弯速度。本文有一个[官方主页](https://sites.google.com/view/autonomous-drifting-with-drl)
+这篇论文是实验室学长们的一篇合作论文，完成的任务是用强化学习教会车子在Carla中漂移,成果是成功让车子在Carla达到近100km/h的过弯速度。本文有一个[官方主页](https://sites.google.com/view/autonomous-drifting-with-drl)，以下为其在bilibili上发布的[视频](https://www.bilibili.com/video/av82279019/)
 
 
-<iframe src="//player.bilibili.com/player.html?aid=82279019&cid=140771327&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+<iframe src="//player.bilibili.com/player.html?aid=82279019&cid=140771327&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true" height=270 width=480> </iframe>
 
 ## 强化学习定义
 
