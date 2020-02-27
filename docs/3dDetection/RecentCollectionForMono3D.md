@@ -61,12 +61,12 @@ short_title: Recent Collection for Mono3D
 
 
 [M3D-RPN]:M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection.md
-[D4LCN]:#D4LCN
+[D4LCN]:#d4lc
 [Refined-MPL]:./RefinedMPL.md
 [AM3D]:AM3D.md
-[RTM3D]:#RTM3D
-[MonoPair]:#MonoPair
-[SMOKE]:#SMOKE
-[YOLOMono3D]:#YOLOMono3D
+[RTM3D]:#rtm3d
+[MonoPair]:#monopair
+[SMOKE]:#smoke
+[YOLOMono3D]:#yolomono3d
 [CenterNet]:../other_categories/object_detection_2D/CenterNet:_Keypoint_Triplets_for_Object_Detection.md
 [MonoDIS]:Disentangling_Monocular_3D_Object_Detection.md
