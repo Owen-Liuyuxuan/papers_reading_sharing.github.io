@@ -37,7 +37,10 @@ short_title: Recent Collection for Mono3D
 
 # MonoPair
 
-这篇文章是实验室大师兄邰磊在阿里的CVPR2020 paper。目前还没有挂上arxiv，所以现在(2020/02/27)还不可以传播图片与PDF。
+[pdf](https://arxiv.org/pdf/2003.00504.pdf)
+
+这篇文章是实验室大师兄邰磊在阿里的CVPR2020 paper。有[官方网站](https://sites.google.com/view/chen3dmonopair)
+
 
 文章的核心创新是第一个使用场景中不同物体之间的相互约束进行优化的paper。
 
