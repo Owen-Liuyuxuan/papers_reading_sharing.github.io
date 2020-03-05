@@ -1,5 +1,5 @@
 time: 20200227
-short_title: Recent Collection for Mono3D
+short_title: Recent Collections for Mono3D
 
 # Recent Collections for Mono 3D detection
 
