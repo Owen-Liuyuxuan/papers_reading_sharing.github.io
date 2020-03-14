@@ -1,4 +1,4 @@
-time: 2020314
+time: 20200314
 pdf_source: https://arxiv.org/pdf/2001.01629.pdf
 code_source: https://github.com/zju3dv/snake
 short_title: Deep Snake
