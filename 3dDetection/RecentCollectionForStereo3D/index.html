@@ -915,55 +915,55 @@
                                 <ul class="dropdown-menu">
                                     
     <li>
-        <a href="../../The Theory/CNN_position_information/" class="dropdown-item">
+        <a href="../../The_theory/CNN_position_information/" class="dropdown-item">
             Position Information in CNN
         </a>
     </li>
                                     
     <li>
-        <a href="../../The Theory/Channel_Pruning_for_Accelerating_Very_Deep_Neural_Networks/" class="dropdown-item">
+        <a href="../../The_theory/Channel_Pruning_for_Accelerating_Very_Deep_Neural_Networks/" class="dropdown-item">
             Channel Pruning for Accelerating Very Deep Neural Networks
         </a>
     </li>
                                     
     <li>
-        <a href="../../The Theory/Do Better ImageNet Models Transfer Better/" class="dropdown-item">
+        <a href="../../The_theory/Do Better ImageNet Models Transfer Better/" class="dropdown-item">
             Do Better ImageNet Models Transfer Better?
         </a>
     </li>
                                     
     <li>
-        <a href="../../The Theory/FreeAnchor_Learning_to_Match_Anchors_for_Visual_Object_Detection/" class="dropdown-item">
+        <a href="../../The_theory/FreeAnchor_Learning_to_Match_Anchors_for_Visual_Object_Detection/" class="dropdown-item">
             FreeAnchor
         </a>
     </li>
                                     
     <li>
-        <a href="../../The Theory/Localization-aware Channel Pruning for Object Detection/" class="dropdown-item">
+        <a href="../../The_theory/Localization-aware Channel Pruning for Object Detection/" class="dropdown-item">
             Localization-aware Channel Pruning
         </a>
     </li>
                                     
     <li>
-        <a href="../../The Theory/Rethinking ImageNet Pre-training/" class="dropdown-item">
+        <a href="../../The_theory/Rethinking ImageNet Pre-training/" class="dropdown-item">
             Rethinking ImageNet Pre-training
         </a>
     </li>
                                     
     <li>
-        <a href="../../The Theory/ShuffleNet_V2:_Practical_Guidelines_for_Efficient_CNN_Architecture_Design/" class="dropdown-item">
+        <a href="../../The_theory/ShuffleNet_V2:_Practical_Guidelines_for_Efficient_CNN_Architecture_Design/" class="dropdown-item">
             ShuffleNet V2
         </a>
     </li>
                                     
     <li>
-        <a href="../../The Theory/UNDERSTANDING DEEP LEARNING REQUIRES RETHINKING GENERALIZATION/" class="dropdown-item">
+        <a href="../../The_theory/UNDERSTANDING DEEP LEARNING REQUIRES RETHINKING GENERALIZATION/" class="dropdown-item">
             Understanding Deep Learning Requires Rethinking Generalization
         </a>
     </li>
                                     
     <li>
-        <a href="../../The Theory/compondingTechforCNN/" class="dropdown-item">
+        <a href="../../The_theory/compondingTechforCNN/" class="dropdown-item">
             Assembled Techniques for CNN
         </a>
     </li>
@@ -1009,6 +1009,7 @@
 
         
             <li class="nav-item main"><a href="#recent-collections-for-stereo-3d-detection">Recent Collections for Stereo 3D detection</a></li>
+            <li class="nav-item main"><a href="#cg-stereo">CG-stereo</a></li>
             <li class="nav-item main"><a href="#pseudo-lidar">Pseudo-Lidar++</a></li>
             <li class="nav-item main"><a href="#zoomnet">ZoomNet</a></li>
             <li class="nav-item main"><a href="#oc-stereo">OC Stereo</a></li>
@@ -1025,7 +1026,7 @@
 </span>
 <h1 id="recent-collections-for-stereo-3d-detection">Recent Collections for Stereo 3D detection</h1>
 <p>近期积攒了一系列双目3D检测paper的阅读。这里一次过进行记录,以结果排列为顺序。</p>
-<p>这里列出目前有文章可寻的KITTI排行榜(2020.03.04)</p>
+<p>这里列出目前有文章可寻的KITTI排行榜(2020.03.15)</p>
 <table>
 <thead>
 <tr>
@@ -1038,11 +1039,18 @@
 </thead>
 <tbody>
 <tr>
+<td><a href="#cg-stereo">CG-Stereo</a></td>
+<td align="center">53.58 %</td>
+<td align="center">74.39 %</td>
+<td align="center">46.50 %</td>
+<td align="center">0.57 s</td>
+</tr>
+<tr>
 <td><a href="../DSGN/">DSGN</a></td>
 <td align="center">52.18 %</td>
 <td align="center">73.50 %</td>
 <td align="center">45.14 %</td>
-<td align="center">0.67</td>
+<td align="center">0.67 s</td>
 </tr>
 <tr>
 <td><a href="#pseudo-lidar">Pseudo-LiDAR++</a></td>
@@ -1088,6 +1096,14 @@
 </tr>
 </tbody>
 </table>
+<h1 id="cg-stereo">CG-stereo</h1>
+<p><a href="https://arxiv.org/pdf/2003.05505v1.pdf">pdf</a>
+<img alt="image" src="../res/CG-Stereo_arch.png" />
+这篇paper来自于 Jason Ku那一组，是目前(2020.03.15)Stereo的SOTA，给pseudo-lidar系列提供了两个很有效的idea。</p>
+<p>首先是双目估计中，forground与background的特性差距是很大的，作者认为应当使用两个分别的decoder处理前景与背景的物体，分叉的依据是语义分割的结果。
+<img alt="image" src="../res/CG_stereo_splitdecode.png" />
+其次是双目估计得到的点之中有很多的噪音，不同点的confidence不同，对后端点云的影响很大，作者这里根据stereo matching的一个confidence map作为一个attention 层输入到点云后端处理中。</p>
+<p><img alt="image" src="../res/CG-stereo_confidence.png" /></p>
 <h1 id="pseudo-lidar">Pseudo-Lidar++</h1>
 <p><a href="https://arxiv.org/pdf/1906.06310.pdf">pdf</a>  <a href="https://github.com/mileyan/Pseudo_Lidar_V2">code</a></p>
 <p><img alt="image" src="../res/plidarpp_arch.png" /></p>
