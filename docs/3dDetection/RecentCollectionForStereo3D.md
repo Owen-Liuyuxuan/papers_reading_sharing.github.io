@@ -1,21 +1,37 @@
-time: 20200304
+time: 20200315
 short_title: Recent Collections for Stereo 3D
 
 # Recent Collections for Stereo 3D detection
 
 近期积攒了一系列双目3D检测paper的阅读。这里一次过进行记录,以结果排列为顺序。
 
-这里列出目前有文章可寻的KITTI排行榜(2020.03.04)
+这里列出目前有文章可寻的KITTI排行榜(2020.03.15)
 
 | Methods          | Moderate |   Easy  |   Hard  |  Time  |
 |------------------|:--------:|:-------:|:-------:|:------:|
-| [DSGN]           |  52.18 % | 73.50 % | 45.14 % |  0.67  |
+| [CG-Stereo]      |  53.58 % | 74.39 % | 46.50 % |  0.57 s|
+| [DSGN]           |  52.18 % | 73.50 % | 45.14 % |  0.67 s|
 | [Pseudo-LiDAR++] |  42.43 % | 61.11 % | 36.99 % |  0.4 s |
 | [ZoomNet]        |  38.64 % | 55.98 % | 30.97 % |  0.3 s |
 | [OC Stereo]      |  37.60 % | 55.15 % | 30.25 % | 0.35 s |
 | [Pseudo-Lidar]   |  34.05 % | 54.53 % | 28.25 % |  0.4 s |
 | [Stereo R-CNN]   |  30.23 % | 47.58 % | 23.72 % |  0.3 s |
 | [RT3DStereo]     |  23.28 % | 29.90 % | 18.96 % | 0.08 s |
+
+# CG-stereo
+[pdf](https://arxiv.org/pdf/2003.05505v1.pdf)
+![image](res/CG-Stereo_arch.png)
+这篇paper来自于 Jason Ku那一组，是目前(2020.03.15)Stereo的SOTA，给pseudo-lidar系列提供了两个很有效的idea。
+
+首先是双目估计中，forground与background的特性差距是很大的，作者认为应当使用两个分别的decoder处理前景与背景的物体，分叉的依据是语义分割的结果。
+![image](res/CG_stereo_splitdecode.png)
+其次是双目估计得到的点之中有很多的噪音，不同点的confidence不同，对后端点云的影响很大，作者这里根据stereo matching的一个confidence map作为一个attention 层输入到点云后端处理中。
+
+![image](res/CG-stereo_confidence.png)
+
+
+
+
 
 # Pseudo-Lidar++
 [pdf](https://arxiv.org/pdf/1906.06310.pdf)  [code](https://github.com/mileyan/Pseudo_Lidar_V2)
@@ -86,7 +102,7 @@ short_title: Recent Collections for Stereo 3D
 
 
 
-
+[CG-Stereo]:#cg-stereo
 [DSGN]:DSGN.md
 [Pseudo-LiDAR++]:#pseudo-lidar
 [ZoomNet]:#zoomnet

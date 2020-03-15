@@ -6,7 +6,7 @@ code_source: https://github.com/open-mmlab/mmdetection
 
 这一页面主要为了收集mmdetection中提供实现的论文。这里收集或者提供链接的主要是相对冷门的paper，主流的如Faster-RCNN以及Retinanet不会再重复。
 
-其余有实现，并记录在本网站其他地方的有[FCOS](FCOS.md), [FreeAnchor](../../The%20Theory/FreeAnchor_Learning_to_Match_Anchors_for_Visual_Object_Detection.md)
+其余有实现，并记录在本网站其他地方的有[FCOS](FCOS.md), [FreeAnchor](../../The_Theory/FreeAnchor_Learning_to_Match_Anchors_for_Visual_Object_Detection.md)
 
 # Single Stage Methods
 
