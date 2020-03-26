@@ -1,9 +1,15 @@
-time:20191231
+time:20200326
 pdf_source: https://arxiv.org/pdf/1912.04488.pdf
+code_source: https://github.com/aim-uofa/AdelaiDet
 short_title: SOLO for instance Seg
 # SOLO: Segmenting Objects by Locations
 
 这篇文章用一个比较简单的方法实现instance segmentation，思路在于将图片分为$S\times S$个小grid，然后假设每一个grid里面同类物体只有一个instance，然后要求分类任务输出的结果里面带有"位置类".从而将不同位置的结果分离出来
+
+Update: 2020/03/26:
+
+作者组推出[SOLOv2](#solov2):
+[pdf](https://arxiv.org/pdf/2003.10152v1.pdf)
 
 ## Framework
 
@@ -36,6 +42,39 @@ $$
 由于要分类$S^2$，这个channel数太大了，同时有很大冗余，因而转而让网络将$X, Y$上的bin分别分类，inference的时候让对应行列的sigmoid相乘
 
 ![image](res/SOLO_decoupled_head.png)
+
+
+# SOLOv2
+
+performance:
+
+![image](res/SOLOv2_performance.png)
+
+提升在于三个问题
+
+1. 对稀疏的Mask prediction 使用dynamic head进行优化
+2. 充分利用FPN融合多尺度
+3. Matrix NMS
+
+
+## Dynamic head
+
+![image](res/SOLOv2_dynamichead.png)
+
+Dynamic head的算法来说，就是让网络单独训练一个卷积核用于最后一步的 $1\times 1$卷积。
+
+直觉如此：观察原来的SOLO，$S\times S$个Mask这样的预测是很稀疏的，只有部分有用，不如train一个动态的$1\times 1$ or $3\times 3$卷积核学会从里面网络中分开不同位置的结果(注意这个卷积核的生成过程的感受野是全图)。(稍稍有一点诡异不过可以接受)。
+
+## Mask Feature prediction
+
+![image](res/SOLOv2_maskFeature.png)
+简单来说就是用[Coord Conv]计算后上采样所有scale的特征，求和，然后$1\times 1$卷积得到最终输出
+
+## Matrix NMS
+
+采用的概念是 SoftNMS的概念，也就是根据重合的框的IOU与概率 进一步降低 低score box的score的做法。这里在后面NMS时，用IoU的函数替代概率值，因而decay scale只与IoU有关
+
+![image](res/SOLOv2_matrixNMS.png)
 
 
 [Dice Loss]:https://github.com/hubutui/DiceLoss-PyTorch
