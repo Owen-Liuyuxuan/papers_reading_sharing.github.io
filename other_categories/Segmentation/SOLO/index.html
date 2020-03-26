@@ -1036,6 +1036,11 @@
         
 
         
+        <a href=https://github.com/aim-uofa/AdelaiDet>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
+        </a>
+
+        
             <li class="nav-item main"><a href="#solo-segmenting-objects-by-locations">SOLO: Segmenting Objects by Locations</a></li>
                 <li class="nav-item">
                     <a href="#framework" class="nav-link">Framework</a>
@@ -1049,6 +1054,16 @@
                 <li class="nav-item">
                     <a href="#decoupled-solo" class="nav-link">Decoupled SOLO</a>
                 </li>
+            <li class="nav-item main"><a href="#solov2">SOLOv2</a></li>
+                <li class="nav-item">
+                    <a href="#dynamic-head" class="nav-link">Dynamic head</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#mask-feature-prediction" class="nav-link">Mask Feature prediction</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#matrix-nms" class="nav-link">Matrix NMS</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1060,9 +1075,16 @@
 
 
 
+<a href=https://github.com/aim-uofa/AdelaiDet>
+    <i class="fa fa-github"> code</i>
+</a>
+
 </span>
 <h1 id="solo-segmenting-objects-by-locations">SOLO: Segmenting Objects by Locations</h1>
 <p>这篇文章用一个比较简单的方法实现instance segmentation，思路在于将图片分为<script type="math/tex">S\times S</script>个小grid，然后假设每一个grid里面同类物体只有一个instance，然后要求分类任务输出的结果里面带有"位置类".从而将不同位置的结果分离出来</p>
+<p>Update: 2020/03/26:</p>
+<p>作者组推出<a href="#solov2">SOLOv2</a>:
+<a href="https://arxiv.org/pdf/2003.10152v1.pdf">pdf</a></p>
 <h2 id="framework">Framework</h2>
 <p><img alt="image" src="../res/SOLO_framework.png" />
 <img alt="image" src="../res/SOLO_naive_head.png" /></p>
@@ -1083,7 +1105,26 @@ D(\mathbf{p}, \mathbf{q})&=\frac{2 \sum_{x, y}\left(\mathbf{p}_{x, y} \cdot \mat
 <p>仔细观察<script type="math/tex">D(p, q)</script>的公式，可以了解到这是一个类似于IoU的metric,</p>
 <h2 id="decoupled-solo">Decoupled SOLO</h2>
 <p>由于要分类<script type="math/tex">S^2</script>，这个channel数太大了，同时有很大冗余，因而转而让网络将<script type="math/tex">X, Y</script>上的bin分别分类，inference的时候让对应行列的sigmoid相乘</p>
-<p><img alt="image" src="../res/SOLO_decoupled_head.png" /></p></div>
+<p><img alt="image" src="../res/SOLO_decoupled_head.png" /></p>
+<h1 id="solov2">SOLOv2</h1>
+<p>performance:</p>
+<p><img alt="image" src="../res/SOLOv2_performance.png" /></p>
+<p>提升在于三个问题</p>
+<ol>
+<li>对稀疏的Mask prediction 使用dynamic head进行优化</li>
+<li>充分利用FPN融合多尺度</li>
+<li>Matrix NMS</li>
+</ol>
+<h2 id="dynamic-head">Dynamic head</h2>
+<p><img alt="image" src="../res/SOLOv2_dynamichead.png" /></p>
+<p>Dynamic head的算法来说，就是让网络单独训练一个卷积核用于最后一步的 <script type="math/tex">1\times 1</script>卷积。</p>
+<p>直觉如此：观察原来的SOLO，<script type="math/tex">S\times S</script>个Mask这样的预测是很稀疏的，只有部分有用，不如train一个动态的<script type="math/tex">1\times 1</script> or <script type="math/tex">3\times 3</script>卷积核学会从里面网络中分开不同位置的结果(注意这个卷积核的生成过程的感受野是全图)。(稍稍有一点诡异不过可以接受)。</p>
+<h2 id="mask-feature-prediction">Mask Feature prediction</h2>
+<p><img alt="image" src="../res/SOLOv2_maskFeature.png" />
+简单来说就是用<a href="https://github.com/mkocabas/CoordConv-pytorch">Coord Conv</a>计算后上采样所有scale的特征，求和，然后<script type="math/tex">1\times 1</script>卷积得到最终输出</p>
+<h2 id="matrix-nms">Matrix NMS</h2>
+<p>采用的概念是 SoftNMS的概念，也就是根据重合的框的IOU与概率 进一步降低 低score box的score的做法。这里在后面NMS时，用IoU的函数替代概率值，因而decay scale只与IoU有关</p>
+<p><img alt="image" src="../res/SOLOv2_matrixNMS.png" /></p></div>
                     
                 </div>
         </div>
