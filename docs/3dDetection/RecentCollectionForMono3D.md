@@ -73,5 +73,5 @@ Update(2020.04.02):Update scores for YOLOMono3D
 [MonoPair]:#monopair
 [SMOKE]:#smoke
 [YOLOMono3D]:#yolomono3d
-[CenterNet]:../other_categories/object_detection_2D/CenterNet:_Keypoint_Triplets_for_Object_Detection.md
+[CenterNet]:../other_categories/object_detection_2D/Object_as_points.md#object-as-point
 [MonoDIS]:Disentangling_Monocular_3D_Object_Detection.md
