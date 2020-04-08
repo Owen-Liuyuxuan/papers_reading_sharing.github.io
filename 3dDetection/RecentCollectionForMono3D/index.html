@@ -138,6 +138,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/object_detection_2D/Object_as_points/" class="dropdown-item">
+            Detection and Tracking as Point
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/object_detection_2D/SSD/" class="dropdown-item">
             SSD
         </a>
@@ -1161,7 +1167,7 @@ Update(2020.04.02):Update scores for YOLOMono3D</p>
 <p><img alt="image" src="../res/D4LCN.png" /></p>
 <h1 id="rtm3d">RTM3D</h1>
 <p><a href="https://arxiv.org/pdf/2001.03343.pdf">pdf</a> <a href="https://github.com/Banconxuan/RTM3D">code</a></p>
-<p>这篇文章还没有正式开源，但是github就先开着了。这篇文章在技术上有一定的新意，它使用<a href="../../other_categories/object_detection_2D/CenterNet:_Keypoint_Triplets_for_Object_Detection/">CenterNet</a>的架构估计大量的keypoints以及冗余的3D信息，最后通过最优化融合。使用大量冗余信息它不是第一个,前者比如有<a href="../Monocular_3D_Object_Detection_and_Box_Fitting_Trained_End-to-End_Using_Intersection-over-Union_Loss/">SS3D</a>,但是它绕过了anchor使用CenterNet有一定的新意。
+<p>这篇文章还没有正式开源，但是github就先开着了。这篇文章在技术上有一定的新意，它使用<a href="../../other_categories/object_detection_2D/Object_as_points/#object-as-point">CenterNet</a>的架构估计大量的keypoints以及冗余的3D信息，最后通过最优化融合。使用大量冗余信息它不是第一个,前者比如有<a href="../Monocular_3D_Object_Detection_and_Box_Fitting_Trained_End-to-End_Using_Intersection-over-Union_Loss/">SS3D</a>,但是它绕过了anchor使用CenterNet有一定的新意。
 <img alt="image" src="../res/RTM3D_0.png" />
 <img alt="image" src="../res/RTM3D_2.png" /></p>
 <h1 id="monopair">MonoPair</h1>
@@ -1172,7 +1178,7 @@ Update(2020.04.02):Update scores for YOLOMono3D</p>
 <h1 id="smoke">SMOKE</h1>
 <p><a href="https://arxiv.org/pdf/2002.10111v1.pdf">pdf</a></p>
 <p>这篇paper的创新点不算特别多。
-1. 使用了<a href="../../other_categories/object_detection_2D/CenterNet:_Keypoint_Triplets_for_Object_Detection/">CenterNet</a>的架构进行中心点的估计。
+1. 使用了<a href="../../other_categories/object_detection_2D/Object_as_points/#object-as-point">CenterNet</a>的架构进行中心点的估计。
 2. 使用了distangling loss, 这个来自于<a href="../Disentangling_Monocular_3D_Object_Detection/">MonoDIS</a>
 3. 数据增强上使用了shifting等方法，但是只是用来train keypoint热图等结构。属于specialized augmentation for specialized cost.可谓深度调参</p>
 <p><img alt="image" src="../res/SMOKE.png" /></p>
