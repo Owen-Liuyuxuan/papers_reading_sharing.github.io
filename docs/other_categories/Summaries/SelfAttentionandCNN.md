@@ -8,7 +8,7 @@ short_title: Self-Attention & CNN
 
 对于在NLP取得很好表现的self-attention机制，本网站在论文[Attention is all you need](../../Building_Blocks/Attention_is_all_you_need.md)有详细的介绍。
 
-2019年上半年，Google 提出了 [Attention Augmented Convolution](../../Building_Blocks/Attention_Augmented_Conv.md), 这是一个类似[Non-local](../../Building_Blocks/Non-local%20Neural%20Networks.md)模块的思路，借用self-attention的机制加上positional-encoding，设计出一个提供全局attention的模块，这个模块的缺点在于在图片很大的时候会需要一个很大的矩阵乘法，所以这个模块必须只能在多次下采样后使用，且还需要注重显存管理，可以理解为是一个难以scale up的方案。
+2019年上半年，Google 提出了 [Attention Augmented Convolution](../../Building_Blocks/Attention_Augmented_Conv.md), 这是一个类似[Non-local](../../Building_Blocks/Non-local_Neural_Networks.md)模块的思路，借用self-attention的机制加上positional-encoding，设计出一个提供全局attention的模块，这个模块的缺点在于在图片很大的时候会需要一个很大的矩阵乘法，所以这个模块必须只能在多次下采样后使用，且还需要注重显存管理，可以理解为是一个难以scale up的方案。
 
 本文接下来会介绍两篇paper，一篇paper提出了一个轻量级的图片局部attention的模块，用略少于传统Conv的运算与参数，在imagenet和Coco分别得到了与传统CNN几乎一致的性能。另一篇阐述了局部Attention与Convolution的关系，表明Multi-head 局部Attention可以实现传统Convolution的性能。
 

@@ -1,4 +1,4 @@
-time: 20200315
+time: 20200409
 short_title: Recent Collections for Stereo 3D
 
 # Recent Collections for Stereo 3D detection
