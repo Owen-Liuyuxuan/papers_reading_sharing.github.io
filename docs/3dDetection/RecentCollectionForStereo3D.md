@@ -5,18 +5,24 @@ short_title: Recent Collections for Stereo 3D
 
 近期积攒了一系列双目3D检测paper的阅读。这里一次过进行记录,以结果排列为顺序。
 
-这里列出目前有文章可寻的KITTI排行榜(2020.03.15)
+这里列出目前有文章可寻的KITTI排行榜(2020.04.09)
 
-| Methods          | Moderate |   Easy  |   Hard  |  Time  |
-|------------------|:--------:|:-------:|:-------:|:------:|
-| [CG-Stereo]      |  53.58 % | 74.39 % | 46.50 % |  0.57 s|
-| [DSGN]           |  52.18 % | 73.50 % | 45.14 % |  0.67 s|
-| [Pseudo-LiDAR++] |  42.43 % | 61.11 % | 36.99 % |  0.4 s |
-| [ZoomNet]        |  38.64 % | 55.98 % | 30.97 % |  0.3 s |
-| [OC Stereo]      |  37.60 % | 55.15 % | 30.25 % | 0.35 s |
-| [Pseudo-Lidar]   |  34.05 % | 54.53 % | 28.25 % |  0.4 s |
-| [Stereo R-CNN]   |  30.23 % | 47.58 % | 23.72 % |  0.3 s |
-| [RT3DStereo]     |  23.28 % | 29.90 % | 18.96 % | 0.08 s |
+Update:
+    2020.0409: Add Disp-RCNN and PL E2E.
+
+
+| Methods             | Moderate |   Easy  |   Hard  |  Time  |
+|---------------------|:--------:|:-------:|:-------:|:------:|
+| [CG-Stereo]         |  53.58 % | 74.39 % | 46.50 % |  0.57 s|
+| [DSGN]              |  52.18 % | 73.50 % | 45.14 % |  0.67 s|
+| [Pseudo-LiDAR E2E]  |  43.92 % | 64.75 % | 38.14 % |  0.4 s |
+| [Pseudo-LiDAR++]    |  42.43 % | 61.11 % | 36.99 % |  0.4 s |
+| [Disp R-CNN] (velo) |  39.34 % | 59.58 % | 31.99 % |  0.42 s|
+| [ZoomNet]           |  38.64 % | 55.98 % | 30.97 % |  0.3 s |
+| [OC Stereo]         |  37.60 % | 55.15 % | 30.25 % | 0.35 s |
+| [Pseudo-Lidar]      |  34.05 % | 54.53 % | 28.25 % |  0.4 s |
+| [Stereo R-CNN]      |  30.23 % | 47.58 % | 23.72 % |  0.3 s |
+| [RT3DStereo]        |  23.28 % | 29.90 % | 18.96 % | 0.08 s |
 
 # CG-stereo
 [pdf](https://arxiv.org/pdf/2003.05505v1.pdf)
@@ -31,6 +37,22 @@ short_title: Recent Collections for Stereo 3D
 
 
 
+# Pseudo-LiDAR E2E
+[pdf](https://arxiv.org/pdf/2004.03080v1.pdf) [code](https://github.com/mileyan/pseudo-LiDAR_e2e)
+
+这篇paper的贡献非常有意义，提到的是过去的Pseudo-lidar算法基本都是完全的二阶段算法，也就是双目生成点云与点云3D检测之间是无法End2End训练的，中间的转换过程是不可导的，因而尽管可以fine-tune,但是梯度的流动会中断,这篇paper的最大贡献在于提出一个CoR模块使得同时可以训练点云生成以及基于点云的物体检测。
+
+![image](res/PLE2E_arch.png)
+
+$$\boldsymbol{T}\left(m, m^{\prime}\right)=\left\{\begin{array}{cc}
+0 & \text { if }\left|P_{m^{\prime}}\right|=0 \\
+\frac{1}{\left|\boldsymbol{P}_{m^{\prime}}\right|} \sum_{\boldsymbol{p} \in \boldsymbol{P}_{m^{\prime}}} e^{-\frac{\left\|\boldsymbol{p}-\hat{p}_{m}\right\|^{2}}{\sigma^{2}}} & \text { if }\left|P_{m^{\prime}}\right|>0
+\end{array}\right.$$
+
+$$\boldsymbol{T}(m)=\boldsymbol{T}(m, m)+\frac{1}{\left|\mathcal{N}_{m}\right|} \sum_{m^{\prime} \in \mathcal{N}_{m}} \boldsymbol{T}\left(m, m^{\prime}\right)$$
+
+
+voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的加权求和。从而voxel可导
 
 
 # Pseudo-Lidar++
@@ -46,6 +68,13 @@ short_title: Recent Collections for Stereo 3D
 
 作者在KITTI上提交了两个成绩(PL++),标题下面给出的是春双目而没有GDC的成绩，有GDC的成绩会更高一些。
 
+# Disp-RCNN
+[pdf](https://arxiv.org/pdf/2004.03572v1.pdf) [code](https://github.com/zju3dv/disprcnn)
+![image](res/Disp-RCNN_arch.png)
+
+这篇paper的主要不同点在于使用RoIPooling从原图(作者指出不应该从feature中采样，因为Disparity要求邻近像素结果不同，但是Instance Segmentation会要求邻近像素结果相同)中采样,然后从Pooling后的结果重建Disparity以及局部点云(这个模块在数学处理上要小心)，然后使用点云检测输出结果。
+
+这篇paper还有使用pretrained的双目重建网络，得到密集的pseudo Ground Truth Disparity. Loss的构成比较复杂，具体看paper
 
 # ZoomNet
 [pdf](https://arxiv.org/pdf/2003.00529.pdf) [code](https://github.com/detectRecog/ZoomNet)
@@ -104,7 +133,9 @@ short_title: Recent Collections for Stereo 3D
 
 [CG-Stereo]:#cg-stereo
 [DSGN]:DSGN.md
+[Pseudo-LiDAR E2E]:#pseudo-lidar-e2e
 [Pseudo-LiDAR++]:#pseudo-lidar
+[Disp R-CNN]:#disp-rcnn
 [ZoomNet]:#zoomnet
 [OC Stereo]:#oc-stereo
 [Pseudo-Lidar]:#pseudo-lidar_1

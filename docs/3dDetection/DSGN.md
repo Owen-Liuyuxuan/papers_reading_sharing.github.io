@@ -1,5 +1,5 @@
 short_title:DSGN
-time: 20200218
+time: 20200409
 pdf_source: https://arxiv.org/pdf/2001.03398.pdf
 code_source: https://github.com/chenyilun95/DSGN
 
@@ -8,6 +8,9 @@ code_source: https://github.com/chenyilun95/DSGN
 这篇论文不同于此前的使用Pseudo-lidar的方式，采用了类似于plane-sweeping 的思路。将双目图像转换为三维坐标下的信息。
 
 在总体上来说计算确实很暴力，inference也很慢，但是它的结构能让它同时进行双目深度估计，也可以读取点云作为辅助的监督信息，并经过测试能提升模型性能。
+
+Update:
+    20200409: 作者已经开源，里面有CostVolume的cuda实现，值得关注学习
 
 ## Pipeline
 
