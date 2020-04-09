@@ -13,10 +13,12 @@ short_title: Detection and Tracking as Point
 
 这篇paper的keypoint检测部分与[CornerNet](CornerNet_Detecting_Objects_as_Paired_Keypoints.md)是一致的,但是正样本的定义有区别，最靠近物体中心的点会被标记为正样本，使用一个高斯核，根据物体大小smooth out 分类网络的负样本惩罚.
 
-$$L_{k}=\frac{1}{N} \sum_{x y c}\left\{\begin{array}{ll}
+$$L_{k}=\frac{-1}{N} \sum_{x y c}\left\{\begin{array}{ll}
 \left(1-\hat{Y}_{x y c}\right)^{\alpha} \log \left(\hat{Y}_{x y c}\right) & \text { if } Y_{x y c}=1 \\
 \left(1-Y_{x y c}\right)^{\beta}\left(\hat{Y}_{x y c}\right)^{\alpha} \log \left(1-\hat{Y}_{x y c}\right) & \text { otherwise }
 \end{array}\right.$$
+
+**注意CenterTrack的公式是有bug的，漏一个一个负号,血泪教训**
 
 对于2D框的长宽以及cx cy,不normalize,直接L1loss回归raw pixel coordinates,选择scale loss(也就是说输出的数值会很大，但是loss会比较正常)
 
