@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Lookahead Optimizer:ksteps forward, 1 step back - Reading Collections</title>
+        <title>New Optimizers - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -792,7 +792,7 @@
                                     
     <li>
         <a href="./" class="dropdown-item active">
-            Lookahead Optimizer
+            New Optimizers
         </a>
     </li>
                                     
@@ -1090,12 +1090,18 @@
         
 
         
-        <a href=https://github.com/alphadl/lookahead.pytorch>
+        <a href=https://github.com/lessw2020/Ranger-Deep-Learning-Optimizer>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
         </a>
 
         
-            <li class="nav-item main"><a href="#lookahead-optimizerksteps-forward-1-step-back">Lookahead Optimizer:ksteps forward, 1 step back</a></li>
+            <li class="nav-item main"><a href="#new-optimizers">New Optimizers</a></li>
+                <li class="nav-item">
+                    <a href="#lookahead-optimizerksteps-forward-1-step-back" class="nav-link">Lookahead Optimizer:ksteps forward, 1 step back</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#gradient-centralization-a-new-optimization-technique-for-deep-neural-networks" class="nav-link">Gradient Centralization: A New Optimization Technique for Deep Neural Networks</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1107,14 +1113,27 @@
 
 
 
-<a href=https://github.com/alphadl/lookahead.pytorch>
+<a href=https://github.com/lessw2020/Ranger-Deep-Learning-Optimizer>
     <i class="fa fa-github"> code</i>
 </a>
 
 </span>
-<h1 id="lookahead-optimizerksteps-forward-1-step-back">Lookahead Optimizer:ksteps forward, 1 step back</h1>
+<h1 id="new-optimizers">New Optimizers</h1>
+<p>目录中的代码仓库指向Ranger库，是一个融合了多个optimizer的库。各篇文章有自己的官方开源库。</p>
+<h2 id="lookahead-optimizerksteps-forward-1-step-back">Lookahead Optimizer:ksteps forward, 1 step back</h2>
+<p><a href="https://arxiv.org/pdf/1907.08610.pdf">pdf</a> <a href="https://github.com/alphadl/lookahead.pytorch">code</a></p>
 <p><img alt="image" src="../res/look_ahead_optimizer.png" /></p>
-<p>本质上来说就是保存两套参数值，用一套参数值正常更新N步(每变一次需要使用新的权值计算更新方向)，然后用第二套参数往最终这N步的总更新方向走一步</p></div>
+<p>本质上来说就是保存两套参数值，用一套参数值正常更新N步(每变一次需要使用新的权值计算更新方向)，然后用第二套参数往最终这N步的总更新方向走一步</p>
+<h2 id="gradient-centralization-a-new-optimization-technique-for-deep-neural-networks">Gradient Centralization: A New Optimization Technique for Deep Neural Networks</h2>
+<p><a href="https://arxiv.org/pdf/2004.01461v2.pdf">pdf</a> <a href="https://github.com/Yonghongwei/Gradient-Centralization">code</a></p>
+<p>计算方式很简单，就是计算graident之后，在update之前normalize全局gradient</p>
+<div class="codehilite"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]:</span>
+    <span class="n">d_p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">d_p</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="o">-</span><span class="n">d_p</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">d_p</span><span class="o">.</span><span class="n">size</span><span class="p">())))),</span> <span class="n">keepdim</span> <span class="o">=</span> <span class="bp">True</span><span class="p">))</span>
+</pre></div>
+
+
+<p>这种训练方式要求网络的权重的均值一直是不变的，也就是regularize了权重的搜索空间.作者也证明这种写法会regularize feature output space.但是kaiming init 还有imagenet pretrained的权重值都不会太大，所以这个regularization不会轻易崩。</p></div>
                     
                 </div>
         </div>
