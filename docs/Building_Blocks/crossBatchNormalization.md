@@ -40,4 +40,4 @@ $$
 
 本文后面给出了一个efficient的梯度算法，但是代码里直接使用的是torch.autograd.grad的API。
 
-[SyncBatchnorm]:(https://github.com/vacancy/Synchronized-BatchNorm-PyTorch)
+[SyncBatchnorm]:https://github.com/vacancy/Synchronized-BatchNorm-PyTorch
