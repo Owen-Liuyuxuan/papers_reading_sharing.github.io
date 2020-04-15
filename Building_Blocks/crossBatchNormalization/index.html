@@ -1121,7 +1121,7 @@
 <h1 id="cross-iteration-batch-normalization">Cross-Iteration Batch Normalization</h1>
 <p>这篇文章引入了一个新的模块，称为跨迭代的batchnorm, 这个模块的源码在其github项目的 ./mmdet/models/utils/CBN.py 找得到.</p>
 <h2 id="motivation">Motivation</h2>
-<p>BatchNormalization的一个问题就是在batchsize比较小的时候效果比较差. 后来发明了<a href="(https://github.com/vacancy/Synchronized-BatchNorm-PyTorch)">SyncBatchnorm</a>来进行跨GPU的batchnorm计算。本文进一步提出，使用多次迭代的结果帮助batchnorm。</p>
+<p>BatchNormalization的一个问题就是在batchsize比较小的时候效果比较差. 后来发明了<a href="https://github.com/vacancy/Synchronized-BatchNorm-PyTorch">SyncBatchnorm</a>来进行跨GPU的batchnorm计算。本文进一步提出，使用多次迭代的结果帮助batchnorm。</p>
 <p>直觉上来说,尽管由于网络权重变化速度不快，但是相邻的迭代过程中，expected mean and variance还是在变化的。本文借助一些低阶近似，对权重变化做了简要的分析，给出了CBN模块。</p>
 <p><img alt="image" src="../res/CBN_performance.png" /></p>
 <h2 id="cbn-algorithm">CBN Algorithm</h2>
