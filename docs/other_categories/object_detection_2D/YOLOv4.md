@@ -34,10 +34,10 @@ CSP网络来自于作者的前一批工作。
 
 这里补充结果trick的简介的链接。
 
-[DropBlock](../../The_theory/compondingTechforCNN/#dropblock);
-[MixUp](BoFDetection/#image-mixup);
-[label-smoothing](BoFDetection.md/#classification-head-label-smoothing);
-[Focal loss](../../3dDetection/Disentangling_Monocular_3D_Object_Detection/#_2);
+[DropBlock](../../The_theory/compondingTechforCNN.md);
+[MixUp](BoFDetection.md);
+[label-smoothing](BoFDetection.md);
+[Focal loss](../../3dDetection/Disentangling_Monocular_3D_Object_Detection.md);
 [GIoU](../../3dDetection/GeneralizedIoU.md);
 [DIoU and CIoU](DIoULoss.md)
 
