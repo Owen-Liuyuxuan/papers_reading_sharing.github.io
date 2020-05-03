@@ -10,7 +10,7 @@ short_title: FADNet
 
 ![image](res/FADNet_arch.png)
 
-DispNetC中使用了correlation 层，对右图水平方向上平移D个位置，以每一个左右图对应像素为中心附近patch各自求点乘的累加
+模仿了DispNet的结构，dispnet则基于[FlowNet](flownet.md).其中使用了correlation 层，对右图水平方向上平移D个位置，以每一个左右图对应像素为中心附近patch各自求点乘的累加
 
 $$c\left(\mathbf{x}_{1}, \mathbf{x}_{2}\right)=\sum_{\mathbf{o} \in[-k, k] \times[-k, k]}\left\langle\mathbf{f}_{1}\left(\mathbf{x}_{1}+\mathbf{o}\right), \mathbf{f}_{2}\left(\mathbf{x}_{2}+\mathbf{o}\right)\right\rangle$$
 
