@@ -493,6 +493,12 @@
     </li>
               
     <li>
+        <a href="../flownet/" class="dropdown-item">
+            FlowNet & More
+        </a>
+    </li>
+              
+    <li>
         <a href="../openpose_part_afinity_fileds/" class="dropdown-item">
             OpenPose: Part Affinity Fields
         </a>
@@ -1149,7 +1155,7 @@
 <p>这篇paper介绍了一个实时的快速的disparity estimation网络，与<a href="../PSMNet/">PSMNet</a>对比，显存消耗显著减小，同时一帧双目速度达到18.7ms，略微惊人。</p>
 <h2 id="architecture">architecture</h2>
 <p><img alt="image" src="../res/FADNet_arch.png" /></p>
-<p>DispNetC中使用了correlation 层，对右图水平方向上平移D个位置，以每一个左右图对应像素为中心附近patch各自求点乘的累加</p>
+<p>模仿了DispNet的结构，dispnet则基于<a href="../flownet/">FlowNet</a>.其中使用了correlation 层，对右图水平方向上平移D个位置，以每一个左右图对应像素为中心附近patch各自求点乘的累加</p>
 <p>
 <script type="math/tex; mode=display">c\left(\mathbf{x}_{1}, \mathbf{x}_{2}\right)=\sum_{\mathbf{o} \in[-k, k] \times[-k, k]}\left\langle\mathbf{f}_{1}\left(\mathbf{x}_{1}+\mathbf{o}\right), \mathbf{f}_{2}\left(\mathbf{x}_{2}+\mathbf{o}\right)\right\rangle</script>
 </p>
