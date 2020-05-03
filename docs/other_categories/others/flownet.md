@@ -22,3 +22,4 @@ $$c\left(\mathbf{x}_{1}, \mathbf{x}_{2}\right)=\sum_{\mathbf{o} \in[-k, k] \time
 
 ![image](res/flownet_v2.png)
 
+FlowNetC与第一paper的一致。而FlowNetS则为直接的encoder-decoder.
