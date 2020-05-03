@@ -32,6 +32,11 @@ def build_corr(img_left, img_right, max_disp=40):
     return volume
 ```
 
+第二部分采用的是与[FlowNetV2](flownet.md)一致的思路，将右图重采样到左图. 
+```python
+inputs_net2 = torch.cat((inputs, resampled_img1, dispnetc_final_flow, norm_diff_img0), dim = 1)
+```
+
 
 
 
