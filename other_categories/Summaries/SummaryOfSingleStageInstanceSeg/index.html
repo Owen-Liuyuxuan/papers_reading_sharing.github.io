@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>Aaaaa - Reading Collections</title>
+        <title>Summary of Single Stage Instance Segmentation - Reading Collections</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
@@ -348,37 +348,37 @@
       <ul class="dropdown-menu">
               
     <li>
-        <a href="../../Summaries/MachineLearningForRobotPlanningAndContrlGeorgiaTech/" class="dropdown-item">
+        <a href="../MachineLearningForRobotPlanningAndContrlGeorgiaTech/" class="dropdown-item">
             Robotics_DL Lecture from georgia Tech
         </a>
     </li>
               
     <li>
-        <a href="../../Summaries/SelfAttentionandCNN/" class="dropdown-item">
+        <a href="../SelfAttentionandCNN/" class="dropdown-item">
             Self-Attention & CNN
         </a>
     </li>
               
     <li>
-        <a href="../../Summaries/SummaryOfMono3DDetection_in2019/" class="dropdown-item">
+        <a href="../SummaryOfMono3DDetection_in2019/" class="dropdown-item">
             Summary of Mono 3D Detection in 2019
         </a>
     </li>
               
     <li>
-        <a href="../../Summaries/SummaryOfSingleStageInstanceSeg/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             Summary of Single Stage Instance Segmentation
         </a>
     </li>
               
     <li>
-        <a href="../../Summaries/Summary_of_serveral_cvpr2020/" class="dropdown-item">
+        <a href="../Summary_of_serveral_cvpr2020/" class="dropdown-item">
             CVPR 2020 clips
         </a>
     </li>
               
     <li>
-        <a href="../../Summaries/Summary_of_several_iccv2019/" class="dropdown-item">
+        <a href="../Summary_of_several_iccv2019/" class="dropdown-item">
             ICCV 2019 Clips
         </a>
     </li>
@@ -1098,12 +1098,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../Visual-based Autonomous Driving Deployment from a Stochastic andUncertainty-aware Perspective/" class="nav-link">
+                                <a rel="prev" href="../SummaryOfMono3DDetection_in2019/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../depth_completion/Sparse and noisy LiDAR completion with RGB guidance and uncertainty/" class="nav-link">
+                                <a rel="next" href="../Summary_of_serveral_cvpr2020/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -1128,6 +1128,13 @@
         
 
         
+            <li class="nav-item main"><a href="#summary-of-single-stage-instance-segmentation">Summary of Single Stage Instance Segmentation</a></li>
+                <li class="nav-item">
+                    <a href="#local-mask" class="nav-link">Local Mask</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#global-mask" class="nav-link">Global Mask</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1136,7 +1143,19 @@
 
 
 </span>
-<p>收集了未完成的手稿，但是很多标题对应的论文都值得一看</p></div>
+<h1 id="summary-of-single-stage-instance-segmentation">Summary of Single Stage Instance Segmentation</h1>
+<p>这篇文章主要是根据Medium上一个博主的<a href="https://towardsdatascience.com/single-stage-instance-segmentation-a-review-1eeb66e0cc49">review</a>.</p>
+<p>这个review在分类上将单阶段实例分割分为基于local mask与global mask</p>
+<h2 id="local-mask">Local Mask</h2>
+<p>local mask指输出一个个bounding box，并且对局部instance的contour或者mask进行编码与预测。文中提到了多篇paper，其中<a href="../../Segmentation/TensorMask:_A_Foundation_for_Dense_Object_Segmentation/">TensorMask</a>, <a href="../../Segmentation/PolorMask/">PolarMask</a> 是本网站已经有简介的paper.这里进行一些补充</p>
+<h3 id="fourier-net">Fourier Net</h3>
+<p><a href="https://arxiv.org/pdf/2002.02709.pdf">pdf</a> <a href="https://github.com/cogsys-tuebingen/FourierNet">code</a></p>
+<p><img alt="image" src="../res/fouriernet_idea.png" />
+这篇paper代码以及思想上基于PolarMask,对于这一周射线的长度，我们只需要预测其傅里叶变换值的前<script type="math/tex">M</script>项，这个<script type="math/tex">M</script>决定网络训练的超参，这种方法得到的输出一般来说比PolarMask同等参数量的结果更加精细。但是这篇paper的作者没有train出一个令人信服的点数。
+<script type="math/tex; mode=display">p_{n, i}=\frac{1}{N} \sum_{k=0}^{N-1} x_{k, i} e^{\frac{j 2 \pi k n}{N}}</script>
+</p>
+<h2 id="global-mask">Global Mask</h2>
+<p>global mask指网络直接输出整个图大小的mask，并后期进行整合或者组合以形成每一个object的mask。文中提到了多篇paper，最近SOTA水平的主要为其中的<a href="../../Segmentation/YOLACT/">YOLOACT</a>,<a href="../../Segmentation/SOLO/">SOLO</a>，本网站也有相关的介绍。</p></div>
                     
                 </div>
         </div>
