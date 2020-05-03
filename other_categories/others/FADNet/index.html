@@ -1173,6 +1173,11 @@
 
     <span class="n">volume</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">volume</span>
+</pre></div>
+
+
+<p>第二部分采用的是与<a href="../flownet/">FlowNetV2</a>一致的思路，将右图重采样到左图. </p>
+<div class="codehilite"><pre><span></span><span class="n">inputs_net2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">inputs</span><span class="p">,</span> <span class="n">resampled_img1</span><span class="p">,</span> <span class="n">dispnetc_final_flow</span><span class="p">,</span> <span class="n">norm_diff_img0</span><span class="p">),</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div></div>
                     
                 </div>
