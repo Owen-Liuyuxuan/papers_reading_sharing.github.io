@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>Trust Region Policy Optimization - Reading Collections</title>
+        <title>R2D2: Repeatable and Reliable Detector and Descriptor - Reading Collections</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
@@ -475,7 +475,7 @@
     </li>
               
     <li>
-        <a href="../R2D2/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             R2D2
         </a>
     </li>
@@ -493,7 +493,7 @@
     </li>
               
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../TRPO/" class="dropdown-item">
             Trust Region Policy Optimization
         </a>
     </li>
@@ -1104,12 +1104,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../SomePapersOnDifferentiableCvxOpt/" class="nav-link">
+                                <a rel="prev" href="../PointFlow : 3D Point Cloud Generation with Continuous Normalizing Flows/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../Unsupervised_depth_prediction/" class="nav-link">
+                                <a rel="next" href="../SPM_SPR/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -1132,104 +1132,55 @@
         
         <ul class="nav flex-column bs-sidenav">
         
-        <a href=https://arxiv.org/pdf/1502.05477.pdf>
+        <a href=https://papers.nips.cc/paper/9407-r2d2-reliable-and-repeatable-detector-and-descriptor.pdf>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
         </a>
         
 
         
-        <a href=https://github.com/pat-coady/trpo>
+        <a href=https://github.com/naver/r2d2>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
         </a>
 
         
-            <li class="nav-item main"><a href="#trust-region-policy-optimization">Trust Region Policy Optimization</a></li>
+            <li class="nav-item main"><a href="#r2d2-repeatable-and-reliable-detector-and-descriptor">R2D2: Repeatable and Reliable Detector and Descriptor</a></li>
                 <li class="nav-item">
-                    <a href="#motivation" class="nav-link">数学上的Motivation</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#_1" class="nav-link">算法数学描述</a>
+                    <a href="#_1" class="nav-link">网络结构</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
-<a href=https://arxiv.org/pdf/1502.05477.pdf>
+<a href=https://papers.nips.cc/paper/9407-r2d2-reliable-and-repeatable-detector-and-descriptor.pdf>
     <i class="fa fa-file-pdf-o"> pdf</i>
 </a>
 
 
 
-<a href=https://github.com/pat-coady/trpo>
+<a href=https://github.com/naver/r2d2>
     <i class="fa fa-github"> code</i>
 </a>
 
 </span>
-<h1 id="trust-region-policy-optimization">Trust Region Policy Optimization</h1>
-<p>这篇论文是经典的强化学习论文，直觉的motivation来说就是在强化学习训练的过程中噪音很大，很容易崩溃，所以这里会尝试限制一个Trust Region，模仿相关优化问题的思路进行控制。其实本文后续有一篇implementation更intuitive的<a href="https://arxiv.org/abs/1707.06347">PPO</a>.</p>
-<p>本文在Spinningup上有很优秀的<a href="https://spinningup.openai.com/en/latest/algorithms/trpo.html">官方介绍</a>，本页主要通过中文翻译+结合论文与其他资料进行补充。</p>
-<p>本文有对应的pytorch开源代码,<a href="https://github.com/ikostrikov/pytorch-trpo">链接</a></p>
-<h2 id="motivation">数学上的Motivation</h2>
-<p>为什么强化学习在训练过程中噪音这么严重？数学上可以归纳为以下的公式说明。对于当前以及最优的policy之间的expected cost的差别，准确的公式是:</p>
+<h1 id="r2d2-repeatable-and-reliable-detector-and-descriptor">R2D2: Repeatable and Reliable Detector and Descriptor</h1>
+<p>这篇paper在输出keypoints的时候输出两个分支预测其重复性以及可靠性。paper的主要贡献有两点，第一在于判断认为有必要将可靠性与可重复性分成两个单独的metrics进行预测，且使用不同的训练方式。第二在于使用metric learning训练可靠性与准确度(不算独创但是属于有效的融合)</p>
+<h2 id="_1">网络结构</h2>
+<p><img alt="image" src="../res/r2d2_arch.png" /></p>
+<h3 id="_2">可重复性</h3>
+<p>可重复性这里与其他做法相似，选择的是自监督学习的方法。</p>
+<p>对于两张已知correspondence的图，损失的目的是让两张图对应的部分有较高的相似度(cosine similarity)，</p>
 <p>
-<script type="math/tex; mode=display">
-\eta(\tilde\pi) = \eta(\pi) + \sum_s\rho_{\tilde\pi}(s)\sum_s\tilde\pi(a|s)A_\pi(s,a)
-</script>
+<script type="math/tex; mode=display">\mathcal{L}_{\operatorname{cosim}}\left(I, I^{\prime}, U\right)=1-\frac{1}{|\mathcal{P}|} \sum_{p \in \mathcal{P}} \operatorname{cosim}\left(\boldsymbol{S}[p], \boldsymbol{S}_{U}^{\prime}[p]\right)</script>
 </p>
-<p>但是由于没有办法用optimal policy进行sample.所以一般实际操作的时候只能用当前的policy对路径进行采样，得到</p>
+<p>这会有一个trivial的解就是所有值为常数，所以给出一个补充的损失函数要求提升区域内最大值与均值的差</p>
 <p>
-<script type="math/tex; mode=display">
-L_\pi(\tilde\pi) = \eta(\pi) + \sum_s\rho_{\pi}(s)\sum_s\tilde\pi(a|s)A_\pi(s,a)
-</script>
+<script type="math/tex; mode=display">\mathcal{L}_{\text {peaky}}(I)=1-\frac{1}{|\mathcal{P}|} \sum_{p \in \mathcal{P}}\left(\max _{(i, j) \in p} \boldsymbol{S}_{i j}-\operatorname{mean}_{(i, j) \in p} \boldsymbol{S}_{i j}\right)</script>
 </p>
-<h2 id="_1">算法数学描述</h2>
-<p>优化问题描述:</p>
-<p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-    \theta_{k+1} = &\argmax_\theta \mathcal{L}(\theta_k,\theta) \\
-    &s.t. D_{KL}(\theta||\theta_k) \le \delta
-\end{aligned}
-</script>
-</p>
-<p>其中<script type="math/tex">\mathcal{L}(\theta_k,\theta)</script>含义与前文基本一致，具体来说是
-<script type="math/tex; mode=display">
-    \mathcal{L}(\theta_k,\theta) = E_{s,a~\pi_{\theta_k}}[\frac{\pi_\theta(a|s)}{\pi_{\theta_k}(a|s)}A^{\pi_{\theta_k}}(s,a)]
-</script>
-<script type="math/tex; mode=display">
-D_{KL}(\theta||\theta_k) = E_{s~\pi_{\theta_k}}[D_{KL}(\pi_\theta(·|s) ||\pi_{\theta_k}(·|s)  )]
-</script>
-其中KL divergence的定义请查阅<a href="https://www.wikiwand.com/en/Kullback%E2%80%93Leibler_divergence">wiki</a>
-<script type="math/tex; mode=display">
-    D_{KL}(P||Q) = \sum_P P(x) ln(\frac{P(x)}{Q(x)})
-</script>
-</p>
-<p>对上面的问题取泰勒近似，优化问题变为一个带约束的二次方程，设<script type="math/tex">g</script>为<script type="math/tex">L</script>关于网络参数<script type="math/tex">\theta</script>的梯度.</p>
-<p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\theta_{k+1} = \argmax_\theta &g^T(\theta - \theta_k) \\
-s.t. &\frac{1}{2}(\theta - \theta_k)^TH(\theta - \theta_k) \le\delta
-\end{aligned}
-</script>
-</p>
-<p>根据凸优化的最优解是</p>
-<p>
-<script type="math/tex; mode=display">
-    \theta_{k+1} = \theta_k + \sqrt{\frac{2\delta}{g^TH^{-1}g}}H^{-1}g
-</script>
-</p>
-<p>对于参数数量很大的<script type="math/tex">\theta</script>网络，hessian矩阵的计算，尤其是逆的矩阵运算量很大，这里使用的是<a href="https://www.wikiwand.com/en/Conjugate_gradient_method">conjugate gradient算法</a>，这是一个求解对称矩阵的逆或者求解稀疏线性方程的迭代算法。
-下文来自wiki链接中的是求解线性方程<script type="math/tex">Ax = b</script>的算法
-<img alt="image" src="../res/ConjugateGradient.svg" /></p>
-<p>最后openai spinningup总结了算法如下图</p>
-<p><img alt="image" src="../res/TRPO.svg" /></p>
-<h3 id="_2">补充描述：</h3>
-<p>关于step 9 line search:
-就是逐个查看选择实际能取的最长的步长(因为前面有做二次近似)</p>
-<p>关于step 10:
-常规policy gradient 算法中对value网络的拟合.</p></div>
+<h3 id="_3">可靠性</h3>
+<p>即要求匹配的准确度提升，这里引用了 <a href="http://openaccess.thecvf.com/content_cvpr_2018/papers/He_Local_Descriptors_Optimized_CVPR_2018_paper.pdf">Local Descriptors Optimized for Average Precision.pdf</a>的做法。其中两个histogram之间的loss来自于<a href="https://arxiv.org/pdf/1611.00822.pdf">Learning Deep Embeddings with Histogram Loss.pdf</a></p>
+<p><img alt="image" src="../res/historgram_loss.png" /></p>
+<p>code in <a href="https://github.com/naver/r2d2/blob/master/nets/ap_loss.py">here</a></p></div>
                     
                 </div>
         </div>
