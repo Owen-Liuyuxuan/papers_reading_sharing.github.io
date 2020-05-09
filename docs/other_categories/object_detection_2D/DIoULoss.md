@@ -1,10 +1,13 @@
-time: 20200216
+time: 20200509
 pdf_source: https://arxiv.org/pdf/1911.08287.pdf
 code_source: https://github.com/Zzh-tju/DIoU-SSD-pytorch
 short_title: Distance-IoU Loss
 # Distance-IoU Loss: Faster and Better Learning for Bounding Box Regression
 
 This paper introduce distance-IoU based on the basic IoU metric and the [GIoU](../../3dDetection/GeneralizedIoU.md). [GIoU]的引出本来是为了解决两个bounding box 不重合时损失函数可导性的问题。但是作者通过一个非常有启发性的仿真实验，说明了 GIoU的收敛性问题。 然后提出了尺度上invariant且收敛性更好的DIoU。 作者之后进一步考虑了aspect ratio长宽比的regularization 问题，提出了CIoU.
+
+Update 2020.05.09:
+    CIoU and Cluster-NMS: [pdf](https://arxiv.org/pdf/2005.03572v1.pdf) [code](https://github.com/Zzh-tju/CIoU)
 
 ## Simulation on the convergence of IoU losses
 
@@ -47,4 +50,15 @@ $$
 
 作者对CIoU的反向传播也做了一个近似优化来提升稳定性，具体看原文以及源码。
 
+## Cluster NMS (update on 2020.05.09)
 
+![image](res/cluster_nms.png)
+
+翻译:
+1. 假设所有bounding box都保留下来，也都对其他比它score低的boxes有抑制可能性
+2. 省略上一个循环中被抑制的boxes，迭代[FastNMS](../Segmentation/YOLACT.md)
+
+几个小结论：
+1. 若迭代次数为1，算法就等同于FastNMS
+2. 若迭代次数为N，算法结果一定等同于原始NMS(作者有证明)
+3. 一般情况下迭代次数显著地小于N,
