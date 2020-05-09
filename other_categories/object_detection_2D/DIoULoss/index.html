@@ -1150,6 +1150,9 @@
                 <li class="nav-item">
                     <a href="#diouciou" class="nav-link">DIoU与CIoU</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#cluster-nms-update-on-20200509" class="nav-link">Cluster NMS (update on 2020.05.09)</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1168,6 +1171,8 @@
 </span>
 <h1 id="distance-iou-loss-faster-and-better-learning-for-bounding-box-regression">Distance-IoU Loss: Faster and Better Learning for Bounding Box Regression</h1>
 <p>This paper introduce distance-IoU based on the basic IoU metric and the <a href="../../../3dDetection/GeneralizedIoU/">GIoU</a>. [GIoU]的引出本来是为了解决两个bounding box 不重合时损失函数可导性的问题。但是作者通过一个非常有启发性的仿真实验，说明了 GIoU的收敛性问题。 然后提出了尺度上invariant且收敛性更好的DIoU。 作者之后进一步考虑了aspect ratio长宽比的regularization 问题，提出了CIoU.</p>
+<p>Update 2020.05.09:
+    CIoU and Cluster-NMS: <a href="https://arxiv.org/pdf/2005.03572v1.pdf">pdf</a> <a href="https://github.com/Zzh-tju/CIoU">code</a></p>
 <h2 id="simulation-on-the-convergence-of-iou-losses">Simulation on the convergence of IoU losses</h2>
 <p>作者仿真了不同起始条件下，使用不同的IoU函数进行梯度下降，观察收敛性。
 算法如下</p>
@@ -1197,7 +1202,16 @@ v=\frac{4}{\pi^{2}}\left(\arctan \frac{w^{g t}}{h^{g t}}-\arctan \frac{w}{h}\rig
 </script>
 </p>
 <p>这里一个个分析，首先<script type="math/tex">v</script>指代的是两个bounding box之间由于aspect ratio不同产生的误差，这里用 <script type="math/tex">arctan</script>的差值描述。<script type="math/tex">\alpha</script>是一个参数，如果IoU 接近于1，则<script type="math/tex">\alpha</script>接近1，权重为最大，如果<script type="math/tex">IoU</script>接近于0，则长宽比对应的权重下调。</p>
-<p>作者对CIoU的反向传播也做了一个近似优化来提升稳定性，具体看原文以及源码。</p></div>
+<p>作者对CIoU的反向传播也做了一个近似优化来提升稳定性，具体看原文以及源码。</p>
+<h2 id="cluster-nms-update-on-20200509">Cluster NMS (update on 2020.05.09)</h2>
+<p><img alt="image" src="../res/cluster_nms.png" /></p>
+<p>翻译:
+1. 假设所有bounding box都保留下来，也都对其他比它score低的boxes有抑制可能性
+2. 省略上一个循环中被抑制的boxes，迭代<a href="../../Segmentation/YOLACT/">FastNMS</a></p>
+<p>几个小结论：
+1. 若迭代次数为1，算法就等同于FastNMS
+2. 若迭代次数为N，算法结果一定等同于原始NMS(作者有证明)
+3. 一般情况下迭代次数显著地小于N,</p></div>
                     
                 </div>
         </div>
