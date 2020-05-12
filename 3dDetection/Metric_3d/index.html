@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>End-to-end Learning of Multi-sensor 3D Tracking by Detection - Reading Collections</title>
+        <title>3D detection evaluation metric - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -576,7 +576,7 @@
     </li>
                                     
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../End-to-end Learning of Multi-sensor 3D Tracking by Detection/" class="dropdown-item">
             End-to-end Learning of Multi-sensor 3D Tracking by Detection
         </a>
     </li>
@@ -624,7 +624,7 @@
     </li>
                                     
     <li>
-        <a href="../Metric_3d/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             3D detection evaluation metric
         </a>
     </li>
@@ -1122,12 +1122,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../Disentangling_Monocular_3D_Object_Detection/" class="nav-link">
+                                <a rel="prev" href="../M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../Fast and Furious Real Time End-to-End 3D Detection, Tracking and MotionForecasting with a Single Convolutional Net/" class="nav-link">
+                                <a rel="next" href="../Mono3D_virtualcam/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -1150,63 +1150,86 @@
         
         <ul class="nav flex-column bs-sidenav">
         
-        <a href=https://www.cs.toronto.edu/~frossard/papers/frossard_etal_tracking.pdf>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
-        </a>
-        
 
         
-            <li class="nav-item main"><a href="#end-to-end-learning-of-multi-sensor-3d-tracking-by-detection">End-to-end Learning of Multi-sensor 3D Tracking by Detection</a></li>
+            <li class="nav-item main"><a href="#3d-detection-evaluation-metric">3D detection evaluation metric</a></li>
                 <li class="nav-item">
-                    <a href="#_1" class="nav-link">推断结构</a>
+                    <a href="#average-precisiong-kitti" class="nav-link">Average Precisiong - Kitti</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#_2" class="nav-link">过程简介</a>
+                    <a href="#nuscenes-detection-scorends-nuscenes" class="nav-link">nuScenes detection score(NDS) - nuScenes</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#linearinteger-programming" class="nav-link">两个Linear、Integer Programming的定义</a>
+                    <a href="#average-precision-weighted-by-headingaph-waymo" class="nav-link">Average Precision Weighted by Heading(APH) - Waymo</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
-<a href=https://www.cs.toronto.edu/~frossard/papers/frossard_etal_tracking.pdf>
-    <i class="fa fa-file-pdf-o"> pdf</i>
-</a>
-
 
 
 </span>
-<h1 id="end-to-end-learning-of-multi-sensor-3d-tracking-by-detection">End-to-end Learning of Multi-sensor 3D Tracking by Detection</h1>
-<p>这篇论文主要讨论的是一个tracking问题，突出贡献是使用了离散优化的概念(在求解时转换为了线性优化问题)，并解决了如何训练这个问题，过程中有较多的数学巧合，但是其实这是一类问题的解决方法,这个问题称为general matching problem,可以<a href="https://www.idiap.ch/~fleuret/papers/berclaz-et-al-tpami2011.pdf">参考引文6</a>的问题阐述以及附录1。</p>
-<h2 id="_1">推断结构</h2>
-<p><img alt="image" src="../res/end-to-end-tracking.png" /></p>
-<p>逐个分析：</p>
+<h1 id="3d-detection-evaluation-metric">3D detection evaluation metric</h1>
+<p>本文主要尝试综述3D检测的评价方法以及对应的一些code的分析，目标是比较细致的分析，在有新metric提出的过程中会持续更新，先综述的是KITTI与Nuscene两大benchmark的评价分数。</p>
+<h2 id="average-precisiong-kitti">Average Precisiong - Kitti</h2>
+<p><a href="https://github.com/KleinYuan/kitti-eval">Official cpp code</a> <br>
+<a href="https://github.com/traveller59/kitti-object-eval-python">fast numba code</a></p>
+<p>整体思路上来说，KITTI的测试是将2D，BEV以及3D检测的评价过程完全分开。因而三种evaluation中间需要的matching是不相关的，但是由于有相似的搜索思路，因而代码实现上有一定的复用。</p>
+<h3 id="true-positive">匹配(true positive判定)</h3>
+<p>KITTI的matching是从ground truth boxes出发，简单地循环，贪婪地寻找与其IoU(使用什么IoU由当前任务决定)最大的prediction.但是要注意的是，要计算AP,还是要考虑score的高低的。官方的实现与加速实现的思路是一致的。
+先考虑所有prediction,计算一遍matching，并记录每一个matching的score，然后在PR曲线上采样41个点，得到41个confidence阈值,对于每一个阈值，滤掉比这个阈值更低的boxes，然后重新match，计算这个点上的recall（这个会与采样点一致） precision.以此刻画pr曲线。</p>
+<h3 id="easy-medium-hard">Easy, Medium, Hard</h3>
+<p>KITTI一个很特殊的机制在于分辨了 easy, medium与hard的结果。从代码实现上，可以发现这是一个以2D以及遮挡为主要根据的分别。Easy包含2D框高度大于40 pixs，遮挡等级最低的objects；Medium包含2D框高于25 pixs，遮挡等级 0,1的物体；Hard包含2D框高于25 pixs，遮挡等级0-2的物体(也包含前面提及的所有物体)。</p>
+<h3 id="_1">关于加速</h3>
+<p>前面提及的Fast numba code相对于原来的cpp代码在代码核心逻辑上差距不大。核心变化主要有两个，第一个是使用numba.cudaGPU加速了3D IoU的计算,本质上是简单的并行运算(单个物体的算法并没有改变)。第二个是利用了numpy以及numba.jit的CPU并行优化，代码中有一个函数的作用是calculate_iou_partly,尽管实际运算量提升了，但是减少python循环的次数，且充分利用numpy以及numba.jit的并行优化。</p>
+<h2 id="nuscenes-detection-scorends-nuscenes">nuScenes detection score(NDS) - nuScenes</h2>
+<p><a href="https://arxiv.org/pdf/1903.11027.pdf">pdf</a> <a href="https://github.com/nutonomy/nuscenes-devkit">code</a></p>
+<p>nuscene 的评价metric是相当独特的，作者的原意是希望有metric分别表达对中心距离、朝向、大小甚至速度等细项的计算结果。最后的NDS单一数值会是多个metric的均值。</p>
+<h3 id="true-positive_1">匹配(true positive判定)</h3>
+<p>nuscene的matching是从sorted predicted boxes出发，按confidence大小循环(注意这里的排序以及循环是以所有帧的预测bounding box为准，而匹配的时候根据sample_token只在同一帧的gt中进行匹配， sample_token也是这个方法能方便地实现的原因，如果对KITTI结果要用同样的算法，则需要对每一个box都记录自己在哪一帧)，贪婪地寻找尚未被匹配的且与其平面距离最近的ground truth，如果最近的距离在阈值内，则认为是一对true positive。由于这个match已经是从高confidence到低confidence了，所以可以直接计算precisions跟recall曲线。</p>
+<p>Thresholds分四次，分别取<script type="math/tex">[0.5, 1, 2, 4]</script>,得到的mAP取均值。此外以<script type="math/tex">threshold=2</script>时的匹配为准，计算其他 True positive metrics(TP metrics)</p>
+<div class="codehilite"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    tp: List[Union[0, 1]], len(tp) = num_prediction</span>
+<span class="sd">    fp: List[Union[1, 0]], len(fp) = num_prediction fp[i] = 1 - tp[i],相当于</span>
+<span class="sd">    conf: List[float], len(conf) = num_prediction (sorted)</span>
+<span class="sd">        They recorded whether each predicted object is true positive or false positive, and also its score.</span>
+<span class="sd">    npos: number of positive ground truth</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">tp_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">tp</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="n">fp_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="n">conf_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+
+<span class="n">prec</span> <span class="o">=</span> <span class="n">tp_array</span> <span class="o">/</span> <span class="p">(</span><span class="n">fp_array</span> <span class="o">+</span> <span class="n">tp_array</span><span class="p">)</span>
+<span class="n">rec</span> <span class="o">=</span> <span class="n">tp_array</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">npos</span><span class="p">)</span>
+
+<span class="n">rec_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>              <span class="c1"># sample 0,0.01,0.02,..0.99,1;totally 101 samples</span>
+<span class="n">prec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">rec_interp</span><span class="p">,</span> <span class="n">rec</span><span class="p">,</span> <span class="n">prec</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 1d-interpolate</span>
+<span class="n">conf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">rec_interp</span><span class="p">,</span> <span class="n">rec</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># np.interp(x_coordinate, x_data, y_data) -&gt; interpolated_y</span>
+<span class="n">rec</span> <span class="o">=</span> <span class="n">rec_interp</span>
+</pre></div>
+
+
+<h3 id="tp-metrics">TP Metrics</h3>
+<p>论文中给出了五个metrics，分别是</p>
 <ol>
-<li>Detection Net用的是<a href="../Multi-View_3D_Detection_Network_for_autonomous_Driving/">MV3D</a></li>
-<li>Scoring Net，将每一个3D框投影回图片中，用VGG总结，给出这个图片是true positive的cost</li>
-<li>Matching Net，分两支，一个是Siamese Network，将两个3D框对应的图片送到network中提取共同信息，第二个是运动矫正后的3D投影图，送到network中提取信息。然后最后由FC Net得到预测。这个network需要对每一对可能的匹配计算。</li>
-<li>new cost and end cost:对一个detection是新的或是最终出现的预测，是一个常量，可学习。</li>
+<li>中心点平面直线距离</li>
+<li>scaled IoU (假设位置与方向正确，predicted whl长方体与gt whl长方体的iou)</li>
+<li>yaw角差值(radian)</li>
+<li>2D速度差值(m/s)</li>
+<li>细分类分类准确度(nuscene对部分类别会继续细分)</li>
 </ol>
-<h2 id="_2">过程简介</h2>
-<p><img alt="image" src="../res/inference_learn_process.png" /></p>
-<h2 id="linearinteger-programming">两个Linear、Integer Programming的定义</h2>
-<p>约束矩阵</p>
+<p>各个TP值为误差值的在各个recall点上的累积均值的均值。</p>
 <p>
-<script type="math/tex; mode=display">y_j^{new} + \sum_{k of last frame}y^{link}_{j,k} = y^{end}_{j} + \sum_{k of next frame} y_{j,k}^{link} = y_j^{det}</script>
+<script type="math/tex; mode=display">\mathrm{NDS}=\frac{1}{10}\left[5 \mathrm{mAP}+\sum_{\mathrm{mTP} \in \mathrm{TP}}(1-\min (1, \mathrm{mTP}))\right]</script>
 </p>
-<p>简单地说就是新生的or从上一帧来的object = 结束的or去往下一帧的object = 这一帧这个object是否是true positive</p>
-<p>在纯粹inference的时候，优化目标就是<script type="math/tex">\theta_{\bold w}(\bold x) y</script>,每一个布尔决策y前的cost由前文的Matching Net， scoring net，以及可学习常量给出。直接用OR-tools求解,相当于已知reward参数找出最好的解</p>
-<p>在需要train的时候，优化目标就是
-<script type="math/tex; mode=display">L(x, y, W) = \sum_x[\max_{y}(\Delta(y, \hat y) + \theta_{\bold w}(\bold x) (y-\hat y)))]</script>
-里面的
-<script type="math/tex; mode=display">\max_{y}(\Delta(y, \hat y) + \theta_{\bold w}(\bold x) (y-\hat y))</script>
-作为inference时候需要求解的LP函数。思路类似于SVM中的对偶优化问题，在训练的时候，我们需要找到<script type="math/tex">w</script>，使得,worst case的一个"错判loss"最小，而这个worst case的错判loss，首先要定义错判loss，其次是用max找出worst case(简单).而错判loss这里用汉明距离+reward difference,理想情况下，汉明距离越大，reward difference就应该越小,反之亦然，并最好保持为一个常数</p>
-<p>对于错判loss，首先汉明距离小时reward difference自然也会小，而汉明距离大时reward difference也应该为一个大的负数以抵消，如果出现汉明距离大而reward difference不够小，则这个worst case需要被修正，也就是这个玩意儿的intuition。</p>
-<p>关于其梯度，建议参考<a href="https://www.wikiwand.com/en/Hinge_loss">这篇</a>。得到的结果是</p>
-<p><img alt="image" src="../res/gradient.png" /></p>
-<p>关键是根据引文6，这个约束矩阵A是一个单模矩阵，所以其逆矩阵的解都是整数，所以Integer programming被转换为Linear Programming并同时保证了最优解一定是整数。</p></div>
+<h2 id="average-precision-weighted-by-headingaph-waymo">Average Precision Weighted by Heading(APH) - Waymo</h2>
+<p><a href="https://waymo.com/open/challenges/3d-detection/#">页面</a></p>
+<p>waymo的算法与KITTI的极度相似，区别在于:</p>
+<ol>
+<li>Easy/Difficult分辨方法主要是遮挡程度以及box内部点云的数量。因而是一个完全的3D-oriented的分类标准.</li>
+<li>每当发现一个true-positive matching, <script type="math/tex">tp = \frac{\Delta\theta}{\pi}</script>,相当于只有角度是准确的才能得到完整的一个true-positive,否则会加上一个惩罚权重。而False positive和False negative没有变化。</li>
+</ol></div>
                     
                 </div>
         </div>
