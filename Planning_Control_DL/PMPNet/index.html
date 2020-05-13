@@ -1186,11 +1186,11 @@
 <p><img alt="image" src="../res/PMPNet.png" /></p>
 <p>Route来自于CARLA的输入，这里采用最近的130个waypoints(CARLA地图上的小点)。</p>
 <p>attention是用于表达不同传感器的特征的权重.<script type="math/tex">a_1</script>表达的是模仿学习给出的throttle, steering and brake</p>
-<p>GMM的回归使用来自于<a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=8793579">这一篇paper.pdf</a>。输出的是未来数秒内车子的运动规划值(速度与角度分布图)，对其进行积分得到未来5m的目标位置，用PID控制器跟踪这个目标点得到<script type="math/tex">a_2</script>,两个控制指令的融合则是依据对累计方差值的估计。</p>
+<p>GMM的回归使用来自于<a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=8793579">这一篇paper.pdf</a>。输出的是未来数秒内车子的运动规划值(速度与角度分布图)，对其进行积分得到未来5m的目标位置，用PID控制器跟踪这个目标点得到<script type="math/tex">a_2</script>,两个控制指令的融合则是依据对累计方差值的估计。下图来自于这篇引用的论文，具体功能与本文无关：</p>
+<p><img alt="image" src="../res/pmp_GMM.png" /></p>
 <p>
 <script type="math/tex; mode=display">\boldsymbol{a}_{f}=(1-\lambda) \boldsymbol{a}_{1}+\lambda \boldsymbol{a}_{2}, \lambda=e^{-c_{1} \cdot \max \left(0, \Sigma_{i}^{k} \sigma^{2}-c_{2}\right)}</script>
 </p>
-<p><img alt="image" src="../res/pmp_GMM.png" /></p>
 <p>融合了GMM模仿学习的思想，利用GMM替代传统planning，给出带方差估计的learning结果，用模仿学习提高性能，配合方差估计给出控制结果。</p></div>
                     
                 </div>
