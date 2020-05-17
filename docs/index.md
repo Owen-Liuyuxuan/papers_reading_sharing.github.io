@@ -19,11 +19,22 @@ Papers are now sorted in Several categories
         3. Segmentation
         4. End to end navigation
 
+## 推荐的综述型阅读
+
+### [Monocular 3D Object Detection-KITTI](3dDetection/RecentCollectionForMono3D.md)
+
+### [Stereo 3D Object Detection-KITTI](3dDetection/RecentCollectionForStereo3D.md)
+
+### [Stereo Matching - KITTI](other_categories/Summaries/Collections_StereoMatching_KITTI.md)
+
+### [Yolov4 & Review of Structure and Tricks for Object Detection](other_categories/object_detection_2D/YOLOv4.md)
+
+
 ## Github
 
 [Github 网页](https://github.com/Owen-Liuyuxuan/papers_reading_sharing.github.io)
 
-欢迎共同记录论文阅读、
+欢迎共同记录论文阅读,对文章的解读有质疑和补充的建议提交github issue.
 
 <!-- <div id="tester" style="width:600px;height:250px;"></div>
 
