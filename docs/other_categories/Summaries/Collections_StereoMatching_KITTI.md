@@ -55,6 +55,8 @@ C^{A}(\mathbf{p}, d)=\operatorname{sum}\left\{\begin{array}{l}
 ## AANet
 [pdf](https://arxiv.org/pdf/2004.09548.pdf) [code](https://github.com/haofeixu/aanet)
 
+![image](res/AANet_arch.png)
+
 本文使用coorelation的方式生成3D Cost Volume.
 
 Adaptive Intra-Scale Aggregation本质上是分组的可变卷积：
