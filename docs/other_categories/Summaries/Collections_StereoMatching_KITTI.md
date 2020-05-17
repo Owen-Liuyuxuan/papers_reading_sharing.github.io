@@ -11,7 +11,6 @@ time: 20200515
 | [GANet-deep]  |  1.81    | 1.48 | 3.46 | 1.8  |
 | [AcfNet]      |  1.89    | 1.51 | 3.80 | 0.48 |
 | [AANet+]      |  2.03    | 1.65 | 3.96 | 0.06 |
-| [GwcNet-g]    |  2.11    | 1.74 | 3.93 | 0.32 |
 | [DeepPruner]  |  2.15    | 1.87 | 3.56 | 0.18 |
 | [PSMNet]      |  2.32    | 1.86 | 4.62 | 0.21 |
 | [FADNet]      |  2.82    | 2.68 | 3.50 | 0.05 |
@@ -102,7 +101,7 @@ E_{d s}^{l} &=\frac{1}{n} \sum_{i, j}\left|\partial_{x} d_{i j}^{l}\right| e^{-\
 [DeepPruner]:../../Building_Blocks/deepPruner.md
 [PSMNet]:../others/PSMNet.md
 [FADNet]:../others/FADNet.md
-[SsSMnet](../others/self_supervised_stereo.md)
+[SsSMnet]:../others/self_supervised_stereo.md
 [GANet-deep]:#ganet
 [AANet+]:#aanet
 [NVStereoNet]:#nvstereonet
