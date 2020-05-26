@@ -3,6 +3,31 @@ short_title: CVPR 2020 clips
 
 # Summaries for sevearl CVPR 2020 papers
 
+## Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection (ATSS)
+[pdf](https://arxiv.org/pdf/1912.02424.pdf)
+
+[code_head](https://github.com/open-mmlab/mmdetection/blob/master/mmdet/models/dense_heads/atss_head.py) [code_assigner/core](https://github.com/open-mmlab/mmdetection/blob/master/mmdet/core/bbox/assigners/atss_assigner.py)
+
+这篇paper做了一个相当细致对比实验来分析anchor based与anchor free模块的区别结果。另外自己提出了更好的sampling方法$\rightarrow$ATSS
+
+传统的RetinaNet(32.5%)被anchor free的[FCOS](../object_detection_2D/FCOS.md)(37.8%)性能大幅超越，是什么引起了这些差距呢，是anchor free与anchor based本身吗？作者分析指出，对于一个每一个scale只有一个anchor box的
+Retinanet模型与FCOS进行对比，训练细节的差别:1. GroupNorm 2. GIoU Loss 3. Center point should be in the Box 4. Centerness branch (also helpful in NMS)5. additional trainable scalar,
+这里面比较重要的是(1),(2),(4). 
+
+RetinaNet与FCOS的本质区别有二，第一个是分类时给定正样本的方法。
+![image](res/atss_retina_fcos_diff.png)
+第二个是回归时框大小的回归方法.作者在下表实验说明了正负样本的分配策略才是影响点数的最重要因素。
+![image](res/atss_fcos_retina_compare_reg.png)
+
+作者提出的ATSS算法.
+
+![image](res/atss_algo.png)
+
+[code_assigner/core](https://github.com/open-mmlab/mmdetection/blob/master/mmdet/core/bbox/assigners/atss_assigner.py)
+
+
+
+
 ## Depth Sensing Beyond LiDAR Range
 [pdf](https://arxiv.org/pdf/2004.03048.pdf)
 
