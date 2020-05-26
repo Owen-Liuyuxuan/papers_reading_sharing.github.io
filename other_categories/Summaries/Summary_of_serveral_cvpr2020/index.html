@@ -1215,15 +1215,15 @@
 Retinanet模型与FCOS进行对比，训练细节的差别:1. GroupNorm 2. GIoU Loss 3. Center point should be in the Box 4. Centerness branch (also helpful in NMS)5. additional trainable scalar,
 这里面比较重要的是(1),(2),(4). </p>
 <p>RetinaNet与FCOS的本质区别有二，第一个是分类时给定正样本的方法。
-<img alt="image" src="../res/atss_retina_fcos_diff.png" />
-第二个是回归时框大小的回归方法.作者在下表实验说明了正负样本的分配策略才是影响点数的最重要因素。
+<img alt="image" src="../res/atss_retina_fcos_diff.png" /></p>
+<p>第二个是回归时框大小的回归方法.作者在下表实验说明了正负样本的分配策略才是影响点数的最重要因素。
 <img alt="image" src="../res/atss_fcos_retina_compare_reg.png" /></p>
 <p>作者提出的ATSS算法.</p>
 <p><img alt="image" src="../res/atss_algo.png" /></p>
 <p><a href="https://github.com/open-mmlab/mmdetection/blob/master/mmdet/core/bbox/assigners/atss_assigner.py">code_assigner/core</a></p>
 <h2 id="depth-sensing-beyond-lidar-range">Depth Sensing Beyond LiDAR Range</h2>
 <p><a href="https://arxiv.org/pdf/2004.03048.pdf">pdf</a></p>
-<p>这篇paper是属于值得精度的文章之一。</p>
+<p>这篇paper是属于值得精读的文章之一。</p>
 <h3 id="motivation">Motivation</h3>
 <p>LiDAR一直以来存在着无法感知足够远的物体的问题，即使线数很大，有效的距离可能也就只能去到80米。而这个对于中速行驶的汽车来说仅仅是几秒内的里程，因而往往不够用。本文要实现超过一百米乃至本文给出的近300米范围内的深度估计，使用了特殊配置的多目摄像机(三目)。对于摄像机参数来说，就需要大分辨率，小感受野用于专注于远景，但是这个硬件配置的问题在于对微小的外参扰动非常敏感，因而需要鲁棒算法or在线补偿(本文的方案)。</p>
 <h3 id="_1">硬件配置</h3>
