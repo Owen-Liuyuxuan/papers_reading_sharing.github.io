@@ -1217,6 +1217,13 @@
                 <li class="nav-item">
                     <a href="#grid-r-cnn" class="nav-link">Grid R-CNN</a>
                 </li>
+            <li class="nav-item main"><a href="#two-stage-methods">Two Stage Methods</a></li>
+                <li class="nav-item">
+                    <a href="#htc" class="nav-link">HTC</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#detectors" class="nav-link">DetectoRS</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1236,6 +1243,8 @@
 <h1 id="some-collections-around-mmdetection">Some Collections around MMDetection</h1>
 <p>这一页面主要为了收集mmdetection中提供实现的论文。这里收集或者提供链接的主要是相对冷门的paper，主流的如Faster-RCNN以及Retinanet不会再重复。</p>
 <p>其余有实现，并记录在本网站其他地方的有<a href="../FCOS/">FCOS</a>, <a href="../../../The_theory/FreeAnchor_Learning_to_Match_Anchors_for_Visual_Object_Detection/">FreeAnchor</a>, <a href="../../Summaries/Summary_of_serveral_cvpr2020/">ATSS</a></p>
+<p>Update:</p>
+<p>2020/06/04: Updates <a href="#htc">HTC</a>, <a href="#detectors">DetectoRS</a></p>
 <h1 id="single-stage-methods">Single Stage Methods</h1>
 <h2 id="ghm-gradient-harmonized-single-stage-detector">GHM: Gradient Harmonized Single-stage Detector</h2>
 <p><a href="https://arxiv.org/pdf/1811.05181.pdf">pdf</a></p>
@@ -1287,7 +1296,53 @@ L_{G H M-C} &=\frac{1}{N} \sum_{i=1}^{N} \beta_{i} L_{C E}\left(p_{i}, p_{i}^{*}
 <h2 id="grid-r-cnn">Grid R-CNN</h2>
 <p><a href="https://arxiv.org/pdf/1811.12030.pdf">pdf</a> <a href="https://github.com/open-mmlab/mmdetection/blob/master/mmdet/models/detectors/grid_rcnn.py">code</a></p>
 <p>这篇paper从今日的角度来说可以理解为RoIPooling后的<a href="CenterNet:_Keypoint_Triplets_for_Object_Detection.md">keypointNet</a>，在grid point选择上有点不同，但是思路是相似的。</p>
-<p><img alt="image" src="../res/grid_rcnn.png" /></p></div>
+<p><img alt="image" src="../res/grid_rcnn.png" /></p>
+<h1 id="two-stage-methods">Two Stage Methods</h1>
+<h2 id="htc">HTC</h2>
+<p><a href="https://arxiv.org/pdf/1901.07518.pdf">pdf</a> <a href="https://github.com/open-mmlab/mmdetection/tree/master/configs/htc">code</a></p>
+<p>motivation:
+1. instance segmentation, detection甚至pixel-wise segmentation之间是互相补充的。但是单纯的让网络同时训练这几个任务并不足够。
+2. cascade RCNN提出了bounding box的迭代优化</p>
+<p>本篇paper就提出让网络同时迭代的学习这三个任务(迭代主要发生在bounding box和instance seg里面)，在每次迭代的时候通过其他任务当前的预测进度进行信息补充。</p>
+<p>信息流图:
+<img alt="image" src="../res/htc_flow.png" /></p>
+<p>将Mask RCNN的预测分支放到cascade RCNN上，得到(a)流图:</p>
+<p>
+<script type="math/tex; mode=display">\begin{aligned}
+\mathbf{x}_{t}^{b o x} &=\mathcal{P}\left(\mathbf{x}, \mathbf{r}_{t-1}\right), \quad \mathbf{r}_{t}=B_{t}\left(\mathbf{x}_{t}^{b o x}\right) \\
+\mathbf{x}_{t}^{\operatorname{mask}} &=\mathcal{P}\left(\mathbf{x}, \mathbf{r}_{t-1}\right), \quad \mathbf{m}_{t}=M_{t}\left(\mathbf{x}_{t}^{\operatorname{mask} }\right)
+\end{aligned}</script>
+</p>
+<p>其中<script type="math/tex">\mathcal{P}</script>是pooling操作，<script type="math/tex">B, M</script>分别是bbox_head以及mask_head.</p>
+<p>这种设置的一个提升方向是bbox以及mask还是并行的。作者让最新的bbox预测值用于mask head的输出，得到(b)
+<script type="math/tex; mode=display">\begin{array}{ll}
+\mathbf{x}_{t}^{b o x}=\mathcal{P}\left(\mathbf{x}, \mathbf{r}_{t-1}\right), & \mathbf{r}_{t}=B_{t}\left(\mathbf{x}_{t}^{b o x}\right) \\
+\mathbf{x}_{t}^{\operatorname{mask}}=\mathcal{P}\left(\mathbf{x}, \mathbf{r}_{t}\right), & \mathbf{m}_{t}=M_{t}\left(\mathbf{x}_{t}^{\operatorname{mask} }\right)
+\end{array}</script>
+</p>
+<p>作者进一步考虑将前一次迭代的mask的信息来补充新mask的信息:
+<script type="math/tex; mode=display">\begin{array}{ll}
+\mathbf{x}_{t}^{b o x}=\mathcal{P}\left(\mathbf{x}, \mathbf{r}_{t-1}\right), & \mathbf{r}_{t}=B_{t}\left(\mathbf{x}_{t}^{b o x}\right) \\
+\mathbf{x}_{t}^{\operatorname{mask}}=\mathcal{P}\left(\mathbf{x}, \mathbf{r}_{t}\right), & \mathbf{m}_{t}=M_{t}\left(\mathcal{F}\left(\mathbf{x}_{t}^{\operatorname{mask}}, \mathbf{m}_{t-1}^{-}\right)\right)
+\end{array}</script>
+<img alt="image" src="../res/htc_F.png" />
+<script type="math/tex; mode=display">\mathcal{F}\left(\mathbf{x}_{t}^{\operatorname{mask}}, \mathbf{m}_{t-1}\right)=\mathbf{x}_{t}^{\operatorname{mask}}+\mathcal{G}_{t}\left(\mathbf{m}_{t-1}^{-}\right)</script>
+</p>
+<p>作者进一步考虑将semantic segmentation的信息加进来，得到:
+<script type="math/tex; mode=display">\begin{aligned}
+\mathbf{x}_{t}^{b o x} &=\mathcal{P}\left(\mathbf{x}, \mathbf{r}_{t-1}\right)+\mathcal{P}\left(S(\mathbf{x}), \mathbf{r}_{t-1}\right) \\
+\mathbf{r}_{t} &=B_{t}\left(\mathbf{x}_{t}^{b o x}\right) \\
+\mathbf{x}_{t}^{m a s k} &=\mathcal{P}\left(\mathbf{x}, \mathbf{r}_{t}\right)+\mathcal{P}\left(S(\mathbf{x}), \mathbf{r}_{t}\right) \\
+\mathbf{m}_{t} &=M_{t}\left(\mathcal{F}\left(\mathbf{x}_{t}^{m a s k}, \mathbf{m}_{t-1}^{-}\right)\right)
+\end{aligned}</script>
+其中<script type="math/tex">S(x)</script>为语义分割输出</p>
+<h2 id="detectors">DetectoRS</h2>
+<p><a href="https://128.84.21.199/pdf/2006.02334.pdf">pdf</a> <a href="https://github.com/joe-siyuan-qiao/DetectoRS/tree/master">code</a></p>
+<p>本文在更新的时候还没有放到mmdetection主分支上，是基于mmdetection 1.0版本设计的代码。同时更改了backbone,代码基于HTC.</p>
+<p>主要提出的点是Recursive Feature Pyramid以及 Switchable Atrous Convolution</p>
+<p><img alt="image" src="../res/detectoRS_RFP.png" /></p>
+<p><img alt="image" src="../res/detectoRS_SAC.png" /></p>
+<p>点数提升较为惊人，模型大小以及内存占用比较大(注意由于backbone的改变，其ResNet-50模型的大小近乎于HTC ResNeXt-101-64x4d的大小，且由于RFP的迭代原因，占用显存可能更大)。</p></div>
                     
                 </div>
         </div>
