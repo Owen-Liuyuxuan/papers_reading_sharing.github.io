@@ -90,3 +90,11 @@ $$\mathbf{B}(\mathbf{x}) \approx \frac{1}{2 N+1} \sum_{i=-N}^{N}\left(\mathcal{W
 ![image](res/panoptic_arch.png)
 ![image](res/panoptic_head.png)
 
+## Real-Time Semantic Stereo Matching
+[pdf](https://arxiv.org/pdf/1910.00541.pdf) 
+
+![image](res/RTS2Net.png)
+
+在语义分割和双目上都有不错的点数，主要是速度比较快
+
+

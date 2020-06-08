@@ -1,4 +1,4 @@
-time: 20200515
+time: 20200608
 
 # Collections of Stereo Matching from KITTI
 
@@ -15,10 +15,12 @@ time: 20200515
 | [PSMNet]      |  2.32    | 1.86 | 4.62 | 0.21 |
 | [FADNet]      |  2.82    | 2.68 | 3.50 | 0.05 |
 | [NVStereoNet] |  3.13    | 2.62 | 5.69 | 0.6  |
+| [RTS2Net]     |  3.56    | 3.09 | 5.91 | 0.02 |
 | [SsSMnet]     |  3.40    | 2.70 | 6.92 | 0.8  |
 
-其中本站已有的文章为[CSPN],[AcfNet],[DeepPruner], [PSMNet], [FADNet], [SsSMnet].
+其中本站已有的文章为[CSPN],[AcfNet],[DeepPruner], [PSMNet], [FADNet], [SsSMnet], [RTS2Net].
 
+Update: 2020.06.08: add RTS2Net
 ## GANet
 [pdf](http://openaccess.thecvf.com/content_CVPR_2019/papers/Zhang_GA-Net_Guided_Aggregation_Net_for_End-To-End_Stereo_Matching_CVPR_2019_paper.pdf) [code](https://github.com/feihuzhang/GANet)
 
@@ -105,3 +107,4 @@ E_{d s}^{l} &=\frac{1}{n} \sum_{i, j}\left|\partial_{x} d_{i j}^{l}\right| e^{-\
 [GANet-deep]:#ganet
 [AANet+]:#aanet
 [NVStereoNet]:#nvstereonet
+[RTS2Net]:Summary_of_ICRA_2020.md
