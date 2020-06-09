@@ -95,6 +95,14 @@ $$\mathbf{B}(\mathbf{x}) \approx \frac{1}{2 N+1} \sum_{i=-N}^{N}\left(\mathcal{W
 
 ![image](res/RTS2Net.png)
 
-在语义分割和双目上都有不错的点数，主要是速度比较快
+在语义分割和双目上都有不错的点数(一般般)，主要是速度比较快
+
+## MultiDepth: Single-Image Depth Estimation via Multi-Task Regression and Classification
+[pdf](https://arxiv.org/pdf/1907.11111.pdf)
+
+![image](res/multidepth_arch.png)
+
+深度预测问题同时走分类与回归。
+
 
 
