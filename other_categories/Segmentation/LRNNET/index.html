@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>MULTI-SCALE DENSE NETWORKS FOR RESOURCE EFFICIENT IMAGE CLASSIFICATION - Reading Collections</title>
+        <title>LRNNET: A LIGHT-WEIGHTED NETWORK WITH EFFICIENT REDUCED NON-LOCAL OPERATION FOR REAL-TIME SEMANTIC SEGMENTATION - Reading Collections</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
@@ -228,79 +228,79 @@
       <ul class="dropdown-menu">
               
     <li>
-        <a href="../../Segmentation/Actor-Critic Instance Segmentation/" class="dropdown-item">
+        <a href="../Actor-Critic Instance Segmentation/" class="dropdown-item">
             Actor-Critic Instance Segmentation
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/CONVOLUTIONAL CRFS  FOR SEMANTIC SEGMENTATION/" class="dropdown-item">
+        <a href="../CONVOLUTIONAL CRFS  FOR SEMANTIC SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/Deep Multi-Sensor Lane Detection/" class="dropdown-item">
+        <a href="../Deep Multi-Sensor Lane Detection/" class="dropdown-item">
             Deep Multi-Sensor Lane Detection
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/DeepSnake/" class="dropdown-item">
+        <a href="../DeepSnake/" class="dropdown-item">
             Deep Snake
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/LRNNET/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             LRNNet
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/Lane Detection and Classification usingCascaded CNNs/" class="dropdown-item">
+        <a href="../Lane Detection and Classification usingCascaded CNNs/" class="dropdown-item">
             Cascade Lane Detection
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/PointRend/" class="dropdown-item">
+        <a href="../PointRend/" class="dropdown-item">
             PointRend
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/PolorMask/" class="dropdown-item">
+        <a href="../PolorMask/" class="dropdown-item">
             PolarMask
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/SAUNet/" class="dropdown-item">
+        <a href="../SAUNet/" class="dropdown-item">
             SAUNet
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/SOLO/" class="dropdown-item">
+        <a href="../SOLO/" class="dropdown-item">
             SOLO for instance Seg
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/TensorMask:_A_Foundation_for_Dense_Object_Segmentation/" class="dropdown-item">
+        <a href="../TensorMask:_A_Foundation_for_Dense_Object_Segmentation/" class="dropdown-item">
             TensorMask-Instance Seg
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/YOLACT/" class="dropdown-item">
+        <a href="../YOLACT/" class="dropdown-item">
             YOLOACT
         </a>
     </li>
               
     <li>
-        <a href="../../Segmentation/blenderMask/" class="dropdown-item">
+        <a href="../blenderMask/" class="dropdown-item">
             BlendMask
         </a>
     </li>
@@ -1176,12 +1176,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../MPC-Inspired Neural Network Policies for Sequential Decision Making/" class="nav-link">
+                                <a rel="prev" href="../DeepSnake/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../Motion Planning for Autonomous Driving with a Conformal Spatiotemporal Lattice/" class="nav-link">
+                                <a rel="next" href="../Lane Detection and Classification usingCascaded CNNs/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -1204,18 +1204,31 @@
         
         <ul class="nav flex-column bs-sidenav">
         
+        <a href=https://arxiv.org/pdf/2006.02706.pdf>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
+        </a>
+        
 
         
-            <li class="nav-item main"><a href="#multi-scale-dense-networks-for-resource-efficient-image-classification">MULTI-SCALE DENSE NETWORKS FOR RESOURCE EFFICIENT IMAGE CLASSIFICATION</a></li>
+            <li class="nav-item main"><a href="#lrnnet-a-light-weighted-network-with-efficient-reduced-non-local-operation-for-real-time-semantic-segmentation">LRNNET: A LIGHT-WEIGHTED NETWORK WITH EFFICIENT REDUCED NON-LOCAL OPERATION FOR REAL-TIME SEMANTIC SEGMENTATION</a></li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
+<a href=https://arxiv.org/pdf/2006.02706.pdf>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
+
 
 
 </span>
-<h1 id="multi-scale-dense-networks-for-resource-efficient-image-classification">MULTI-SCALE DENSE NETWORKS FOR RESOURCE EFFICIENT IMAGE CLASSIFICATION</h1></div>
+<h1 id="lrnnet-a-light-weighted-network-with-efficient-reduced-non-local-operation-for-real-time-semantic-segmentation">LRNNET: A LIGHT-WEIGHTED NETWORK WITH EFFICIENT REDUCED NON-LOCAL OPERATION FOR REAL-TIME SEMANTIC SEGMENTATION</h1>
+<p>这篇paper的主要贡献在于提出了一个简化版的non-local算法。</p>
+<p><img alt="image" src="../res/LRNNet.png" />
+<img alt="image" src="../res/Power_iteration.png" /></p>
+<p>具体的做法是把<script type="math/tex">C\times H \times W</script>的张量以<script type="math/tex">S</script>为量化单位，分割为<script type="math/tex">S=\frac{H\times W}{H'\times W'}</script>个超像素，non-local的面积大小变为<script type="math/tex">H', W'</script>，大幅度降低运算量。</p>
+<p>对于各个方块，<script type="math/tex">C \times H' \times W'</script>, 本文提出了使用normalized左奇异主向量作为对整个超像素的替代，将它平整为<script type="math/tex">C\times (H'\times W')</script>矩阵，然后使用power iteration算法计算左主奇异矢量<script type="math/tex">C'\times 1</script>.</p></div>
                     
                 </div>
         </div>
