@@ -22,11 +22,67 @@ $$\mathbf{Q} \mathbf{F} \mathbf{L}(\sigma)=-|y-\sigma|^{\beta}((1-y) \log (1-\si
 
 <div id="qfocalLoss" ></div>
 
+```python
+def quality_focal_loss(
+          pred,          # (n, 80)
+          label,         # (n) 0, 1-80: 0 is neg, 1-80 is positive
+          score,         # (n) reg target 0-1, only positive is good
+          weight=None,
+          beta=2.0,
+          reduction='mean',
+          avg_factor=None):
+    """
+        from https://github.com/implus/GFocal/blob/cc0e72680f16a8abe0770eb531d6baa07a6e511f/mmdet/models/losses/gfocal_loss.py
+    """
+    # all goes to 0
+    pred_sigmoid = pred.sigmoid()
+    pt = pred_sigmoid
+    zerolabel = pt.new_zeros(pred.shape)
+    loss = F.binary_cross_entropy_with_logits(
+           pred, zerolabel, reduction='none') * pt.pow(beta)
+
+    label = label - 1
+    pos = (label >= 0).nonzero().squeeze(1)
+    a = pos
+    b = label[pos].long()
+    
+    # positive goes to bbox quality
+    pt = score[a] - pred_sigmoid[a, b]
+    loss[a,b] = F.binary_cross_entropy_with_logits(
+           pred[a,b], score[a], reduction='none') * pt.pow(beta)
+
+    loss = weight_reduce_loss(loss, weight, reduction, avg_factor)
+    return loss
+
+```
+
 ## Distribution Focal Loss (DFL)
 
-当我们使用序列的多个分类值(multi-bin)分类时，inference的时候我们使用 $\hat{y}=\sum_{i=0}^{n} P\left(y_{i}\right) y_{i}$。
+当我们使用序列的多个分类值(multi-bin)分类时，inference的时候我们使用 $\hat{y}=\sum_{i=0}^{n} P\left(y_{i}\right) y_{i}$。 $$\mathbf{D F L}\left(\mathcal{S}_{i}, \mathcal{S}_{i+1}\right)=-\left(\left(y_{i+1}-y\right) \log \left(\mathcal{S}_{i}\right)+\left(y-y_{i}\right) \log \left(\mathcal{S}_{i+1}\right)\right)$$
 
 其中 $\mathcal{S}_{i}=\frac{y_{i+1}-y}{y_{i+1}-y_{i}}, \mathcal{S}_{i+1}=\frac{y-y_{i}}{y_{i+1}-y_{i}}$,直觉就是按照权重使用loss鼓励multibin ground truth临近的两侧分类点的权重。
+
+```python
+def distribution_focal_loss(
+            pred,
+            label,
+            weight=None,
+            reduction='mean',
+            avg_factor=None):
+    """
+        from https://github.com/implus/GFocal/blob/cc0e72680f16a8abe0770eb531d6baa07a6e511f/mmdet/models/losses/gfocal_loss.py
+    """
+    disl = label.long()
+    disr = disl + 1
+
+    wl = disr.float() - label
+    wr = label - disl.float()
+
+    loss = F.cross_entropy(pred, disl, reduction='none') * wl \
+         + F.cross_entropy(pred, disr, reduction='none') * wr
+    loss = weight_reduce_loss(loss, weight, reduction, avg_factor)
+    return loss
+```
 
 ## Generalized Focal Loss (GFL)
 
