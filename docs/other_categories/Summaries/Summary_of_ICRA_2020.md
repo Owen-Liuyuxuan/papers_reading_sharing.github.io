@@ -104,5 +104,29 @@ $$\mathbf{B}(\mathbf{x}) \approx \frac{1}{2 N+1} \sum_{i=-N}^{N}\left(\mathcal{W
 
 深度预测问题同时走分类与回归。
 
+## MPC-Net: A First Principles Guided Policy Search
+[pdf](https://arxiv.org/pdf/1909.05197.pdf) [code](https://github.com/leggedrobotics/MPC-Net)
+
+这篇paper使用类模仿学习，得到一个快速的MPC approximator.本文利用最优控制解的必要条件，HJB方程，要求一下哈密顿量最小化,
+
+$$\begin{aligned}
+\boldsymbol{u}^{*}(t, \boldsymbol{x}) &=\arg \min _{\boldsymbol{u}} \mathcal{H}(\boldsymbol{x}, \boldsymbol{u}, t) \\
+\mathcal{H}(\boldsymbol{x}, \boldsymbol{u}, t) &:=\mathcal{L}(\boldsymbol{x}, \boldsymbol{u}, t)+\partial_{\boldsymbol{x}} V(t, \boldsymbol{x}) \boldsymbol{f}(\boldsymbol{x}, \boldsymbol{u}, t)
+\end{aligned}$$
+
+本文提出使用SLQ(Sequential-Linear-Quadritic)最优化方法进行最优化求解(这个算法类似于连续时间的迭代LQR),通过这个求解器可以得到MPC teacher的控制命令，以及value function关于x的求导$\partial_{\boldsymbol{x}} V(t, \boldsymbol{x})$
+
+学习方法:
+1. 在每一次迭代中，使用MPC以及网络的融合信号，对系统完成一个序列的仿真，融合比重随着训练的进行逐渐由网络输出主导，在buffer中存下时间戳，state，value函数对于state的导数矢量,网络最优输出值等结果。
+2. 从buffer中进行采样，使用存储中的state, dvdx, t以及网络输出的u，计算哈密顿量。对于本文实验中给出二次损失函数，$\mathcal{L}$与$u$相关的只有regularization项$uRu^T$,dvdx为常矢量，$f(x, u, t)$为模型的$\dot x$,与系统模型有关，也就会与$u$有关。
+3. 把哈密顿量理解为损失函数，使用梯度下降优化网络参数，
+
+## MapLite: Autonomous Intersection Navigation Without a Detailed Prior Map
+
+[pdf](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8936918)
+
+![image](res/maplite.png)
+
+这篇paper提出了一个系统，仅利用拓扑地图完成无人车的定位与导航任务。点云的路面分割使用的做法是对每一个点提取设定的五个feature，使用linear SVM判断它是否在地面上。关键对于拓扑地图的定位，本文使用传统的概率滤波算法,有一定局限性，但是在一定范围内显然是有效的。
 
 
