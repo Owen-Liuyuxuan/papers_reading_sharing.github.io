@@ -1,4 +1,4 @@
-time: 20200526
+time: 20200614
 short_title: CVPR 2020 clips
 
 # Summaries for sevearl CVPR 2020 papers
@@ -103,3 +103,10 @@ $$
 基于MMdetection开发的点云3D 检测，性能很高，重点在于附加task的设计的，能让一个接近于VoxelNet的结构得到很大的提升
 
 ![image](res/SASSD_arch.png)
+
+## Camouflaged Object Detection
+[pdf](http://openaccess.thecvf.com/content_CVPR_2020/papers/Fan_Camouflaged_Object_Detection_CVPR_2020_paper.pdf) [code](https://github.com/DengPingFan/SINet)
+
+本问提出了一个新的问题以及新的数据集，有[中文paper](http://dpfan.net/wp-content/uploads/CamouflagedObjectDetection_Chinese-1.pdf).
+![image](res/camouflaged_detection.png)
+
