@@ -1231,6 +1231,9 @@
                 <li class="nav-item">
                     <a href="#camouflaged-object-detection" class="nav-link">Camouflaged Object Detection</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#lightweight-multi-view-3d-pose-estimation-through-camera-disentangled-representation" class="nav-link">Lightweight Multi-View 3D Pose Estimation through Camera-Disentangled Representation</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1310,7 +1313,28 @@ Retinanet模型与FCOS进行对比，训练细节的差别:1. GroupNorm 2. GIoU 
 <h2 id="camouflaged-object-detection">Camouflaged Object Detection</h2>
 <p><a href="http://openaccess.thecvf.com/content_CVPR_2020/papers/Fan_Camouflaged_Object_Detection_CVPR_2020_paper.pdf">pdf</a> <a href="https://github.com/DengPingFan/SINet">code</a></p>
 <p>本问提出了一个新的问题以及新的数据集，有<a href="http://dpfan.net/wp-content/uploads/CamouflagedObjectDetection_Chinese-1.pdf">中文paper</a>.
-<img alt="image" src="../res/camouflaged_detection.png" /></p></div>
+<img alt="image" src="../res/camouflaged_detection.png" /></p>
+<h2 id="lightweight-multi-view-3d-pose-estimation-through-camera-disentangled-representation">Lightweight Multi-View 3D Pose Estimation through Camera-Disentangled Representation</h2>
+<p><a href="http://openaccess.thecvf.com/content_CVPR_2020/papers/Remelli_Lightweight_Multi-View_3D_Pose_Estimation_Through_Camera-Disentangled_Representation_CVPR_2020_paper.pdf">pdf</a></p>
+<p><img alt="image" src="../res/multiview3D.png" /></p>
+<p>FTL层不是一个学习层，用一个全连接层，将2D预测用旋转变换转换到与camera方位无关的结果</p>
+<p>
+<script type="math/tex; mode=display">\mathbf{y}=F_{T_{1}, \ldots, T_{n}}[\mathbf{x}]=\left[\begin{array}{ccc}
+F_{T_{1}} & & \\
+& \ddots & \\
+& & F_{T_{n}}
+\end{array}\right]</script>
+</p>
+<p>3D 位置估计采用的是SFM的formulation</p>
+<p>
+<script type="math/tex; mode=display">d_{i} u_{i}=p_{i}^{1 T} \mathbf{x}, d_{i} v_{i}=p_{i}^{2 T} \mathbf{x}, d_{i}=p_{i}^{3 T} \mathbf{x}</script>
+<script type="math/tex; mode=display">\begin{array}{l}
+\left(u_{i} p_{i}^{3 T}-p_{i}^{1 T}\right) \mathbf{x}=0 \\
+\left(v_{i} p_{i}^{3 T}-p_{i}^{2 T}\right) \mathbf{x}=0
+\end{array}</script>
+</p>
+<p>把同一个关节所有点放在一起，<script type="math/tex">A \mathbf{x}=\mathbf{0}</script>,原理上来说需要使用SVD找出最小特征值对应的特征向量。作者指出如果只需要求最小特征值，不需要使用SVD，使用以下迭代算法即可</p>
+<p><img alt="image" src="../res/iteration_minSVD.png" /></p></div>
                     
                 </div>
         </div>
