@@ -110,3 +110,29 @@ $$
 本问提出了一个新的问题以及新的数据集，有[中文paper](http://dpfan.net/wp-content/uploads/CamouflagedObjectDetection_Chinese-1.pdf).
 ![image](res/camouflaged_detection.png)
 
+## Lightweight Multi-View 3D Pose Estimation through Camera-Disentangled Representation
+
+[pdf](http://openaccess.thecvf.com/content_CVPR_2020/papers/Remelli_Lightweight_Multi-View_3D_Pose_Estimation_Through_Camera-Disentangled_Representation_CVPR_2020_paper.pdf)
+
+![image](res/multiview3D.png)
+
+FTL层不是一个学习层，用一个全连接层，将2D预测用旋转变换转换到与camera方位无关的结果
+
+$$\mathbf{y}=F_{T_{1}, \ldots, T_{n}}[\mathbf{x}]=\left[\begin{array}{ccc}
+F_{T_{1}} & & \\
+& \ddots & \\
+& & F_{T_{n}}
+\end{array}\right]$$
+
+3D 位置估计采用的是SFM的formulation
+
+$$d_{i} u_{i}=p_{i}^{1 T} \mathbf{x}, d_{i} v_{i}=p_{i}^{2 T} \mathbf{x}, d_{i}=p_{i}^{3 T} \mathbf{x}$$
+$$\begin{array}{l}
+\left(u_{i} p_{i}^{3 T}-p_{i}^{1 T}\right) \mathbf{x}=0 \\
+\left(v_{i} p_{i}^{3 T}-p_{i}^{2 T}\right) \mathbf{x}=0
+\end{array}$$
+
+把同一个关节所有点放在一起，$A \mathbf{x}=\mathbf{0}$,原理上来说需要使用SVD找出最小特征值对应的特征向量。作者指出如果只需要求最小特征值，不需要使用SVD，使用以下迭代算法即可
+
+![image](res/iteration_minSVD.png)
+
