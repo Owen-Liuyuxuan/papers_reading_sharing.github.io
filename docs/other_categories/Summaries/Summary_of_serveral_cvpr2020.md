@@ -1,4 +1,4 @@
-time: 20200614
+time: 20200617
 short_title: CVPR 2020 clips
 
 # Summaries for sevearl CVPR 2020 papers
@@ -135,4 +135,31 @@ $$\begin{array}{l}
 把同一个关节所有点放在一起，$A \mathbf{x}=\mathbf{0}$,原理上来说需要使用SVD找出最小特征值对应的特征向量。作者指出如果只需要求最小特征值，不需要使用SVD，使用以下迭代算法即可
 
 ![image](res/iteration_minSVD.png)
+
+## Flow2Stereo: Effective Self-Supervised Learning of Optical Flow and Stereo Matching
+[pdf](http://openaccess.thecvf.com/content_CVPR_2020/papers/Liu_Flow2Stereo_Effective_Self-Supervised_Learning_of_Optical_Flow_and_Stereo_Matching_CVPR_2020_paper.pdf)
+
+![image](res/flow2stereo.png)
+
+## What You See is What You Get: Exploiting Visibility for 3D Object Detection
+[pdf](http://openaccess.thecvf.com/content_CVPR_2020/papers/Hu_What_You_See_is_What_You_Get_Exploiting_Visibility_for_CVPR_2020_paper.pdf)
+
+本文主要针对的就是Nuscene场景中被遮挡比较严重的物体。通过用点云建立的occupancy map,网络可以infer什么地方是可能被遮挡而可能有物体的。
+
+本文有一个比较好的[中文博客](https://leijiezhang001.github.io/paper-reading-What-You-See-is-What-You-Get-Exploiting-Visibility-for-3D-Object-Detection/),提到了本文几个重要的有趣的细节，第一个是3D世界的Fast Voxel Traversal生成occupancy map;第二个是数据增强，采取的方法与occupancy map进行增强；第三个是online bayesian grid mapping.
+
+## Instance Shadow Detection
+[pdf](http://openaccess.thecvf.com/content_CVPR_2020/papers/Wang_Instance_Shadow_Detection_CVPR_2020_paper.pdf) [code](https://github.com/stevewongv/InstanceShadowDetection)
+
+本文提出了一个新的任务，新的dataset以及baseline方法。任务是物体与影子的instance segmentation以及一一对应。
+
+![image](res/lisa_arch.png)
+
+## A Model-driven Deep Neural Network for Single Image Rain Removal
+[pdf](http://openaccess.thecvf.com/content_CVPR_2020/papers/Wang_A_Model-Driven_Deep_Neural_Network_for_Single_Image_Rain_Removal_CVPR_2020_paper.pdf)
+ [code](https://github.com/hongwang01/RCDNet)
+
+![image](res/RCD_algo.png)
+![image](res/RCDNet_arch.png)
+
 
