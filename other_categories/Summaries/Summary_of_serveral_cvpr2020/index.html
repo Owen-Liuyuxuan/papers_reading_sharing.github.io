@@ -1234,6 +1234,18 @@
                 <li class="nav-item">
                     <a href="#lightweight-multi-view-3d-pose-estimation-through-camera-disentangled-representation" class="nav-link">Lightweight Multi-View 3D Pose Estimation through Camera-Disentangled Representation</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#flow2stereo-effective-self-supervised-learning-of-optical-flow-and-stereo-matching" class="nav-link">Flow2Stereo: Effective Self-Supervised Learning of Optical Flow and Stereo Matching</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#what-you-see-is-what-you-get-exploiting-visibility-for-3d-object-detection" class="nav-link">What You See is What You Get: Exploiting Visibility for 3D Object Detection</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#instance-shadow-detection" class="nav-link">Instance Shadow Detection</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#a-model-driven-deep-neural-network-for-single-image-rain-removal" class="nav-link">A Model-driven Deep Neural Network for Single Image Rain Removal</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1334,7 +1346,23 @@ F_{T_{1}} & & \\
 \end{array}</script>
 </p>
 <p>把同一个关节所有点放在一起，<script type="math/tex">A \mathbf{x}=\mathbf{0}</script>,原理上来说需要使用SVD找出最小特征值对应的特征向量。作者指出如果只需要求最小特征值，不需要使用SVD，使用以下迭代算法即可</p>
-<p><img alt="image" src="../res/iteration_minSVD.png" /></p></div>
+<p><img alt="image" src="../res/iteration_minSVD.png" /></p>
+<h2 id="flow2stereo-effective-self-supervised-learning-of-optical-flow-and-stereo-matching">Flow2Stereo: Effective Self-Supervised Learning of Optical Flow and Stereo Matching</h2>
+<p><a href="http://openaccess.thecvf.com/content_CVPR_2020/papers/Liu_Flow2Stereo_Effective_Self-Supervised_Learning_of_Optical_Flow_and_Stereo_Matching_CVPR_2020_paper.pdf">pdf</a></p>
+<p><img alt="image" src="../res/flow2stereo.png" /></p>
+<h2 id="what-you-see-is-what-you-get-exploiting-visibility-for-3d-object-detection">What You See is What You Get: Exploiting Visibility for 3D Object Detection</h2>
+<p><a href="http://openaccess.thecvf.com/content_CVPR_2020/papers/Hu_What_You_See_is_What_You_Get_Exploiting_Visibility_for_CVPR_2020_paper.pdf">pdf</a></p>
+<p>本文主要针对的就是Nuscene场景中被遮挡比较严重的物体。通过用点云建立的occupancy map,网络可以infer什么地方是可能被遮挡而可能有物体的。</p>
+<p>本文有一个比较好的<a href="https://leijiezhang001.github.io/paper-reading-What-You-See-is-What-You-Get-Exploiting-Visibility-for-3D-Object-Detection/">中文博客</a>,提到了本文几个重要的有趣的细节，第一个是3D世界的Fast Voxel Traversal生成occupancy map;第二个是数据增强，采取的方法与occupancy map进行增强；第三个是online bayesian grid mapping.</p>
+<h2 id="instance-shadow-detection">Instance Shadow Detection</h2>
+<p><a href="http://openaccess.thecvf.com/content_CVPR_2020/papers/Wang_Instance_Shadow_Detection_CVPR_2020_paper.pdf">pdf</a> <a href="https://github.com/stevewongv/InstanceShadowDetection">code</a></p>
+<p>本文提出了一个新的任务，新的dataset以及baseline方法。任务是物体与影子的instance segmentation以及一一对应。</p>
+<p><img alt="image" src="../res/lisa_arch.png" /></p>
+<h2 id="a-model-driven-deep-neural-network-for-single-image-rain-removal">A Model-driven Deep Neural Network for Single Image Rain Removal</h2>
+<p><a href="http://openaccess.thecvf.com/content_CVPR_2020/papers/Wang_A_Model-Driven_Deep_Neural_Network_for_Single_Image_Rain_Removal_CVPR_2020_paper.pdf">pdf</a>
+ <a href="https://github.com/hongwang01/RCDNet">code</a></p>
+<p><img alt="image" src="../res/RCD_algo.png" />
+<img alt="image" src="../res/RCDNet_arch.png" /></p></div>
                     
                 </div>
         </div>
