@@ -1,4 +1,4 @@
-time: 20200617
+time: 20200622
 short_title: CVPR 2020 clips
 
 # Summaries for sevearl CVPR 2020 papers
