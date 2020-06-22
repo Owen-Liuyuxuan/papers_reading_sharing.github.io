@@ -1252,6 +1252,12 @@
                 <li class="nav-item">
                     <a href="#a-model-driven-deep-neural-network-for-single-image-rain-removal" class="nav-link">A Model-driven Deep Neural Network for Single Image Rain Removal</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#single-image-optical-flow-estimation-with-an-event-camera" class="nav-link">Single Image Optical Flow Estimation with an Event Camera</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#pi-nets-deep-polynomial-neural-networks" class="nav-link">\Pi - nets: Deep Polynomial Neural Networks</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1368,7 +1374,42 @@ F_{T_{1}} & & \\
 <p><a href="http://openaccess.thecvf.com/content_CVPR_2020/papers/Wang_A_Model-Driven_Deep_Neural_Network_for_Single_Image_Rain_Removal_CVPR_2020_paper.pdf">pdf</a>
  <a href="https://github.com/hongwang01/RCDNet">code</a></p>
 <p><img alt="image" src="../res/RCD_algo.png" />
-<img alt="image" src="../res/RCDNet_arch.png" /></p></div>
+<img alt="image" src="../res/RCDNet_arch.png" /></p>
+<h2 id="single-image-optical-flow-estimation-with-an-event-camera">Single Image Optical Flow Estimation with an Event Camera</h2>
+<p><a href="https://arxiv.org/pdf/2004.00347.pdf">pdf</a></p>
+<p>本文是基于DAVIS的event + gray scale设计的算法，一个重要的idea是event信息本身可以直接存储光流相关的信息，而灰度图的动态模糊也可以用于指引光流估计。因此本文提出同时估计光流场以及latent image <script type="math/tex">\mathcal{L}</script>.</p>
+<p>能量函数设计为</p>
+<p>
+<script type="math/tex; mode=display">\min _{\mathbf{L} . \mathbf{u}} \mu_{1} \phi_{\mathrm{eve}}(\mathbf{L}, \mathbf{u})+\mu_{2} \phi_{\mathrm{blur}}(\mathbf{L}, \mathbf{u})+\phi_{\mathrm{flow}}(\nabla \mathbf{u})+\phi_{\mathrm{im}}(\nabla \mathbf{L})</script>
+</p>
+<p>首先是考虑了光照变化的光流-光照一致条件
+<script type="math/tex; mode=display">\begin{aligned}
+\phi_{\mathrm{eve}}(\mathbf{L}, \mathbf{u})=\sum_{\mathbf{x} \in \Omega} \| &\mathbf{L}(\mathbf{x}, f)(\exp (c \mathbf{E}(\mathbf{x}, t))-1) \\
+&+\left[u_{\mathbf{x}}, v_{\mathbf{x}}\right]^{\mathrm{T}} \nabla \mathbf{L}(\mathbf{x}, f) \|_{1}
+\end{aligned}</script>
+</p>
+<p>模糊:
+模糊后的图片<script type="math/tex">B</script>可以由模糊核<script type="math/tex">K</script>以及latent 图片<script type="math/tex">L</script>卷积表达:
+<script type="math/tex; mode=display">\begin{aligned}
+\mathbf{B}(\mathbf{x}) &=\sum_{\mathbf{y} \in \Omega} \mathbf{k}(\mathbf{y}) \mathbf{L}(\mathbf{x}-\mathbf{y}) \\
+&=\sum_{\mathbf{y} \in \Omega} \mathbf{k}_{\mathbf{u}^{\prime}(\mathbf{x})}(\mathbf{y}) \mathbf{L}(\mathbf{x}-\mathbf{y})
+\end{aligned}</script>
+</p>
+<p>
+<script type="math/tex; mode=display">k_{\mathbf{u}^{\prime}(\mathbf{x})}(\mathbf{y})=\left\{\begin{array}{ll}
+\frac{1}{\left|\mathbf{u}^{\prime}(\mathbf{x})\right|}, & \text { if } \mathbf{y}=\alpha \mathbf{u}^{\prime}(\mathbf{x}),|\alpha| \leq \frac{1}{2} \\
+\mathbf{0}, & \text { otherwise }
+\end{array}\right.</script>
+模糊条件:
+<script type="math/tex; mode=display">\phi_{\text {blur }}(\mathbf{L}, \mathbf{u})=\sum_{\mathbf{x}, \mathbf{y} \in \Omega}\left\|\mathbf{k}_{\mathbf{u}^{\prime}(\mathbf{x})}(\mathbf{y}) \mathbf{L}(\mathbf{x}-\mathbf{y})-\mathbf{B}(\mathbf{x})\right\|^{2}</script>
+</p>
+<p>后两项为连续性要求，文中的设计比较精细。
+优化方法上本文迭代进行光流估计以及图片的deblur</p>
+<h2 id="pi-nets-deep-polynomial-neural-networks">
+<script type="math/tex">\Pi</script> - nets: Deep Polynomial Neural Networks</h2>
+<p><a href="http://openaccess.thecvf.com/content_CVPR_2020/papers/Chrysos_P-nets_Deep_Polynomial_Neural_Networks_CVPR_2020_paper.pdf">pdf</a></p>
+<p><img alt="image" src="../res/pinet.png" /></p>
+<p>可学习参数的多项式计算模块(最终输出为输入的多项式表达)</p></div>
                     
                 </div>
         </div>
