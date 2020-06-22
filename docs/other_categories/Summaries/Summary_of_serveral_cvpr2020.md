@@ -163,3 +163,46 @@ $$\begin{array}{l}
 ![image](res/RCDNet_arch.png)
 
 
+
+## Single Image Optical Flow Estimation with an Event Camera
+
+[pdf](https://arxiv.org/pdf/2004.00347.pdf)
+
+本文是基于DAVIS的event + gray scale设计的算法，一个重要的idea是event信息本身可以直接存储光流相关的信息，而灰度图的动态模糊也可以用于指引光流估计。因此本文提出同时估计光流场以及latent image $\mathcal{L}$.
+
+能量函数设计为
+
+$$\min _{\mathbf{L} . \mathbf{u}} \mu_{1} \phi_{\mathrm{eve}}(\mathbf{L}, \mathbf{u})+\mu_{2} \phi_{\mathrm{blur}}(\mathbf{L}, \mathbf{u})+\phi_{\mathrm{flow}}(\nabla \mathbf{u})+\phi_{\mathrm{im}}(\nabla \mathbf{L})$$
+
+
+首先是考虑了光照变化的光流-光照一致条件
+$$\begin{aligned}
+\phi_{\mathrm{eve}}(\mathbf{L}, \mathbf{u})=\sum_{\mathbf{x} \in \Omega} \| &\mathbf{L}(\mathbf{x}, f)(\exp (c \mathbf{E}(\mathbf{x}, t))-1) \\
+&+\left[u_{\mathbf{x}}, v_{\mathbf{x}}\right]^{\mathrm{T}} \nabla \mathbf{L}(\mathbf{x}, f) \|_{1}
+\end{aligned}$$
+
+
+模糊:
+模糊后的图片$B$可以由模糊核$K$以及latent 图片$L$卷积表达:
+$$\begin{aligned}
+\mathbf{B}(\mathbf{x}) &=\sum_{\mathbf{y} \in \Omega} \mathbf{k}(\mathbf{y}) \mathbf{L}(\mathbf{x}-\mathbf{y}) \\
+&=\sum_{\mathbf{y} \in \Omega} \mathbf{k}_{\mathbf{u}^{\prime}(\mathbf{x})}(\mathbf{y}) \mathbf{L}(\mathbf{x}-\mathbf{y})
+\end{aligned}$$
+
+$$k_{\mathbf{u}^{\prime}(\mathbf{x})}(\mathbf{y})=\left\{\begin{array}{ll}
+\frac{1}{\left|\mathbf{u}^{\prime}(\mathbf{x})\right|}, & \text { if } \mathbf{y}=\alpha \mathbf{u}^{\prime}(\mathbf{x}),|\alpha| \leq \frac{1}{2} \\
+\mathbf{0}, & \text { otherwise }
+\end{array}\right.$$
+模糊条件:
+$$\phi_{\text {blur }}(\mathbf{L}, \mathbf{u})=\sum_{\mathbf{x}, \mathbf{y} \in \Omega}\left\|\mathbf{k}_{\mathbf{u}^{\prime}(\mathbf{x})}(\mathbf{y}) \mathbf{L}(\mathbf{x}-\mathbf{y})-\mathbf{B}(\mathbf{x})\right\|^{2}$$
+
+后两项为连续性要求，文中的设计比较精细。
+优化方法上本文迭代进行光流估计以及图片的deblur
+
+## $\Pi$ - nets: Deep Polynomial Neural Networks
+
+[pdf](http://openaccess.thecvf.com/content_CVPR_2020/papers/Chrysos_P-nets_Deep_Polynomial_Neural_Networks_CVPR_2020_paper.pdf)
+
+![image](res/pinet.png)
+
+可学习参数的多项式计算模块(最终输出为输入的多项式表达)
