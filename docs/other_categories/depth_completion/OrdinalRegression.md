@@ -23,3 +23,14 @@ Square Difference(SD): $\phi\left(r_{t}, r_{i}\right)=\left\|r_{t}-r_{i}\right\|
 Square Log Difference(SL): $\phi\left(r_{t}, r_{i}\right)=\left\|\log r_{t}-\log r_{i}\right\|^{2}$
 
 Square Invariant Logarithmic Error (SI): $\phi\left(r_{t}, r_{i}\right)=d_{r_{t}, r_{i}}^{2}-\frac{d_{r_{t}, r_{i}}}{n}\left(d_{r_{t}, r_{i}}+\sum_{p^{\prime} \neq p} d_{p^{\prime}}\right)$
+
+SI Loss 源自于这篇 [paper.pdf](https://arxiv.org/pdf/1406.2283.pdf)
+
+$$\begin{aligned}
+D\left(y, y^{*}\right) &=\frac{1}{n^{2}} \sum_{i, j}\left(\left(\log y_{i}-\log y_{j}\right)-\left(\log y_{i}^{*}-\log y_{j}^{*}\right)\right)^{2} \\
+&=\frac{1}{n} \sum_{i} d_{i}^{2}-\frac{1}{n^{2}} \sum_{i, j} d_{i} d_{j}=\frac{1}{n} \sum_{i} d_{i}^{2}-\frac{1}{n^{2}}\left(\sum_{i} d_{i}\right)^{2}
+\end{aligned}$$
+
+那篇paper提出的一个混合的Loss:
+
+$$L\left(y, y^{*}\right)=\frac{1}{n} \sum_{i} d_{i}^{2}-\frac{\lambda}{n^{2}}\left(\sum_{i} d_{i}\right)^{2}$$
