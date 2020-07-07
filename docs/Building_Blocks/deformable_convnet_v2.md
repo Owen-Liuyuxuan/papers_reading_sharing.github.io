@@ -10,7 +10,8 @@ short_title: Deformable ConvNet V2
 本文的关键想法是允许deformable conv模块在同一张图片同一个channel、不同地方有不同的behavior,而原来的conv以及初始的deformable conv都是处处相同的特征。计算公式
 $$y(p) = \sum^K_{k=1}w_k\dot x(p + p_k + \Delta p_k) \dot \Delta m_k$$
 
-其中$p, x(p), y(p)$表示位置$p$以及当前位置上的输入、输出feature map。$K$为卷积核的数量，$p_k， w_k$为原版可变形卷积学习到的offset以及权重(在同一图片同一channel处处相同),$\Delta p_k, \Delta m_k$为新版增加的，与当前区域相关的offset以及权重
+其中$p, x(p), y(p)$表示位置$p$以及当前位置上的输入、输出feature map。$K$为卷积核的数量，$p_k， w_k$为普通卷积学习到的offset以及权重(在同一图片同一channel处处相同),$\Delta p_k, \Delta m_k$为新版增加的，与当前区域相关的offset以及权重
+(offset 形状为 [B, kernel_size\*\*2, H, W])
 
 而$\Delta p_k, \Delta m_k$由当前位置卷积产生，比如使用K=9，对当前位置使用正常卷积，得到27个channel，前18个channel分别对应$\Delta p_k$的两个坐标,后9个channel经过sigmoid激活后变为$\Delta m_k$
 
