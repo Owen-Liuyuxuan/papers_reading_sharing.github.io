@@ -312,6 +312,12 @@
     </li>
               
     <li>
+        <a href="../../Segmentation/Ultra_Fast_Structure-aware_Deep_Lane_Detection/" class="dropdown-item">
+            Ultra Fast Structure-aware Deep Lane Detection
+        </a>
+    </li>
+              
+    <li>
         <a href="../../Segmentation/YOLACT/" class="dropdown-item">
             YOLOACT
         </a>
@@ -1309,14 +1315,14 @@
 <script type="math/tex; mode=display">L_{d e t}=L_{k}+\lambda_{s i z e} L_{s i z e}+\lambda_{o f f} L_{o f f}</script>
 </p>
 <p>进行NMS的时候，不需要使用特殊的NMS，作者采用的是更为的Maxpooling</p>
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">_nms</span><span class="p">(</span><span class="n">heat</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">_nms</span><span class="p">(</span><span class="n">heat</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="n">pad</span> <span class="o">=</span> <span class="p">(</span><span class="n">kernel</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
 
     <span class="n">hmax</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span>
         <span class="n">heat</span><span class="p">,</span> <span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">kernel</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="n">pad</span><span class="p">)</span>
     <span class="n">keep</span> <span class="o">=</span> <span class="p">(</span><span class="n">hmax</span> <span class="o">==</span> <span class="n">heat</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">heat</span> <span class="o">*</span> <span class="n">keep</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>进而作者延伸出更多的application，比如比如借助预测offset以及heatmap的机制进行pose-estimation,同时预测3D信息实现3D object detection。速度快而精确</p>

@@ -312,6 +312,12 @@
     </li>
               
     <li>
+        <a href="../../Segmentation/Ultra_Fast_Structure-aware_Deep_Lane_Detection/" class="dropdown-item">
+            Ultra Fast Structure-aware Deep Lane Detection
+        </a>
+    </li>
+              
+    <li>
         <a href="../../Segmentation/YOLACT/" class="dropdown-item">
             YOLOACT
         </a>
@@ -1314,14 +1320,14 @@ p, & \text { when } y=1 \\
 </p>
 <div id="qfocalLoss" ></div>
 
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">quality_focal_loss</span><span class="p">(</span>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">quality_focal_loss</span><span class="p">(</span>
           <span class="n">pred</span><span class="p">,</span>          <span class="c1"># (n, 80)</span>
           <span class="n">label</span><span class="p">,</span>         <span class="c1"># (n) 0, 1-80: 0 is neg, 1-80 is positive</span>
           <span class="n">score</span><span class="p">,</span>         <span class="c1"># (n) reg target 0-1, only positive is good</span>
-          <span class="n">weight</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+          <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
           <span class="n">beta</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
           <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
-          <span class="n">avg_factor</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+          <span class="n">avg_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        from https://github.com/implus/GFocal/blob/cc0e72680f16a8abe0770eb531d6baa07a6e511f/mmdet/models/losses/gfocal_loss.py</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1344,19 +1350,19 @@ p, & \text { when } y=1 \\
 
     <span class="n">loss</span> <span class="o">=</span> <span class="n">weight_reduce_loss</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">reduction</span><span class="p">,</span> <span class="n">avg_factor</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">loss</span>
-</pre></div>
+</code></pre></div>
 
 
 <h2 id="distribution-focal-loss-dfl">Distribution Focal Loss (DFL)</h2>
 <p>当我们使用序列的多个分类值(multi-bin)分类时，inference的时候我们使用 <script type="math/tex">\hat{y}=\sum_{i=0}^{n} P\left(y_{i}\right) y_{i}</script>。 <script type="math/tex; mode=display">\mathbf{D F L}\left(\mathcal{S}_{i}, \mathcal{S}_{i+1}\right)=-\left(\left(y_{i+1}-y\right) \log \left(\mathcal{S}_{i}\right)+\left(y-y_{i}\right) \log \left(\mathcal{S}_{i+1}\right)\right)</script>
 </p>
 <p>其中 <script type="math/tex">\mathcal{S}_{i}=\frac{y_{i+1}-y}{y_{i+1}-y_{i}}, \mathcal{S}_{i+1}=\frac{y-y_{i}}{y_{i+1}-y_{i}}</script>,直觉就是按照权重使用loss鼓励multibin ground truth临近的两侧分类点的权重。</p>
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">distribution_focal_loss</span><span class="p">(</span>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">distribution_focal_loss</span><span class="p">(</span>
             <span class="n">pred</span><span class="p">,</span>
             <span class="n">label</span><span class="p">,</span>
-            <span class="n">weight</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
-            <span class="n">avg_factor</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+            <span class="n">avg_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        from https://github.com/implus/GFocal/blob/cc0e72680f16a8abe0770eb531d6baa07a6e511f/mmdet/models/losses/gfocal_loss.py</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1370,7 +1376,7 @@ p, & \text { when } y=1 \\
          <span class="o">+</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">disr</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">wr</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="n">weight_reduce_loss</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">reduction</span><span class="p">,</span> <span class="n">avg_factor</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">loss</span>
-</pre></div>
+</code></pre></div>
 
 
 <h2 id="generalized-focal-loss-gfl">Generalized Focal Loss (GFL)</h2>

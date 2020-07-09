@@ -312,6 +312,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/Segmentation/Ultra_Fast_Structure-aware_Deep_Lane_Detection/" class="dropdown-item">
+            Ultra Fast Structure-aware Deep Lane Detection
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/Segmentation/YOLACT/" class="dropdown-item">
             YOLOACT
         </a>
@@ -1280,8 +1286,8 @@
 <h1 id="understanding-deep-learning-requires-rethinking-generalization">Understanding Deep Learning Requires Rethinking Generalization</h1>
 <p>这篇文章讨论网络的generalization能力。</p>
 <p>一个特殊的实验：</p>
-<div class="codehilite"><pre><span></span><span class="err">在一个</span><span class="n">dataset中</span><span class="err">，将</span><span class="n">label改为完全随机抽取</span><span class="err">，实验证明，目前的神经网络能够完全记忆所有的随机</span><span class="n">label</span><span class="err">，优化难度并没有显著提升，但是明确可以知道，</span><span class="n">generalization的结果必然等同于随机</span><span class="p">(</span><span class="n">training</span> <span class="err">与</span> <span class="n">testing完全不相关</span><span class="p">)</span><span class="err">。</span>
-</pre></div>
+<div class="codehilite"><pre><span></span><code><span class="err">在一个dataset中，将label改为完全随机抽取，实验证明，目前的神经网络能够完全记忆所有的随机label，优化难度并没有显著提升，但是明确可以知道，generalization的结果必然等同于随机(training 与 testing完全不相关)。</span>
+</code></pre></div>
 
 
 <p>所以首先可以知道优化是否顺利与能否generalize没有直接显著的关系</p>
