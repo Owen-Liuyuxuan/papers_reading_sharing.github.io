@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Accurate Monocular Object Detection via Color-Embedded 3D Reconstruction for Autonomous Driving - Reading Collections</title>
+        <title>Wasserstein Distances for Stereo Disparity Estimation - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -642,13 +642,13 @@
     </li>
                                     
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../AM3D/" class="dropdown-item">
             Color-Embedded 3D Reconstructio Mono3D
         </a>
     </li>
                                     
     <li>
-        <a href="../CDN/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             Wasserstein Distances for Stereo Disparity Estimation
         </a>
     </li>
@@ -1248,12 +1248,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../AFDet/" class="nav-link">
+                                <a rel="prev" href="../AM3D/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../CDN/" class="nav-link">
+                                <a rel="next" href="../CameraDistanceAware/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -1276,77 +1276,46 @@
         
         <ul class="nav flex-column bs-sidenav">
         
-        <a href=https://arxiv.org/pdf/1903.11444.pdf>
+        <a href=https://arxiv.org/pdf/2007.03085v1.pdf>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
         </a>
         
 
         
-            <li class="nav-item main"><a href="#accurate-monocular-object-detection-via-color-embedded-3d-reconstruction-for-autonomous-driving">Accurate Monocular Object Detection via Color-Embedded 3D Reconstruction for Autonomous Driving</a></li>
+            <li class="nav-item main"><a href="#wasserstein-distances-for-stereo-disparity-estimation">Wasserstein Distances for Stereo Disparity Estimation</a></li>
                 <li class="nav-item">
-                    <a href="#_1" class="nav-link">主要结构与流程图</a>
+                    <a href="#_1" class="nav-link">输出方式</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#_2" class="nav-link">局部详解</a>
+                    <a href="#_2" class="nav-link">训练方式</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
-<a href=https://arxiv.org/pdf/1903.11444.pdf>
+<a href=https://arxiv.org/pdf/2007.03085v1.pdf>
     <i class="fa fa-file-pdf-o"> pdf</i>
 </a>
 
 
 
 </span>
-<h1 id="accurate-monocular-object-detection-via-color-embedded-3d-reconstruction-for-autonomous-driving">Accurate Monocular Object Detection via Color-Embedded 3D Reconstruction for Autonomous Driving</h1>
-<p>这篇文章利用了depth estimation以及Pseudo lidar的思路，是目前单目视觉3D检测的SOTA,但是额外出彩的地方在于其对RGB信息以及深度信息融合时的做法。</p>
-<h2 id="_1">主要结构与流程图</h2>
-<p><img alt="image" src="../res/Color-Embedded3DReconstruction.png" /></p>
-<p>对单一图像分别使用RPN提取RoI以及使用深度网络生成深度信息，然后对提取出来的区域，进行简单的数据转换、分割、融合检测回归</p>
-<h2 id="_2">局部详解</h2>
-<h3 id="_3">数据转换</h3>
-<p>已知深度d，使用</p>
+<h1 id="wasserstein-distances-for-stereo-disparity-estimation">Wasserstein Distances for Stereo Disparity Estimation</h1>
+<p>这篇paper提出了双目匹配的一个新的输出方式与训练方式，作者将其替换到不同的双目匹配以及双目检测的方案中，都得到了直接的性能提升。</p>
+<h2 id="_1">输出方式</h2>
+<p><img alt="image" src="../res/CDN_arch.png" /></p>
+<p>此前的双目匹配是建立在单模预测的假设上的，每一个点预测一个概率，然后期望将结果训练成为一个单峰的高斯分布。</p>
+<p>但是作者指出，在物体边界上的点，大概率得到的disparity是一个双模的分布(disparity可能对应前景也可能对应后景)，如果直接对结果进行加权平均，就会观察到像<a href="../Pseudo-Lidar/">P-lidar</a>文章图片中看到的情况，也就是边缘点洒落在物体前景与后景之间。</p>
+<p>作者给出的方案是让每一个base disparity独立地计算ground truth与自己的offset以及概率，网络的输出则是直接输出其中概率最高的模态。</p>
+<h2 id="_2">训练方式</h2>
+<p>对于单模态训练，作者提出使用wasserstein距离进行训练:</p>
 <p>
-<script type="math/tex; mode=display">
-\left\{\begin{array}{l}{z=d} \\ {x=\left(u-C_{x}\right) * z / f} \\ {y=\left(v-C_{y}\right) * z / f}\end{array}\right.
-</script>
-将RoI区域转换为目标点云(密集表达)。</p>
-<h3 id="_4">点云分割</h3>
-<p>方法简单，在RoI区域内，求出深度平均值，比均值高出一个阈值以上的判断为背景点</p>
-<p>
-<script type="math/tex; mode=display">
-S^{\prime}=\left\{p | p_{v} \leq \frac{\sum_{p \in S} p_{v}}{|S|}+r, p \in S\right\}
-</script>
-</p>
-<p>并从中随机选取一定量的点作为输出点，大小一致便于后期处理</p>
-<h3 id="_5"></h3>
-<h3 id="_6">坐标转换</h3>
-<p>用一个经典<a href="https://arxiv.org/pdf/1711.08488.pdf">文章</a>的方法，利用一个小网络估计出RoI的中心，然后将所有点转到相对坐标系中
-<script type="math/tex; mode=display">
-S^{\prime \prime}=\left\{p | p-\delta, p \in S^{\prime}\right\}
-</script>
-</p>
-<p>然后用pointnet预测</p>
-<h3 id="_7">融合</h3>
-<p><img alt="image" src="../res/RGBPCAggregation.png" /></p>
-<p>用如图方式融合点云以及彩色点。</p>
-<p>
-<script type="math/tex">G</script>是一个注意力模块，得到它的公式是<script type="math/tex">G = \sigma(f([F^{xyz}_{max}, F^{xyz}_{avg}]))</script>,有一点<a href="../../Building_Blocks/CBAM:Convolutional_Block_Attention_Module/">CBAM</a>的效果，</p>
-<p>后面的点乘与相加可以写成</p>
-<p>
-<script type="math/tex; mode=display">
-\mathbf{F}^{x y z} \leftarrow \mathbf{F}^{x y z}+\mathbf{G} \odot \mathbf{F}^{r g b}
-</script>
-</p>
-<p>另一方面，从图中的2D RoI中，使用RoIAlign调到<script type="math/tex">128\times 128</script>，用CNN提取一个特征向量，并联</p>
-<h3 id="_8">训练细节</h3>
-<ol>
-<li>两阶段训练，先训练两个中间网络，然后只用3D信息训练整个网络</li>
-<li>损失函数包括，中间轻量级的对center的估计，预测输出的corner loss(8个角)</li>
-</ol></div>
+<script type="math/tex; mode=display">\begin{aligned}
+W_{p}\left(\tilde{p}, p^{\star}\right)=\left(\mathbb{E}_{\tilde{p}}\left\|d^{\prime}-d^{*}\right\|^{p}\right)^{1 / p} &=\left(\sum_{d \in \mathcal{D}} p(d \mid u, v)\left\|d+b(u, v, d)-d^{\star}\right\|^{p}\right)^{1 / p} \\
+&=\left(\sum_{d \in \mathcal{D}} \operatorname{softmax}\left(-S_{\text {disp }}(u, v, d)\right)\left\|d+b(u, v, d)-d^{\star}\right\|^{p}\right)^{1 / p}
+\end{aligned}</script>
+</p></div>
                     
                 </div>
         </div>
