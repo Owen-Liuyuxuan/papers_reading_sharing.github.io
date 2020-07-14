@@ -1,15 +1,19 @@
-time: 20200608
+time: 20200714
 
 # Collections of Stereo Matching from KITTI
 
 本文记录了 Stereo Matching 有文章/有code实现的主要paper.将会持续update
 
 
+Update:
+    2020.0714: Add CDN
+
 |   Methods     | D1-all   | D1-bg| D1-fg| Time |
 |---------------|:--------:|:------:|:------:|:------:|
 | [CSPN]        |  1.74    | 1.51 | 2.88 | 1.0  |
 | [GANet-deep]  |  1.81    | 1.48 | 3.46 | 1.8  |
 | [AcfNet]      |  1.89    | 1.51 | 3.80 | 0.48 |
+| [CDN-GANet]   |  1.92    | 1.66 | 3.20 | 0.40 |
 | [AANet+]      |  2.03    | 1.65 | 3.96 | 0.06 |
 | [DeepPruner]  |  2.15    | 1.87 | 3.56 | 0.18 |
 | [PSMNet]      |  2.32    | 1.86 | 4.62 | 0.21 |
@@ -18,7 +22,7 @@ time: 20200608
 | [RTS2Net]     |  3.56    | 3.09 | 5.91 | 0.02 |
 | [SsSMnet]     |  3.40    | 2.70 | 6.92 | 0.8  |
 
-其中本站已有的文章为[CSPN],[AcfNet],[DeepPruner], [PSMNet], [FADNet], [SsSMnet], [RTS2Net].
+其中本站已有的文章为[CSPN],[AcfNet], [CDN-GANet], [DeepPruner], [PSMNet], [FADNet], [SsSMnet], [RTS2Net].
 
 Update: 2020.06.08: add RTS2Net
 ## GANet
@@ -100,6 +104,7 @@ E_{d s}^{l} &=\frac{1}{n} \sum_{i, j}\left|\partial_{x} d_{i j}^{l}\right| e^{-\
 
 [CSPN]:../../Building_Blocks/SPN_CSPN.md
 [AcfNet]:../others/Adaptive_Unimodal_Cost_Volume_Filtering_for_Deep_Stereo_Matching.md
+[CDN-GANet]:../../3dDetection/CDN.md
 [DeepPruner]:../../Building_Blocks/deepPruner.md
 [PSMNet]:../others/PSMNet.md
 [FADNet]:../others/FADNet.md

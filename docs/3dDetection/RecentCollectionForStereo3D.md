@@ -1,4 +1,4 @@
-time: 20200409
+time: 20200714
 short_title: Recent Collections for Stereo 3D
 
 # Recent Collections for Stereo 3D detection
@@ -9,12 +9,14 @@ short_title: Recent Collections for Stereo 3D
 
 Update:
     2020.0409: Add Disp-RCNN and PL E2E.
-
+    2020.0714: Add CDN
 
 | Methods             | Moderate |   Easy  |   Hard  |  Time  |
 |---------------------|:--------:|:-------:|:-------:|:------:|
+| [CDN]               |  54.22 % | 74.52 % | 46.36 % |  0.6  s|
 | [CG-Stereo]         |  53.58 % | 74.39 % | 46.50 % |  0.57 s|
 | [DSGN]              |  52.18 % | 73.50 % | 45.14 % |  0.67 s|
+| [CDN P-LiDAR++]     |  44.86 % | 64.31 % | 38.11 % |  0.4 s |
 | [Pseudo-LiDAR E2E]  |  43.92 % | 64.75 % | 38.14 % |  0.4 s |
 | [Pseudo-LiDAR++]    |  42.43 % | 61.11 % | 36.99 % |  0.4 s |
 | [Disp R-CNN] (velo) |  39.34 % | 59.58 % | 31.99 % |  0.42 s|
@@ -130,7 +132,8 @@ voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的
 3. 作者根据语义分割以及detector结果分割出相关像素，然后聚类，然后以优化凸包的方式得出结果。由于作者没有开源，很多内容有待商榷。
 
 
-
+[CDN]:CDN.md
+[CDN P-LiDAR++]:CDN.md
 [CG-Stereo]:#cg-stereo
 [DSGN]:DSGN.md
 [Pseudo-LiDAR E2E]:#pseudo-lidar-e2e
