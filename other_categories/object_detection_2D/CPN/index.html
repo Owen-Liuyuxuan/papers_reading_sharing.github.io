@@ -1352,7 +1352,8 @@
 <h2 id="architecture">Architecture</h2>
 <p><img alt="image" src="../res/CPN_arch.png" /></p>
 <p>第一阶段使用CornerNet预测角点，将同类的左上点和右下点匹配，产生大量的proposals。</p>
-<p>第二阶段首先将每一个匹配得到的detector, RoIAlign提取框内的特征，先使用<a href="../GFocalLoss/">Focal Loss</a>监督一个轻量的二分类分类器。 然后filter掉 objectness比较低的物体之后，再使用一个更大的分类器，重新确定这个框的分类。</p></div>
+<p>第二阶段首先将每一个匹配得到的detector, RoIAlign提取框内的特征，先使用<a href="../GFocalLoss/">Focal Loss</a>监督一个轻量的二分类分类器。 然后filter掉 objectness比较低的物体之后，再使用一个更大的分类器，重新确定这个框的分类。</p>
+<p>注意本文(or reviewers)觉得这篇paper的思路和DeNet很像，但是本文在消除负样本的效率上做的更好，<a href="https://arxiv.org/pdf/1703.10295.pdf">文章</a>与<a href="https://github.com/lachlants/denet">代码</a>皆开放，不过是基于theano的。</p></div>
                     
                 </div>
         </div>
