@@ -23,3 +23,5 @@ short_title: Cornet Proposal Network
 
 第二阶段首先将每一个匹配得到的detector, RoIAlign提取框内的特征，先使用[Focal Loss](GFocalLoss.md)监督一个轻量的二分类分类器。 然后filter掉 objectness比较低的物体之后，再使用一个更大的分类器，重新确定这个框的分类。
 
+
+注意本文(or reviewers)觉得这篇paper的思路和DeNet很像，但是本文在消除负样本的效率上做的更好，[文章](https://arxiv.org/pdf/1703.10295.pdf)与[代码](https://github.com/lachlants/denet)皆开放，不过是基于theano的。
