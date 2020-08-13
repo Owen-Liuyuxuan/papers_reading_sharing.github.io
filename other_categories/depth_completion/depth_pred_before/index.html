@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>InfoGAN: Interpretable Representation Learning byInformation Maximizing Generative Adversarial Nets - Reading Collections</title>
+        <title>Depth Prediction Before Deep Learning - Reading Collections</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
@@ -490,31 +490,31 @@
       <ul class="dropdown-menu">
               
     <li>
-        <a href="../../depth_completion/OrdinalRegression/" class="dropdown-item">
+        <a href="../OrdinalRegression/" class="dropdown-item">
             Soft Labels for Ordinal Regression
         </a>
     </li>
               
     <li>
-        <a href="../../depth_completion/Sparse and noisy LiDAR completion with RGB guidance and uncertainty/" class="dropdown-item">
+        <a href="../Sparse and noisy LiDAR completion with RGB guidance and uncertainty/" class="dropdown-item">
             LiDAR completion with RGB uncertainty
         </a>
     </li>
               
     <li>
-        <a href="../../depth_completion/depth_pred_before/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             Depth Prediction before DL
         </a>
     </li>
               
     <li>
-        <a href="../../depth_completion/dorn/" class="dropdown-item">
+        <a href="../dorn/" class="dropdown-item">
             DORN Depth Prediction
         </a>
     </li>
               
     <li>
-        <a href="../../depth_completion/guideNet/" class="dropdown-item">
+        <a href="../guideNet/" class="dropdown-item">
             GuideNet
         </a>
     </li>
@@ -1302,12 +1302,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../IMAGENET-TRAINEDCNNS   ARE   BIASED   TOWARDSTEXTURE;INCREASING SHAPE BIAS IMPROVESACCURACY AND ROBUSTNESS/" class="nav-link">
+                                <a rel="prev" href="../Sparse and noisy LiDAR completion with RGB guidance and uncertainty/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../LP-3DCNN Unveiling Local Phase in 3D Convolutional Neural Networks/" class="nav-link">
+                                <a rel="next" href="../dorn/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -1330,18 +1330,53 @@
         
         <ul class="nav flex-column bs-sidenav">
         
+        <a href=https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5539823>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
+        </a>
+        
 
         
-            <li class="nav-item main"><a href="#infogan-interpretable-representation-learning-byinformation-maximizing-generative-adversarial-nets">InfoGAN: Interpretable Representation Learning byInformation Maximizing Generative Adversarial Nets</a></li>
+            <li class="nav-item main"><a href="#depth-prediction-before-deep-learning">Depth Prediction Before Deep Learning</a></li>
+                <li class="nav-item">
+                    <a href="#single-image-depth-estimation-from-predicted-semantic-labels" class="nav-link">Single Image Depth Estimation From Predicted Semantic Labels</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#learning-depth-from-single-monocular-images" class="nav-link">Learning Depth from Single Monocular Images</a>
+                </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
+<a href=https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5539823>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
+
 
 
 </span>
-<h1 id="infogan-interpretable-representation-learning-byinformation-maximizing-generative-adversarial-nets">InfoGAN: Interpretable Representation Learning byInformation Maximizing Generative Adversarial Nets</h1></div>
+<h1 id="depth-prediction-before-deep-learning">Depth Prediction Before Deep Learning</h1>
+<p>本文记录几篇在深度学习时代之前的单目深度相关的工作。</p>
+<h2 id="single-image-depth-estimation-from-predicted-semantic-labels">Single Image Depth Estimation From Predicted Semantic Labels</h2>
+<p><a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=5539823">pdf</a></p>
+<h3 id="semantic-segmentation-with-mrf">Semantic Segmentation with MRF</h3>
+<p>MRF能量定义为:</p>
+<p>
+<script type="math/tex; mode=display">\mathbf{E}(\mathbf{L} \mid \mathcal{I})=\sum_{p} \psi_{p}\left(L_{p}\right)+\lambda \sum_{p q} \psi_{p q}\left(L_{p}, L_{q}\right)</script>
+</p>
+<p>对于单项势能选择的则是与<a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/criminisi_iccv2005.pdf">这篇文章</a>一致的17种卷积核的特征。色彩空间选择<a href="https://www.wikiwand.com/en/CIELAB_color_space">CIE Lab</a>,三个方差为1,2,4的高斯核分别用在三个channel上，四个Laplacian Gaussian filters (方差为1,2,4,8)仅在L频道上，在x,y方向上以方差(2, 4)共作4个高斯一阶导的卷积核(仅 L频道)。共17个频道。</p>
+<h3 id="scene-geometry">Scene Geometry</h3>
+<p><img alt="image" src="../res/depth_from_seg.png" /></p>
+<p>对每一个<script type="math/tex">p</script>点，其中<script type="math/tex">g</script>为图片上同一x轴上最高的地面点，<script type="math/tex">b</script>点为图片上同一x轴上同一instance的最低点，<script type="math/tex">t</script>为图片上同一x轴上同一instance的最高点，则点p的深度范围为:</p>
+<p>
+<script type="math/tex; mode=display">d_{g}\left(\frac{r_{g}^{T} e_{3}}{r_{p}^{T} e_{3}}\right) \leq d_{p} \leq d_{g}\left(\frac{r_{g}^{T} e_{2}}{r_{b}^{T} e_{2}}\right)\left(\frac{r_{b}^{T} e_{3}}{r_{p}^{T} e_{3}}\right)</script>
+</p>
+<p>对每一个像素点，作者对training set上每一张图每一个像素点位置(u, v)计算了其平均的log-depth.同时用前文geometric hints里面提到的几个相关pixel的prior depth对当前点深度进行估算，作为第二个MRF的features。</p>
+<h2 id="learning-depth-from-single-monocular-images">Learning Depth from Single Monocular Images</h2>
+<p><a href="http://www.cs.cornell.edu/~asaxena/learningdepth/NIPS_LearningDepth.pdf">pdf</a></p>
+<p>这篇paper也是使用MRF进行分析。</p>
+<p><img alt="image" src="../res/Depth_single.png" /></p>
+<p>核心新意有两个，第一个是multi-scale,第二个是计算上下相邻的两个feature的histgram vector的差值来预测两者的深度差。</p></div>
                     
                 </div>
         </div>
