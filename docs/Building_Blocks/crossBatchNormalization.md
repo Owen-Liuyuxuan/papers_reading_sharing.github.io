@@ -19,7 +19,7 @@ BatchNormalization的一个问题就是在batchsize比较小的时候效果比�
 ![image](res/CBN_algorithm.png)
 
 本质上来说，batch response的均值，平方和以及方差等数据值是关于权重的一个deterministic函数，
-在实际计算中由某次迭代得到的结果进行Monte-Carlo仿真得到一个参考值。过去得到的均值参考值与当前值差值在这里用泰勒公式近似得到
+在实际计算中由某次迭代得到的结果进行Monte-Carlo仿真得到一个参考值。过去得到的均值参考值与当前值差值在这里用泰勒公式近似得到.而这个weight 代码的实现是寻找BN前紧跟着的Conv的weight(无bias)作为这个算法中的$\theta$
 
 $$
 \begin{aligned}
