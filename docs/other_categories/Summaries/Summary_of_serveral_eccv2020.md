@@ -112,5 +112,5 @@ $$S_{\boldsymbol{b} \cap \boldsymbol{b}^{\prime}} \approx \sum_{\boldsymbol{p}_{
 作者也指出了单目深度估计很容易在物体的边缘生成过渡形态的点，和[CDN](../../3dDetection/CDN.md)指出的现象相同。本文作者的思路则是对于 Sobel edge filter相应大于三的点标记为"flying pixels"，将其disparity赋值为离它最近的"non-flying" pixel.
 
 [color transfer]:https://www.cs.tau.ac.il/~turkel/imagepapers/ColorTransfer.pdf
-[Cut, Paste and Learn]: (https://arxiv.org/pdf/1708.01642.pdf)
+[Cut, Paste and Learn]:https://arxiv.org/pdf/1708.01642.pdf
 
