@@ -1469,9 +1469,9 @@ K(d, s) = 1 - \frac{1}{1 + e^{-k(d-s)}}
 <h3 id="occlusion-and-collisions-aware-forward-warping">Occlusion and Collisions Aware Forward Warping</h3>
 <p>直接地采样会导致两个问题，一个是因为遮挡产生的孔(新视角可观察，旧视角不可观察的内容)，一个是碰撞(旧视角可观察，新视角与其他像素重合)</p>
 <p>多个像素对应一个像素(碰撞)时，选取保留视差较大的点.</p>
-<p>对于空白的区域,本文提出从数据库中随机选取另一张图<script type="math/tex">I_b</script>，使用<a href="https://www.cs.tau.ac.il/~turkel/imagepapers/ColorTransfer.pdf">color transfer</a>算法将<script type="math/tex">I_b</script>的颜色风格转换为<script type="math/tex">I_l</script>的。然后填补上空白的部分.填补的方式按照<a href="(https://arxiv.org/pdf/1708.01642.pdf)">Cut, Paste and Learn</a>.</p>
+<p>对于空白的区域,本文提出从数据库中随机选取另一张图<script type="math/tex">I_b</script>，使用<a href="https://www.cs.tau.ac.il/~turkel/imagepapers/ColorTransfer.pdf">color transfer</a>算法将<script type="math/tex">I_b</script>的颜色风格转换为<script type="math/tex">I_l</script>的。然后填补上空白的部分.填补的方式按照<a href="https://arxiv.org/pdf/1708.01642.pdf">Cut, Paste and Learn</a>.</p>
 <p><a href="https://www.cs.tau.ac.il/~turkel/imagepapers/ColorTransfer.pdf">color transfer</a>的做法是将RGB图片转变为<a href="https://www.wikiwand.com/en/CIELAB_color_space">CIE Lab</a>格式，将Source 图各个Channel的均值与方差转换为Target 图的即可。</p>
-<p><a href="(https://arxiv.org/pdf/1708.01642.pdf)">Cut, Paste and Learn</a>的在填补的时候使用的是 Gaussian以及Poisson Blending. 其中<a href="https://www.cs.jhu.edu/~misha/Fall07/Papers/Perez03.pdf">Poisson Blending</a>, 是将填补过程理解为一个带有狄利克雷边界条件的泊松偏微分方程，这个做法的intuition以及证明可以在<a href="https://www.cs.tau.ac.il/~dcor/Graphics/adv-slides/PoissonImageEditing06.pdf">一个lecture ppt</a>中找到.</p>
+<p><a href="https://arxiv.org/pdf/1708.01642.pdf">Cut, Paste and Learn</a>的在填补的时候使用的是 Gaussian以及Poisson Blending. 其中<a href="https://www.cs.jhu.edu/~misha/Fall07/Papers/Perez03.pdf">Poisson Blending</a>, 是将填补过程理解为一个带有狄利克雷边界条件的泊松偏微分方程，这个做法的intuition以及证明可以在<a href="https://www.cs.tau.ac.il/~dcor/Graphics/adv-slides/PoissonImageEditing06.pdf">一个lecture ppt</a>中找到.</p>
 <h3 id="depth-sharpening">Depth Sharpening</h3>
 <p>作者也指出了单目深度估计很容易在物体的边缘生成过渡形态的点，和<a href="../../../3dDetection/CDN/">CDN</a>指出的现象相同。本文作者的思路则是对于 Sobel edge filter相应大于三的点标记为"flying pixels"，将其disparity赋值为离它最近的"non-flying" pixel.</p></div>
                     
