@@ -185,3 +185,10 @@ class AttentiveGroupNorm(nn.GroupNorm):
 
 
 
+
+## TIDE: A General Toolbox for Identifying Object Detection Errors
+[pdf](https://dbolya.github.io/tide/paper.pdf) [code](https://github.com/dbolya/tide)
+
+这篇paper给了一个Python工具箱, 更为详细地去分析object detection的error,
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Pz4uggQzJXU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
