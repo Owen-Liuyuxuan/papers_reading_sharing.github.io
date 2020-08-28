@@ -1387,6 +1387,9 @@
                 <li class="nav-item">
                     <a href="#attentive-normalization" class="nav-link">Attentive Normalization</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#tide-a-general-toolbox-for-identifying-object-detection-errors" class="nav-link">TIDE: A General Toolbox for Identifying Object Detection Errors</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1546,7 +1549,13 @@ K(d, s) = 1 - \frac{1}{1 + e^{-k(d-s)}}
         <span class="n">bias</span> <span class="o">=</span> <span class="n">bias</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">output</span> <span class="o">+</span> <span class="n">bias</span>
-</code></pre></div></div>
+</code></pre></div>
+
+
+<h2 id="tide-a-general-toolbox-for-identifying-object-detection-errors">TIDE: A General Toolbox for Identifying Object Detection Errors</h2>
+<p><a href="https://dbolya.github.io/tide/paper.pdf">pdf</a> <a href="https://github.com/dbolya/tide">code</a></p>
+<p>这篇paper给了一个Python工具箱, 更为详细地去分析object detection的error,</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Pz4uggQzJXU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                     
                 </div>
         </div>
