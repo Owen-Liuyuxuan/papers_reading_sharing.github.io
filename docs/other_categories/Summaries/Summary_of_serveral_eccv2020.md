@@ -183,7 +183,5 @@ class AttentiveGroupNorm(nn.GroupNorm):
         return weight * output + bias
 ```
 
-## Feature Pyramid Transformer
-
 
 
