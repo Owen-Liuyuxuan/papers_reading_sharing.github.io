@@ -1378,6 +1378,12 @@
                 <li class="nav-item">
                     <a href="#learning-stereo-from-single-images" class="nav-link">Learning Stereo from Single Images</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#attentive-normalization" class="nav-link">Attentive Normalization</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#feature-pyramid-transformer" class="nav-link">Feature Pyramid Transformer</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1473,7 +1479,74 @@ K(d, s) = 1 - \frac{1}{1 + e^{-k(d-s)}}
 <p><a href="https://www.cs.tau.ac.il/~turkel/imagepapers/ColorTransfer.pdf">color transfer</a>的做法是将RGB图片转变为<a href="https://www.wikiwand.com/en/CIELAB_color_space">CIE Lab</a>格式，将Source 图各个Channel的均值与方差转换为Target 图的即可。</p>
 <p><a href="https://arxiv.org/pdf/1708.01642.pdf">Cut, Paste and Learn</a>的在填补的时候使用的是 Gaussian以及Poisson Blending. 其中<a href="https://www.cs.jhu.edu/~misha/Fall07/Papers/Perez03.pdf">Poisson Blending</a>, 是将填补过程理解为一个带有狄利克雷边界条件的泊松偏微分方程，这个做法的intuition以及证明可以在<a href="https://www.cs.tau.ac.il/~dcor/Graphics/adv-slides/PoissonImageEditing06.pdf">一个lecture ppt</a>中找到.</p>
 <h3 id="depth-sharpening">Depth Sharpening</h3>
-<p>作者也指出了单目深度估计很容易在物体的边缘生成过渡形态的点，和<a href="../../../3dDetection/CDN/">CDN</a>指出的现象相同。本文作者的思路则是对于 Sobel edge filter相应大于三的点标记为"flying pixels"，将其disparity赋值为离它最近的"non-flying" pixel.</p></div>
+<p>作者也指出了单目深度估计很容易在物体的边缘生成过渡形态的点，和<a href="../../../3dDetection/CDN/">CDN</a>指出的现象相同。本文作者的思路则是对于 Sobel edge filter相应大于三的点标记为"flying pixels"，将其disparity赋值为离它最近的"non-flying" pixel.</p>
+<h2 id="attentive-normalization">Attentive Normalization</h2>
+<p><a href="https://arxiv.org/pdf/1908.01259.pdf">pdf</a> <a href="https://github.com/iVMCL/AttentiveNorm_Detection">code</a></p>
+<p>这篇paper提出了一个Normalization + SE的融合</p>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">hsigmoid</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Hard Linear Sigmoid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu6</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">class</span> <span class="nc">AttentionWeights</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">attention_mode</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AttentionWeights</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avgpool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">attention_mode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                       <span class="n">hsigmoid</span><span class="p">()</span> <span class="p">]</span>
+        <span class="k">elif</span> <span class="n">attention_mode</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                        <span class="n">hsigmoid</span><span class="p">()</span> <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Unknow attention weight type&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avgpool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="c1">#.view(b, c)</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">*=</span> <span class="p">(</span><span class="n">var</span> <span class="o">+</span> <span class="mf">1e-3</span><span class="p">)</span><span class="o">.</span><span class="n">rsqrt</span><span class="p">()</span>
+        <span class="c1">#y = torch.cat((y, var), dim=1)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)</span>
+
+
+
+<span class="k">class</span> <span class="nc">AttentiveGroupNorm</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">GroupNorm</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AttentiveGroupNorm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">num_groups</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">affine</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span> <span class="o">=</span> <span class="n">AttentionWeights</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_params</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_init_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">AttentiveGroupNorm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+
+        <span class="n">weight</span> <span class="o">=</span> <span class="n">y</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">y</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias_</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">bias</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">output</span> <span class="o">+</span> <span class="n">bias</span>
+</code></pre></div>
+
+
+<h2 id="feature-pyramid-transformer">Feature Pyramid Transformer</h2></div>
                     
                 </div>
         </div>
