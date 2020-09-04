@@ -1423,7 +1423,7 @@
 </span>
 <h1 id="fcos-fully-convolutional-one-stage-object-detection">FCOS: Fully Convolutional One-Stage Object Detection</h1>
 <p>本文是anchor-free object detection的又一代表作品，其有效性应该是显著，因为在后来的其他object detection论文中进行了使用，包括<a href="https://github.com/chenyilun95/DSGN">DSGN</a>.
-本文在<a href="https://github.com/open-mmlab/mmdetection">mmdetection</a>中也有复现，比利用maskrcnn-benchmark的官方代码要容易读,其在<a href="https://github.com/open-mmlab/mmdetection">mmdetection</a>中的主要代码在<a href="https://github.com/open-mmlab/mmdetection/blob/master/mmdet/models/anchor_heads/fcos_head.py">fcos_head.py</a></p>
+本文在<a href="https://github.com/open-mmlab/mmdetection">mmdetection</a>中也有复现，比利用maskrcnn-benchmark的官方代码要容易读,其在<a href="https://github.com/open-mmlab/mmdetection">mmdetection</a>中的主要代码在<a href="https://github.com/open-mmlab/mmdetection/blob/master/mmdet/models/dense_heads/fcos_head.py">fcos_head.py</a></p>
 <h2 id="fcos-output-definition">FCOS - Output definition</h2>
 <p><img alt="image" src="../res/FCOS_definition.png" /></p>
 <p>对于图片中的每一个点，如果它是正样本，那么直接回归它到四个边界的距离。这个是FCOS主要的回归形式，以此来替代anchor box</p>
