@@ -5,7 +5,7 @@ short_title: FCOS, anchorless one-stage object detection
 # FCOS: Fully Convolutional One-Stage Object Detection
 
 本文是anchor-free object detection的又一代表作品，其有效性应该是显著，因为在后来的其他object detection论文中进行了使用，包括[DSGN].
-本文在[mmdetection]中也有复现，比利用maskrcnn-benchmark的官方代码要容易读,其在[mmdetection]中的主要代码在[fcos_head.py](https://github.com/open-mmlab/mmdetection/blob/master/mmdet/models/anchor_heads/fcos_head.py)
+本文在[mmdetection]中也有复现，比利用maskrcnn-benchmark的官方代码要容易读,其在[mmdetection]中的主要代码在[fcos_head.py](https://github.com/open-mmlab/mmdetection/blob/master/mmdet/models/dense_heads/fcos_head.py)
 
 
 ## FCOS - Output definition

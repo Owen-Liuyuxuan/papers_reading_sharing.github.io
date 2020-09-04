@@ -7,7 +7,7 @@ short_title: OptNet, Optimization as Layer
 
 这个层对应的优化问题如下
 
-$z_{i+1} = argmin(frac{1}{2} z^T Q(z_i) z + q(z_i) z)$
+$z_{i+1} = argmin(\frac{1}{2} z^T Q(z_i) z + q(z_i) z)$
 
 符合约束$A(z_i)z = b(z_i)$与$G(z_i)z <= h(z_i)$
 
