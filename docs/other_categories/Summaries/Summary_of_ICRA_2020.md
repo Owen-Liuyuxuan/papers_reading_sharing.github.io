@@ -1,9 +1,25 @@
 time: 20200608
 short_title: ICRA 2020 clips
 
-# Summaries for sevearl ICRA 2020 papers
+# Summaries for several ICRA 2020 papers
 
 本届ICRA有数篇paper在之前已经有review, ["A General Framework for Uncertainty Estimation in Deep Learning"](../../The_theory/Framework_Uncertainty_Propagation.md), ["FADNet: A Fast and Accurate Network for Disparity Estimation"](../others/FADNet.md) ["Object-Centric Stereo Matching for 3D Object Detection"](../../3dDetection/RecentCollectionForStereo3D.md)
+
+目录:
+- [Summaries for several ICRA 2020 papers](#summaries-for-several-icra-2020-papers)
+  - [Event-Based Angular Velocity Regression with Spiking Networks](#event-based-angular-velocity-regression-with-spiking-networks)
+  - [Pedestrian Planar LiDAR Pose (PPLP) Network for Oriented Pedestrian Detection Based on Planar LiDAR and Monocular Images](#pedestrian-planar-lidar-pose-pplp-network-for-oriented-pedestrian-detection-based-on-planar-lidar-and-monocular-images)
+  - [CNN Based Road User Detection Using the 3D Radar Cube](#cnn-based-road-user-detection-using-the-3d-radar-cube)
+  - [PST900: RGB-Thermal Calibration, Dataset and Segmentation Network](#pst900-rgb-thermal-calibration-dataset-and-segmentation-network)
+  - [Instance Segmentation of LiDAR Point Clouds](#instance-segmentation-of-lidar-point-clouds)
+  - [SegVoxelNet: Exploring Semantic Context and Depth-aware Features for 3D Vehicle Detection from Point Cloud](#segvoxelnet-exploring-semantic-context-and-depth-aware-features-for-3d-vehicle-detection-from-point-cloud)
+  - [Radar as a Teacher: Weakly Supervised Vehicle Detection using Radar Labels](#radar-as-a-teacher-weakly-supervised-vehicle-detection-using-radar-labels)
+  - [Self-supervised linear motion deblurring](#self-supervised-linear-motion-deblurring)
+  - [Fast Panoptic Segmentation Network](#fast-panoptic-segmentation-network)
+  - [Real-Time Semantic Stereo Matching](#real-time-semantic-stereo-matching)
+  - [MultiDepth: Single-Image Depth Estimation via Multi-Task Regression and Classification](#multidepth-single-image-depth-estimation-via-multi-task-regression-and-classification)
+  - [MPC-Net: A First Principles Guided Policy Search](#mpc-net-a-first-principles-guided-policy-search)
+  - [MapLite: Autonomous Intersection Navigation Without a Detailed Prior Map](#maplite-autonomous-intersection-navigation-without-a-detailed-prior-map)
 
 
 这里继续搜集多篇有趣的ICRA 2020 papers.
@@ -47,7 +63,7 @@ short_title: ICRA 2020 clips
 ![image](res/instance_seg_lidar.png)
 ![image](res/lidar_instanceseg_arch.png)
 
-# SegVoxelNet: Exploring Semantic Context and Depth-aware Features for 3D Vehicle Detection from Point Cloud
+## SegVoxelNet: Exploring Semantic Context and Depth-aware Features for 3D Vehicle Detection from Point Cloud
 
 [pdf](https://arxiv.org/pdf/2002.05316.pdf)
 

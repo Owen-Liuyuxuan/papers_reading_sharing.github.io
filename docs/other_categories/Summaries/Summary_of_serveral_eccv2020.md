@@ -1,7 +1,21 @@
 time: 20200827
 short_title: ECCV 2020 clips
 
-# Summaries for sevearl ECCV 2020 papers
+# Summaries for several ECCV 2020 papers
+
+目录:
+- [Summaries for several ECCV 2020 papers](#summaries-for-several-eccv-2020-papers)
+  - [Deep Hough Transform for Semantic Line Detection](#deep-hough-transform-for-semantic-line-detection)
+    - [整体推理结构](#整体推理结构)
+    - [DHT 运算示意图](#dht-运算示意图)
+    - [EA Score $\rightarrow$ Euclidean distance and Angular distance](#ea-score-rightarrow-euclidean-distance-and-angular-distance)
+  - [PIoU Loss: Towards Accurate Oriented Object Detection in Complex Environments](#piou-loss-towards-accurate-oriented-object-detection-in-complex-environments)
+  - [Learning Stereo from Single Images](#learning-stereo-from-single-images)
+    - [Occlusion and Collisions Aware Forward Warping](#occlusion-and-collisions-aware-forward-warping)
+    - [Depth Sharpening](#depth-sharpening)
+  - [Attentive Normalization](#attentive-normalization)
+  - [TIDE: A General Toolbox for Identifying Object Detection Errors](#tide-a-general-toolbox-for-identifying-object-detection-errors)
+
 
 ## Deep Hough Transform for Semantic Line Detection
 

@@ -51,6 +51,7 @@ g(x) & \text { if } y \geq y^{*}
 Hyperband属于随机搜索算法.
 
 首先通过直观例子介绍successive halfing algorithm:
+
 - 随机在搜索空间中寻找64个超参组
 - 100 iterations之后评价各自的 validation loss
 - 丢弃性能最差的一半
@@ -74,10 +75,12 @@ BOHB融合了 surrogate model 与hyperband的思路。
 [pdf](https://arxiv.org/pdf/2007.09336.pdf)
 
 这篇paper首先是一篇针对提升目标检测性能的文章。作者通过一些简单的实验得到两个结论: 
+
 - 目前预设的anchors在COCO数据集上也还不是最优的。
 - 通过搜索anchors configuration得到的提升可能会高于对RPN head的搜索得到的结果。
 
 然后提出了
+
 - 不同feature map需要不同的 predefined anchor.
 - SMC 采样
 

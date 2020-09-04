@@ -1,7 +1,14 @@
 time: 20191104
 short_title: ICCV 2019 Clips
 
-# Summaries for sevearl ICCV 2019 papers
+# Summaries for several ICCV 2019 papers
+
+目录:
+- [Summaries for several ICCV 2019 papers](#summaries-for-several-iccv-2019-papers)
+  - [Many Task Learning With Task Routing](#many-task-learning-with-task-routing)
+  - [AdaTransform: Adaptive Data Transformation](#adatransform-adaptive-data-transformation)
+  - [LIP: Local Importance-based Pooling](#lip-local-importance-based-pooling)
+  - [Anchor Loss: Modulating Loss Scale based on Prediction Difficulty](#anchor-loss-modulating-loss-scale-based-on-prediction-difficulty)
 
 ## Many Task Learning With Task Routing
 

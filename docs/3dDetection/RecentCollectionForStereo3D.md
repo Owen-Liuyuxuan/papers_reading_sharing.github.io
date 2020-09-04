@@ -26,7 +26,19 @@ Update:
 | [Stereo R-CNN]      |  30.23 % | 47.58 % | 23.72 % |  0.3 s |
 | [RT3DStereo]        |  23.28 % | 29.90 % | 18.96 % | 0.08 s |
 
-# CG-stereo
+目录:
+- [Recent Collections for Stereo 3D detection](#recent-collections-for-stereo-3d-detection)
+  - [CG-stereo](#cg-stereo)
+  - [Pseudo-LiDAR E2E](#pseudo-lidar-e2e)
+  - [Pseudo-Lidar++](#pseudo-lidar)
+  - [Disp-RCNN](#disp-rcnn)
+  - [ZoomNet](#zoomnet)
+  - [OC Stereo](#oc-stereo)
+  - [Pseudo-Lidar](#pseudo-lidar-1)
+  - [Stereo R-CNN](#stereo-r-cnn)
+  - [RT3D Stereo](#rt3d-stereo)
+
+## CG-stereo
 [pdf](https://arxiv.org/pdf/2003.05505v1.pdf)
 ![image](res/CG-Stereo_arch.png)
 这篇paper来自于 Jason Ku那一组，是目前(2020.03.15)Stereo的SOTA，给pseudo-lidar系列提供了两个很有效的idea。
@@ -39,7 +51,7 @@ Update:
 
 
 
-# Pseudo-LiDAR E2E
+## Pseudo-LiDAR E2E
 [pdf](https://arxiv.org/pdf/2004.03080v1.pdf) [code](https://github.com/mileyan/pseudo-LiDAR_e2e)
 
 这篇paper的贡献非常有意义，提到的是过去的Pseudo-lidar算法基本都是完全的二阶段算法，也就是双目生成点云与点云3D检测之间是无法End2End训练的，中间的转换过程是不可导的，因而尽管可以fine-tune,但是梯度的流动会中断,这篇paper的最大贡献在于提出一个CoR模块使得同时可以训练点云生成以及基于点云的物体检测。
@@ -57,7 +69,7 @@ $$\boldsymbol{T}(m)=\boldsymbol{T}(m, m)+\frac{1}{\left|\mathcal{N}_{m}\right|} 
 voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的加权求和。从而voxel可导
 
 
-# Pseudo-Lidar++
+## Pseudo-Lidar++
 [pdf](https://arxiv.org/pdf/1906.06310.pdf)  [code](https://github.com/mileyan/Pseudo_Lidar_V2)
 
 ![image](res/plidarpp_arch.png)
@@ -70,7 +82,7 @@ voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的
 
 作者在KITTI上提交了两个成绩(PL++),标题下面给出的是春双目而没有GDC的成绩，有GDC的成绩会更高一些。
 
-# Disp-RCNN
+## Disp-RCNN
 [pdf](https://arxiv.org/pdf/2004.03572v1.pdf) [code](https://github.com/zju3dv/disprcnn)
 ![image](res/Disp-RCNN_arch.png)
 
@@ -78,7 +90,7 @@ voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的
 
 这篇paper还有使用pretrained的双目重建网络，得到密集的pseudo Ground Truth Disparity. Loss的构成比较复杂，具体看paper
 
-# ZoomNet
+## ZoomNet
 [pdf](https://arxiv.org/pdf/2003.00529.pdf) [code](https://github.com/detectRecog/ZoomNet)
 
 ![image](res/zoomnet_arch.png)
@@ -87,7 +99,7 @@ voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的
 
 中介辅助预测的内容包括disparity, instance segmentation, part location(每一个像素相对于车子中心x, y, z轴的位置，这个一般使用点云和稠密深度图进行标注)。得到点云后将feature 链接，然后用类似于point net的方式预测最终结果。
 
-# OC Stereo
+## OC Stereo
 [pdf](https://arxiv.org/pdf/1909.07566.pdf)
 
 ![image](res/OC_stereo_arch.png)
@@ -98,7 +110,7 @@ voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的
 
 在得到局部RGB点云之后作者使用[AVOD](https://github.com/kujason/avod) 进行3D检测。
 
-# Pseudo-Lidar
+## Pseudo-Lidar
 [pdf](https://arxiv.org/pdf/1812.07179.pdf) [code](https://github.com/mileyan/pseudo_lidar)
 
 这篇paper理论上来说是pseudo-lidar的第一篇文章
@@ -107,7 +119,7 @@ voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的
 
 思路目前回看比较地直接，双目深度估计方面，作者使用pretrain [PSMNet](../other_categories/others/PSMNet.md).注意这个PSMNet是在sceneflow数据集，以及training set的点云数据作为监督的。lidar 3D检测方面，作者使用[AVOD](https://github.com/kujason/avod)
 
-# Stereo R-CNN
+## Stereo R-CNN
 [pdf](https://arxiv.org/pdf/1902.09738.pdf) [code](https://github.com/HKUST-Aerial-Robotics/Stereo-RCNN)
 
 ![image](res/StereoRCNN_arch.png)
@@ -121,7 +133,7 @@ voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的
 ![image](res/StereoRCNN_keypoints.png)
 
 
-# RT3D Stereo
+## RT3D Stereo
 [pdf](https://www.mrt.kit.edu/z/publ/download/2019/Koenigshof2019Objects.pdf)
 ![image](res/RT3DStereo_arch.png)
 
