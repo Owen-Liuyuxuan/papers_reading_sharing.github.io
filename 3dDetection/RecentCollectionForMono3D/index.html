@@ -1387,11 +1387,21 @@
 
         
             <li class="nav-item main"><a href="#recent-collections-for-mono-3d-detection">Recent Collections for Mono 3D detection</a></li>
-            <li class="nav-item main"><a href="#d4lcn">D4LCN</a></li>
-            <li class="nav-item main"><a href="#rtm3d">RTM3D</a></li>
-            <li class="nav-item main"><a href="#monopair">MonoPair</a></li>
-            <li class="nav-item main"><a href="#smoke">SMOKE</a></li>
-            <li class="nav-item main"><a href="#yolomono3d">YOLOMono3D</a></li>
+                <li class="nav-item">
+                    <a href="#d4lcn" class="nav-link">D4LCN</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#rtm3d" class="nav-link">RTM3D</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#monopair" class="nav-link">MonoPair</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#smoke" class="nav-link">SMOKE</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#yolomono3d" class="nav-link">YOLOMono3D</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1481,28 +1491,35 @@ Update(2020.07.24): Update Kinematic 3D</p>
 </tr>
 </tbody>
 </table>
-<h1 id="d4lcn">D4LCN</h1>
+<p>目录:
+- <a href="#recent-collections-for-mono-3d-detection">Recent Collections for Mono 3D detection</a>
+  - <a href="#d4lcn">D4LCN</a>
+  - <a href="#rtm3d">RTM3D</a>
+  - <a href="#monopair">MonoPair</a>
+  - <a href="#smoke">SMOKE</a>
+  - <a href="#yolomono3d">YOLOMono3D</a></p>
+<h2 id="d4lcn">D4LCN</h2>
 <p><a href="https://arxiv.org/pdf/1912.04799.pdf">pdf</a>  <a href="https://github.com/dingmyu/D4LCN">code</a></p>
 <p>这篇paper完全继承了<a href="../M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection/">M3D-RPN</a>的衣钵，它不同的地方在于，摒弃了M3D-RPN处理缓慢的height-wise convolution,而是使用单目估计深度，然后使用深度作为卷积核的guide, 这个guide类似于这几篇文章的操作:<a href="../../other_categories/depth_completion/guideNet/">guidenet</a>;<a href="../../Building_Blocks/DynanicFilteringNetwork/">DFN</a></p>
 <p><img alt="image" src="../res/D4LCN.png" /></p>
-<h1 id="rtm3d">RTM3D</h1>
+<h2 id="rtm3d">RTM3D</h2>
 <p><a href="https://arxiv.org/pdf/2001.03343.pdf">pdf</a> <a href="https://github.com/Banconxuan/RTM3D">code</a></p>
 <p>这篇文章还没有正式开源，但是github就先开着了。这篇文章在技术上有一定的新意，它使用<a href="../../other_categories/object_detection_2D/Object_as_points/#object-as-point">CenterNet</a>的架构估计大量的keypoints以及冗余的3D信息，最后通过最优化融合。使用大量冗余信息它不是第一个,前者比如有<a href="../Monocular_3D_Object_Detection_and_Box_Fitting_Trained_End-to-End_Using_Intersection-over-Union_Loss/">SS3D</a>,但是它绕过了anchor使用CenterNet有一定的新意。
 <img alt="image" src="../res/RTM3D_0.png" />
 <img alt="image" src="../res/RTM3D_2.png" /></p>
-<h1 id="monopair">MonoPair</h1>
+<h2 id="monopair">MonoPair</h2>
 <p><a href="https://arxiv.org/pdf/2003.00504.pdf">pdf</a></p>
 <p>这篇文章是实验室大师兄邰磊在阿里的CVPR2020 paper。有<a href="https://sites.google.com/view/chen3dmonopair">官方网站</a></p>
 <p>文章的核心创新是第一个使用场景中不同物体之间的相互约束进行优化的paper。</p>
 <p><img alt="image" src="../res/MonoPair.png" /></p>
-<h1 id="smoke">SMOKE</h1>
+<h2 id="smoke">SMOKE</h2>
 <p><a href="https://arxiv.org/pdf/2002.10111v1.pdf">pdf</a></p>
 <p>这篇paper的创新点不算特别多。
 1. 使用了<a href="../../other_categories/object_detection_2D/Object_as_points/#object-as-point">CenterNet</a>的架构进行中心点的估计。
 2. 使用了distangling loss, 这个来自于<a href="../Disentangling_Monocular_3D_Object_Detection/">MonoDIS</a>
 3. 数据增强上使用了shifting等方法，但是只是用来train keypoint热图等结构。属于specialized augmentation for specialized cost.可谓深度调参</p>
 <p><img alt="image" src="../res/SMOKE.png" /></p>
-<h1 id="yolomono3d">YOLOMono3D</h1>
+<h2 id="yolomono3d">YOLOMono3D</h2>
 <p>不多说了，快上车</p>
 <iframe src="//player.bilibili.com/player.html?aid=91364947&cid=156014191&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true" height=270 width=480> </iframe></div>
                     

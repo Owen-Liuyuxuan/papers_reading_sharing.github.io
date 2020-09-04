@@ -1445,14 +1445,16 @@ g(x) & \text { if } y \geq y^{*}
 <h2 id="hyperband">Hyperband</h2>
 <p><a href="https://arxiv.org/pdf/1603.06560.pdf">pdf</a></p>
 <p>Hyperband属于随机搜索算法.</p>
-<p>首先通过直观例子介绍successive halfing algorithm:
-- 随机在搜索空间中寻找64个超参组
-- 100 iterations之后评价各自的 validation loss
-- 丢弃性能最差的一半
-- 剩余超参组再训练多100 iterations
-- 再丢弃性能最差的一半
-- 剩余超参组再训练多200 iterations
-- 重复直到只剩下一个model</p>
+<p>首先通过直观例子介绍successive halfing algorithm:</p>
+<ul>
+<li>随机在搜索空间中寻找64个超参组</li>
+<li>100 iterations之后评价各自的 validation loss</li>
+<li>丢弃性能最差的一半</li>
+<li>剩余超参组再训练多100 iterations</li>
+<li>再丢弃性能最差的一半</li>
+<li>剩余超参组再训练多200 iterations</li>
+<li>重复直到只剩下一个model</li>
+</ul>
 <p>由于每次丢弃的比例是一个可以调节的重要的超参。Hyperband可以理解为对<script type="math/tex">n</script>进行Grid Search.</p>
 <h2 id="bohb-robust-and-efficient-hyperparameter-optimization-at-scale">BOHB: ROBUST AND EFFICIENT HYPERPARAMETER OPTIMIZATION AT SCALE</h2>
 <p><a href="https://arxiv.org/pdf/1807.01774.pdf">pdf</a> <a href="https://www.automl.org/blog_bohb/">blog</a></p>
@@ -1460,12 +1462,16 @@ g(x) & \text { if } y \geq y^{*}
 <p>使用 <a href="#tree-structured-parzen-estimators-tpe">TPE</a>对超参数组的性能进行预估，并选择需要分析的超参组。使用<a href="#hyperband">Hyperband</a>降低分析所需要的时间。</p>
 <h2 id="aabo-adaptive-anchor-box-optimization-for-object-detection-via-bayesian-sub-sampling">AABO: Adaptive Anchor Box Optimization for Object Detection via Bayesian Sub-sampling</h2>
 <p><a href="https://arxiv.org/pdf/2007.09336.pdf">pdf</a></p>
-<p>这篇paper首先是一篇针对提升目标检测性能的文章。作者通过一些简单的实验得到两个结论: 
-- 目前预设的anchors在COCO数据集上也还不是最优的。
-- 通过搜索anchors configuration得到的提升可能会高于对RPN head的搜索得到的结果。</p>
-<p>然后提出了
-- 不同feature map需要不同的 predefined anchor.
-- SMC 采样</p>
+<p>这篇paper首先是一篇针对提升目标检测性能的文章。作者通过一些简单的实验得到两个结论: </p>
+<ul>
+<li>目前预设的anchors在COCO数据集上也还不是最优的。</li>
+<li>通过搜索anchors configuration得到的提升可能会高于对RPN head的搜索得到的结果。</li>
+</ul>
+<p>然后提出了</p>
+<ul>
+<li>不同feature map需要不同的 predefined anchor.</li>
+<li>SMC 采样</li>
+</ul>
 <p><img alt="image" src="../res/AABO_algo.png" /></p></div>
                     
                 </div>

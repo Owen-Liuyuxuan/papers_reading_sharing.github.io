@@ -1387,15 +1387,33 @@
 
         
             <li class="nav-item main"><a href="#recent-collections-for-stereo-3d-detection">Recent Collections for Stereo 3D detection</a></li>
-            <li class="nav-item main"><a href="#cg-stereo">CG-stereo</a></li>
-            <li class="nav-item main"><a href="#pseudo-lidar-e2e">Pseudo-LiDAR E2E</a></li>
-            <li class="nav-item main"><a href="#pseudo-lidar">Pseudo-Lidar++</a></li>
-            <li class="nav-item main"><a href="#disp-rcnn">Disp-RCNN</a></li>
-            <li class="nav-item main"><a href="#zoomnet">ZoomNet</a></li>
-            <li class="nav-item main"><a href="#oc-stereo">OC Stereo</a></li>
-            <li class="nav-item main"><a href="#pseudo-lidar_1">Pseudo-Lidar</a></li>
-            <li class="nav-item main"><a href="#stereo-r-cnn">Stereo R-CNN</a></li>
-            <li class="nav-item main"><a href="#rt3d-stereo">RT3D Stereo</a></li>
+                <li class="nav-item">
+                    <a href="#cg-stereo" class="nav-link">CG-stereo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#pseudo-lidar-e2e" class="nav-link">Pseudo-LiDAR E2E</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#pseudo-lidar" class="nav-link">Pseudo-Lidar++</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#disp-rcnn" class="nav-link">Disp-RCNN</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#zoomnet" class="nav-link">ZoomNet</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#oc-stereo" class="nav-link">OC Stereo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#pseudo-lidar_1" class="nav-link">Pseudo-Lidar</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#stereo-r-cnn" class="nav-link">Stereo R-CNN</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#rt3d-stereo" class="nav-link">RT3D Stereo</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1507,7 +1525,18 @@
 </tr>
 </tbody>
 </table>
-<h1 id="cg-stereo">CG-stereo</h1>
+<p>目录:
+- <a href="#recent-collections-for-stereo-3d-detection">Recent Collections for Stereo 3D detection</a>
+  - <a href="#cg-stereo">CG-stereo</a>
+  - <a href="#pseudo-lidar-e2e">Pseudo-LiDAR E2E</a>
+  - <a href="#pseudo-lidar">Pseudo-Lidar++</a>
+  - <a href="#disp-rcnn">Disp-RCNN</a>
+  - <a href="#zoomnet">ZoomNet</a>
+  - <a href="#oc-stereo">OC Stereo</a>
+  - <a href="#pseudo-lidar-1">Pseudo-Lidar</a>
+  - <a href="#stereo-r-cnn">Stereo R-CNN</a>
+  - <a href="#rt3d-stereo">RT3D Stereo</a></p>
+<h2 id="cg-stereo">CG-stereo</h2>
 <p><a href="https://arxiv.org/pdf/2003.05505v1.pdf">pdf</a>
 <img alt="image" src="../res/CG-Stereo_arch.png" />
 这篇paper来自于 Jason Ku那一组，是目前(2020.03.15)Stereo的SOTA，给pseudo-lidar系列提供了两个很有效的idea。</p>
@@ -1515,7 +1544,7 @@
 <img alt="image" src="../res/CG_stereo_splitdecode.png" />
 其次是双目估计得到的点之中有很多的噪音，不同点的confidence不同，对后端点云的影响很大，作者这里根据stereo matching的一个confidence map作为一个attention 层输入到点云后端处理中。</p>
 <p><img alt="image" src="../res/CG-stereo_confidence.png" /></p>
-<h1 id="pseudo-lidar-e2e">Pseudo-LiDAR E2E</h1>
+<h2 id="pseudo-lidar-e2e">Pseudo-LiDAR E2E</h2>
 <p><a href="https://arxiv.org/pdf/2004.03080v1.pdf">pdf</a> <a href="https://github.com/mileyan/pseudo-LiDAR_e2e">code</a></p>
 <p>这篇paper的贡献非常有意义，提到的是过去的Pseudo-lidar算法基本都是完全的二阶段算法，也就是双目生成点云与点云3D检测之间是无法End2End训练的，中间的转换过程是不可导的，因而尽管可以fine-tune,但是梯度的流动会中断,这篇paper的最大贡献在于提出一个CoR模块使得同时可以训练点云生成以及基于点云的物体检测。</p>
 <p><img alt="image" src="../res/PLE2E_arch.png" /></p>
@@ -1529,35 +1558,35 @@
 <script type="math/tex; mode=display">\boldsymbol{T}(m)=\boldsymbol{T}(m, m)+\frac{1}{\left|\mathcal{N}_{m}\right|} \sum_{m^{\prime} \in \mathcal{N}_{m}} \boldsymbol{T}\left(m, m^{\prime}\right)</script>
 </p>
 <p>voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的加权求和。从而voxel可导</p>
-<h1 id="pseudo-lidar">Pseudo-Lidar++</h1>
+<h2 id="pseudo-lidar">Pseudo-Lidar++</h2>
 <p><a href="https://arxiv.org/pdf/1906.06310.pdf">pdf</a>  <a href="https://github.com/mileyan/Pseudo_Lidar_V2">code</a></p>
 <p><img alt="image" src="../res/plidarpp_arch.png" /></p>
 <p>这篇paper的主要新意有两点</p>
 <p>在深度估计上，作者给出一个新的insight，就是均匀的3D卷积很可能是disparity-based cost volome的一个error source，比如说对于disparity比较高的点，可以smooth out，但是对于disparity比较小的点则不应该同等级别的smooth out(会产生很大误差)。所以作者将disparity cost volume的深度方向求倒数，并线性插值得到depth cost volume,然后在depth cost volume上面做3D卷积。</p>
 <p>在后处理上，作者融合了深度补全(depth completion)的思想，由于disparity是离散的，所以会引起很多不应该的误差，进而作者考虑使用低线数的lidar(开源的一个方案线数是4)作为一个ground truth的补偿。这里不进一步展开。</p>
 <p>作者在KITTI上提交了两个成绩(PL++),标题下面给出的是春双目而没有GDC的成绩，有GDC的成绩会更高一些。</p>
-<h1 id="disp-rcnn">Disp-RCNN</h1>
+<h2 id="disp-rcnn">Disp-RCNN</h2>
 <p><a href="https://arxiv.org/pdf/2004.03572v1.pdf">pdf</a> <a href="https://github.com/zju3dv/disprcnn">code</a>
 <img alt="image" src="../res/Disp-RCNN_arch.png" /></p>
 <p>这篇paper的主要不同点在于使用RoIPooling从原图(作者指出不应该从feature中采样，因为Disparity要求邻近像素结果不同，但是Instance Segmentation会要求邻近像素结果相同)中采样,然后从Pooling后的结果重建Disparity以及局部点云(这个模块在数学处理上要小心)，然后使用点云检测输出结果。</p>
 <p>这篇paper还有使用pretrained的双目重建网络，得到密集的pseudo Ground Truth Disparity. Loss的构成比较复杂，具体看paper</p>
-<h1 id="zoomnet">ZoomNet</h1>
+<h2 id="zoomnet">ZoomNet</h2>
 <p><a href="https://arxiv.org/pdf/2003.00529.pdf">pdf</a> <a href="https://github.com/detectRecog/ZoomNet">code</a></p>
 <p><img alt="image" src="../res/zoomnet_arch.png" /></p>
 <p>使用2D检测先得到两个车子咋图片的位置，然后分别resize,并且调节名义相机参数(zooming)。</p>
 <p>中介辅助预测的内容包括disparity, instance segmentation, part location(每一个像素相对于车子中心x, y, z轴的位置，这个一般使用点云和稠密深度图进行标注)。得到点云后将feature 链接，然后用类似于point net的方式预测最终结果。</p>
-<h1 id="oc-stereo">OC Stereo</h1>
+<h2 id="oc-stereo">OC Stereo</h2>
 <p><a href="https://arxiv.org/pdf/1909.07566.pdf">pdf</a></p>
 <p><img alt="image" src="../res/OC_stereo_arch.png" /></p>
 <p>这篇paper的想法是使用RoIAlign将左右目两个区域的feature 提出来，然后使用instance seg与Cost volumn计算对应pixel处的disparity。</p>
 <p>作者对于RoIAlign前后的segmentation pixel的位置关系做了很细致的解释。</p>
 <p>在得到局部RGB点云之后作者使用<a href="https://github.com/kujason/avod">AVOD</a> 进行3D检测。</p>
-<h1 id="pseudo-lidar_1">Pseudo-Lidar</h1>
+<h2 id="pseudo-lidar_1">Pseudo-Lidar</h2>
 <p><a href="https://arxiv.org/pdf/1812.07179.pdf">pdf</a> <a href="https://github.com/mileyan/pseudo_lidar">code</a></p>
 <p>这篇paper理论上来说是pseudo-lidar的第一篇文章</p>
 <p><img alt="image" src="../res/plidar_original.png" /></p>
 <p>思路目前回看比较地直接，双目深度估计方面，作者使用pretrain <a href="../../other_categories/others/PSMNet/">PSMNet</a>.注意这个PSMNet是在sceneflow数据集，以及training set的点云数据作为监督的。lidar 3D检测方面，作者使用<a href="https://github.com/kujason/avod">AVOD</a></p>
-<h1 id="stereo-r-cnn">Stereo R-CNN</h1>
+<h2 id="stereo-r-cnn">Stereo R-CNN</h2>
 <p><a href="https://arxiv.org/pdf/1902.09738.pdf">pdf</a> <a href="https://github.com/HKUST-Aerial-Robotics/Stereo-RCNN">code</a></p>
 <p><img alt="image" src="../res/StereoRCNN_arch.png" /></p>
 <p>几个训练细节:</p>
@@ -1567,7 +1596,7 @@
 <li>SSIM，利用双目的disparity，后处理优化深度值。</li>
 </ol>
 <p><img alt="image" src="../res/StereoRCNN_keypoints.png" /></p>
-<h1 id="rt3d-stereo">RT3D Stereo</h1>
+<h2 id="rt3d-stereo">RT3D Stereo</h2>
 <p><a href="https://www.mrt.kit.edu/z/publ/download/2019/Koenigshof2019Objects.pdf">pdf</a>
 <img alt="image" src="../res/RT3DStereo_arch.png" /></p>
 <p>训练细节:</p>
