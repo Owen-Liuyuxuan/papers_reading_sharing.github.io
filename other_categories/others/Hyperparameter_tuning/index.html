@@ -1418,11 +1418,13 @@
 <h1 id="hyperparameter-tuning">Hyperparameter Tuning</h1>
 <p>这篇paper是阅读<a href="#aabo-adaptive-anchor-box-optimization-for-object-detection-via-bayesian-sub-sampling">AABO</a>以及其前置paper的阅读归纳.这其中的问题是如何进行自动化的超参数的调参。</p>
 <p>由于超参数无法通过机器学习本身的优化算法优化，generally speaking是一个无法获得梯度的优化问题。因而可以理解为是一个黑盒优化问题。</p>
-<p>传统优化理论来说，黑盒优化常见的求解方法是搜索:
-- grid search
-- random search
-- simulated annealing
-- genetic algorithms ...</p>
+<p>传统优化理论来说，黑盒优化常见的求解方法是搜索:</p>
+<ul>
+<li>grid search</li>
+<li>random search</li>
+<li>simulated annealing</li>
+<li>genetic algorithms ...</li>
+</ul>
 <p>在深度学习阶段，深度强化学习也被用于黑盒优化。</p>
 <p>但是对于基于神经网络的超参数优化来说，特点在于每一组超参的evaluation所需要的算力比较大。因而需要data efficient的超参搜索算法。</p>
 <h2 id="surrogate-function">Surrogate Function</h2>
