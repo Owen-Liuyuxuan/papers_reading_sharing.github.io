@@ -1491,13 +1491,15 @@ Update(2020.07.24): Update Kinematic 3D</p>
 </tr>
 </tbody>
 </table>
-<p>目录:
-- <a href="#recent-collections-for-mono-3d-detection">Recent Collections for Mono 3D detection</a>
-  - <a href="#d4lcn">D4LCN</a>
-  - <a href="#rtm3d">RTM3D</a>
-  - <a href="#monopair">MonoPair</a>
-  - <a href="#smoke">SMOKE</a>
-  - <a href="#yolomono3d">YOLOMono3D</a></p>
+<p>目录:</p>
+<ul>
+<li><a href="#recent-collections-for-mono-3d-detection">Recent Collections for Mono 3D detection</a></li>
+<li><a href="#d4lcn">D4LCN</a></li>
+<li><a href="#rtm3d">RTM3D</a></li>
+<li><a href="#monopair">MonoPair</a></li>
+<li><a href="#smoke">SMOKE</a></li>
+<li><a href="#yolomono3d">YOLOMono3D</a></li>
+</ul>
 <h2 id="d4lcn">D4LCN</h2>
 <p><a href="https://arxiv.org/pdf/1912.04799.pdf">pdf</a>  <a href="https://github.com/dingmyu/D4LCN">code</a></p>
 <p>这篇paper完全继承了<a href="../M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection/">M3D-RPN</a>的衣钵，它不同的地方在于，摒弃了M3D-RPN处理缓慢的height-wise convolution,而是使用单目估计深度，然后使用深度作为卷积核的guide, 这个guide类似于这几篇文章的操作:<a href="../../other_categories/depth_completion/guideNet/">guidenet</a>;<a href="../../Building_Blocks/DynanicFilteringNetwork/">DFN</a></p>
