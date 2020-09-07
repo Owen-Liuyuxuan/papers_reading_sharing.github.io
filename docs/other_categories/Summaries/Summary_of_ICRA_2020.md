@@ -6,6 +6,7 @@ short_title: ICRA 2020 clips
 本届ICRA有数篇paper在之前已经有review, ["A General Framework for Uncertainty Estimation in Deep Learning"](../../The_theory/Framework_Uncertainty_Propagation.md), ["FADNet: A Fast and Accurate Network for Disparity Estimation"](../others/FADNet.md) ["Object-Centric Stereo Matching for 3D Object Detection"](../../3dDetection/RecentCollectionForStereo3D.md)
 
 目录:
+
 - [Summaries for several ICRA 2020 papers](#summaries-for-several-icra-2020-papers)
   - [Event-Based Angular Velocity Regression with Spiking Networks](#event-based-angular-velocity-regression-with-spiking-networks)
   - [Pedestrian Planar LiDAR Pose (PPLP) Network for Oriented Pedestrian Detection Based on Planar LiDAR and Monocular Images](#pedestrian-planar-lidar-pose-pplp-network-for-oriented-pedestrian-detection-based-on-planar-lidar-and-monocular-images)

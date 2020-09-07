@@ -9,6 +9,7 @@ pdf_source: https://arxiv.org/pdf/2007.09336.pdf
 
 
 传统优化理论来说，黑盒优化常见的求解方法是搜索:
+
 - grid search
 - random search
 - simulated annealing
