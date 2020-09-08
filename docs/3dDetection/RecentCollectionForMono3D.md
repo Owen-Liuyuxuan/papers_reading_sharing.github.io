@@ -1,4 +1,4 @@
-time: 20200402
+time: 20200908
 short_title: Recent Collections for Mono3D
 
 # Recent Collections for Mono 3D detection
@@ -8,18 +8,20 @@ short_title: Recent Collections for Mono3D
 这里列出目前有文章可寻的KITTI排行榜(2020.02.27)
 Update(2020.04.02):Update scores for YOLOMono3D
 Update(2020.07.24): Update Kinematic 3D
+Update(2020.09.08): Update SSL-RTM3D
 
 |   Methods  | Moderate |  Easy | Hard | Time |
 |----------|:--------:|:------:|:------:|:------:|
-| [Kinematic3D] | 12.72   | 19.07 | 9.17 | 0.12 |
+| [Kinematic3D]| 12.72   | 19.07 | 9.17 | 0.12 |
 | [YOLOMono3D] | 12.06   | 18.28 | 8.42 | 0.05 |
-| [D4LCN]      | 11.72    | 16.65 | 9.51 | 0.2  |
-| [Refined-MPL] | 11.14    | 18.09 | 8.94 | 0.15 |
-| [AM3D]       | 10.74    | 16.50 | 9.52 | 0.4  |
-| [RTM3D]      | 10.34    | 14.41 | 8.77 | 0.05 |
-| [MonoPair]   | 9.99     | 13.04 | 8.65 | 0.06 |
-| [SMOKE]      | 9.76     | 14.03 | 7.84 | 0.03 |
-| [M3D-RPN]    | 9.71     | 14.76 | 7.42 | 0.16 |
+| [D4LCN]      | 11.72   | 16.65 | 9.51 | 0.2  |
+| [SSL-RTM3D]  | 11.45   | 16.73 | 9.92 | 0.04 |
+| [Refined-MPL]| 11.14   | 18.09 | 8.94 | 0.15 |
+| [AM3D]       | 10.74   | 16.50 | 9.52 | 0.4  |
+| [RTM3D]      | 10.34   | 14.41 | 8.77 | 0.05 |
+| [MonoPair]   | 9.99    | 13.04 | 8.65 | 0.06 |
+| [SMOKE]      | 9.76    | 14.03 | 7.84 | 0.03 |
+| [M3D-RPN]    | 9.71    | 14.76 | 7.42 | 0.16 |
 
 目录:
 
@@ -76,6 +78,7 @@ Update(2020.07.24): Update Kinematic 3D
 
 
 [Kinematic3D]:Kinematic_video3d.md
+[SSL-RTM3D]:SSL_RTM3D.md
 [M3D-RPN]:M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection.md
 [D4LCN]:#d4lc
 [Refined-MPL]:./RefinedMPL.md
