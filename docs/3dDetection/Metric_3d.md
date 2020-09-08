@@ -1,8 +1,10 @@
-time: 20200512
+time: 20200908
 
 # 3D detection evaluation metric
 
 本文主要尝试综述3D检测的评价方法以及对应的一些code的分析，目标是比较细致的分析，在有新metric提出的过程中会持续更新，先综述的是KITTI与Nuscene两大benchmark的评价分数。
+
+Update 2020.09.08: Add Cityscapes 3D
 
 ## Average Precisiong - Kitti
 
@@ -81,4 +83,63 @@ waymo的算法与KITTI的极度相似，区别在于:
 2. 每当发现一个true-positive matching, $tp = \frac{\Delta\theta}{\pi}$,相当于只有角度是准确的才能得到完整的一个true-positive,否则会加上一个惩罚权重。而False positive和False negative没有变化。
 
 
+## mean Detection Score - Cityscapes 3D
 
+[pdf](https://arxiv.org/abs/2006.07864) [code](https://github.com/mcordts/cityscapesScripts)
+
+Cityscapes 基于他原有的数据也发布了一个三维检测数据标注集。与之前的数据最大的不同有二，首先是它仅使用双目数据进行标注，其次是它标注了3个维度的旋转。这个数据集的设计就是为了**评价单目的3D检测的，因而不采用3D IoU而选择了不同的设计**。
+
+其评价指标 mDS 由以下几个参数组成:
+
+- 2D AP: 与图像2D一致, $IoU \geq 0.7$
+- Center Distance: 俯瞰图距离 $\mathrm{BEVCD}$.
+- Yaw Similarity: yaw角
+- Pitch-Roll Similarity: pitch-roll作者认为在无人驾驶场景往往是耦合的，因而要放在一起评判.
+- Size Similarity: 大小 whl
+
+有几个点需要注意:
+
+- AP的计算根据代码，在PR曲线上采样了50个点.
+- 后面四项的计算，都是depth-dependent的。代码上每5米分一个bin，统计这个区间内的match,根据这个区间的match计算对应四个项目中该bin的score，然后每个项目会对各个bin求平均.
+- 后面四项计算的时候，confidence threshold是固定的，2D AP计算的时候会通过变化confidence threshold在一系列的recall值上计算aP.这里的confidence threshold固定为 $c_{w}=\underset{c \in|0,1|}{\operatorname{argmax}} p(c) r(c)$ 作者的intuition是说这个评价方案和现实部署的时候更为一致(我们会直接采用一个平衡好recall and precision的 threshold给出预测).
+
+BEVCD的计算:其中$X_{max}$是100米
+$$
+\begin{aligned}
+\mathrm{BEVCD}&=1-\frac{1}{\mathrm{X}_{\max }^{2}} \int_{0}^{\mathrm{X}_{\max }} k(s) \mathrm{d} s
+ \\ 
+k(s)&=\frac{1}{\mathrm{N}} \underset{d, g \in \mathrm{D}\left(s, c_{w}\right)}{\sum} \min \left(\mathrm{X}_{\max }, \sqrt{\sum_{i \in|x, y|}\left(d_{i}-g_{i}\right)^{2}}\right)
+\end{aligned}
+$$
+
+Yaw similarity 计算:
+
+$$
+\begin{aligned}
+\text { Yawsim }&=\frac{1}{X_{\text {max }}} \int_{0}^{X_{\max }} k(s) \mathrm{d} s
+\\
+k(s)&=\frac{1}{N} \sum_{d, g \in D\left(s, c_{w}\right)} \frac{1+\cos \left(\Delta_{Y a w}\right)}{2}
+\end{aligned}
+$$
+
+Pitch-Roll Similarity 计算:
+
+$$
+\begin{aligned}
+\text { PRSim }&=\frac{1}{X_{\text {max }}} \int_{0}^{X_{\max }} k(s) \mathrm{d} s
+\\
+k(s)&=\frac{1}{N} \sum_{d, g \in D\left(s, c_{w}\right)} \frac{2+\cos \left(\Delta_{Pitch}\right) + \cos \left(\Delta_{Roll}\right) }{4}
+\end{aligned}
+$$
+
+Size Similarity 计算:
+$$\begin{aligned}
+\text { SizeSim }&=\frac{1}{X_{\text {max }}} \int_{0}^{X_{\max }} k(s) \mathrm{d} s
+\\
+k(s)&=\frac{1}{N} \sum_{d, g \in D\left(s, c_{w}\right)} \prod_{x\in \{l, w, h\}} \min \left(\frac{d_{x}}{g_{x}}, \frac{g_{x}}{d_{x}}\right)
+\end{aligned}
+$$
+
+$$
+DS = AP \times \frac{BEVCD + YawSim + PRSim + SizeSim}{4}
+$$
