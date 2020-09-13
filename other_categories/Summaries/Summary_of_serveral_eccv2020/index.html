@@ -1408,6 +1408,12 @@
                 <li class="nav-item">
                     <a href="#tide-a-general-toolbox-for-identifying-object-detection-errors" class="nav-link">TIDE: A General Toolbox for Identifying Object Detection Errors</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#arbitrary-oriented-object-detection-with-circular-smooth-label" class="nav-link">Arbitrary-Oriented Object Detection with Circular Smooth Label</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#raft-recurrent-all-pairs-field-transforms-for-optical-flow" class="nav-link">RAFT: Recurrent All-Pairs Field Transforms for Optical Flow</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1434,6 +1440,8 @@
 </li>
 <li><a href="#attentive-normalization">Attentive Normalization</a></li>
 <li><a href="#tide-a-general-toolbox-for-identifying-object-detection-errors">TIDE: A General Toolbox for Identifying Object Detection Errors</a></li>
+<li><a href="#arbitrary-oriented-object-detection-with-circular-smooth-label">Arbitrary-Oriented Object Detection with Circular Smooth Label</a></li>
+<li><a href="#raft-recurrent-all-pairs-field-transforms-for-optical-flow">RAFT: Recurrent All-Pairs Field Transforms for Optical Flow</a></li>
 </ul>
 <h2 id="deep-hough-transform-for-semantic-line-detection">Deep Hough Transform for Semantic Line Detection</h2>
 <p><a href="https://arxiv.org/abs/2003.04676">pdf</a> <a href="https://github.com/Hanqer/deep-hough-transform">code</a></p>
@@ -1591,7 +1599,23 @@ K(d, s) = 1 - \frac{1}{1 + e^{-k(d-s)}}
 <h2 id="tide-a-general-toolbox-for-identifying-object-detection-errors">TIDE: A General Toolbox for Identifying Object Detection Errors</h2>
 <p><a href="https://dbolya.github.io/tide/paper.pdf">pdf</a> <a href="https://github.com/dbolya/tide">code</a></p>
 <p>这篇paper给了一个Python工具箱, 更为详细地去分析object detection的error,</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Pz4uggQzJXU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Pz4uggQzJXU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<h2 id="arbitrary-oriented-object-detection-with-circular-smooth-label">Arbitrary-Oriented Object Detection with Circular Smooth Label</h2>
+<p><a href="https://arxiv.org/pdf/2003.05597.pdf">pdf</a> <a href="https://github.com/Thinklab-SJTU/CSL_RetinaNet_Tensorflow">code</a></p>
+<p>这篇paper review了回归旋转 bounding boxes的方法，同时指出了目前几个回归参数化方法的弊端，提出的方案主要是解决了角度的不连续性问题.</p>
+<p>三种已有的参数化回归旋转bounding boxe的方法:</p>
+<p><img alt="image" src="../res/oriented_bbox_def.png" /></p>
+<p>在某个特殊情况下，以上三种参数方法病态的回归过程:</p>
+<p><img alt="image" src="../res/oriented_bbox_regprocess.png" /></p>
+<p>作者提出在角度上采用窗函数平滑后的、基于分类的训练方案</p>
+<p><img alt="image" src="../res/oriented_bbox_circle.png" /></p>
+<h2 id="raft-recurrent-all-pairs-field-transforms-for-optical-flow">RAFT: Recurrent All-Pairs Field Transforms for Optical Flow</h2>
+<p><a href="https://arxiv.org/pdf/2003.12039.pdf">pdf</a> <a href="https://github.com/princeton-vl/RAFT">code</a></p>
+<p>这篇paper是eccv2020的best paper.对于光流的计算有比较大的创新。主要实现的是在高分辨率下对大尺度光流搜索的优化方案。</p>
+<p><img alt="image" src="../res/raft_arch.png" /></p>
+<p><img alt="image" src="../res/raft_lookup.png" /></p>
+<p>核心的创新在于在scale 8 预计算两帧之间每两个像素之间的匹配score(dot product),在迭代优化的过程中"LookUp" Operator负责将sample光流对应位置的cost. 避免了多次重复计算cost volume. 使得在scale 8上搜索长距离的光流成为可能，对快速移动的小物体的检测能力变强。</p></div>
                     
                 </div>
         </div>
