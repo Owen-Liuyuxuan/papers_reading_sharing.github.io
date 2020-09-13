@@ -1,4 +1,4 @@
-time: 20200827
+time: 20200913
 short_title: ECCV 2020 clips
 
 # Summaries for several ECCV 2020 papers
@@ -16,6 +16,8 @@ short_title: ECCV 2020 clips
     - [Depth Sharpening](#depth-sharpening)
   - [Attentive Normalization](#attentive-normalization)
   - [TIDE: A General Toolbox for Identifying Object Detection Errors](#tide-a-general-toolbox-for-identifying-object-detection-errors)
+  - [Arbitrary-Oriented Object Detection with Circular Smooth Label](#arbitrary-oriented-object-detection-with-circular-smooth-label)
+  - [RAFT: Recurrent All-Pairs Field Transforms for Optical Flow](#raft-recurrent-all-pairs-field-transforms-for-optical-flow)
 
 
 ## Deep Hough Transform for Semantic Line Detection
@@ -207,3 +209,35 @@ class AttentiveGroupNorm(nn.GroupNorm):
 这篇paper给了一个Python工具箱, 更为详细地去分析object detection的error,
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Pz4uggQzJXU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Arbitrary-Oriented Object Detection with Circular Smooth Label
+
+[pdf](https://arxiv.org/pdf/2003.05597.pdf) [code](https://github.com/Thinklab-SJTU/CSL_RetinaNet_Tensorflow)
+
+这篇paper review了回归旋转 bounding boxes的方法，同时指出了目前几个回归参数化方法的弊端，提出的方案主要是解决了角度的不连续性问题.
+
+三种已有的参数化回归旋转bounding boxe的方法:
+
+![image](res/oriented_bbox_def.png)
+
+在某个特殊情况下，以上三种参数方法病态的回归过程:
+
+![image](res/oriented_bbox_regprocess.png)
+
+作者提出在角度上采用窗函数平滑后的、基于分类的训练方案
+
+![image](res/oriented_bbox_circle.png)
+
+## RAFT: Recurrent All-Pairs Field Transforms for Optical Flow
+
+[pdf](https://arxiv.org/pdf/2003.12039.pdf) [code](https://github.com/princeton-vl/RAFT)
+
+这篇paper是eccv2020的best paper.对于光流的计算有比较大的创新。主要实现的是在高分辨率下对大尺度光流搜索的优化方案。
+
+![image](res/raft_arch.png)
+
+![image](res/raft_lookup.png)
+
+核心的创新在于在scale 8 预计算两帧之间每两个像素之间的匹配score(dot product),在迭代优化的过程中"LookUp" Operator负责将sample光流对应位置的cost. 避免了多次重复计算cost volume. 使得在scale 8上搜索长距离的光流成为可能，对快速移动的小物体的检测能力变强。
+
+
