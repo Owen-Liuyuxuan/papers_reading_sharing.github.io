@@ -1,4 +1,4 @@
-time: 20200820
+time: 20200921
 pdf_source: https://arxiv.org/pdf/2008.07294v1.pdf
 code_source: https://github.com/cccorn/AP-loss
 
@@ -10,15 +10,39 @@ code_source: https://github.com/cccorn/AP-loss
 
 ## Background of Perceptron Learning Algorithm
 
-[blog](https://towardsdatascience.com/perceptron-learning-algorithm-d5db0deab975)
+[blog](https://towardsdatascience.com/perceptron-learning-algorithm-d5db0deab975)  [wiki](https://www.wikiwand.com/en/Perceptron#/Learning_algorithm)
 
+### 基本更新算法
 Perceptron learning algorithm 是给单神经元分类器训练的算法，是一个gradient-free的算法，其思路是error-driven update. 也即是说更新步长直接来源于目标输出以及当前输出的差值.
+
+1. 初始化权重
+2. 计算输出权重 $y = sign(w^T x)$
+3. 更新权重$w(t+1) = w(t) + \alpha (y_{des} - t)x$
+
+### Convergence
+
+单层神经元是一个线性分类器;如果数据线性可分，有证明这个算法会收敛，且step数量有上限，但是不能保证解的质量；如果数据不可分，算法不会收敛到一个接近的解，而是会坏掉。
 
 ## AP Loss Computation
 
 [code](https://github.com/cccorn/AP-loss/blob/master/lib/model/aploss.py)
 
 AP Loss $\mathcal{L}_{AP}$定义为$1 - AP$. 而插值AP的计算方式可见 [evaluation metrics](../../3dDetection/Metric_3d.md).
+
+这里采用了 rank-based 的描述方式进行入手
+$$\begin{array}{l}
+\mathcal{L}_{A P}=1-\mathrm{AP}=1-\frac{1}{|\mathcal{P}|} \sum_{i \in \mathcal{P}} \frac{\operatorname{rank}^{+}(i)}{\operatorname{rank}(i)} \\
+=1-\frac{1}{|\mathcal{P}|} \sum_{i \in \mathcal{P}} \frac{1+\sum_{j \in \mathcal{P}, j \neq i} H\left(x_{i j}\right)}{1+\sum_{j \in \mathcal{P}, j \neq i} H\left(x_{i j}\right)+\sum_{j \in \mathcal{N}} H\left(x_{i j}\right)} \\
+=\frac{1}{|\mathcal{P}|} \sum_{i \in \mathcal{P}} \sum_{j \in \mathcal{N}} L_{i j}=\frac{1}{|\mathcal{P}|} \sum_{i, j} L_{i j} \cdot y_{i j}=\frac{1}{|\mathcal{P}|}\langle\boldsymbol{L}(\boldsymbol{x}), \boldsymbol{y}\rangle
+\end{array}$$
+
+几个符号:
+
+- $rank(i), rank^+(i)$指该样本的score在所有正确匹配的样本以及所有正样本(网络输出为正即可)中的score 排名
+- $\mathcal{P}, \mathcal{N}$ 分别指annotation中的正样本与负样本的集合。
+- $H(x_{ij})$在这个阶段是一个阶跃函数，$x_{ij} = s_j - s_i$嵌套的结果既是如果$j$比$i$ score更高，则为1否则为0.
+
+几个解释：论文中是先介绍了几个化简用的中间函数$L, H$等，然后再入手计算$AP$，但是对于理解AP前后向运算的逻辑来说，中间量并不必要，就是一个化简的方式而已
 
 算法:
 
