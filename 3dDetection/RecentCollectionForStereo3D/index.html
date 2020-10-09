@@ -204,6 +204,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/object_detection_2D/aLRPLoss/" class="dropdown-item">
+            A Ranking-based, Balanced Loss Function Unifying Classification and Localisation in Object Detection
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/object_detection_2D/detr/" class="dropdown-item">
             DE⫶TR
         </a>
@@ -1654,7 +1660,10 @@
 <li>使用单一一个ResNet解决2D 检测以及语义分割的encoding.用的是<a href="https://arxiv.org/pdf/1905.02285.pdf">二作作者的同时检测与语义分割网络.pdf</a></li>
 <li>Disparity使用的是block matching的传统方法，</li>
 <li>作者根据语义分割以及detector结果分割出相关像素，然后聚类，然后以优化凸包的方式得出结果。由于作者没有开源，很多内容有待商榷。</li>
-</ol></div>
+</ol>
+<p>
+<script type="math/tex; mode=display">argmin (N_{out}/N+ (k_l(l-μ_l)/σ_l )^2+(k_w(w-μ_w)/σ_w )^2)</script>
+</p></div>
                     
                 </div>
         </div>
