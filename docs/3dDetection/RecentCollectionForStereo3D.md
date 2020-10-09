@@ -144,6 +144,10 @@ voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的
 2. Disparity使用的是block matching的传统方法，
 3. 作者根据语义分割以及detector结果分割出相关像素，然后聚类，然后以优化凸包的方式得出结果。由于作者没有开源，很多内容有待商榷。
 
+$$argmin (N_{out}/N+ (k_l(l-μ_l)/σ_l )^2+(k_w(w-μ_w)/σ_w )^2)$$
+
+
+
 
 [CDN]:CDN.md
 [CDN P-LiDAR++]:CDN.md
