@@ -17,7 +17,7 @@ Perceptron learning algorithm 是给单神经元分类器训练的算法，是�
 
 1. 初始化权重
 2. 计算输出权重 $y = sign(w^T x)$
-3. 更新权重$w(t+1) = w(t) + \alpha (y_{des} - t)x$
+3. 更新权重$w(t+1) = w(t) + \alpha (y_{des} - y_t)x$
 
 ### Convergence
 

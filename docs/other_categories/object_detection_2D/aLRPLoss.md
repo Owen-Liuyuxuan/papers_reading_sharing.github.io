@@ -37,7 +37,9 @@ $$
 作者这里提出了一个新的定义方案：
 
 - ranking-based loss function $\mathcal{L} = \frac{1}{Z} \sum_{i\in \mathcal{P}}\ell(i)$ 定义为对由一系列正样本对应的loss.
-- Primary term $L_{i j}=\left\{\begin{array}{ll}\ell(i) p(j \mid i), & \text { for } i \in \mathcal{P}, j \in \mathcal{N} \\ 0, & \text { otherwise }\end{array}\right.$
+- Primary term 
+
+$$L_{i j}=\left\{\begin{array}{ll}\ell(i) p(j \mid i), & \text { for } i \in \mathcal{P}, j \in \mathcal{N} \\ 0, & \text { otherwise }\end{array}\right.$$
 
 这个定义下，有
 
