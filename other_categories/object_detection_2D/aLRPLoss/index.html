@@ -1317,6 +1317,12 @@
     </li>
                                     
     <li>
+        <a href="../../../The_theory/DirectLossMinimization/" class="dropdown-item">
+            Direct Loss Minimization
+        </a>
+    </li>
+                                    
+    <li>
         <a href="../../../The_theory/Do Better ImageNet Models Transfer Better/" class="dropdown-item">
             Do Better ImageNet Models Transfer Better?
         </a>
@@ -1514,9 +1520,11 @@
 <p>作者这里提出了一个新的定义方案：</p>
 <ul>
 <li>ranking-based loss function <script type="math/tex">\mathcal{L} = \frac{1}{Z} \sum_{i\in \mathcal{P}}\ell(i)</script> 定义为对由一系列正样本对应的loss.</li>
-<li>Primary term <script type="math/tex">L_{i j}=\left\{<script type="math/tex; mode=display">\begin{array}{ll}\ell(i) p(j \mid i), & \text { for } i \in \mathcal{P}, j \in \mathcal{N} \\ 0, & \text { otherwise }\end{array}</script>\right.</script>
-</li>
+<li>Primary term </li>
 </ul>
+<p>
+<script type="math/tex; mode=display">L_{i j}=\left\{\begin{array}{ll}\ell(i) p(j \mid i), & \text { for } i \in \mathcal{P}, j \in \mathcal{N} \\ 0, & \text { otherwise }\end{array}\right.</script>
+</p>
 <p>这个定义下，有</p>
 <ul>
 <li>定理一：<script type="math/tex">\mathcal{L}=\frac{1}{Z} \sum_{i \in \mathcal{P}} \ell(i)=\frac{1}{Z} \sum_{i \in \mathcal{P}} \sum_{j \in \mathcal{N}} L_{i j}</script>
