@@ -1505,7 +1505,33 @@
 <p>之后跟随的是两个预测模块，一个预测输出是左上角，另一个给出的是右下角。这两个模块有各自的corner pooling。</p>
 <h2 id="_1">预测角点</h2>
 <p>网络最终输出的是两组heatmap，一个给左上角一个给右下角，每一组热图有<script type="math/tex">C</script>个特征，与类别数一致(每一类一个channel的热图)，feature map形状是<script type="math/tex">H\times W</script>.不像yolo或者SSD一样带有background channel。</p>
-<p>在训练的时候，直觉与经验表示不应该简单地惩罚不正确的角点位置。这里根据物体的体积的设定不同的radius cost.最终设计出一个focal loss,原版focal loss源自与<a href="https://arxiv.org/pdf/1708.02002.pdf">这篇文章</a>,在<a href="../../../3dDetection/Disentangling_Monocular_3D_Object_Detection/">这里</a>有简介。这里的定义是</p>
+<p>在训练的时候，直觉与经验表示不应该简单地惩罚不正确的角点位置。这里根据物体的体积的设定不同的radius cost.</p>
+<p>radius 虽然表达的是一个圆的概念，但是实际实现的时候是一个正方形的半边长, 其长度的设定是说一对ground truth点的正方形区域内，任选两点，两点构成的bbox与gt的bbox的IoU下限不低于某一个设定值(本文取0.3).
+<script type="math/tex; mode=display">
+\forall p_i\in{LeftTop}, \forall p_j \in {RightBottom} \quad IoU(bbox_{p_i, p_j}, bbox_{gt})
+</script>
+</p>
+<p>原版code有错误，经过一些修正后正确的实现应当是。</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_radius</span><span class="p">(</span><span class="n">det_size</span><span class="p">,</span> <span class="n">min_overlap</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Compute radius from ground truth bbox.</span>
+
+<span class="sd">    original equation: (w - 2r) (h - 2r) / (wh) = min_overlap</span>
+<span class="sd">    Take the solution with a smaller magnitude.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">det_size</span>
+
+    <span class="n">a2</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">b2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
+    <span class="n">c2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">min_overlap</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span> <span class="o">*</span> <span class="n">height</span>
+    <span class="n">sq2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b2</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">a2</span> <span class="o">*</span> <span class="n">c2</span><span class="p">)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="p">(</span><span class="n">b2</span> <span class="o">-</span> <span class="n">sq2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">a2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">r2</span>
+</code></pre></div>
+
+
+<p>这个idea热点图的idea以及official code(尽管不一定正确)被多个后续的文章使用, 包括 <a href="../Object_as_points/">Object as point</a>, <a href="https://github.com/maudzung/RTM3D">RTM3D Unofficial Implementation</a></p>
+<p>最终设计出一个focal loss,原版focal loss源自与<a href="https://arxiv.org/pdf/1708.02002.pdf">这篇文章</a>,在<a href="../../../3dDetection/Disentangling_Monocular_3D_Object_Detection/">这里</a>有简介。这里的定义是</p>
 <p>
 <script type="math/tex; mode=display">
 L_{det}=\frac{-1}{N} \sum_{c=1}^{C} \sum_{i=1}^{H} \sum_{j=1}^{W}\left\{\begin{array}{c}{\left(1-p_{c i j}\right)^{\alpha} \log \left(p_{c i j}\right)}   if (y_{cij} == 1) \\ {\left(1-y_{c i j}\right)^{\beta}\left(p_{c i j}\right)^{\alpha} \log \left(1-p_{c i j}\right) \text { otherwise }}\end{array}\right.
