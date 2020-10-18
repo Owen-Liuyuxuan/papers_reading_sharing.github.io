@@ -1,4 +1,4 @@
-time: 20191013
+time: 20201018
 pdf_source: https://eccv2018.org/openaccess/content_ECCV_2018/papers/Hei_Law_CornerNet_Detecting_Objects_ECCV_2018_paper.pdf
 code_source:  https://github.com/princeton-vl/CornerNet
 short_title: CornetNet
@@ -20,7 +20,35 @@ backbone网络使用的是[hourglass](../../Building_Blocks/Stacked_Hourglass_Ne
 
 网络最终输出的是两组heatmap，一个给左上角一个给右下角，每一组热图有$C$个特征，与类别数一致(每一类一个channel的热图)，feature map形状是$H\times W$.不像yolo或者SSD一样带有background channel。
 
-在训练的时候，直觉与经验表示不应该简单地惩罚不正确的角点位置。这里根据物体的体积的设定不同的radius cost.最终设计出一个focal loss,原版focal loss源自与[这篇文章](https://arxiv.org/pdf/1708.02002.pdf),在[这里](../../3dDetection/Disentangling_Monocular_3D_Object_Detection.md)有简介。这里的定义是
+在训练的时候，直觉与经验表示不应该简单地惩罚不正确的角点位置。这里根据物体的体积的设定不同的radius cost.
+
+radius 虽然表达的是一个圆的概念，但是实际实现的时候是一个正方形的半边长, 其长度的设定是说一对ground truth点的正方形区域内，任选两点，两点构成的bbox与gt的bbox的IoU下限不低于某一个设定值(本文取0.3).
+$$
+\forall p_i\in{LeftTop}, \forall p_j \in {RightBottom} \quad IoU(bbox_{p_i, p_j}, bbox_{gt})
+$$
+
+原版code有错误，经过一些修正后正确的实现应当是。
+```python
+def compute_radius(det_size, min_overlap=0.7):
+    """ Compute radius from ground truth bbox.
+
+    original equation: (w - 2r) (h - 2r) / (wh) = min_overlap
+    Take the solution with a smaller magnitude.
+    """
+    height, width = det_size
+
+    a2 = 4
+    b2 = 2 * (height + width)
+    c2 = (1 - min_overlap) * width * height
+    sq2 = np.sqrt(b2 ** 2 - 4 * a2 * c2)
+    r2 = (b2 - sq2) / (2 * a2)
+    
+    return r2
+```
+
+这个idea热点图的idea以及official code(尽管不一定正确)被多个后续的文章使用, 包括 [Object as point](Object_as_points.md), [RTM3D Unofficial Implementation](https://github.com/maudzung/RTM3D)
+
+最终设计出一个focal loss,原版focal loss源自与[这篇文章](https://arxiv.org/pdf/1708.02002.pdf),在[这里](../../3dDetection/Disentangling_Monocular_3D_Object_Detection.md)有简介。这里的定义是
 
 $$
 L_{det}=\frac{-1}{N} \sum_{c=1}^{C} \sum_{i=1}^{H} \sum_{j=1}^{W}\left\{\begin{array}{c}{\left(1-p_{c i j}\right)^{\alpha} \log \left(p_{c i j}\right)}   if (y_{cij} == 1) \\ {\left(1-y_{c i j}\right)^{\beta}\left(p_{c i j}\right)^{\alpha} \log \left(1-p_{c i j}\right) \text { otherwise }}\end{array}\right.
