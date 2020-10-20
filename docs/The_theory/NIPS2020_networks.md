@@ -21,7 +21,7 @@ short_title: NIPS 2020 for Experimental NN
 
 作者提出了SkipInit 模仿了batchnorm的特性
 
-![image](../The_theory/res/Batchnorm_identity_skipinit.png)
+![image](res/Batchnorm_identity_skipinit.png)
 
 实验上证明了其variance特性，以及skipinit同样能让深度的网络更容易训练了。
 
@@ -41,7 +41,7 @@ short_title: NIPS 2020 for Experimental NN
 
 本文指出使用"ReLU"是输出分段线性函数是无法拟合周期函数的, 作者提出使用$x + sin^2(x)$作为激活函数，这个函数可以扩展为$x + \frac{1}{a}sin^2(ax)$
 
-![image](../The_theory/res/periodic_x_sin2_x.png)
+![image](res/periodic_x_sin2_x.png)
 
 由图片，作者称这个为 Snake activation.
 
