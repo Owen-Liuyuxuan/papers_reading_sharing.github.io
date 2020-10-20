@@ -1,0 +1,104 @@
+time: 20201020
+short_title: NIPS 2020 for Experimental NN
+
+# NIPS 2020 for Experimental NN
+
+本文收集几篇NIPS2020中大实验室中通过实验研究神经网络相关性质的文章。相关实验不一定有严格的理论推理或是实用性的创新，但是可以了解相当有意义的经验结论.
+
+##  Batch Normalization Biases Residual Blocks Towards the Identity Function in Deep Networks
+
+[pdf](https://arxiv.org/pdf/2002.10444.pdf)
+
+这篇DeepMind的paper 探索了BatchNorm与ResNet之间的一些关系。
+
+不难证明的数学结论:
+
+- resnet的variance公式, $Var(x_i^{l+1}) = Var(x_i^l) + Var(f^l_i(x^l))$
+- 对于没有batchnorm的网络，其variance为 $Var(x_i^{l+1}) = 2 * Var(x_i^l) = 2^l$ (两个相互独立的高斯分布输出 variance为两者的直接加和), 初始variance会随着resnet深度发散。如果对加和输出scale down $1 / \sqrt{2}$, 则可以保持variance不变。
+- 对于输出前有batchnorm的网络，其variance 为 $Var(x_i^{l+1}) = Var(x_i^l) + 1 \approx l$.
+
+可以发现的是，随着网络层数$l$的增大，主干网络与残差分支之间的variance 比例会越来越大，残差分支上的batchnorm会压制其数值。因而从数学上可以发现随着resnet深度的提升，网络会趋近于identity function。这会使得网络初始化后更容易训练。
+
+作者提出了SkipInit 模仿了batchnorm的特性
+
+![image](../The_theory/res/Batchnorm_identity_skipinit.png)
+
+实验上证明了其variance特性，以及skipinit同样能让深度的网络更容易训练了。
+
+接着作者从实验的角度分析了两个BN相关的结论.
+
+- BN允许网络使用更大的学习率，实验中发现BN网络的最大稳定学习率比skipinit更大。但是如果batchsize比较小的话，网络的性能也并不会因此受益。如果固定下训练的epoch数(固定训练FLOPS，改变batch_size会改变迭代次数;如果固定的是Steps则在大batch的情况下训练运算量也会大幅提升), 那么最优的结果其实还是使用小batch size 小learning rate.因此作者认为BN允许网络使用更大的学习率只是让学习率参数相对更容易调了，而并不会提升网络最终的性能.
+- BN会提供一个regularization。实验发现这是事实存在的;通过skipInit + dropout或者其他regularization手段，可以在低batch的情况下得到比BN更好的结果(BN在低batch size的情况下发挥不好).
+
+总结起来
+
+- BN会让ResNet更像identity function来使得深网络更可训练。这可以用skipInit模拟。
+- BN让网络用更大的学习率训练，且在大batch情况下更为明显。但是这并不是提升最优性能的根本原因。
+- BN让网络获得一个内在的regularization. 在大batch的情况下得到很好的performance. 而作者指出使用skipinit + 合适的regularization可以在小batch的情况同时让网络trainable、regularized、且well performing.
+
+## Neural Networks Fail to Learn Periodic Functions and How to Fix It
+[pdf](https://arxiv.org/pdf/2006.08195.pdf)
+
+本文指出使用"ReLU"是输出分段线性函数是无法拟合周期函数的, 作者提出使用$x + sin^2(x)$作为激活函数，这个函数可以扩展为$x + \frac{1}{a}sin^2(ax)$
+
+![image](../The_theory/res/periodic_x_sin2_x.png)
+
+由图片，作者称这个为 Snake activation.
+
+实验来说这个函数可以在经典问题上得到与ReLU等激活函数一致的性能。但是这个函数有更强的延拓性。使用有限的函数拟合$y = sin(x)$函数，如果使用ReLU或者Tanh，则当输入函数超出训练范围时，ReLU与Tanh理所应当地不能复现目标函数周期性的特点，而作者提出的函数$x + sin^2(x)$可以。
+
+作者证明了，对于由ReLU组成的(多层)前馈网络，当输入强度(norm)无限逼近无穷大时，函数的输出值会逼近于输入的线性插值. 对于Tanh网络，函数输出值则会逼近于常数.
+
+$$\underset{z\rightarrow\infty}{lim} ||f_{ReLU}(zu) - zW_u u - b_u||_2 = 0$$
+$$\underset{z\rightarrow\infty}{lim} ||f_{tanh}(zu) - v_u||_2 = 0$$
+
+直觉上来说，ReLU网络的输出最终是分段线性插值，因而当无穷外拓的时候，最终会收敛于一个线性函数. Tanh当无穷外拓的时候，由于激活函数的值的限制，第一次激活后的输出值会趋近于常数, 多层运算的结果也都会趋近于一个常数。
+
+然后作者引入了一个超越 万能近似(universal approximation, UA)的性质, 万能延拓(universal extrapolation, UE). UA在神经网络领域指的是:已知定义在有界区间的任意连续函数$f(x)$, 一个单隐藏层的神经网络，在宽度趋近于无穷大的时候，总可以找到一组权重$w_N$, 使得网络的输出在有界范围内处处逼近这一函数.
+
+本文UE的则是: 已知定义在无穷范围内的任意周期函数$f(x)$.一个以$x+sin^2(x)$为激活函数的单隐藏层神经网络，在宽度趋近于无穷大时，总可以找到一组权重$w_N$,使得网络的输出在整个定义域内逼近这一个函数$f(x)$. 且如果目标函数是连续的，那么可以做到处处逼近.
+
+UE是比UA更强的结论，显然UE可以包含UA.
+
+作者的证明思路是首先使用傅里叶变换，证明了使用$sin(x)$作为激活函数，两层网络可以拟合任意周期函数。然后又证明了两个$x + sin^2(x)$激活的神经元可以表达一个$sin(x)$ 或 $cos(x)$函数. 两者结合就证明了$UE$. 
+
+在初始化问题上，由于 Snake 激活函数在零附近近似于identity matrix. 要让variance expectation为 1， 作者给出的初始化方案为 $Uniform(-\sqrt{3/d}, +\sqrt{3/d}). 作者在考虑多两项高阶量的情况下也给出了对应$Var=1$时的解析解，性能会有一定的提升，但是作者也指出实用上没有必要.
+
+在a的选择上，如果问题没有显然的周期性，则$a = 0.5$没有问题，如果问题有显然的周期性，则可以设置$a \in [5, 50]$. 作者也讨论了把$a$设置为可学习的参数的可能性.性能也是没有问题的.
+
+已经有这个函数的 [tensorflow addon implementation on github](https://github.com/tensorflow/addons/issues/1939)
+
+### 与SIREN 对比
+
+[SIREN](https://arxiv.org/pdf/2006.09661.pdf) SIREN的问题在于它是有界的, 缺少了$x$ 这一项。 Snake Activation的作者也进一步提到了$x + sin^2(x)$比$x + sin(x)$好的地方在于高次项出现在$x^2$处，拟合上更有利。
+
+## On Warm-Starting Neural Network Training
+[pdf](https://arxiv.org/pdf/1910.08475.pdf)
+
+这篇paper讨论的问题与[catestrophic forgetting](https://arxiv.org/pdf/1612.00796.pdf)的有一定区别。本文的话题是对一个部署在生产环境的机器学习模型，在线持续有新的数据产生，数据集会持续更新，在这个情况下需要快速地对新数据或者新数据集进行学习。但是部署环境中往往会发现，如果用之前现有的模型作为基础进行训练，也就是 warm-starting。 对于凸优化问题，warm-starting 一直是一个重要的技巧且非常有用，但是对于深度学习网络来说，出来的模型性能会比较差，且training 集上性能显现不出来，反而是generalization能力在下降。因而时至今日很多相关的问题中我们都会在每个迭代循环将模型初始化重新训练。
+
+在第一个实验中，作者使用ResNet, MLP, Logistic regression分别在CIFAR, SVHN上 直接Train所有数据 / 先train 前50%, 再train 所有数据。 发现 ResNet与MLP的性能不论采用SGD 还是ADAM， 第二次实验都比第一个实验差几个点，在比较困难的CiFAR上更为明显。而Logistic Regression的性能差则不大，因为它理应是一个凸优化设置。可以简单得到几个初步的结论:
+
+- 数据集越困难，warm starting带来的性能下降越明显
+- 凸优化问题LR几乎不受warm-start影响。
+- 我们常常认为基于部分data的warm starting可以给网络一个更好的 prior, 且应当是有用的，这也符合transfer learning的逻辑。但是实验结果与这个预期并不相符。
+
+而现成的调参工具可以处理这个问题吗? 作者网格搜索了 batch_size, learning rate, 等参数，发现是能找到性能与原来模型相当的参数，但是其训练时长往往也要很长才能实现，没有比重新训练模型节省运算量。作者指出这背后其实很可能是忘掉了原来的参数特性，几乎是重新训练了。为了证实这一点，作者计算这些性能好的模型在二次训练前后的权重的相关性，发现性能好的模型前后权重几乎没有相关性。且相关性越大，性能越差，也就是网络越差越好。但是Logistic Regression则不会有这样的情况。
+
+作者再做了一组实验，就是第一轮训练多少次就会开始损害generalization呢? 作者在CIFAR-10上用ResNet进行实验，数据显示第一轮大约20个epochs之后，最终的性能就已经开始显著往下降了，
+
+作者采用L2 regularization, confidence-penalized training, adversarial training去规范化两个阶段的训练流程，这些规范化方法是有效的，但是远不能完全消灭 warm-starting带来的性能下降。
+
+作者最终提出 Shrink, Perturb, Repeat 的算法。每当新数据加入到数据集时，对模型中所有参数修正为 
+$$\theta_i^t \leftarrow \lambda\theta_i^{t-1} + p^t$$
+
+其中$p^t \sim \mathcal{N}(0, \sigma^2)$ 且 $0 < \lambda < 1$.
+
+直觉:
+
+- 将所有权重缩小一定比例几乎会保留ReLU分类模型的所有记忆，对于复杂的带有BatchNorm的ResNet,$\lambda$去到低于$0.1$后才开始损失准确率，对于简单的带有bias的MLP，权重缩小到$\lambda < 0.6$时才开始损伤准确率。
+- Warm-starting一大问题在于新数据的gradients会远远大于旧数据的gradient, 使用shrinking缩小输出置信度，加上一点扰动后就可以进一步均衡模型对不同数据的梯度。
+
+实验上$\sigma=0.01, \lambda=0.6$就可以得到好的性能。
+
+从数值更新上，这其实很接近于$\theta_i \leftarrow \lambda(\theta_i + \eta\frac{\partial L}{\partial \theta_i}) + p$, 在一定情况下很接近于$L_2$ regularization. 在实际实验中，作者发现 shrink-and-perturb 能在静态数据集中同样地实现与$L_2$相似的regularization,但是$L_2$ 并不能解决warm start问题
