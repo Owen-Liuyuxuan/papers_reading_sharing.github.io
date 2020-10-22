@@ -102,3 +102,19 @@ $$\theta_i^t \leftarrow \lambda\theta_i^{t-1} + p^t$$
 实验上$\sigma=0.01, \lambda=0.6$就可以得到好的性能。
 
 从数值更新上，这其实很接近于$\theta_i \leftarrow \lambda(\theta_i + \eta\frac{\partial L}{\partial \theta_i}) + p$, 在一定情况下很接近于$L_2$ regularization. 在实际实验中，作者发现 shrink-and-perturb 能在静态数据集中同样地实现与$L_2$相似的regularization,但是$L_2$ 并不能解决warm start问题
+
+## Rational Neural Network
+[pdf](https://arxiv.org/pdf/2004.01902.pdf) [code](https://github.com/NBoulle/RationalNets)
+
+这篇paper提出使用分式多项式作为激活函数
+$$
+    F(x) = \frac{P(x)}{Q(x)} = \frac{\sum^{r_P}_{i=0} a_ix^i}{\sum^{r_Q}_{j=0}b_jx^j}
+$$
+
+这其实并非完全首创，本文证明了一些相关的性质，并且提出了使用它的方法。本文提出的思路是$r_P = 3, r_Q=2$，因而一共是7个参数，同时当x趋向于极限的时候，激活函数会趋向于正比例函数($y=kx$)
+
+理论分析结论(本文的主要切入角度是对拟合能力的探索,也即是使用多少参数能让输出函数尽可能拟合目标函数):
+- 要拟合一个ReLU Network需要的Rational Network参数量 比 用ReLU Network拟合Rational Network的参数量要指数级的少.
+- 要拟合一个连续函数，需要的Rational Network的参数量比用ReLU Network的参数量要指数级地少。
+
+背景知识，其证明方法类似于 [Why Deep Neural Networks for Function Approximation?](https://arxiv.org/pdf/1610.04161.pdf). 这篇文章证明了深层ReLU神经网络拟合一个连续函数所需要的参数量比浅层网络的参数量要指数级地少.
