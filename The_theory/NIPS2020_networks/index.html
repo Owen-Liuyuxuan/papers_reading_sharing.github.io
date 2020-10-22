@@ -1474,6 +1474,9 @@
                 <li class="nav-item">
                     <a href="#on-warm-starting-neural-network-training" class="nav-link">On Warm-Starting Neural Network Training</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#rational-neural-network" class="nav-link">Rational Neural Network</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1553,7 +1556,19 @@
 <li>Warm-starting一大问题在于新数据的gradients会远远大于旧数据的gradient, 使用shrinking缩小输出置信度，加上一点扰动后就可以进一步均衡模型对不同数据的梯度。</li>
 </ul>
 <p>实验上<script type="math/tex">\sigma=0.01, \lambda=0.6</script>就可以得到好的性能。</p>
-<p>从数值更新上，这其实很接近于<script type="math/tex">\theta_i \leftarrow \lambda(\theta_i + \eta\frac{\partial L}{\partial \theta_i}) + p</script>, 在一定情况下很接近于<script type="math/tex">L_2</script> regularization. 在实际实验中，作者发现 shrink-and-perturb 能在静态数据集中同样地实现与<script type="math/tex">L_2</script>相似的regularization,但是<script type="math/tex">L_2</script> 并不能解决warm start问题</p></div>
+<p>从数值更新上，这其实很接近于<script type="math/tex">\theta_i \leftarrow \lambda(\theta_i + \eta\frac{\partial L}{\partial \theta_i}) + p</script>, 在一定情况下很接近于<script type="math/tex">L_2</script> regularization. 在实际实验中，作者发现 shrink-and-perturb 能在静态数据集中同样地实现与<script type="math/tex">L_2</script>相似的regularization,但是<script type="math/tex">L_2</script> 并不能解决warm start问题</p>
+<h2 id="rational-neural-network">Rational Neural Network</h2>
+<p><a href="https://arxiv.org/pdf/2004.01902.pdf">pdf</a> <a href="https://github.com/NBoulle/RationalNets">code</a></p>
+<p>这篇paper提出使用分式多项式作为激活函数
+<script type="math/tex; mode=display">
+    F(x) = \frac{P(x)}{Q(x)} = \frac{\sum^{r_P}_{i=0} a_ix^i}{\sum^{r_Q}_{j=0}b_jx^j}
+</script>
+</p>
+<p>这其实并非完全首创，本文证明了一些相关的性质，并且提出了使用它的方法。本文提出的思路是<script type="math/tex">r_P = 3, r_Q=2</script>，因而一共是7个参数，同时当x趋向于极限的时候，激活函数会趋向于正比例函数(<script type="math/tex">y=kx</script>)</p>
+<p>理论分析结论(本文的主要切入角度是对拟合能力的探索,也即是使用多少参数能让输出函数尽可能拟合目标函数):
+- 要拟合一个ReLU Network需要的Rational Network参数量 比 用ReLU Network拟合Rational Network的参数量要指数级的少.
+- 要拟合一个连续函数，需要的Rational Network的参数量比用ReLU Network的参数量要指数级地少。</p>
+<p>背景知识，其证明方法类似于 <a href="https://arxiv.org/pdf/1610.04161.pdf">Why Deep Neural Networks for Function Approximation?</a>. 这篇文章证明了深层ReLU神经网络拟合一个连续函数所需要的参数量比浅层网络的参数量要指数级地少.</p></div>
                     
                 </div>
         </div>
