@@ -1487,10 +1487,16 @@
                     <a href="#_8" class="nav-link">最优化算法</a>
                 </li>
                 <li class="nav-item">
+                    <a href="#majorization-minimization-algorithm-mm-algo" class="nav-link">Majorization-Minimization Algorithm (MM Algo.)</a>
+                </li>
+                <li class="nav-item">
                     <a href="#geometric-programming" class="nav-link">Geometric programming</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#majorization-minimization-algorithm-mm-algo" class="nav-link">Majorization-Minimization Algorithm (MM Algo.)</a>
+                    <a href="#_11" class="nav-link">滤波器设计</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#markowitz-modern-portfolio-theory" class="nav-link">Markowitz Modern Portfolio Theory</a>
                 </li>
         </ul>
     </div>
@@ -1649,6 +1655,10 @@
 </ul>
 <p>计算与解题:</p>
 <p>利用KKT条件直接求解的时候经常会遇到分类讨论，主要问题在于<script type="math/tex">\lambda_i</script>是否为零，物理意义上来说就是解是在边界上还是可行域内。可以用这一个反推回各种情况下对系统参数的要求。</p>
+<p>同时记录常用的矩阵求导结果</p>
+<p>
+<script type="math/tex; mode=display">||Y - AX||^2_2 \underset{\text{grad w.r.t x}}{\rightarrow} 2(A^TA)X - 2A^TY </script>
+</p>
 <h2 id="cvx">CVX库</h2>
 <p>python中可以使用cvxpy库对凸优化问题进行建模与求解。理论上来说cvxpy库可以接受比较复杂的问题描述，然后库会尝试将问题转换为标准凸优化问题并调用求解器求解. 老师的建议是用来快速验证一个问题是不是凸优化问题.</p>
 <h2 id="_8">最优化算法</h2>
@@ -1681,6 +1691,59 @@
 </script>
 </p>
 <p>固定一部分解，每一步只对其中一部分解进行最优化迭代。</p>
+<h2 id="majorization-minimization-algorithm-mm-algo">Majorization-Minimization Algorithm (MM Algo.)</h2>
+<p>对于通用优化问题</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{array}{lll}
+\underset{x}{\operatorname{minimize}} & f_{0}(x) \\
+\text { subject to } & f_{i}(x) \leq 0 & i=1, \ldots, m \\
+& h_{i}(x)=0 & i=1, \ldots, p
+\end{array}
+</script>
+</p>
+<p>迭代的优化一个surrogate function.</p>
+<p>
+<script type="math/tex; mode=display">x^{k+1} = \underset{x\in\mathcal{X}}{argmin} u(x, x^k)</script>
+</p>
+<p>要求:</p>
+<ul>
+<li>
+<script type="math/tex">u</script>在<script type="math/tex">f(x^k)</script>处相等且相切</li>
+<li>
+<script type="math/tex">u(x, y) \ge f(x)</script>
+</li>
+</ul>
+<p><img alt="image" src="../res/cvx_mm_example.png" /></p>
+<p>作业有一道编码题要求使用MM求解</p>
+<p>Expectation-Maximization EM 算法属于 MM.</p>
+<p>寻找 surrogate function的技巧:</p>
+<h4 id="convexity">Convexity:</h4>
+<p>凸函数:
+<script type="math/tex; mode=display">
+    \kappa(\sum_i \alpha_it_i) \le \sum_i\alpha_i\kappa(t_i)
+</script>
+例子:
+<script type="math/tex; mode=display">
+\begin{aligned}
+\kappa\left(\mathbf{w}^{T} \mathbf{x}\right) &=\kappa\left(\mathbf{w}^{T}\left(\mathbf{x}-\mathbf{x}^{k}\right)+\mathbf{w}^{T} \mathbf{x}^{k}\right) \\
+&=\kappa\left(\sum_{i} \alpha_{i}\left(\frac{w_{i}\left(x_{i}-x_{i}^{k}\right)}{\alpha_{i}}+\mathbf{w}^{T} \mathbf{x}^{k}\right)\right) \\
+& \leq \sum_{i} \alpha_{i} \kappa\left(\frac{w_{i}\left(x_{i}-x_{i}^{k}\right)}{\alpha_{i}}+\mathbf{w}^{T} \mathbf{x}^{k}\right)
+\\
+& \leq \sum_{i} \frac{w_{i} x_{i}^{k}}{\mathbf{w}^{T} \mathbf{x}^{k}} \kappa\left(\frac{\mathbf{w}^{T} \mathbf{x}^{k}}{x_{i}^{k}} x_{i}\right)
+\end{aligned}
+</script>
+其中<script type="math/tex">\alpha_i = \frac{w_ix_i^k}{w^Tx^k}, \sum_i \alpha_i=1</script>
+</p>
+<h4 id="taylor-upper-bound-with-quadratic-terms">Taylor, upper bound with quadratic terms</h4>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+    \kappa(\mathbf{x}) &\leq \kappa\left(\mathbf{x}^{k}\right)+\nabla \kappa\left(\mathbf{x}^{k}\right)^{T}\left(\mathbf{x}-\mathbf{x}^{k}\right)+\frac{1}{2}\left(\mathbf{x}-\mathbf{x}^{k}\right)^{T} \mathbf{M}\left(\mathbf{x}-\mathbf{x}^{k}\right) \\
+    M - \nabla^2\kappa(x) &\ge 0
+\end{aligned}
+</script>
+这个<script type="math/tex">M</script>可以用<script type="math/tex">\lambda_{max}</script>也可以用</p>
 <h2 id="geometric-programming">Geometric programming</h2>
 <p>概念定义</p>
 <ul>
@@ -1725,32 +1788,170 @@
 </script>
 </p>
 <p>目标函数都变为 log-exp-sum 的形式，因而为凸函数.</p>
-<h2 id="majorization-minimization-algorithm-mm-algo">Majorization-Minimization Algorithm (MM Algo.)</h2>
-<p>对于通用优化问题</p>
-<p>
+<h2 id="_11">滤波器设计</h2>
+<h3 id="_12">切比雪夫滤波器设计</h3>
+<p>问题定义: 设计滤波器的线性参数 <script type="math/tex">\vec h</script>使得结果的滤波器与目标滤波器在目标频率范围内最大偏差最小化
 <script type="math/tex; mode=display">
-\begin{array}{lll}
-\underset{x}{\operatorname{minimize}} & f_{0}(x) \\
-\text { subject to } & f_{i}(x) \leq 0 & i=1, \ldots, m \\
-& h_{i}(x)=0 & i=1, \ldots, p
+\underset{\vec h}{minimize} \underset{\omega \in [0, \pi]}{max} |H(\omega) - H_{des}(\omega)|
+</script>
+</p>
+<p>由于滤波器的特性是一个虚数函数，因而 "| |"符号并不是绝对值而是模长,对<script type="math/tex">\omega</script>离散采样,使用epigraph转换问题，最终可以得到这个SOCP
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\underset{t, \mathbf{h}}{\operatorname{minimize}} & t \\
+\text { subject to } & \left\|\mathbf{A}_{k} \mathbf{h}-\mathbf{b}_{k}\right\| \leq t \quad k=1, \cdots, m
 \end{array}
 </script>
 </p>
-<p>迭代的优化一个surrogate function.</p>
 <p>
-<script type="math/tex; mode=display">x^{k+1} = \underset{x\in\mathcal{X}}{argmin} u(x, x^k)</script>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\mathbf{h} &=\left[\begin{array}{cccc}
+h_{0} & \cdots & h_{n-1}
+\end{array}\right]^{T} & \\
+\mathbf{A}_{k} &=\left[\begin{array}{ccc}
+1 & \cos \omega_{k} & \cdots & \cos (n-1) \omega_{k} \\
+0 & -\sin \omega_{k} & \cdots & -\sin (n-1) \omega_{k}
+\end{array}\right] \\
+\mathbf{b}_{k} &=\left[\begin{array}{c}
+\operatorname{Re} H_{\operatorname{des}}\left(\omega_{k}\right) \\
+\operatorname{Im} H_{\operatorname{des}}\left(\omega_{k}\right)
+\end{array}\right] &\left(\text { note: } \mathbf{A}_{k} \mathbf{h}=\left[\begin{array}{c}
+\operatorname{Re} H\left(\omega_{k}\right) \\
+\operatorname{Im} H\left(\omega_{k}\right)
+\end{array}\right]\right)
+\end{aligned}
+</script>
 </p>
-<p>要求:</p>
+<h3 id="magnitude">magnitude 优化问题</h3>
+<p>约束是 <script type="math/tex">L(\omega) < |H(\omega)| < U(\omega)</script>。 显然左侧的大于号是非凸的。这里使用自相关系数的概念。自相关系数 <script type="math/tex">r_t = \sum_\tau h_\tau h_{\tau + t}</script> 自相关系数的傅里叶变换结果<script type="math/tex">R(\omega) = \sum_\tau e^{-j\omega\tau}r_\tau = |H(\omega)|^2</script> (功率谱函数)，可以观察到, <script type="math/tex">R</script>与<script type="math/tex">r</script>是线性关系. 将原来的约束转换为 <script type="math/tex">L(\omega)^2 \le R(\omega) \le U(\omega)^2</script>, 这个不等式对<script type="math/tex">r</script>是线性，凸的。因而幅值优化问题一般解决方法是将问题转换为关于<script type="math/tex">r</script>的函数，然后用spectral factorization将<script type="math/tex">r</script>重新转换为<script type="math/tex">h</script>
+</p>
+<h3 id="log-">Log-切比雪夫 幅值设计</h3>
+<p>优化问题专注于幅值的分贝值，优化是要求最小化与目标谱的偏差
+<script type="math/tex; mode=display">minimize \underset{\omega \in [0,\pi]}{max} |20\log_{10}|H(\omega)| - 20 \log_{10}D(\omega)|</script>
+</p>
+<p>其中<script type="math/tex">D</script>指的是目标的函数的幅值函数.</p>
+<p>解决方案:</p>
 <ul>
-<li>
-<script type="math/tex">u</script>在<script type="math/tex">f(x^k)</script>处相等且相切</li>
-<li>
-<script type="math/tex">u(x, y) \ge f(x)</script>
+<li>引入新变量 <script type="math/tex">t</script>, epigraph重写max函数</li>
+<li>将问题转换为功率谱函数问题 <script type="math/tex">-t< 10\log_{10}R(\omega) - 10\log_{10}D^2(\omega) < t</script>.注意 <script type="math/tex">R</script>是关于<script type="math/tex">r</script>线性的.</li>
+<li>利用对数与指数的单调性，不等式两边同时取<script type="math/tex">10^x</script>,换元<script type="math/tex">\tilde{t} = 10^t</script>, 同时将优化问题从优化<script type="math/tex">t</script>直接改为优化<script type="math/tex">\tilde{t}</script>
 </li>
 </ul>
-<p><img alt="image" src="../res/cvx_mm_example.png" /></p>
-<p>作业有一道编码题要求使用MM求解</p>
-<p>Expectation-Maximization EM 算法属于 MM</p></div>
+<p>
+<script type="math/tex; mode=display">
+    1/\tilde{t} \le R(\omega) / D^2(\omega) \le \tilde{t}
+</script>
+</p>
+<p>反比例函数与线性函数都满足凸优化条件，问题划归为凸优化问题.</p>
+<h2 id="markowitz-modern-portfolio-theory">Markowitz Modern Portfolio Theory</h2>
+<p>这个<a href="https://www.wikiwand.com/zh/%E7%8E%B0%E4%BB%A3%E6%8A%95%E8%B5%84%E7%BB%84%E5%90%88%E7%90%86%E8%AE%BA">金融学问题</a>是一个讨论投资决策的简单模型。其将每一项投资的报酬理解为一个高斯分布;不同的投资组成的联合分布是一个(可能)有相关性的多元高斯分布;投资者的决策，也就是投资组合是资产的加权组合;投资组合的报酬也将会是一个高斯分布. 投资者的决策将会是最大化投资组合的期望收入，同时希望减少投资报酬的不确定性.</p>
+<h3 id="mean-variance-portfolio-mvp">基础问题一: mean-variance portfolio (MVP)</h3>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+    \underset{w}{maximize} \quad &w^T\mu - \lambda w^T \Sigma w \\
+    \text{subject to} \quad&1^T = 1
+\end{aligned}
+</script>
+使用KKT可以直接得到结果。
+<script type="math/tex; mode=display">
+\begin{aligned}
+    w_{MVP} &= \frac{1}{\lambda} \Sigma^{-1} (\mu + v \cdot 1)\\
+    v &= \frac{2\lambda - 1^T\Sigma^{-1}\mu}{1^T\Sigma^{-1}\cdot 1}
+\end{aligned}
+</script>
+拓展思考，进一步考虑到<script type="math/tex">\mu</script>以及<script type="math/tex">\Sigma</script>都是从数据样本的均值与方差中估计出来的，因而这个优化问题可以理解为对样本数据的 <script type="math/tex">l_2</script>-regularized的回归问题.</p>
+<p>通过添加一些新的简单约束，可以在不影响凸优化性质的基础上使结果更鲁棒.</p>
+<h3 id="global-minimum-variance-portfolio">基础问题二: Global minimum variance portfolio</h3>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+    \underset{w}{\text{minimize}} \quad &w^T\Sigma w\\
+    \text{subject to} \quad & w^T\mu \ge \beta\\
+    &1^T w = 1
+\end{aligned}
+</script>
+同样可以通过KKT条件直接得到结果
+<script type="math/tex; mode=display">
+    w_{GMVP} = \frac{1}{1^T\Sigma^{-1}\cdot 1} \Sigma^{-1} \cdot 1
+</script>
+</p>
+<h3 id="maximum-sharpe-ratio-portfolio-msrp">困难问题: Maximum Sharpe ratio portfolio (MSRP)</h3>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+    \underset{w}{\text{maximize}} \quad &\frac{w^T\mu - r_f}{\sqrt{w^T\Sigma w}} \\
+    \text{subject to}\quad & 1^T w = 1
+\end{aligned}
+</script>
+</p>
+<p>这个问题并不是凸优化问题，但是可以被归纳为 concave-convex single-ratio fractional programming. 也就是最大化一个 分子为非负凹函数;分母为非负凸函数的函数. 其一般形式为
+<script type="math/tex; mode=display">
+    \underset{w}{\text{maximize}} \quad \frac{f(x)}{g(x)}
+</script>
+这里介绍了三种解法</p>
+<h4 id="_13">二分求解</h4>
+<p>写成epigraph形式，
+<script type="math/tex; mode=display">
+\begin{aligned}
+    \underset{x, t}{\text{maximize}} \quad &t \\
+    \text{subject to} \quad & t \le \frac{f(x)}{g(x)}    
+\end{aligned}
+</script>
+</p>
+<p>如果将<script type="math/tex">t</script>设为常量，这个问题会变成一个凸优化问题，而且是可行性问题.</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+    \underset{x}{\text{maximize}} \quad & 0 \\
+    \text{subject to} \quad & tg(x) \le f(x)
+\end{aligned}
+</script>
+</p>
+<p>使用二分法不断收敛<script type="math/tex">t</script>的取值范围，找到最大的存在解的<script type="math/tex">t</script>,对应的优化结果为目的结果。</p>
+<h4 id="dinkelbach-transform">Dinkelbach Transform</h4>
+<p>将问题转换为</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+    \underset{x}{\text{maximize}} \quad & f(x) - yg(x) \\
+\end{aligned}
+</script>
+</p>
+<p>其中新变量<script type="math/tex">y</script>会被迭代地更新，<script type="math/tex">y^{(k)} = \frac{f(x^{(k)})}{g(x^{(k)})}</script>
+</p>
+<p>Dinkelbach证明了 <script type="math/tex">y^{(k)}</script>是单调递增的，且结果最终会收敛到 concave-convex FP的最优解.</p>
+<h4 id="charnes-cooper-transform-schaible-transform">Charnes-Cooper Transform / Schaible transform</h4>
+<p>对于线性的<script type="math/tex">f(x), g(x)</script>, 分母都大于零的情况. 可以采用Charnes-Cooper转换。</p>
+<p>线性FP:
+<script type="math/tex; mode=display">
+\begin{aligned}
+    \underset{x}{\text{maximize}} \quad & \frac{c^Tx + \alpha}{d^Tx+\beta} \\
+    \text{subject to} \quad & Ax \le b
+\end{aligned}
+</script>
+换元 <script type="math/tex">y = \frac{x}{d^Tx+\beta}</script>, <script type="math/tex">t = \frac{1}{d^Tx + \beta}</script>
+问题可以变为
+<script type="math/tex; mode=display">
+\begin{aligned}
+    \underset{y,t}{\text{maximize}} \quad & c^Ty + \alpha t \\
+    \text{subject to} \quad & Ay \le bt\\
+    & d^Ty + \beta t = 1\\
+    &t \ge 0
+\end{aligned}
+</script>
+问题变成了一个Linear programming.</p>
+<p>Shaible Transform是以上运算的推广，通用地来说， 可以设<script type="math/tex">y=\frac{x}{g(x)}</script>, <script type="math/tex">t = \frac{1}{g(x)}</script>, 约束问题变为</p>
+<p>$$
+<script type="math/tex; mode=display">\begin{aligned}
+    \underset{y,t}{\text{maximize}} \quad & tf(\frac{y}{t}) \\
+    \text{subject to} \quad & tg(y/t) \le 1\\
+    &t \ge 0 \\
+    & y/t \in \mathcal{X}  \quad \text{也就说$y/t$要满足原来的约束}
+\end{aligned}</script>
+$$</p>
+<p>这三种方法都可以用于求解原来的MSRP问题.</p></div>
                     
                 </div>
         </div>
