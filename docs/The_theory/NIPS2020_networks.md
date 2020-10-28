@@ -1,4 +1,4 @@
-time: 20201020
+time: 20201027
 short_title: NIPS 2020 for Experimental NN
 
 # NIPS 2020 for Experimental NN
@@ -118,3 +118,45 @@ $$
 - 要拟合一个连续函数，需要的Rational Network的参数量比用ReLU Network的参数量要指数级地少。
 
 背景知识，其证明方法类似于 [Why Deep Neural Networks for Function Approximation?](https://arxiv.org/pdf/1610.04161.pdf). 这篇文章证明了深层ReLU神经网络拟合一个连续函数所需要的参数量比浅层网络的参数量要指数级地少.
+
+
+## What do Neural Network Learn when Trained with Random Labels
+
+[pdf](https://arxiv.org/pdf/2006.10455.pdf)
+
+这篇paper研究了使用随机标签训练神经网络之后，网络究竟学到了什么，对transfer learning究竟有什么用。
+
+它探讨了一个现象，也就是在一定超参的情况下，即使使用随机变量进行训练，网络还是有可能能加速收敛(尽管 genralization的性能比较差)
+
+![image](res/ramdom_label_train_speed.png)
+
+作者解释并印证了一个重要的现象，也就是即使没有label，训练的过程中底层网络的权重也会对输入数据的统计特征进行复刻(Alignment, defined as same eigenvectors)，反应在权重矩阵的二阶特性上。如果我们模仿数据的这个性质逐层初始化网络，我们也可以实现对网路的加速训练。
+
+### 对于高斯输入的Alignment
+
+假设$d$维输入$x$从$\mathcal{N}(0, \Sigma_x)$高斯中采样，目标标签为随机值，且初始权重从高斯中提取，那么最后得到的$d$维权重满足 $\mathbb{E}[\boldsymbol{w}]=0$, 且$\Sigma_\omega=\mathbb{E}[\omega\cdot\omega^T]$ 的特征值与$\Sigma_x$的特征值一致。 作者证明了这个结果与数据量，网络是全连接还是conv，学习率与优化器等都无关。
+
+### 实验
+实验用真实数据集真实图片随机标签以及真实标签进行训练，作者在实验上同样能在第一层卷积层上证明实验的现象。背后的直觉是说最底层的$3\times 3$方块与真实标签几乎没有相关性，因而统计上真实标签训练对于第一层也相当于就是随机标签的结果。 实验中 misalignment远低于随机标签的结果, throughout training process.
+
+接着作者对浅层网络的权重在初始化的时候先用随机sample的结果进行采样(也就是不是用训练的权重，而是采样的权重)，发现同样能提升网络的训练速度。说明网络被随机标签预训练后能提升速度主要是因为对数据二阶特性的alignment.
+
+对于更深的网络，作者指出，可以一层一层地初始化，也即是先使用采样的方法得到第一层网络的权重，然后把它作为输入采样第二层的权重。能得到与pre-train同样的加速.
+
+## An Analysis of SVD for Deep Rotation Estimation
+
+[pdf](https://arxiv.org/pdf/2006.14616.pdf)
+
+这篇paper分析了 SVD用于深度学习中旋转的估计的特性。
+
+与[keypointnet](../Building_Blocks/Discovery_of_Latent_3D_Keypoints_via_End-to-end_Geometric_Reasoning.md) 对旋转的推理过程相似，网络输出$9$维的数值输出，堆砌为矩阵$M$
+
+$M$的SVD分解结果为$U\Sigma V^T$, 则在旋转集$SO(3)$上的投影为 $SVDO^+(M) = U\Sigma'V^T$,其中$\Sigma' = diag(1, ..., 1, det(UV^T))$
+
+损失函数
+$$L(M,R) = ||SVDO^+(M) - R||_F^2$$
+,旋转矩阵差的二范数实质上等于两个旋转的差(也是一个旋转矩阵)的主旋转角度.
+
+作者通过分析这一损失函数对SVD的反传结果证明了这种表示方法是在最小二乘或是高斯概率噪声两种表述下都是最优的，SVD的反传比较复杂. [Derivative of SVD]
+
+[Derivative of SVD]:https://j-towns.github.io/papers/svd-derivative.pdf
