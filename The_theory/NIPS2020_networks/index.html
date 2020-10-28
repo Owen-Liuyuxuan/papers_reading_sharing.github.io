@@ -1483,6 +1483,12 @@
                 <li class="nav-item">
                     <a href="#rational-neural-network" class="nav-link">Rational Neural Network</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#what-do-neural-network-learn-when-trained-with-random-labels" class="nav-link">What do Neural Network Learn when Trained with Random Labels</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#an-analysis-of-svd-for-deep-rotation-estimation" class="nav-link">An Analysis of SVD for Deep Rotation Estimation</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1574,7 +1580,31 @@
 <p>理论分析结论(本文的主要切入角度是对拟合能力的探索,也即是使用多少参数能让输出函数尽可能拟合目标函数):
 - 要拟合一个ReLU Network需要的Rational Network参数量 比 用ReLU Network拟合Rational Network的参数量要指数级的少.
 - 要拟合一个连续函数，需要的Rational Network的参数量比用ReLU Network的参数量要指数级地少。</p>
-<p>背景知识，其证明方法类似于 <a href="https://arxiv.org/pdf/1610.04161.pdf">Why Deep Neural Networks for Function Approximation?</a>. 这篇文章证明了深层ReLU神经网络拟合一个连续函数所需要的参数量比浅层网络的参数量要指数级地少.</p></div>
+<p>背景知识，其证明方法类似于 <a href="https://arxiv.org/pdf/1610.04161.pdf">Why Deep Neural Networks for Function Approximation?</a>. 这篇文章证明了深层ReLU神经网络拟合一个连续函数所需要的参数量比浅层网络的参数量要指数级地少.</p>
+<h2 id="what-do-neural-network-learn-when-trained-with-random-labels">What do Neural Network Learn when Trained with Random Labels</h2>
+<p><a href="https://arxiv.org/pdf/2006.10455.pdf">pdf</a></p>
+<p>这篇paper研究了使用随机标签训练神经网络之后，网络究竟学到了什么，对transfer learning究竟有什么用。</p>
+<p>它探讨了一个现象，也就是在一定超参的情况下，即使使用随机变量进行训练，网络还是有可能能加速收敛(尽管 genralization的性能比较差)</p>
+<p><img alt="image" src="../res/ramdom_label_train_speed.png" /></p>
+<p>作者解释并印证了一个重要的现象，也就是即使没有label，训练的过程中底层网络的权重也会对输入数据的统计特征进行复刻(Alignment, defined as same eigenvectors)，反应在权重矩阵的二阶特性上。如果我们模仿数据的这个性质逐层初始化网络，我们也可以实现对网路的加速训练。</p>
+<h3 id="alignment">对于高斯输入的Alignment</h3>
+<p>假设<script type="math/tex">d</script>维输入<script type="math/tex">x</script>从<script type="math/tex">\mathcal{N}(0, \Sigma_x)</script>高斯中采样，目标标签为随机值，且初始权重从高斯中提取，那么最后得到的<script type="math/tex">d</script>维权重满足 <script type="math/tex">\mathbb{E}[\boldsymbol{w}]=0</script>, 且<script type="math/tex">\Sigma_\omega=\mathbb{E}[\omega\cdot\omega^T]</script> 的特征值与<script type="math/tex">\Sigma_x</script>的特征值一致。 作者证明了这个结果与数据量，网络是全连接还是conv，学习率与优化器等都无关。</p>
+<h3 id="_1">实验</h3>
+<p>实验用真实数据集真实图片随机标签以及真实标签进行训练，作者在实验上同样能在第一层卷积层上证明实验的现象。背后的直觉是说最底层的<script type="math/tex">3\times 3</script>方块与真实标签几乎没有相关性，因而统计上真实标签训练对于第一层也相当于就是随机标签的结果。 实验中 misalignment远低于随机标签的结果, throughout training process.</p>
+<p>接着作者对浅层网络的权重在初始化的时候先用随机sample的结果进行采样(也就是不是用训练的权重，而是采样的权重)，发现同样能提升网络的训练速度。说明网络被随机标签预训练后能提升速度主要是因为对数据二阶特性的alignment.</p>
+<p>对于更深的网络，作者指出，可以一层一层地初始化，也即是先使用采样的方法得到第一层网络的权重，然后把它作为输入采样第二层的权重。能得到与pre-train同样的加速.</p>
+<h2 id="an-analysis-of-svd-for-deep-rotation-estimation">An Analysis of SVD for Deep Rotation Estimation</h2>
+<p><a href="https://arxiv.org/pdf/2006.14616.pdf">pdf</a></p>
+<p>这篇paper分析了 SVD用于深度学习中旋转的估计的特性。</p>
+<p>与<a href="../../Building_Blocks/Discovery_of_Latent_3D_Keypoints_via_End-to-end_Geometric_Reasoning/">keypointnet</a> 对旋转的推理过程相似，网络输出<script type="math/tex">9</script>维的数值输出，堆砌为矩阵<script type="math/tex">M</script>
+</p>
+<p>
+<script type="math/tex">M</script>的SVD分解结果为<script type="math/tex">U\Sigma V^T</script>, 则在旋转集<script type="math/tex">SO(3)</script>上的投影为 <script type="math/tex">SVDO^+(M) = U\Sigma'V^T</script>,其中<script type="math/tex">\Sigma' = diag(1, ..., 1, det(UV^T))</script>
+</p>
+<p>损失函数
+<script type="math/tex; mode=display">L(M,R) = ||SVDO^+(M) - R||_F^2</script>
+,旋转矩阵差的二范数实质上等于两个旋转的差(也是一个旋转矩阵)的主旋转角度.</p>
+<p>作者通过分析这一损失函数对SVD的反传结果证明了这种表示方法是在最小二乘或是高斯概率噪声两种表述下都是最优的，SVD的反传比较复杂. <a href="https://j-towns.github.io/papers/svd-derivative.pdf">Derivative of SVD</a></p></div>
                     
                 </div>
         </div>
