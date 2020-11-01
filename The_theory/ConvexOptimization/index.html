@@ -1504,6 +1504,12 @@
                 <li class="nav-item">
                     <a href="#markowitz-modern-portfolio-theory" class="nav-link">Markowitz Modern Portfolio Theory</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#constrained-problem-optimized-for-sparsity" class="nav-link">Constrained Problem Optimized for Sparsity</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#sparse-index-tracking" class="nav-link">Sparse Index Tracking</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1750,6 +1756,15 @@
 \end{aligned}
 </script>
 这个<script type="math/tex">M</script>可以用<script type="math/tex">\lambda_{max}</script>也可以用</p>
+<h4 id="lecturer">二次矩阵式 (Lecturer 的成果)</h4>
+<p>对于对称矩阵<script type="math/tex">L</script>, 有对称矩阵 <script type="math/tex">M \ge L</script>,使得</p>
+<p>
+<script type="math/tex; mode=display">
+    w^T L w \le w^T M w + 2 w^{(k)T}(L-M)w - w^{(k)T}(L-M)w^{(k)}
+</script>
+</p>
+<p>其中<script type="math/tex">M</script>往往可取<script type="math/tex">\lambda_{max}(L) I</script>
+</p>
 <h2 id="geometric-programming">Geometric programming</h2>
 <p>概念定义</p>
 <ul>
@@ -1957,7 +1972,131 @@ h_{0} & \cdots & h_{n-1}
     & y/t \in \mathcal{X}  \quad \text{也就说$y/t$要满足原来的约束}
 \end{aligned}</script>
 $$</p>
-<p>这三种方法都可以用于求解原来的MSRP问题.</p></div>
+<p>这三种方法都可以用于求解原来的MSRP问题.</p>
+<h2 id="constrained-problem-optimized-for-sparsity">Constrained Problem Optimized for Sparsity</h2>
+<h3 id="iterative-reweighted-l1-norm-heuristic">Iterative Reweighted l1-Norm Heuristic</h3>
+<ul>
+<li>set <script type="math/tex">w=1</script> repeat:</li>
+<li>
+<script type="math/tex">\text{minimize}_x ||Diag(w)x||_1</script> subject to constrained.</li>
+<li>
+<script type="math/tex">w_i = 1 / (\epsilon  + |x_i|)</script>
+</li>
+<li>Convergence</li>
+</ul>
+<h4 id="_14">直觉:</h4>
+<ul>
+<li>第一次迭代为直接优化<script type="math/tex">l_1</script>-norm</li>
+<li>之后每次迭代</li>
+<li>如果<script type="math/tex">x_i</script>比较小，惩罚权重比较大，驱使它更小</li>
+<li>如果<script type="math/tex">x_i</script>比较大，惩罚权重比较小，且梯度也不大，允许它变得更大.</li>
+</ul>
+<h4 id="_15">理论分析</h4>
+<p><img alt="image" src="../res/log_for_l0.png" /></p>
+<p>使用<script type="math/tex">\log</script>而不是<script type="math/tex">||x||_1</script>来对<script type="math/tex">||x||_0</script>进行拟合.</p>
+<p>优化问题变为</p>
+<p>
+<script type="math/tex">
+<script type="math/tex; mode=display">\begin{array}{ll}\underset{\mathbf{x}}{\operatorname{minimize}} & \sum_{i=1}^{n} \log \left(1+x_{i} / \varepsilon\right) \\ \text { subject to } & \mathbf{x} \in \mathscr{C}, \quad \mathbf{x} \geq \mathbf{0}\end{array}</script>
+</script>
+</p>
+<p>对于这个问题， 思路是使用 MM算法，代理函数选择切线拟合:</p>
+<p>
+<script type="math/tex; mode=display">
+\sum^n_{i=1}\log(1 + x_i / \varepsilon) \approx \sum^n_{i=1} \log(1  + x_i^{(k)} / \varepsilon) + \sum_{i=1}^n \frac{x_i - x_i^{(k)}}{\varepsilon + x_i^{(k)}}
+</script>
+</p>
+<p>问题最终变为求解一个带约束的线性目标函数</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+    &\underset{x}{\text{minimize}} \quad \sum^n_{i=1}w_ix_i\\
+    &\text{subject to} \quad x\in\mathscr{C}, \quad x \ge 0
+\end{aligned}
+</script>
+其中<script type="math/tex">w_i = 1 / (\varepsilon + x_i^{(k)})</script>
+</p>
+<h2 id="sparse-index-tracking">Sparse Index Tracking</h2>
+<p>SIT的意思是金融上用少数个股票的股价线性加权拟合股指(恒生指数，上证指数等), 主要难点在于这是个一个稀疏问题，我们只能选择其中一部分的股票进行拟合。这个选择过程严谨来说是一个 NP难的问题。</p>
+<h3 id="sparse-regression">Sparse Regression</h3>
+<p>
+<script type="math/tex; mode=display">
+    \underset{w}{\text{minimize}} \quad ||r - Xw||_2 + \lambda ||w||_0
+</script>
+</p>
+<p>lecture中给出了使用MM算法进行求解的方案.</p>
+<p>类似于前文，定义对<script type="math/tex">l_0</script>-norm的近似
+<script type="math/tex; mode=display">
+    \rho_{p,\gamma}(w) = \frac{\log{1 + |w|/p}}{\log(1 + \gamma/p)}
+</script>
+<script type="math/tex">\gamma</script>值越小，则在逼近零的小区间内近似越准,但是在较大的区间内则不太准，因而是一个超参数.且这个函数对<script type="math/tex">w\ge0</script>是一个凹函数.</p>
+<p>新的优化目标函数:</p>
+<p>
+<script type="math/tex; mode=display">
+    \underset{w}{\text{minimize}} \quad \frac{1}{T}||Xw-r^b||_2 + \lambda 1^T \rho_{p,u}(w)
+</script>
+</p>
+<p>这个函数还不是凸函数，这里采用<a href="#majorization-minimization-algorithm-mm-algo">MM</a>算法进行处理,与前一章一致，使用当前点的切线作为代理函数
+<script type="math/tex; mode=display">
+\approx \frac{1}{\log{1+\gamma/p}} \left\{\log(1  + w_i^{(k)} / \varepsilon) + \frac{w_i - w_i^{(k)}}{\varepsilon + w_i^{(k)}}\right\}
+</script>
+</p>
+<p>在<a href="#majorization-minimization-algorithm-mm-algo">MM</a>中需要迭代多次求解的目标函数:</p>
+<p>$$
+\begin{aligned}
+    &amp;\underset{w}{\text{minimize}} \quad \frac{1}{T}||Xw-r^b||<em>2 + \lambda d</em>{p,u}^{(k)T}(w) \
+    &amp;<script type="math/tex; mode=display">\begin{array}{ll}
+        \text { subject to } & \left.\begin{array}{l}
+        \mathbf{w}^{\top} \mathbf{1}=1 \\
+        \mathbf{0} \leq \mathbf{w} \leq \mathbf{1},
+        \end{array}</script>\right} \mathcal{W}
+        \end{array} </p>
+<p>\end{aligned}
+$$</p>
+<p>这个函数是一个QP,仍需要迭代。</p>
+<p>对这个QP使用<a href="#majorization-minimization-algorithm-mm-algo">MM</a>,令<script type="math/tex">L = \frac{1}{T}X^TX, M=\lambda_{max}(L) I</script>以及公式<script type="math/tex">w^T L w \le w^T M w + 2 w^{(k)T}(L-M)w - w^{(k)T}(L-M)w^{(k)}</script>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+\mathbf{w}^{\top} \mathbf{L}_{1} \mathbf{w}+\left(\lambda \mathbf{d}_{p, u}^{(k)}-\frac{2}{T} \mathbf{X}^{\top} \mathbf{r}^{b}\right)^{\top} \mathbf{w} \\
+\leq \mathbf{w}^{\top} \mathbf{M}_{1} \mathbf{w}+2 \mathbf{w}^{(k)^{\top}}\left(\mathbf{L}_{1}-\mathbf{M}_{1}\right) \mathbf{w}-\mathbf{w}^{(k)^{\top}}\left(\mathbf{L}_{1}-\mathbf{M}_{1}\right) \mathbf{w}^{(k)} \\
+\quad+\left(\lambda \mathbf{d}_{p, u}^{(k)}-\frac{2}{T} \mathbf{X}^{\top} \mathbf{r}^{b}\right)^{\top} \mathbf{w} \\
+=\lambda_{\max }^{\left(\mathbf{L}_{1}\right)} \mathbf{w}^{\top} \mathbf{w}+\left(2\left(\mathbf{L}_{1}-\lambda_{\max }^{\left(\mathbf{L}_{1}\right)} \mathbf{I}\right) \mathbf{w}^{(k)}+\lambda \mathbf{d}_{p, u}^{(k)}-\frac{2}{T} \mathbf{X}^{\top} \mathbf{r}^{b}\right)^{\top} \mathbf{w}+\text { const. }
+\end{array}
+</script>
+</p>
+<p>目标函数变为:</p>
+<p>$$
+\begin{aligned}
+    &amp;\underset{w}{\text{minimize}} \quad w^Tw + q_1^{(k)T}w\
+    &amp;<script type="math/tex; mode=display">\begin{array}{ll}
+        \text { subject to } & \left.\begin{array}{l}
+        \mathbf{w}^{\top} \mathbf{1}=1 \\
+        \mathbf{0} \leq \mathbf{w} \leq \mathbf{1},
+        \end{array}</script>\right} \mathcal{W}
+        \end{array} </p>
+<p>\end{aligned}
+<script type="math/tex; mode=display">
+其中 
+</script>
+\mathbf{q}<em>{1}^{(k)}=\frac{1}{\lambda</em>{\max }^{\left(\mathbf{L}<em>{1}\right)}}\left(2\left(\mathbf{L}</em>{1}-\lambda_{\max }^{\left(\mathbf{L}<em>{1}\right)} \mathbf{I}\right) \mathbf{w}^{(k)}+\lambda \mathbf{d}</em>{p, u}^{(k)}-\frac{2}{T} \mathbf{X}^{\top} \mathbf{r}^{b}\right)
+$$</p>
+<p>对这个问题可以用KKT直接求出最优解. <script type="math/tex">\mathcal{L}=w^Tw + q^Tw + \mu(w^T1 -1) - \sum h_iw + \sum h'(w-1)</script>. 会求出</p>
+<ul>
+<li>
+<script type="math/tex">h' = 0</script>
+</li>
+<li>
+<script type="math/tex">w_i = \left\{<script type="math/tex; mode=display">\begin{array}{l}-\frac{q_i+\mu}{2}\\ 0\end{array}</script>\right.</script>
+</li>
+<li>
+<script type="math/tex">h_i = \left\{<script type="math/tex; mode=display">\begin{array}{ll}0 & w_i \neq 0 \\ -q_i - v & w_i=0\end{array}</script> \right.</script>
+</li>
+<li>从<script type="math/tex">h_i > 0</script>,得到对<script type="math/tex">w_i</script>的判别条件 <script type="math/tex">\left\{<script type="math/tex; mode=display">\begin{array}{lll}v_i + q_i < 0 & w_i=0 & h_i = -v_i - q_i\\v_i + q_i > 0 & w_i=-\frac{q_i+\mu}{2} & h_i = 0 \end{array}</script>\right.</script>
+</li>
+<li>从等式约束，得到<script type="math/tex">\mu = - \frac{2 + \sum_{i | w_i > 0}q_i}{\text{num\_positive}}</script>
+</li>
+</ul>
+<p><img alt="image" src="../res/SIT_mm_1.png" /></p></div>
                     
                 </div>
         </div>
