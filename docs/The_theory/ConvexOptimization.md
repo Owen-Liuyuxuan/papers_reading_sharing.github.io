@@ -247,6 +247,15 @@ $$
 $$
 这个$M$可以用$\lambda_{max}$也可以用
 
+#### 二次矩阵式 (Lecturer 的成果)
+
+对于对称矩阵$L$, 有对称矩阵 $M \ge L$,使得
+
+$$
+    w^T L w \le w^T M w + 2 w^{(k)T}(L-M)w - w^{(k)T}(L-M)w^{(k)}
+$$
+
+其中$M$往往可取$\lambda_{max}(L) I$
 
 ## Geometric programming
 
@@ -475,10 +484,130 @@ $$
 这三种方法都可以用于求解原来的MSRP问题.
 
 
+## Constrained Problem Optimized for Sparsity
 
+### Iterative Reweighted l1-Norm Heuristic
 
+- set $w=1$ repeat:
+  - $\text{minimize}_x ||Diag(w)x||_1$ subject to constrained.
+  - $w_i = 1 / (\epsilon  + |x_i|)$
+- Convergence
 
+#### 直觉:
+- 第一次迭代为直接优化$l_1$-norm
+- 之后每次迭代
+  - 如果$x_i$比较小，惩罚权重比较大，驱使它更小
+  - 如果$x_i$比较大，惩罚权重比较小，且梯度也不大，允许它变得更大.
 
+#### 理论分析
 
+![image](res/log_for_l0.png)
 
+使用$\log$而不是$||x||_1$来对$||x||_0$进行拟合.
 
+优化问题变为
+
+$\begin{array}{ll}\underset{\mathbf{x}}{\operatorname{minimize}} & \sum_{i=1}^{n} \log \left(1+x_{i} / \varepsilon\right) \\ \text { subject to } & \mathbf{x} \in \mathscr{C}, \quad \mathbf{x} \geq \mathbf{0}\end{array}$
+
+对于这个问题， 思路是使用 MM算法，代理函数选择切线拟合:
+
+$$
+\sum^n_{i=1}\log(1 + x_i / \varepsilon) \approx \sum^n_{i=1} \log(1  + x_i^{(k)} / \varepsilon) + \sum_{i=1}^n \frac{x_i - x_i^{(k)}}{\varepsilon + x_i^{(k)}}
+$$
+
+问题最终变为求解一个带约束的线性目标函数
+
+$$
+\begin{aligned}
+    &\underset{x}{\text{minimize}} \quad \sum^n_{i=1}w_ix_i\\
+    &\text{subject to} \quad x\in\mathscr{C}, \quad x \ge 0
+\end{aligned}
+$$
+其中$w_i = 1 / (\varepsilon + x_i^{(k)})$
+
+## Sparse Index Tracking
+
+SIT的意思是金融上用少数个股票的股价线性加权拟合股指(恒生指数，上证指数等), 主要难点在于这是个一个稀疏问题，我们只能选择其中一部分的股票进行拟合。这个选择过程严谨来说是一个 NP难的问题。
+
+### Sparse Regression
+
+$$
+    \underset{w}{\text{minimize}} \quad ||r - Xw||_2 + \lambda ||w||_0
+$$
+
+lecture中给出了使用MM算法进行求解的方案.
+
+类似于前文，定义对$l_0$-norm的近似
+$$
+    \rho_{p,\gamma}(w) = \frac{\log{1 + |w|/p}}{\log(1 + \gamma/p)}
+$$
+$\gamma$值越小，则在逼近零的小区间内近似越准,但是在较大的区间内则不太准，因而是一个超参数.且这个函数对$w\ge0$是一个凹函数.
+
+新的优化目标函数:
+
+$$
+    \underset{w}{\text{minimize}} \quad \frac{1}{T}||Xw-r^b||_2 + \lambda 1^T \rho_{p,u}(w)
+$$
+
+这个函数还不是凸函数，这里采用[MM]算法进行处理,与前一章一致，使用当前点的切线作为代理函数
+$$
+\approx \frac{1}{\log{1+\gamma/p}} \left\{\log(1  + w_i^{(k)} / \varepsilon) + \frac{w_i - w_i^{(k)}}{\varepsilon + w_i^{(k)}}\right\}
+$$
+
+在[MM]中需要迭代多次求解的目标函数:
+
+$$
+\begin{aligned}
+    &\underset{w}{\text{minimize}} \quad \frac{1}{T}||Xw-r^b||_2 + \lambda d_{p,u}^{(k)T}(w) \\
+    &\begin{array}{ll}
+        \text { subject to } & \left.\begin{array}{l}
+        \mathbf{w}^{\top} \mathbf{1}=1 \\
+        \mathbf{0} \leq \mathbf{w} \leq \mathbf{1},
+        \end{array}\right\} \mathcal{W}
+        \end{array} 
+    
+\end{aligned}
+$$
+
+这个函数是一个QP,仍需要迭代。
+
+对这个QP使用[MM],令$L = \frac{1}{T}X^TX, M=\lambda_{max}(L) I$以及公式$w^T L w \le w^T M w + 2 w^{(k)T}(L-M)w - w^{(k)T}(L-M)w^{(k)}$
+$$
+\begin{array}{l}
+\mathbf{w}^{\top} \mathbf{L}_{1} \mathbf{w}+\left(\lambda \mathbf{d}_{p, u}^{(k)}-\frac{2}{T} \mathbf{X}^{\top} \mathbf{r}^{b}\right)^{\top} \mathbf{w} \\
+\leq \mathbf{w}^{\top} \mathbf{M}_{1} \mathbf{w}+2 \mathbf{w}^{(k)^{\top}}\left(\mathbf{L}_{1}-\mathbf{M}_{1}\right) \mathbf{w}-\mathbf{w}^{(k)^{\top}}\left(\mathbf{L}_{1}-\mathbf{M}_{1}\right) \mathbf{w}^{(k)} \\
+\quad+\left(\lambda \mathbf{d}_{p, u}^{(k)}-\frac{2}{T} \mathbf{X}^{\top} \mathbf{r}^{b}\right)^{\top} \mathbf{w} \\
+=\lambda_{\max }^{\left(\mathbf{L}_{1}\right)} \mathbf{w}^{\top} \mathbf{w}+\left(2\left(\mathbf{L}_{1}-\lambda_{\max }^{\left(\mathbf{L}_{1}\right)} \mathbf{I}\right) \mathbf{w}^{(k)}+\lambda \mathbf{d}_{p, u}^{(k)}-\frac{2}{T} \mathbf{X}^{\top} \mathbf{r}^{b}\right)^{\top} \mathbf{w}+\text { const. }
+\end{array}
+$$
+
+目标函数变为:
+
+$$
+\begin{aligned}
+    &\underset{w}{\text{minimize}} \quad w^Tw + q_1^{(k)T}w\\
+    &\begin{array}{ll}
+        \text { subject to } & \left.\begin{array}{l}
+        \mathbf{w}^{\top} \mathbf{1}=1 \\
+        \mathbf{0} \leq \mathbf{w} \leq \mathbf{1},
+        \end{array}\right\} \mathcal{W}
+        \end{array} 
+    
+\end{aligned}
+$$
+其中 
+$$
+\mathbf{q}_{1}^{(k)}=\frac{1}{\lambda_{\max }^{\left(\mathbf{L}_{1}\right)}}\left(2\left(\mathbf{L}_{1}-\lambda_{\max }^{\left(\mathbf{L}_{1}\right)} \mathbf{I}\right) \mathbf{w}^{(k)}+\lambda \mathbf{d}_{p, u}^{(k)}-\frac{2}{T} \mathbf{X}^{\top} \mathbf{r}^{b}\right)
+$$
+
+对这个问题可以用KKT直接求出最优解. $\mathcal{L}=w^Tw + q^Tw + \mu(w^T1 -1) - \sum h_iw + \sum h'(w-1)$. 会求出
+
+- $h' = 0$
+- $w_i = \left\{\begin{array}{l}-\frac{q_i+\mu}{2}\\ 0\end{array}\right.$
+- $h_i = \left\{\begin{array}{ll}0 & w_i \neq 0 \\ -q_i - v & w_i=0\end{array} \right.$
+- 从$h_i > 0$,得到对$w_i$的判别条件 $\left\{\begin{array}{lll}v_i + q_i < 0 & w_i=0 & h_i = -v_i - q_i\\v_i + q_i > 0 & w_i=-\frac{q_i+\mu}{2} & h_i = 0 \end{array}\right.$
+- 从等式约束，得到$\mu = - \frac{2 + \sum_{i | w_i > 0}q_i}{\text{num\_positive}}$
+
+![image](res/SIT_mm_1.png)
+
+[MM]:#majorization-minimization-algorithm-mm-algo
