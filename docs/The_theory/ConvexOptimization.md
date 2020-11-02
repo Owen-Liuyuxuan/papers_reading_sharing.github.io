@@ -4,6 +4,46 @@
 
 本文主要收集在凸优化课程中记下的基础概念与结论。
 
+- [Convex Optimization](#convex-optimization)
+  - [凸函数与凸集](#凸函数与凸集)
+    - [基本定义与重要判定](#基本定义与重要判定)
+    - [常见而重要的凹凸函数函数](#常见而重要的凹凸函数函数)
+    - [保留凸特性的常见操作](#保留凸特性的常见操作)
+  - [凸优化问题](#凸优化问题)
+    - [将 $L_1$, $L_{\infty}$转换为凸优化问题](#将-l_1-l_infty转换为凸优化问题)
+  - [对偶与KKT条件](#对偶与kkt条件)
+    - [对偶函数](#对偶函数)
+    - [强弱对偶性](#强弱对偶性)
+    - [KKT 条件](#kkt-条件)
+  - [CVX库](#cvx库)
+  - [最优化算法](#最优化算法)
+    - [牛顿法](#牛顿法)
+    - [内点法](#内点法)
+    - [Block Coordinate Descent (BCD)](#block-coordinate-descent-bcd)
+  - [Majorization-Minimization Algorithm (MM Algo.)](#majorization-minimization-algorithm-mm-algo)
+    - [寻找 surrogate function的技巧](#寻找-surrogate-function的技巧)
+      - [Convexity:](#convexity)
+      - [Taylor, upper bound with quadratic terms](#taylor-upper-bound-with-quadratic-terms)
+      - [二次矩阵式 (Lecturer 的成果)](#二次矩阵式-lecturer-的成果)
+  - [Geometric programming](#geometric-programming)
+  - [滤波器设计](#滤波器设计)
+    - [切比雪夫滤波器设计](#切比雪夫滤波器设计)
+    - [magnitude 优化问题](#magnitude-优化问题)
+    - [Log-切比雪夫 幅值设计](#log-切比雪夫-幅值设计)
+  - [Markowitz Modern Portfolio Theory](#markowitz-modern-portfolio-theory)
+    - [基础问题一: mean-variance portfolio (MVP)](#基础问题一-mean-variance-portfolio-mvp)
+    - [基础问题二: Global minimum variance portfolio](#基础问题二-global-minimum-variance-portfolio)
+    - [困难问题: Maximum Sharpe ratio portfolio (MSRP)](#困难问题-maximum-sharpe-ratio-portfolio-msrp)
+      - [二分求解](#二分求解)
+      - [Dinkelbach Transform](#dinkelbach-transform)
+      - [Charnes-Cooper Transform / Schaible transform](#charnes-cooper-transform--schaible-transform)
+  - [Constrained Problem Optimized for Sparsity](#constrained-problem-optimized-for-sparsity)
+    - [Iterative Reweighted l1-Norm Heuristic](#iterative-reweighted-l1-norm-heuristic)
+      - [直觉:](#直觉)
+      - [理论分析](#理论分析)
+  - [Sparse Index Tracking](#sparse-index-tracking)
+    - [Sparse Regression](#sparse-regression)
+
 ## 凸函数与凸集
 
 ### 基本定义与重要判定
@@ -205,7 +245,7 @@ $$
 
 迭代的优化一个surrogate function.
 
-$$x^{k+1} = \underset{x\in\mathcal{X}}{argmin} u(x, x^k)$$
+$$x^{k+1} = \underset{x\in\mathcal{X}}{\text{argmin}} u(x, x^k)$$
 
 要求:
 
@@ -218,7 +258,7 @@ $$x^{k+1} = \underset{x\in\mathcal{X}}{argmin} u(x, x^k)$$
 
 Expectation-Maximization EM 算法属于 MM.
 
-寻找 surrogate function的技巧:
+### 寻找 surrogate function的技巧
 
 #### Convexity:
 凸函数:
@@ -307,7 +347,7 @@ $$
 
 问题定义: 设计滤波器的线性参数 $\vec h$使得结果的滤波器与目标滤波器在目标频率范围内最大偏差最小化
 $$
-\underset{\vec h}{minimize} \underset{\omega \in [0, \pi]}{max} |H(\omega) - H_{des}(\omega)|
+\underset{\vec h}{\text{minimize}} \underset{\omega \in [0, \pi]}{max} |H(\omega) - H_{des}(\omega)|
 $$
 
 由于滤波器的特性是一个虚数函数，因而 "| |"符号并不是绝对值而是模长,对$\omega$离散采样,使用epigraph转换问题，最终可以得到这个SOCP
@@ -344,7 +384,7 @@ $$
 ### Log-切比雪夫 幅值设计
 
 优化问题专注于幅值的分贝值，优化是要求最小化与目标谱的偏差
-$$minimize \underset{\omega \in [0,\pi]}{max} |20\log_{10}|H(\omega)| - 20 \log_{10}D(\omega)|$$
+$$\text{minimize} \underset{\omega \in [0,\pi]}{max} |20\log_{10}|H(\omega)| - 20 \log_{10}D(\omega)|$$
 
 其中$D$指的是目标的函数的幅值函数.
 
@@ -369,7 +409,7 @@ $$
 $$
 \begin{aligned}
     \underset{w}{maximize} \quad &w^T\mu - \lambda w^T \Sigma w \\
-    \text{subject to} \quad&1^T = 1
+    \text{subject to} \quad&1^T w = 1
 \end{aligned}
 $$
 使用KKT可以直接得到结果。
@@ -471,7 +511,6 @@ $$
 问题变成了一个Linear programming.
 
 Shaible Transform是以上运算的推广，通用地来说， 可以设$y=\frac{x}{g(x)}$, $t = \frac{1}{g(x)}$, 约束问题变为
-
 $$
 \begin{aligned}
     \underset{y,t}{\text{maximize}} \quad & tf(\frac{y}{t}) \\
@@ -480,7 +519,6 @@ $$
     & y/t \in \mathcal{X}  \quad \text{也就说$y/t$要满足原来的约束}
 \end{aligned}
 $$
-
 这三种方法都可以用于求解原来的MSRP问题.
 
 
@@ -507,7 +545,7 @@ $$
 
 优化问题变为
 
-$\begin{array}{ll}\underset{\mathbf{x}}{\operatorname{minimize}} & \sum_{i=1}^{n} \log \left(1+x_{i} / \varepsilon\right) \\ \text { subject to } & \mathbf{x} \in \mathscr{C}, \quad \mathbf{x} \geq \mathbf{0}\end{array}$
+$$\begin{array}{ll}\underset{\mathbf{x}}{\operatorname{minimize}} & \sum_{i=1}^{n} \log \left(1+x_{i} / \varepsilon\right) \\ \text { subject to } & \mathbf{x} \in \mathscr{C}, \quad \mathbf{x} \geq \mathbf{0}\end{array}$$
 
 对于这个问题， 思路是使用 MM算法，代理函数选择切线拟合:
 
@@ -555,18 +593,16 @@ $$
 $$
 
 在[MM]中需要迭代多次求解的目标函数:
-
 $$
-\begin{aligned}
-    &\underset{w}{\text{minimize}} \quad \frac{1}{T}||Xw-r^b||_2 + \lambda d_{p,u}^{(k)T}(w) \\
-    &\begin{array}{ll}
+\underset{w}{\text{minimize}} \quad \frac{1}{T}||Xw-r^b||_2 + \lambda d_{p,u}^{(k)T}(w)
+$$
+$$
+\begin{array}{ll}
         \text { subject to } & \left.\begin{array}{l}
         \mathbf{w}^{\top} \mathbf{1}=1 \\
         \mathbf{0} \leq \mathbf{w} \leq \mathbf{1},
         \end{array}\right\} \mathcal{W}
         \end{array} 
-    
-\end{aligned}
 $$
 
 这个函数是一个QP,仍需要迭代。
@@ -582,18 +618,16 @@ $$
 $$
 
 目标函数变为:
-
 $$
-\begin{aligned}
-    &\underset{w}{\text{minimize}} \quad w^Tw + q_1^{(k)T}w\\
-    &\begin{array}{ll}
+\underset{w}{\text{minimize}} \quad w^Tw + q_1^{(k)T}w
+$$
+$$
+\begin{array}{ll}
         \text { subject to } & \left.\begin{array}{l}
         \mathbf{w}^{\top} \mathbf{1}=1 \\
         \mathbf{0} \leq \mathbf{w} \leq \mathbf{1},
         \end{array}\right\} \mathcal{W}
         \end{array} 
-    
-\end{aligned}
 $$
 其中 
 $$
@@ -602,11 +636,12 @@ $$
 
 对这个问题可以用KKT直接求出最优解. $\mathcal{L}=w^Tw + q^Tw + \mu(w^T1 -1) - \sum h_iw + \sum h'(w-1)$. 会求出
 
-- $h' = 0$
-- $w_i = \left\{\begin{array}{l}-\frac{q_i+\mu}{2}\\ 0\end{array}\right.$
-- $h_i = \left\{\begin{array}{ll}0 & w_i \neq 0 \\ -q_i - v & w_i=0\end{array} \right.$
-- 从$h_i > 0$,得到对$w_i$的判别条件 $\left\{\begin{array}{lll}v_i + q_i < 0 & w_i=0 & h_i = -v_i - q_i\\v_i + q_i > 0 & w_i=-\frac{q_i+\mu}{2} & h_i = 0 \end{array}\right.$
-- 从等式约束，得到$\mu = - \frac{2 + \sum_{i | w_i > 0}q_i}{\text{num\_positive}}$
+  $$h' = 0$$
+  $$w_i = \left\{\begin{array}{l}-\frac{q_i+\mu}{2}\\ 0\end{array}\right.$$
+  $$h_i = \left\{\begin{array}{ll}0 & w_i \neq 0 \\ -q_i - v & w_i=0\end{array} \right.$$
+  从$h_i > 0$,得到对$w_i$的判别条件 
+  $$\left\{\begin{array}{lll}v_i + q_i < 0 & w_i=0 & h_i = -v_i - q_i\\v_i + q_i > 0 & w_i=-\frac{q_i+\mu}{2} & h_i = 0 \end{array}\right.$$
+  从等式约束，得到$\mu = - \frac{2 + \sum_{i | w_i > 0}q_i}{\text{num}\_\text{positive}}$
 
 ![image](res/SIT_mm_1.png)
 
