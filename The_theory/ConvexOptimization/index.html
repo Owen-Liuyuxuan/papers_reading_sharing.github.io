@@ -1527,6 +1527,65 @@
 <h1 id="convex-optimization">Convex Optimization</h1>
 <p><a href="https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf">boyd's book</a></p>
 <p>本文主要收集在凸优化课程中记下的基础概念与结论。</p>
+<ul>
+<li><a href="#convex-optimization">Convex Optimization</a></li>
+<li><a href="#凸函数与凸集">凸函数与凸集</a><ul>
+<li><a href="#基本定义与重要判定">基本定义与重要判定</a></li>
+<li><a href="#常见而重要的凹凸函数函数">常见而重要的凹凸函数函数</a></li>
+<li><a href="#保留凸特性的常见操作">保留凸特性的常见操作</a></li>
+</ul>
+</li>
+<li><a href="#凸优化问题">凸优化问题</a><ul>
+<li><a href="#将-l_1-l_infty转换为凸优化问题">将 <script type="math/tex">L_1</script>, <script type="math/tex">L_{\infty}</script>转换为凸优化问题</a></li>
+</ul>
+</li>
+<li><a href="#对偶与kkt条件">对偶与KKT条件</a><ul>
+<li><a href="#对偶函数">对偶函数</a></li>
+<li><a href="#强弱对偶性">强弱对偶性</a></li>
+<li><a href="#kkt-条件">KKT 条件</a></li>
+</ul>
+</li>
+<li><a href="#cvx库">CVX库</a></li>
+<li><a href="#最优化算法">最优化算法</a><ul>
+<li><a href="#牛顿法">牛顿法</a></li>
+<li><a href="#内点法">内点法</a></li>
+<li><a href="#block-coordinate-descent-bcd">Block Coordinate Descent (BCD)</a></li>
+</ul>
+</li>
+<li><a href="#majorization-minimization-algorithm-mm-algo">Majorization-Minimization Algorithm (MM Algo.)</a><ul>
+<li><a href="#寻找-surrogate-function的技巧">寻找 surrogate function的技巧</a></li>
+<li><a href="#convexity">Convexity:</a></li>
+<li><a href="#taylor-upper-bound-with-quadratic-terms">Taylor, upper bound with quadratic terms</a></li>
+<li><a href="#二次矩阵式-lecturer-的成果">二次矩阵式 (Lecturer 的成果)</a></li>
+</ul>
+</li>
+<li><a href="#geometric-programming">Geometric programming</a></li>
+<li><a href="#滤波器设计">滤波器设计</a><ul>
+<li><a href="#切比雪夫滤波器设计">切比雪夫滤波器设计</a></li>
+<li><a href="#magnitude-优化问题">magnitude 优化问题</a></li>
+<li><a href="#log-切比雪夫-幅值设计">Log-切比雪夫 幅值设计</a></li>
+</ul>
+</li>
+<li><a href="#markowitz-modern-portfolio-theory">Markowitz Modern Portfolio Theory</a><ul>
+<li><a href="#基础问题一-mean-variance-portfolio-mvp">基础问题一: mean-variance portfolio (MVP)</a></li>
+<li><a href="#基础问题二-global-minimum-variance-portfolio">基础问题二: Global minimum variance portfolio</a></li>
+<li><a href="#困难问题-maximum-sharpe-ratio-portfolio-msrp">困难问题: Maximum Sharpe ratio portfolio (MSRP)</a></li>
+<li><a href="#二分求解">二分求解</a></li>
+<li><a href="#dinkelbach-transform">Dinkelbach Transform</a></li>
+<li><a href="#charnes-cooper-transform--schaible-transform">Charnes-Cooper Transform / Schaible transform</a></li>
+</ul>
+</li>
+<li><a href="#constrained-problem-optimized-for-sparsity">Constrained Problem Optimized for Sparsity</a><ul>
+<li><a href="#iterative-reweighted-l1-norm-heuristic">Iterative Reweighted l1-Norm Heuristic</a></li>
+<li><a href="#直觉">直觉:</a></li>
+<li><a href="#理论分析">理论分析</a></li>
+</ul>
+</li>
+<li><a href="#sparse-index-tracking">Sparse Index Tracking</a><ul>
+<li><a href="#sparse-regression">Sparse Regression</a></li>
+</ul>
+</li>
+</ul>
 <h2 id="_1">凸函数与凸集</h2>
 <h3 id="_2">基本定义与重要判定</h3>
 <ul>
@@ -1722,7 +1781,7 @@
 </p>
 <p>迭代的优化一个surrogate function.</p>
 <p>
-<script type="math/tex; mode=display">x^{k+1} = \underset{x\in\mathcal{X}}{argmin} u(x, x^k)</script>
+<script type="math/tex; mode=display">x^{k+1} = \underset{x\in\mathcal{X}}{\text{argmin}} u(x, x^k)</script>
 </p>
 <p>要求:</p>
 <ul>
@@ -1735,7 +1794,7 @@
 <p><img alt="image" src="../res/cvx_mm_example.png" /></p>
 <p>作业有一道编码题要求使用MM求解</p>
 <p>Expectation-Maximization EM 算法属于 MM.</p>
-<p>寻找 surrogate function的技巧:</p>
+<h3 id="surrogate-function">寻找 surrogate function的技巧</h3>
 <h4 id="convexity">Convexity:</h4>
 <p>凸函数:
 <script type="math/tex; mode=display">
@@ -1819,7 +1878,7 @@
 <h3 id="_12">切比雪夫滤波器设计</h3>
 <p>问题定义: 设计滤波器的线性参数 <script type="math/tex">\vec h</script>使得结果的滤波器与目标滤波器在目标频率范围内最大偏差最小化
 <script type="math/tex; mode=display">
-\underset{\vec h}{minimize} \underset{\omega \in [0, \pi]}{max} |H(\omega) - H_{des}(\omega)|
+\underset{\vec h}{\text{minimize}} \underset{\omega \in [0, \pi]}{max} |H(\omega) - H_{des}(\omega)|
 </script>
 </p>
 <p>由于滤波器的特性是一个虚数函数，因而 "| |"符号并不是绝对值而是模长,对<script type="math/tex">\omega</script>离散采样,使用epigraph转换问题，最终可以得到这个SOCP
@@ -1855,7 +1914,7 @@ h_{0} & \cdots & h_{n-1}
 </p>
 <h3 id="log-">Log-切比雪夫 幅值设计</h3>
 <p>优化问题专注于幅值的分贝值，优化是要求最小化与目标谱的偏差
-<script type="math/tex; mode=display">minimize \underset{\omega \in [0,\pi]}{max} |20\log_{10}|H(\omega)| - 20 \log_{10}D(\omega)|</script>
+<script type="math/tex; mode=display">\text{minimize} \underset{\omega \in [0,\pi]}{max} |20\log_{10}|H(\omega)| - 20 \log_{10}D(\omega)|</script>
 </p>
 <p>其中<script type="math/tex">D</script>指的是目标的函数的幅值函数.</p>
 <p>解决方案:</p>
@@ -1878,7 +1937,7 @@ h_{0} & \cdots & h_{n-1}
 <script type="math/tex; mode=display">
 \begin{aligned}
     \underset{w}{maximize} \quad &w^T\mu - \lambda w^T \Sigma w \\
-    \text{subject to} \quad&1^T = 1
+    \text{subject to} \quad&1^T w = 1
 \end{aligned}
 </script>
 使用KKT可以直接得到结果。
@@ -1969,16 +2028,16 @@ h_{0} & \cdots & h_{n-1}
 \end{aligned}
 </script>
 问题变成了一个Linear programming.</p>
-<p>Shaible Transform是以上运算的推广，通用地来说， 可以设<script type="math/tex">y=\frac{x}{g(x)}</script>, <script type="math/tex">t = \frac{1}{g(x)}</script>, 约束问题变为</p>
-<p>$$
+<p>Shaible Transform是以上运算的推广，通用地来说， 可以设<script type="math/tex">y=\frac{x}{g(x)}</script>, <script type="math/tex">t = \frac{1}{g(x)}</script>, 约束问题变为
+$$
 <script type="math/tex; mode=display">\begin{aligned}
     \underset{y,t}{\text{maximize}} \quad & tf(\frac{y}{t}) \\
     \text{subject to} \quad & tg(y/t) \le 1\\
     &t \ge 0 \\
     & y/t \in \mathcal{X}  \quad \text{也就说$y/t$要满足原来的约束}
 \end{aligned}</script>
-$$</p>
-<p>这三种方法都可以用于求解原来的MSRP问题.</p>
+$$
+这三种方法都可以用于求解原来的MSRP问题.</p>
 <h2 id="constrained-problem-optimized-for-sparsity">Constrained Problem Optimized for Sparsity</h2>
 <h3 id="iterative-reweighted-l1-norm-heuristic">Iterative Reweighted l1-Norm Heuristic</h3>
 <ul>
@@ -2002,9 +2061,7 @@ $$</p>
 <p>使用<script type="math/tex">\log</script>而不是<script type="math/tex">||x||_1</script>来对<script type="math/tex">||x||_0</script>进行拟合.</p>
 <p>优化问题变为</p>
 <p>
-<script type="math/tex">
 <script type="math/tex; mode=display">\begin{array}{ll}\underset{\mathbf{x}}{\operatorname{minimize}} & \sum_{i=1}^{n} \log \left(1+x_{i} / \varepsilon\right) \\ \text { subject to } & \mathbf{x} \in \mathscr{C}, \quad \mathbf{x} \geq \mathbf{0}\end{array}</script>
-</script>
 </p>
 <p>对于这个问题， 思路是使用 MM算法，代理函数选择切线拟合:</p>
 <p>
@@ -2047,18 +2104,19 @@ $$</p>
 \approx \frac{1}{\log{1+\gamma/p}} \left\{\log(1  + w_i^{(k)} / \varepsilon) + \frac{w_i - w_i^{(k)}}{\varepsilon + w_i^{(k)}}\right\}
 </script>
 </p>
-<p>在<a href="#majorization-minimization-algorithm-mm-algo">MM</a>中需要迭代多次求解的目标函数:</p>
-<p>$$
-\begin{aligned}
-    &amp;\underset{w}{\text{minimize}} \quad \frac{1}{T}||Xw-r^b||<em>2 + \lambda d</em>{p,u}^{(k)T}(w) \
-    &amp;<script type="math/tex; mode=display">\begin{array}{ll}
+<p>在<a href="#majorization-minimization-algorithm-mm-algo">MM</a>中需要迭代多次求解的目标函数:
+<script type="math/tex; mode=display">
+\underset{w}{\text{minimize}} \quad \frac{1}{T}||Xw-r^b||_2 + \lambda d_{p,u}^{(k)T}(w)
+</script>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
         \text { subject to } & \left.\begin{array}{l}
         \mathbf{w}^{\top} \mathbf{1}=1 \\
         \mathbf{0} \leq \mathbf{w} \leq \mathbf{1},
-        \end{array}</script>\right} \mathcal{W}
-        \end{array} </p>
-<p>\end{aligned}
-$$</p>
+        \end{array}\right\} \mathcal{W}
+        \end{array} 
+</script>
+</p>
 <p>这个函数是一个QP,仍需要迭代。</p>
 <p>对这个QP使用<a href="#majorization-minimization-algorithm-mm-algo">MM</a>,令<script type="math/tex">L = \frac{1}{T}X^TX, M=\lambda_{max}(L) I</script>以及公式<script type="math/tex">w^T L w \le w^T M w + 2 w^{(k)T}(L-M)w - w^{(k)T}(L-M)w^{(k)}</script>
 <script type="math/tex; mode=display">
@@ -2070,38 +2128,32 @@ $$</p>
 \end{array}
 </script>
 </p>
-<p>目标函数变为:</p>
-<p>$$
-\begin{aligned}
-    &amp;\underset{w}{\text{minimize}} \quad w^Tw + q_1^{(k)T}w\
-    &amp;<script type="math/tex; mode=display">\begin{array}{ll}
+<p>目标函数变为:
+<script type="math/tex; mode=display">
+\underset{w}{\text{minimize}} \quad w^Tw + q_1^{(k)T}w
+</script>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
         \text { subject to } & \left.\begin{array}{l}
         \mathbf{w}^{\top} \mathbf{1}=1 \\
         \mathbf{0} \leq \mathbf{w} \leq \mathbf{1},
-        \end{array}</script>\right} \mathcal{W}
-        \end{array} </p>
-<p>\end{aligned}
-<script type="math/tex; mode=display">
-其中 
+        \end{array}\right\} \mathcal{W}
+        \end{array} 
 </script>
-\mathbf{q}<em>{1}^{(k)}=\frac{1}{\lambda</em>{\max }^{\left(\mathbf{L}<em>{1}\right)}}\left(2\left(\mathbf{L}</em>{1}-\lambda_{\max }^{\left(\mathbf{L}<em>{1}\right)} \mathbf{I}\right) \mathbf{w}^{(k)}+\lambda \mathbf{d}</em>{p, u}^{(k)}-\frac{2}{T} \mathbf{X}^{\top} \mathbf{r}^{b}\right)
-$$</p>
+其中 
+<script type="math/tex; mode=display">
+\mathbf{q}_{1}^{(k)}=\frac{1}{\lambda_{\max }^{\left(\mathbf{L}_{1}\right)}}\left(2\left(\mathbf{L}_{1}-\lambda_{\max }^{\left(\mathbf{L}_{1}\right)} \mathbf{I}\right) \mathbf{w}^{(k)}+\lambda \mathbf{d}_{p, u}^{(k)}-\frac{2}{T} \mathbf{X}^{\top} \mathbf{r}^{b}\right)
+</script>
+</p>
 <p>对这个问题可以用KKT直接求出最优解. <script type="math/tex">\mathcal{L}=w^Tw + q^Tw + \mu(w^T1 -1) - \sum h_iw + \sum h'(w-1)</script>. 会求出</p>
-<ul>
-<li>
-<script type="math/tex">h' = 0</script>
-</li>
-<li>
-<script type="math/tex">w_i = \left\{<script type="math/tex; mode=display">\begin{array}{l}-\frac{q_i+\mu}{2}\\ 0\end{array}</script>\right.</script>
-</li>
-<li>
-<script type="math/tex">h_i = \left\{<script type="math/tex; mode=display">\begin{array}{ll}0 & w_i \neq 0 \\ -q_i - v & w_i=0\end{array}</script> \right.</script>
-</li>
-<li>从<script type="math/tex">h_i > 0</script>,得到对<script type="math/tex">w_i</script>的判别条件 <script type="math/tex">\left\{<script type="math/tex; mode=display">\begin{array}{lll}v_i + q_i < 0 & w_i=0 & h_i = -v_i - q_i\\v_i + q_i > 0 & w_i=-\frac{q_i+\mu}{2} & h_i = 0 \end{array}</script>\right.</script>
-</li>
-<li>从等式约束，得到<script type="math/tex">\mu = - \frac{2 + \sum_{i | w_i > 0}q_i}{\text{num\_positive}}</script>
-</li>
-</ul>
+<p>
+<script type="math/tex; mode=display">h' = 0</script>
+<script type="math/tex; mode=display">w_i = \left\{\begin{array}{l}-\frac{q_i+\mu}{2}\\ 0\end{array}\right.</script>
+<script type="math/tex; mode=display">h_i = \left\{\begin{array}{ll}0 & w_i \neq 0 \\ -q_i - v & w_i=0\end{array} \right.</script>
+  从<script type="math/tex">h_i > 0</script>,得到对<script type="math/tex">w_i</script>的判别条件 
+  <script type="math/tex; mode=display">\left\{\begin{array}{lll}v_i + q_i < 0 & w_i=0 & h_i = -v_i - q_i\\v_i + q_i > 0 & w_i=-\frac{q_i+\mu}{2} & h_i = 0 \end{array}\right.</script>
+  从等式约束，得到<script type="math/tex">\mu = - \frac{2 + \sum_{i | w_i > 0}q_i}{\text{num}\_\text{positive}}</script>
+</p>
 <p><img alt="image" src="../res/SIT_mm_1.png" /></p></div>
                     
                 </div>
