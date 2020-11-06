@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Firt Order Optimizers: Reviews and Updates - Reading Collections</title>
+        <title>Continuous Learning - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -1317,7 +1317,7 @@
     </li>
                                     
     <li>
-        <a href="../Continuous_learning/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             Continuous Learning
         </a>
     </li>
@@ -1347,7 +1347,7 @@
     </li>
                                     
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../First_order_methods_review_and_updates/" class="dropdown-item">
             First Order Optimizers
         </a>
     </li>
@@ -1458,12 +1458,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../Do Better ImageNet Models Transfer Better/" class="nav-link">
+                                <a rel="prev" href="../ClosingGap/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../Framework_Uncertainty_Propagation/" class="nav-link">
+                                <a rel="next" href="../ConvexOptimization/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -1486,200 +1486,152 @@
         
         <ul class="nav flex-column bs-sidenav">
         
+        <a href=https://arxiv.org/abs/1612.00796>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
+        </a>
+        
 
         
-            <li class="nav-item main"><a href="#firt-order-optimizers-reviews-and-updates">Firt Order Optimizers: Reviews and Updates</a></li>
+            <li class="nav-item main"><a href="#continuous-learning">Continuous Learning</a></li>
                 <li class="nav-item">
-                    <a href="#_1" class="nav-link">论文中经常出现的基础概念:</a>
+                    <a href="#overcoming-catastrophic-forgetting-in-neural-networks" class="nav-link">Overcoming catastrophic forgetting in neural networks</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#gradient-descent-and-basic-variants" class="nav-link">Gradient-Descent and Basic Variants</a>
+                    <a href="#on-quadratic-penalties-in-elastic-weight-consolidation" class="nav-link">On Quadratic Penalties in Elastic Weight Consolidation</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#triple-momentum-gradient-descent" class="nav-link">Triple Momentum Gradient Descent</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#boosting-first-order-methods-by-shifting-objective-new-schemes-with-faster-worst-case-rates" class="nav-link">Boosting First-Order Methods by Shifting Objective: New Schemes with Faster Worst Case Rates</a>
+                    <a href="#memory-aware-synapses-learning-what-not-to-forget" class="nav-link">Memory Aware Synapses: Learning what (not) to forget</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
+<a href=https://arxiv.org/abs/1612.00796>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
+
 
 
 </span>
-<h1 id="firt-order-optimizers-reviews-and-updates">Firt Order Optimizers: Reviews and Updates</h1>
-<p>这篇内容会专注于一阶优化器的直觉与算法介绍，并从凸优化引入相关的基础概念</p>
-<ul>
-<li><a href="#firt-order-optimizers-reviews-and-updates">Firt Order Optimizers: Reviews and Updates</a></li>
-<li><a href="#论文中经常出现的基础概念">论文中经常出现的基础概念:</a></li>
-<li><a href="#gradient-descent-and-basic-variants">Gradient-Descent and Basic Variants</a><ul>
-<li><a href="#梯度下降算法">梯度下降算法</a></li>
-<li><a href="#proximal-gradient-method">Proximal Gradient Method</a></li>
-<li><a href="#projected-gradient-descent">Projected Gradient Descent</a></li>
-<li><a href="#nesterov-accelerated-gradient-descent">Nesterov Accelerated Gradient Descent</a></li>
-</ul>
-</li>
-<li><a href="#triple-momentum-gradient-descent">Triple Momentum Gradient Descent</a><ul>
-<li><a href="#个人分析">个人分析</a></li>
-</ul>
-</li>
-<li><a href="#boosting-first-order-methods-by-shifting-objective-new-schemes-with-faster-worst-case-rates">Boosting First-Order Methods by Shifting Objective: New Schemes with Faster Worst Case Rates</a><ul>
-<li><a href="#generalized-triple-momentum">Generalized Triple Momentum</a></li>
-</ul>
-</li>
-</ul>
-<h2 id="_1">论文中经常出现的基础概念:</h2>
-<p>Lipschitz Continuity &amp; L-Smooth 指:</p>
+<h1 id="continuous-learning">Continuous Learning</h1>
+<p>这个页面介绍 continuous learning 等相关文章，这个实现的task是说: 现有一个模型，在数据集<script type="math/tex">D_A</script>上使用一个backbone <script type="math/tex">\Theta_A</script>, 一个head <script type="math/tex">\theta_A</script>完成了对第一个任务<script type="math/tex">A</script>的训练。然后现在我们失去了数据集<script type="math/tex">D_A</script>, 以 backbone <script type="math/tex">\Theta_A</script>为基础，一个新的head <script type="math/tex">\theta_B</script> 进行训练，实现对任务<script type="math/tex">B</script>的训练，依次迭代。</p>
+<p>直觉可以判断，如果直接训练<script type="math/tex">\theta_B</script>固定<script type="math/tex">\Theta_A</script>, 则原来的任务不会忘记，但是网络在<script type="math/tex">B</script>上的性能可能会有限。如果<script type="math/tex">\Theta_A</script>与<script type="math/tex">\theta_B</script>都在<script type="math/tex">B</script>上重新训练，则既是是低学习率的fine-tuning 都可能会使得网络完全破坏任务<script type="math/tex">A</script>的结果。</p>
+<p>Continuous Learning的任务则是设计对策，使得在<script type="math/tex">B</script>,乃至<script type="math/tex">C, D ...</script>训练时可以同时提升新任务的性能且尽可能减少对旧任务的性能.</p>
+<h2 id="overcoming-catastrophic-forgetting-in-neural-networks">Overcoming catastrophic forgetting in neural networks</h2>
+<p><a href="https://arxiv.org/pdf/1612.00796.pdf">pdf</a></p>
+<p>本文为一个开山鼻祖。首先从直觉来说，在没有旧任务数据的前提下要同时实现旧任务，又能训练新任务，最naive的方法就是设计损失函数</p>
 <p>
 <script type="math/tex; mode=display">
-    (\nabla f(x) - \nabla f(y))^T \le L ||x-y||
-</script>
-直觉来说是二阶导有上限<script type="math/tex">L</script>
-</p>
-<p>
-<script type="math/tex">\mu</script>-strongly convex 指:
-<script type="math/tex; mode=display">
-    (\nabla f(x) - \nabla f(y))^T (x-y) \ge m ||x-y||^2
-</script>
-直觉来说是二阶导有正下限<script type="math/tex">m</script>. 在凸优化问题中，连续函数二阶导为非负数，这里强凸函数的定义则是要求二阶导为正数. 文章中会出现 "L-smooth and <script type="math/tex">\mu</script>-strongly convex"的说法，直觉地来说指函数的二阶导在正数区间<script type="math/tex">[\mu, L]</script>.</p>
-<p>co-coercivity 矫顽性可以由convexity 与 L-smooth一同推导, 其数学表述为</p>
-<p>
-<script type="math/tex; mode=display">
-\frac{1}{2L} ||\nabla f(x) - \nabla f(y)||^2 \le f(x) - f(y) - \langle\nabla(y), x-y\rangle
+    \mathcal{L} = \mathcal{L}_B + \lambda \mathcal{L}_{dist_{\theta_A}}
 </script>
 </p>
-<h2 id="gradient-descent-and-basic-variants">Gradient-Descent and Basic Variants</h2>
-<p>关于梯度下降相关算法，有一个比较好的<a href="https://jlmelville.github.io/mize/nesterov.html">博客</a></p>
-<h3 id="_2">梯度下降算法</h3>
-<p>
-<script type="math/tex; mode=display">
-x_{k+1} = x_{k} - \alpha \nabla f(x_{k})
-</script>
-</p>
-<p>从surrogate function的角度来解析，在每一步<script type="math/tex">x_k</script>上，可以理解构造一个与原函数在<script type="math/tex">x=x_k</script>相切且二阶导为<script type="math/tex">1/\alpha</script>的二次函数<script type="math/tex">y = \frac{1}{2\alpha}(x-x_k)^2 + \nabla f(x_k)(x-x_k) + f(x_k)</script>, 每一步<script type="math/tex">x</script>会更新到这个二次代理函数的最小值上. 这要求整个函数可导，如果不可导，则需要使用 subgradient descent.</p>
-<p>subgradient 函数 <script type="math/tex">g</script>定义为任意梯度函数(subgradient oracle)，使得 <script type="math/tex">f(y) \ge f(x) + \langle g(x), y-x\rangle</script>
-</p>
-<h3 id="proximal-gradient-method">Proximal Gradient Method</h3>
-<p>如果凸函数其中有一个部分不可导，但是处理比较简单，那么可以使用proximal optimization algorithms, 将函数分解为<script type="math/tex">f(x) = g(x) + h(x)</script>, 其中<script type="math/tex">h(x)</script>不一定可导.</p>
-<p>可以理解为分两步:</p>
-<ul>
-<li>将<script type="math/tex">g(x)</script>用当前位置的<script type="math/tex">x_k</script>的函数值构造一个与原函数相切(曲率不必一致的)的函数<script type="math/tex">g(x_k) + \nabla g(x_k)^T(u-x_k) + \frac{\mu}{2} ||u-x_k||_2^2</script>，</li>
-<li>把<script type="math/tex">h(x)</script>直接与新二次代理函数的求和求global minimum.
- <script type="math/tex; mode=display">x^+ = \underset{u}{\text{argmin}}(h(u) + g(x_k) + \nabla g(x_k)^T (u-x_k) + \frac{\mu}{2} ||u-x_k||_2^2) = \underset{u}{\text{argmin}}(h(u) + \nabla g(x_k)^Tu + \frac{\mu}{2}||u-x_k||^2_2)</script>
-</li>
-</ul>
-<p>重点:</p>
-<ul>
-<li>如果<script type="math/tex">h(x)</script>为L2-norm L1-norm, 这些常见的regularizer, 那么最后的求优化是一个典型的二次函数 + 二次函数或者 二次函数 + <script type="math/tex">l_1</script>,都是有closed-form solution的。</li>
-<li>如果记<script type="math/tex">x_k^*</script>为二次代理函数的极值点 <script type="math/tex">x_k - \frac{\nabla g(x_k)}{\mu}</script>, 将<script type="math/tex">\nabla g(x_k)</script>代入上文的最优化公式， 那么最后的求解函数常常会写成 proximal mapping (prox-operator), <script type="math/tex">\text{prox}_h^\mu(x_k^*) = \underset{u}{\text{argmin}}(h(u) + \frac{\mu}{2}||u-x_k^*||_2^2)</script>.说明最终的结果既需要考虑<script type="math/tex">g</script>的局部最优点，也需要考虑<script type="math/tex">h(x)</script>.</li>
-</ul>
-<p>特殊情况中，<script type="math/tex">h</script>可以是一个 indicator function,指定函数的定义域, 如果<script type="math/tex">x</script>在定义域<script type="math/tex">C</script>内则<script type="math/tex">h(x) = 0</script>,否则<script type="math/tex">h(x) = \infty</script>. 这样的情况下 <script type="math/tex">prox_h</script>函数变成了在有限定义域内寻找最优解的问题，得到的结果是最优解在边界上的投影。因而<a href="https://www.wikiwand.com/en/Proximal_gradient_method">wiki</a>说 prox函数是projection操作的推广。</p>
-<h3 id="projected-gradient-descent">Projected Gradient Descent</h3>
-<p>如果使用梯度下降的时候要求<script type="math/tex">x</script>在定义域<script type="math/tex">C</script>中，那么一个projected梯度下降的做法是，首先进行无约束梯度下降，然后将结果投影到边界上. 记为<script type="math/tex">x_{k+1} = \pi_C(x_k - \alpha_k\nabla f(x_k))</script>, 其中<script type="math/tex">\pi_C</script>为欧几里得投影，可以写成</p>
-<p>
-<script type="math/tex; mode=display">
-x_{k+1}  = \underset{x\in C}{\text{argmin}}||x_k - \alpha_k \nabla f(x_k) - x||_2^2
-</script>
-展开后变为</p>
-<p>
-<script type="math/tex; mode=display">
-x_{k+1} = \underset{x\in C}{\text{argmin}}\{\langle x,\nabla f(x_k) \rangle + \frac{1}{\alpha_k}\frac{||x-x_k||^2_2}{2} \}
-</script>
-</p>
-<p>General Projected Gradient Descent 则会允许不同的距离量变为:
-<script type="math/tex; mode=display">x_{k+1}=\arg \min _{x \in C}\left\{\left\langle x, \nabla f\left(x_{k}\right)\right\rangle+\frac{1}{\alpha_{k}} d\left(x, x_{k}\right)\right\}</script>
-</p>
-<p>常用的距离量 Bregman Divergence
-<script type="math/tex; mode=display">
-    D_f(x, y) = f(x) - f(y) - \langle \nabla f(y), x-y\rangle
-</script>
-由<script type="math/tex">f(x) = \sum x\log x</script>可以产出 KL divergence.</p>
-<p>mirror gradient descent常常用来分析</p>
-<h3 id="nesterov-accelerated-gradient-descent">Nesterov Accelerated Gradient Descent</h3>
-<p>Nesterov Acceleration有很多个不同的版本。</p>
-<p>Nesterov 在 1983年的paper:</p>
+<p>其中前者为当前任务训练时的一个损失函数，后者为与原来训练好的参数<script type="math/tex">\theta_A</script>的某一个距离函数，约束网络不要离开原来的模型太远。</p>
+<p>本文首先自然地进行第一个延伸: <strong>在<script type="math/tex">\theta_A</script>中不同的参数需要约束的权重可以是不同的</strong>，因为有重要的参数也有没那么重要的参数.</p>
+<p>为了评价的权重参数，本文用概率论对这个问题进行了问题, 首先:</p>
 <p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-    y_t = x_t + \frac{t}{t+3}(x^{t} - x^{t-1}) \\
-    x_{t+1} = y_t - \eta_t \nabla f(y^t) \\
+    \log p(\theta | D_A, D_B) &= \log p(D_B | \theta, D_A) + \log p(\theta | D_A) - \log p(D_B | D_A) \\
+    &= \log p(D_B | \theta) + \log p (\theta | D_A) + \text{const} \\
+    & = \log p (D_B | \theta) + \log p(D_A | \theta) + \log p(\theta) - \log p(D_A) + \text{const} \\
+    & = \log p (D_B | \theta) + \log p(D_A | \theta) + \text{const}\\
 \end{aligned}
 </script>
-其中 <script type="math/tex">\frac{t}{t+3}</script>可被泛化为一般超参数<script type="math/tex">\beta</script>. 可以理解为<script type="math/tex">y_t</script>为沿着之前的更新方向look-ahead的目的位置, 然后在look-ahead的位置进行梯度更新. <a href="https://towardsdatascience.com/learning-parameters-part-2-a190bef2d12">这篇Medium博客</a>提供了基于"look-ahead"的阐述.</p>
-<p><a href="https://pytorch.org/docs/stable/optim.html">pytorch的版本</a>采用的是更着重于momentum的算法描述，对标的是momentum gradient descent.</p>
-<p>
-<script type="math/tex; mode=display">
+第一项: 对于基于独立同分布的分类问题来说，第一项等同于 对每一个数据， 用网络计算其得到当前标签类的概率. 这个与常用的损失函数Entropy是一致的; 对于基于独立分布且带有高斯噪声的回归问题来说, 第一项则等同于 加上固定权重的MSE 损失.</p>
+<p>第二项: 由于在训练第二个任务的时候失去了第一个任务，这个函数变得不可计算了，作者提出使用泰勒展开公式在此前优化结果的最优值<script type="math/tex">\theta_A^*</script>附近展开, 使用一个二次函数对其进行近似. 这有点像凸优化/一次优化里面的 <a href="../First_order_methods_review_and_updates/">Proximal Gradient Method</a>.</p>
+<p>$$
 \begin{aligned}
-    v_{t+1} &= \mu \cdot v_t + g_{t+1} \\
-    p_{t+1} &= p_t - lr \cdot v_{t+1}    
-\end{aligned}
-</script>
-</p>
-<h2 id="triple-momentum-gradient-descent">Triple Momentum Gradient Descent</h2>
-<p><a href="http://www.optimization-online.org/DB_FILE/2017/03/5908.pdf">pdf</a></p>
-<p>这篇paper提出了一个基于四个参数的 triple momentum (TM)框架.</p>
-<p>这个框架下的优化器算法:</p>
-<p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-    \xi_{k+1} &= (1+\beta) \xi_k  - \beta \xi_{k-1} - \alpha \nabla f(y_k)\\
-    y_k &= (1 + \gamma)\xi_k - \gamma\xi_{k-1}\\
-    x_k &= (1 + \delta)\xi_k - \delta\xi_{k-1}
-\end{aligned}
-</script>
-| Method            |            Parameters             |
-| :---------------- | :-------------------------------: |
-| Gradient descent  |        <script type="math/tex">(\alpha, 0, 0, 0)</script>        |
-| Momentum Gradient |      <script type="math/tex">(\alpha, \beta, 0, 0)</script>      |
-| Nesterov AG       |    <script type="math/tex">(\alpha, \beta, \beta, 0)</script>    |
-| General TM Algo.  | <script type="math/tex">(\alpha, \beta, \gamma, \delta)</script> |</p>
-<p>直觉上来说，如果<script type="math/tex">\delta=0</script>, 则 <script type="math/tex">x_k = \xi_k</script>, 代入后就能得到前面提到的几个算法公司.</p>
-<p>作者给出了参数, 如果一直需要优化的函数是 <script type="math/tex">L-\text{smooth}, \mu-\text{strongly convex}</script>的则令<script type="math/tex">\kappa = L / \mu, \rho = 1 - 1 / \sqrt{\kappa}</script>, 设定一下参数，
-<script type="math/tex; mode=display">
-(\alpha, \beta, \gamma, \delta) = (\frac{1+\rho}{L}, \frac{\rho^2}{2-\rho}, \frac{\rho^2}{(1+\rho)(2-\rho)}, \frac{\rho^2}{1 - \rho^2})
-</script>
-</p>
-<h3 id="_3">个人分析</h3>
-<p>这个paper是有小问题的，对前面TM框架进行分析，可以通过用<script type="math/tex">x, y</script>表达<script type="math/tex">(\xi_k - \xi_{k-1})</script>可以消去<script type="math/tex">\xi</script>.同时<script type="math/tex">\gamma, \delta</script>中有一个参数是多余的.这个公式最终可以化为</p>
-<p>
-<script type="math/tex; mode=display">
-    x_{k+1} - y_{k+1} = \beta(x_k - y_k) - \alpha (\delta - \gamma) \nabla f(y_k)
-</script>
-</p>
-<p>这里引出了下一篇paper提到的参数冗余问题。</p>
-<h2 id="boosting-first-order-methods-by-shifting-objective-new-schemes-with-faster-worst-case-rates">Boosting First-Order Methods by Shifting Objective: New Schemes with Faster Worst Case Rates</h2>
-<p><a href="https://arxiv.org/pdf/2005.12061.pdf">pdf</a></p>
-<p>对于原来的目标函数，可以转而求解一个新的shifted objective.</p>
-<p>
-<script type="math/tex; mode=display">
-\underset{x\in\mathcal{R}^d}{\text{min}}h(x) = \frac{1}{n}\sum^n_{i=1}h_i(x), \quad \text{where}\quad \ h_i(x) = f_i(x) - f_i(x^*) - 
-\left\langle\nabla f_{i}\left(x^{\star}\right), x-x^{\star}\right\rangle -
- \frac{\mu}{2}||x - x^*||^2
-</script>
-可以简单理解为原函数与最值点附近的下界二次函数的残差.容易证明</p>
+    \log p(D_A | \theta) &amp;= \log p(D_A | \theta^<em><em>A) + \frac{\partial}{\partial \theta} \log p(D_A | \theta) |</em>{\theta=\theta_A^</em>} (\theta - \theta_A^<em>) + \frac{\partial^2}{\partial\theta^2} \log p(D_A|\theta)(\theta - \theta_A^</em>)^2\</p>
+<div class="codehilite"><pre><span></span><code><span class="err">&amp;=  \frac{\partial^2}{\partial\theta^2} \log p(D_A|\theta)(\theta - \theta_A^*)^2 + \text{const}\\</span>
+<span class="err">&amp;= -\mathbb{F}(D_A, \theta_A^*)(\theta - \theta_A^*)^2</span>
+</code></pre></div>
+
+
+<p>\end{aligned}
+$$</p>
+<p>可以注意到:</p>
 <ul>
-<li>h(x)是一个凸函数</li>
-<li>h(x)的极值点与<script type="math/tex">\sum f(x)</script>相同，进而可以说<script type="math/tex">h(x)</script>的最优值点与<script type="math/tex">f(x)</script>的相同。</li>
-<li>h(x)<script type="math/tex">(L-\mu)</script>-smooth</li>
-<li>矫顽性:<script type="math/tex">\forall x, y \in \mathbb{R}^{d}, h(x)-h(y)-\langle\nabla h(y), x-y\rangle \geq \frac{1}{2(L-\mu)}\|\nabla h(x)-\nabla h(y)\|^{2}</script>
-</li>
+<li>由于<script type="math/tex">\theta_A^*</script>是最优解了，所以一阶导项为零</li>
+<li>工程技巧，这里简化了Hessian矩阵为对角矩阵,不考虑相关项.</li>
+<li>Fisher Infomation Matrix 近似 <a href="https://www.wikiwand.com/en/Fisher_information#/Definition">wiki</a></li>
 </ul>
-<h3 id="generalized-triple-momentum">Generalized Triple Momentum</h3>
-<p><img alt="image" src="../res/GTM-algo.png" /></p>
-<p>其中<script type="math/tex">z_{k+1}</script>的表达式等价于
+<p>
 <script type="math/tex; mode=display">
-z_{k+1} = \text{argmin}_x\left\{ (\mu/2) ||x - y_k^*||_2^2 + (\alpha_k / 2)||x - z_k||_2^2\right\}
+\begin{aligned}
+    \mathbb{F} &= - \mathbb{E}_x \left[ \frac{\partial^2}{\partial \theta^2} \log p(x|\theta)\right] =  \frac{\partial^2}{\partial \theta^2} \log p(D|\theta)\\
+    &= -\mathbb{E}_x \left[\frac{\frac{\partial^2}{\partial\theta^2}p(x|\theta)}{p(x|\theta)} - \left( \frac{\frac{\partial}{\partial\theta} p(x|\theta)}{p(x|\theta)}\right)^2\right] \\ 
+    &= -\mathbb{E}_x\left[\frac{\frac{\partial^2}{\partial\theta^2}p(x|\theta)}{p(x|\theta)} \right] + \mathbb{E}_x\left[\left(\frac{\partial}{\partial\theta} \log p(x|\theta)\right)^2 \right] \\
+    &= \frac{\partial^2}{\partial\theta^2}\int p(x|\theta) dx + \left(\frac{\partial}{\partial\theta}\log p(D|\theta) \right)^2 \\
+    & = \left(\frac{\partial}{\partial\theta}\log p(D|\theta) \right)^2
+\end{aligned}
 </script>
-其中<script type="math/tex">y_k^*</script>为二次surrogate function <script type="math/tex">g(y_k) + \nabla g(y_k)^T(u-y_k) + \frac{\mu}{2} ||u-y_k||_2^2</script>的最优解<script type="math/tex">y_k-\frac{\nabla f(y_k)}{\mu}</script>. 可得<script type="math/tex">z_{k+1} = \frac{\mu y_k^* + \alpha z_k}{\mu  + \alpha} = z_k - \frac{\mu}{\mu+\alpha}(y_k^* - z_k)</script>, 在一定程度上可以表达梯度下降算法. </p>
-<p>而当<script type="math/tex">\tau_k^z = 0</script>时，可以简单地将这两条式子化为 Nesterov的标准形式。</p>
-<p>进一步地观察<script type="math/tex">y_k</script>的表达式的第二项,将<script type="math/tex">z_{k}</script>代入,得到
-<script type="math/tex">\frac{2\mu + \alpha}{\mu + \alpha}[\mu(y_{k-1} - z_{k-1}) - \nabla f(y_{k-1})]</script>, 由于强凸性, 第二项与<script type="math/tex">y_{k-1} - z_{k-1}</script>符号相反,这是用于补偿strongly-convex函数的二阶导的,当我们用曲率为<script type="math/tex">\mu</script>的更为扁平的二次代理函数求解时，我们会高估合适的梯度下降步长的大小，因而带着动量往前的<script type="math/tex">y_k</script> 在预测look-ahead 时会减去之前高估的一部分步长.</p>
-<p>参考参数<script type="math/tex">\alpha=\sqrt{L\mu} - \mu, \tau_x=\frac{2\sqrt{\kappa}-1}{\kappa}, \tau_z = \frac{\sqrt{\kappa} - 1}{L(\sqrt{\kappa} - 1)}</script>
 </p>
-<p>文章更严谨且通用地用李雅普诺夫函数 <script type="math/tex">T_{k}=h\left(y_{k-1}\right)-\frac{1}{2(L-\mu)}\left\|\nabla h\left(y_{k-1}\right)\right\|^{2}+\frac{\lambda}{2}\left\|z_{k}-x^{\star}\right\|^{2},</script> where <script type="math/tex">\lambda>0</script> 进行了证明， 说明其收敛速度上限比较小。</p>
-<p>作者之后将这个算法附加在多个一阶算法上(SVRG, SAGA)。由于个人认知有限，暂还没有能力分析这些算法及其应用. </p></div>
+<p>这个等式的关键意思在于可以使用从数据采样一阶导的平方去近似二阶导的值。</p>
+<h3 id="ewc-elastic-weight-consolidation">EWC: Elastic weight consolidation</h3>
+<p>因而本文提出的 EWC 算法:</p>
+<p>在完成一个任务的学习后，记录下它的Fisher information matrix以及当时的模型，在面对新任务的时候，使用损失函数:</p>
+<p>
+<script type="math/tex; mode=display">
+\mathcal{L}(\theta) = \mathcal{L}_B(\theta) + \sum_i\frac{\lambda}{2} F_i(\theta_i - \theta_{A,i}^*)^2
+</script>
+</p>
+<h2 id="on-quadratic-penalties-in-elastic-weight-consolidation">On Quadratic Penalties in Elastic Weight Consolidation</h2>
+<p><a href="https://arxiv.org/pdf/1712.03847.pdf">pdf</a></p>
+<p>这篇paper接着前文的概念，进一步给出了在多个任务上迭代的公式，也就是当训练完第二个任务之后继续往第三、四、...、<script type="math/tex">t</script>个任务时的使用的公式.</p>
+<p>这里首先以三个任务为例子:
+<script type="math/tex; mode=display">
+\log p\left(\theta \mid \mathcal{D}_{A}, \mathcal{D}_{B}, \mathcal{D}_{C}\right)=\log p\left(\mathcal{D}_{C} \mid \theta\right)+\log p\left(\theta \mid \mathcal{D}_{A}, \mathcal{D}_{B}\right)+\text { constant. }
+</script>
+</p>
+<p>其中</p>
+<p>$$</p>
+<p>
+<script type="math/tex; mode=display">\begin{aligned}
+\log p\left(\theta \mid \mathcal{D}_{A}, \mathcal{D}_{B}\right) \approx &\frac{\partial}{\partial \theta}\left[\log p\left(\mathcal{D}_{B} \mid \boldsymbol{\theta}\right)+\log p\left(\boldsymbol{\theta} \mid \mathcal{D}_{A}\right)\right]|_{\boldsymbol{\theta}_{A B}^{*}}\left(\boldsymbol{\theta}-\boldsymbol{\theta}_{A B}^{*}\right) \\
+&+\frac{1}{2}\left\{\left(\boldsymbol{\theta}-\boldsymbol{\theta}_{A B}^{*}\right)^{T} \frac{\partial^{2}}{\partial^{2} \boldsymbol{\theta}}\left[\log p\left(\mathcal{D}_{B} \mid \boldsymbol{\theta}\right)+\log p\left(\boldsymbol{\theta} \mid \mathcal{D}_{A}\right)\right] \mid \boldsymbol{\theta}_{A B}^{*}\right.\\
+&\left.\times\left(\boldsymbol{\theta}-\boldsymbol{\theta}_{A B}^{*}\right)\right\}+\mathrm{const.}
+\end{aligned}</script>
+</p>
+<p>$$</p>
+<p>注意这是在<script type="math/tex">\theta_{AB^*}</script>展开的. 留意到: 第一项一阶导依然为零，第二项二阶导里面在删去常数(这个常数会被二阶导清除)后可理解为两个 Fisher Information Matrix的相加.</p>
+<p>代入得到</p>
+<p>
+<script type="math/tex; mode=display">
+\log p\left(\theta \mid \mathcal{D}_{A}, \mathcal{D}_{B}, \mathcal{D}_{C}\right) \approx \log p\left(\mathcal{D}_{C} \mid \theta\right)-\frac{1}{2} \sum\left(\lambda_{A} F_{A, i}+\lambda_{B} F_{B, i}\right)\left(\theta_{i}-\theta_{AB, i}^{*}\right)^{2}+\text { constant. }
+</script>
+作者经过迭代后给出通项公式:</p>
+<p>
+<script type="math/tex; mode=display">
+\theta_{T}^{*}=\operatorname{argmin}_{\theta}\left\{-\log p\left(\mathcal{D}_{T} \mid \theta\right)+\frac{1}{2} \sum_{i}\left(\sum_{t<T} \lambda_{t} F_{t, i}+\lambda_{\text {prior }}\right)\left(\theta_{i}-\theta_{S, i}^{*}\right)^{2}\right\}
+</script>
+</p>
+<p>给出一些关键的直觉:</p>
+<ul>
+<li>每次的展开都是基于最近一次任务得到的最优解，因而只需要存下一个先前model.</li>
+<li>随着任务的增加,Fisher matrix会变得越来越大，模型也会越来越难学新的结果。这也是不可避免的.</li>
+<li>前面任务在后面的任务的head上没有梯度，因而<script type="math/tex">F_t</script>
+<script type="math/tex">t\in [0,... \tau-1]</script>也不会影响新的head.每个任务自己的head只会有一个结果</li>
+</ul>
+<h2 id="memory-aware-synapses-learning-what-not-to-forget">Memory Aware Synapses: Learning what (not) to forget</h2>
+<p><a href="https://openaccess.thecvf.com/content_ECCV_2018/papers/Rahaf_Aljundi_Memory_Aware_Synapses_ECCV_2018_paper.pdf">pdf</a></p>
+<p>这篇paper的意见更为直接，就是说不应该考虑那个权重重要那个权重不重要，关键得看最终的输出是否相似.</p>
+<p>设原来的网络的输出为<script type="math/tex">F(x_k;\theta)</script>, 经过扰动后的输出变化显然可以由输出值对权重的梯度，一阶近似.</p>
+<p>所以每一个权重的 importance weight 就是 
+<script type="math/tex; mode=display">
+\Omega_{i j}=\frac{1}{N} \sum_{k=1}^{N}\left\|g_{i j}\left(x_{k}\right)\right\|
+</script>
+与之前的设定不同，这里的importance weights. 这里采用更为简单的方案:</p>
+<p>
+<script type="math/tex; mode=display">
+    g_{ij}(x_k) = \frac{\partial l_2^2(F(x_k;\theta))}{\partial \theta_{ij}}
+</script>
+具体实现上，就是在每个任务完成后，计算每一个权重的importance weights. 学习新的任务时:</p>
+<p>
+<script type="math/tex; mode=display">
+L(\theta)=L_{n}(\theta)+\lambda \sum_{i, j} \Omega_{i j}\left(\theta_{i j}-\theta_{i j}^{*}\right)^{2}
+</script>
+尽管理论比较直白效果甚至比前文提到的更好.</p></div>
                     
                 </div>
         </div>
