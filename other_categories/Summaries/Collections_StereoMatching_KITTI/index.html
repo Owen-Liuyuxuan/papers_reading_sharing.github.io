@@ -1498,6 +1498,9 @@
                 <li class="nav-item">
                     <a href="#nvstereonet" class="nav-link">NVStereoNet</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#sttr-revisiting-stereo-depth-estimation-from-a-sequence-to-sequence-perspective-with-transformers" class="nav-link">STTR: Revisiting Stereo Depth Estimation From a Sequence-to-Sequence Perspective with Transformers</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1509,7 +1512,8 @@
 <h1 id="collections-of-stereo-matching-from-kitti">Collections of Stereo Matching from KITTI</h1>
 <p>本文记录了 Stereo Matching 有文章/有code实现的主要paper.将会持续update</p>
 <p>Update:
-    2020.0714: Add CDN</p>
+    2020.0714: Add CDN
+    2020.1110: Add STTR</p>
 <table>
 <thead>
 <tr>
@@ -1598,6 +1602,13 @@
 <td align="center">6.92</td>
 <td align="center">0.8</td>
 </tr>
+<tr>
+<td><a href="#sttr-revisiting-stereo-depth-estimation-from-a-sequence-to-sequence-perspective-with-transformers">STTR</a></td>
+<td align="center">3.73</td>
+<td align="center">3.23</td>
+<td align="center">6.2</td>
+<td align="center">0.6</td>
+</tr>
 </tbody>
 </table>
 <p>其中本站已有的文章为<a href="../../../Building_Blocks/SPN_CSPN/">CSPN</a>,<a href="../../others/Adaptive_Unimodal_Cost_Volume_Filtering_for_Deep_Stereo_Matching/">AcfNet</a>, <a href="../../../3dDetection/CDN/">CDN-GANet</a>, <a href="../../../Building_Blocks/deepPruner/">DeepPruner</a>, <a href="../../others/PSMNet/">PSMNet</a>, <a href="../../others/FADNet/">FADNet</a>, <a href="../../others/self_supervised_stereo/">SsSMnet</a>, <a href="../Summary_of_ICRA_2020/">RTS2Net</a>.</p>
@@ -1607,6 +1618,11 @@
 <li><a href="#ganet">GANet</a></li>
 <li><a href="#aanet">AANet</a></li>
 <li><a href="#nvstereonet">NVStereoNet</a></li>
+<li><a href="#sttr-revisiting-stereo-depth-estimation-from-a-sequence-to-sequence-perspective-with-transformers">STTR: Revisiting Stereo Depth Estimation From a Sequence-to-Sequence Perspective with Transformers</a><ul>
+<li><a href="#整体结构">整体结构</a></li>
+<li><a href="#optimal-transport">Optimal Transport</a></li>
+</ul>
+</li>
 </ul>
 <p>Update: 2020.06.08: add RTS2Net</p>
 <h2 id="ganet">GANet</h2>
@@ -1674,7 +1690,75 @@ E_{d s} &=E_{d s}^{l}+E_{d s}^{r}
 E_{\text {image}}^{l} &=\frac{1}{n} \sum_{i, j} \alpha \frac{1-\operatorname{SSIM}\left(I_{i j}^{l}, \tilde{I}_{i j}^{l}\right)}{2}+(1-\alpha) | I_{i j}^{l}-\tilde{I}_{i j}^{l} \\
 E_{d s}^{l} &=\frac{1}{n} \sum_{i, j}\left|\partial_{x} d_{i j}^{l}\right| e^{-\left\|\partial_{x} I_{i, j}^{l}\right\|}+\left|\partial_{y} d_{i j}^{l}\right| e^{-\| \partial_{y} I_{i, j}^{l}} \|
 \end{aligned}</script>
-</p></div>
+</p>
+<h2 id="sttr-revisiting-stereo-depth-estimation-from-a-sequence-to-sequence-perspective-with-transformers">STTR: Revisiting Stereo Depth Estimation From a Sequence-to-Sequence Perspective with Transformers</h2>
+<p><a href="https://arxiv.org/pdf/2011.02910.pdf">pdf</a> <a href="https://github.com/mli0603/stereo-transformer">code</a></p>
+<p>这篇paper用Sequence/Transformer的角度重新理解双目pixel-wise matching. 作者指出主要有三大优势:</p>
+<ul>
+<li>不再强约束要求一个固定的disparity上限</li>
+<li>能识别遮挡区域，给出confidence</li>
+<li>给出uniqueness约束 (这个是通过求解一个最优化问题实现的)</li>
+</ul>
+<h3 id="_1">整体结构</h3>
+<p><img alt="image" src="../res/STTR_arch.png" /></p>
+<p><img alt="image" src="../res/sttr_tran.png" /></p>
+<p>本文的网络结构的每一个部件都是基础部件，设计上或者代码上主要的不同点:</p>
+<ul>
+<li>backbone网络采用的是类似于U-Net的结构,但是在最后一层采样后加了一个<a href="https://arxiv.org/pdf/1706.05587.pdf">DeepLabv3</a>的ASPP</li>
+<li>multiheader transformer里面交错使用self-attention与cross attention.而代码上两者分别只有一个multi-head的ModuleList, 也就是图中重复的模块使用的是相同的参数.</li>
+<li>attention是先调整形状<script type="math/tex">[1, C, H, W] \rightarrow [H, W, C]</script>, 输出相当于是在<script type="math/tex">W</script>上展开一个个像素匹配，也就是理解为只在水平 epipolar line上进行匹配, 输出形状 <script type="math/tex">[H, W, W]</script>
+</li>
+<li>Position Embedding 采用的是作者提出的相对位置encode, 这个encoding是一个<script type="math/tex">[B, C, H, \times (2W-1)]</script>, 的encoder.</li>
+<li>由于多层multihead的transformer运算量和显存占用很大，代码实现上需要用 <a href="https://pytorch.org/docs/stable/checkpoint.html">checkpoint</a> 技巧，也就是暂时不存储中间运算变量，在backward的时候再重新前传计算中间运算变量.</li>
+<li>去到最后一层的时候作者指出应该考虑相机左右放置的关系，右feature与左feature计算attention的时候应该只计算部分的attention值 (上半三角).</li>
+</ul>
+<h3 id="optimal-transport">Optimal Transport</h3>
+<p>从网络中得到<script type="math/tex">W \times W</script>匹配损失矩阵后，我们希望得到每一个像素的最优的, unique的结果. 这个问题可以被formulate为一个 optimal transport的问题, <a href="https://michielstock.github.io/OptimalTransport/">有一个从分甜品motivate的比较好的博客</a>. 用STTR这篇paper的语言进行问题表述:</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+  \underset{\vec P}{\text{minimize}} \quad &\underset{i,j}{\sum}P_{ij} M_{ij} + \frac{1}{\lambda} \sum_{i,j} P_{i,j} \log P_{i,j} \\
+  \text{subject to} \quad & \sum_i P_{i,j} = c_j\\
+              & \sum_j P_{i,j} = r_i\\
+\end{aligned}
+</script>
+目标函数的第一项为由损失函数矩阵决定的线性函数，第二项为交叉熵。约束函数要求每一个左图的像素只会对应一个右图的像素(概率和为1)， 每一个右图的像素也只会对应一个左图的像素.</p>
+<p>Optimal Transport是一个 凸优化中的LP问题，使用<a href="../../../The_theory/ConvexOptimization/">KKT</a>条件中对<script type="math/tex">P</script>的导数为零可以得到:
+<script type="math/tex; mode=display">
+  P_{ij} = \alpha_i \beta_j e^{-\lambda M}
+</script>
+其中 <script type="math/tex">\alpha</script>和<script type="math/tex">\beta</script>与拉格朗日乘子和超参数<script type="math/tex">\lambda</script>有关，从约束中求解获得.</p>
+<p>Sinkhorn Distances的原始代码则是:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_optimal_transport</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the optimal transport matrix and Slinkhorn distance using the</span>
+<span class="sd">    Sinkhorn-Knopp algorithm. From https://michielstock.github.io/OptimalTransport/</span>
+
+<span class="sd">    Inputs:</span>
+<span class="sd">        - M : cost matrix (n x m)</span>
+<span class="sd">        - r : vector of marginals (n, )</span>
+<span class="sd">        - c : vector of marginals (m, )</span>
+<span class="sd">        - lam : strength of the entropic regularization</span>
+<span class="sd">        - epsilon : convergence parameter</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        - P : optimal transport matrix (n x m)</span>
+<span class="sd">        - dist : Sinkhorn distance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">M</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">/=</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="c1"># normalize this matrix</span>
+    <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="n">epsilon</span><span class="p">:</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">*=</span> <span class="p">(</span><span class="n">r</span> <span class="o">/</span> <span class="n">u</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># normalize in first dimension</span>
+        <span class="n">P</span> <span class="o">*=</span> <span class="p">(</span><span class="n">c</span> <span class="o">/</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="c1">#normalize in second dimension</span>
+    <span class="k">return</span> <span class="n">P</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P</span> <span class="o">*</span> <span class="n">M</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>本文的代码则是默认<script type="math/tex">\lambda</script>为1，在 <script type="math/tex">\log</script>空间中进行迭代计算。</p></div>
                     
                 </div>
         </div>
