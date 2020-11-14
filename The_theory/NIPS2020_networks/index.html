@@ -1507,6 +1507,9 @@
                 <li class="nav-item">
                     <a href="#an-analysis-of-svd-for-deep-rotation-estimation" class="nav-link">An Analysis of SVD for Deep Rotation Estimation</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#is-normalization-indispensable-for-training-deep-neural-networks" class="nav-link">Is normalization indispensable for training deep neural networks</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1517,6 +1520,23 @@
 </span>
 <h1 id="nips-2020-for-experimental-nn">NIPS 2020 for Experimental NN</h1>
 <p>本文收集几篇NIPS2020中大实验室中通过实验研究神经网络相关性质的文章。相关实验不一定有严格的理论推理或是实用性的创新，但是可以了解相当有意义的经验结论.</p>
+<ul>
+<li><a href="#nips-2020-for-experimental-nn">NIPS 2020 for Experimental NN</a></li>
+<li><a href="#batch-normalization-biases-residual-blocks-towards-the-identity-function-in-deep-networks">Batch Normalization Biases Residual Blocks Towards the Identity Function in Deep Networks</a></li>
+<li><a href="#neural-networks-fail-to-learn-periodic-functions-and-how-to-fix-it">Neural Networks Fail to Learn Periodic Functions and How to Fix It</a><ul>
+<li><a href="#与siren-对比">与SIREN 对比</a></li>
+</ul>
+</li>
+<li><a href="#on-warm-starting-neural-network-training">On Warm-Starting Neural Network Training</a></li>
+<li><a href="#rational-neural-network">Rational Neural Network</a></li>
+<li><a href="#what-do-neural-network-learn-when-trained-with-random-labels">What do Neural Network Learn when Trained with Random Labels</a><ul>
+<li><a href="#对于高斯输入的alignment">对于高斯输入的Alignment</a></li>
+<li><a href="#实验">实验</a></li>
+</ul>
+</li>
+<li><a href="#an-analysis-of-svd-for-deep-rotation-estimation">An Analysis of SVD for Deep Rotation Estimation</a></li>
+<li><a href="#is-normalization-indispensable-for-training-deep-neural-networks">Is normalization indispensable for training deep neural networks</a></li>
+</ul>
 <h2 id="batch-normalization-biases-residual-blocks-towards-the-identity-function-in-deep-networks">Batch Normalization Biases Residual Blocks Towards the Identity Function in Deep Networks</h2>
 <p><a href="https://arxiv.org/pdf/2002.10444.pdf">pdf</a></p>
 <p>这篇DeepMind的paper 探索了BatchNorm与ResNet之间的一些关系。</p>
@@ -1622,7 +1642,33 @@
 <p>损失函数
 <script type="math/tex; mode=display">L(M,R) = ||SVDO^+(M) - R||_F^2</script>
 ,旋转矩阵差的二范数实质上等于两个旋转的差(也是一个旋转矩阵)的主旋转角度.</p>
-<p>作者通过分析这一损失函数对SVD的反传结果证明了这种表示方法是在最小二乘或是高斯概率噪声两种表述下都是最优的，SVD的反传比较复杂. <a href="https://j-towns.github.io/papers/svd-derivative.pdf">Derivative of SVD</a></p></div>
+<p>作者通过分析这一损失函数对SVD的反传结果证明了这种表示方法是在最小二乘或是高斯概率噪声两种表述下都是最优的，SVD的反传比较复杂. <a href="https://j-towns.github.io/papers/svd-derivative.pdf">Derivative of SVD</a></p>
+<h2 id="is-normalization-indispensable-for-training-deep-neural-networks">Is normalization indispensable for training deep neural networks</h2>
+<p><a href="https://proceedings.neurips.cc//paper/2020/file/9b8619251a19057cff70779273e95aa6-Paper.pdf">pdf</a> <a href="https://github.com/hukkai/rescaling">code</a></p>
+<p>这篇paper提出的内容是可以通过rescaling 处理可以在不使用batchnorm的情况下维持网络的variance.</p>
+<p>这篇paper同时通过实验和数学下了一个判断，认为在深度网络中 Dead ReLU 是由系统的variance引起的，挑选好的初始化也没用，训练后还是会有很多的 dead relu，更多的论证在附录但尚未放出.</p>
+<p>作者提出 rescalenet，核心思路是想网络的方差不要发散，同时经过多层叠加放置后，每一个 resblock的卷积层输出在最后输出上的权重是一致的。</p>
+<p>求解这两个条件(具体解法尚未放出):</p>
+<ul>
+<li>
+<script type="math/tex">\operatorname{Var}\left[\boldsymbol{x}_{k}\right]=\alpha_{k}^{2} \operatorname{Var}\left[\boldsymbol{x}_{k-1}\right]+\beta_{k}^{2} \operatorname{Var}\left[\mathcal{F}_{k}\left(\boldsymbol{x}_{k-1}\right)\right]=\operatorname{Var}\left[\boldsymbol{x}_{k-1}\right]</script>
+</li>
+<li>
+<script type="math/tex">\boldsymbol{x}_{L}=\left(\prod_{i=1}^{L} \alpha_{i}\right) \boldsymbol{x}_{0}+\sum_{k=1}^{L} \beta_{k} \prod_{i=k+1}^{L} \alpha_{i} \mathcal{F}_{k}\left(\boldsymbol{x}_{k-1}\right)</script>
+</li>
+</ul>
+<p>给出:</p>
+<p>
+<script type="math/tex; mode=display">
+\boldsymbol{x}_{k}=\sqrt{\frac{k-1+L}{k+L}} \boldsymbol{x}_{k-1}+\sqrt{\frac{1}{k+L}} \mathcal{F}_{k}\left(\boldsymbol{x}_{k-1}, \Theta_{k}\right)
+</script>
+</p>
+<p>其他两个技巧:</p>
+<ul>
+<li>事实上在训练的时候不一定要让不同resblock层数上的权重一致，因为经验上来说不同网络层成熟速度就是不一样的，在不同的训练阶段有不同的需求，所以本文提出给这个比例参数一个可学习的乘子: <script type="math/tex">\boldsymbol{x}_{k}=\sqrt{\frac{k-1+L}{k+L}} \boldsymbol{x}_{k-1}+\frac{m_{k}}{\sqrt{L}} \mathcal{F}_{k}\left(\boldsymbol{x}_{k-1}\right)</script>
+</li>
+<li>Bias的初始化作者也提出新的观点，首先将运算<script type="math/tex">y=Wx + b</script>重新理解为<script type="math/tex">y = W(x + b)</script> 而这个 b的初始化为第一个输入的mini-batch的均值的负值，也就是让第一个batch在与权重相乘之前接近是 normalized的 (在代码实现上，是定下了一个threshold, 前n=8个batch训练过程中都会求累积均值)，一定程度上实现了BN的效果. 同时作者指出这个技巧可以显著减轻relu的问题.</li>
+</ul></div>
                     
                 </div>
         </div>
