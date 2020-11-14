@@ -1,9 +1,21 @@
-time: 20201027
+time: 20201114
 short_title: NIPS 2020 for Experimental NN
 
 # NIPS 2020 for Experimental NN
 
 本文收集几篇NIPS2020中大实验室中通过实验研究神经网络相关性质的文章。相关实验不一定有严格的理论推理或是实用性的创新，但是可以了解相当有意义的经验结论.
+
+- [NIPS 2020 for Experimental NN](#nips-2020-for-experimental-nn)
+  - [Batch Normalization Biases Residual Blocks Towards the Identity Function in Deep Networks](#batch-normalization-biases-residual-blocks-towards-the-identity-function-in-deep-networks)
+  - [Neural Networks Fail to Learn Periodic Functions and How to Fix It](#neural-networks-fail-to-learn-periodic-functions-and-how-to-fix-it)
+    - [与SIREN 对比](#与siren-对比)
+  - [On Warm-Starting Neural Network Training](#on-warm-starting-neural-network-training)
+  - [Rational Neural Network](#rational-neural-network)
+  - [What do Neural Network Learn when Trained with Random Labels](#what-do-neural-network-learn-when-trained-with-random-labels)
+    - [对于高斯输入的Alignment](#对于高斯输入的alignment)
+    - [实验](#实验)
+  - [An Analysis of SVD for Deep Rotation Estimation](#an-analysis-of-svd-for-deep-rotation-estimation)
+  - [Is normalization indispensable for training deep neural networks](#is-normalization-indispensable-for-training-deep-neural-networks)
 
 ##  Batch Normalization Biases Residual Blocks Towards the Identity Function in Deep Networks
 
@@ -158,5 +170,31 @@ $$L(M,R) = ||SVDO^+(M) - R||_F^2$$
 ,旋转矩阵差的二范数实质上等于两个旋转的差(也是一个旋转矩阵)的主旋转角度.
 
 作者通过分析这一损失函数对SVD的反传结果证明了这种表示方法是在最小二乘或是高斯概率噪声两种表述下都是最优的，SVD的反传比较复杂. [Derivative of SVD]
+
+## Is normalization indispensable for training deep neural networks
+[pdf](https://proceedings.neurips.cc//paper/2020/file/9b8619251a19057cff70779273e95aa6-Paper.pdf) [code](https://github.com/hukkai/rescaling)
+
+这篇paper提出的内容是可以通过rescaling 处理可以在不使用batchnorm的情况下维持网络的variance.
+
+这篇paper同时通过实验和数学下了一个判断，认为在深度网络中 Dead ReLU 是由系统的variance引起的，挑选好的初始化也没用，训练后还是会有很多的 dead relu，更多的论证在附录但尚未放出.
+
+作者提出 rescalenet，核心思路是想网络的方差不要发散，同时经过多层叠加放置后，每一个 resblock的卷积层输出在最后输出上的权重是一致的。
+
+求解这两个条件(具体解法尚未放出):
+
+- $\operatorname{Var}\left[\boldsymbol{x}_{k}\right]=\alpha_{k}^{2} \operatorname{Var}\left[\boldsymbol{x}_{k-1}\right]+\beta_{k}^{2} \operatorname{Var}\left[\mathcal{F}_{k}\left(\boldsymbol{x}_{k-1}\right)\right]=\operatorname{Var}\left[\boldsymbol{x}_{k-1}\right]$
+- $\boldsymbol{x}_{L}=\left(\prod_{i=1}^{L} \alpha_{i}\right) \boldsymbol{x}_{0}+\sum_{k=1}^{L} \beta_{k} \prod_{i=k+1}^{L} \alpha_{i} \mathcal{F}_{k}\left(\boldsymbol{x}_{k-1}\right)$
+
+给出:
+
+$$
+\boldsymbol{x}_{k}=\sqrt{\frac{k-1+L}{k+L}} \boldsymbol{x}_{k-1}+\sqrt{\frac{1}{k+L}} \mathcal{F}_{k}\left(\boldsymbol{x}_{k-1}, \Theta_{k}\right)
+$$
+
+其他两个技巧:
+
+- 事实上在训练的时候不一定要让不同resblock层数上的权重一致，因为经验上来说不同网络层成熟速度就是不一样的，在不同的训练阶段有不同的需求，所以本文提出给这个比例参数一个可学习的乘子: $\boldsymbol{x}_{k}=\sqrt{\frac{k-1+L}{k+L}} \boldsymbol{x}_{k-1}+\frac{m_{k}}{\sqrt{L}} \mathcal{F}_{k}\left(\boldsymbol{x}_{k-1}\right)$
+- Bias的初始化作者也提出新的观点，首先将运算$y=Wx + b$重新理解为$y = W(x + b)$ 而这个 b的初始化为第一个输入的mini-batch的均值的负值，也就是让第一个batch在与权重相乘之前接近是 normalized的 (在代码实现上，是定下了一个threshold, 前n=8个batch训练过程中都会求累积均值)，一定程度上实现了BN的效果. 同时作者指出这个技巧可以显著减轻relu的问题.
+
 
 [Derivative of SVD]:https://j-towns.github.io/papers/svd-derivative.pdf

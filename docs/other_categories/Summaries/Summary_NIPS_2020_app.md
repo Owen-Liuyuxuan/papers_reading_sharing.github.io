@@ -36,3 +36,23 @@ time: 20201101
 - 最后的估计采用的是全连接，回归的参数有八个 $[f_1, f_2, \alpha, \beta]$,F的预测值是$[f_1; f_2; \alpha f_1 + \beta f_2]$.
 - 训练loss, 一个是对$F$的$l_1, l_2$ loss，另一个是所有keypoint的残差$l_e = \gamma \frac{1}{N} \sum^N_i|m'^T_i\hat F m_i|$
 
+## Fine-Grained Dynamic Head for Object Detection
+
+[pdf](https://papers.nips.cc/paper/2020/file/7f6caf1f0ba788cd7953d817724c2b6e-Paper.pdf) [code](https://github.com/StevenGrove/DynamicHead)
+
+Motivation就是想在FPN的基础上不同Scale的特征能够互相融合:
+
+![image](res/DynamicHead_motivation.png)
+
+![image](res/dynamichead_arch.png)
+结构上就是多层地给使得相邻scale之间feature能够互通，作者额外添加了 一个routing模块;设计了一下各个path;添加一个gate.
+
+图中gate factor $m$在理想情况下应该使用离散值，且理论上可以用policy gradient的方法优化[0, 1]设置，但是这里按照深度学习的传统将离散值连续化, 
+
+![image](res/dynamic_head_stru.png)
+
+$$
+\delta(v)=\max \left(0, \frac{\tanh (v-\tau)+\tanh (\tau)}{1+\tanh (\tau)}\right) \in[0,1], \forall v \in \mathbb{R}
+$$
+
+
