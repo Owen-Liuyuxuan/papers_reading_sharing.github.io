@@ -1511,12 +1511,18 @@
                 <li class="nav-item">
                     <a href="#grid-r-cnn" class="nav-link">Grid R-CNN</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#varifocalnet-an-iou-aware-dense-object-detector" class="nav-link">VarifocalNet: An IoU-aware Dense Object Detector</a>
+                </li>
             <li class="nav-item main"><a href="#two-stage-methods">Two Stage Methods</a></li>
                 <li class="nav-item">
                     <a href="#htc" class="nav-link">HTC</a>
                 </li>
                 <li class="nav-item">
                     <a href="#detectors" class="nav-link">DetectoRS</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#centripetalnet-pursuing-high-quality-keypoint-pairs-for-object-detection" class="nav-link">CentripetalNet: Pursuing High-quality Keypoint Pairs for Object Detection</a>
                 </li>
         </ul>
     </div>
@@ -1591,6 +1597,23 @@ L_{G H M-C} &=\frac{1}{N} \sum_{i=1}^{N} \beta_{i} L_{C E}\left(p_{i}, p_{i}^{*}
 <p><a href="https://arxiv.org/pdf/1811.12030.pdf">pdf</a> <a href="https://github.com/open-mmlab/mmdetection/blob/master/mmdet/models/detectors/grid_rcnn.py">code</a></p>
 <p>这篇paper从今日的角度来说可以理解为RoIPooling后的<a href="CenterNet:_Keypoint_Triplets_for_Object_Detection.md">keypointNet</a>，在grid point选择上有点不同，但是思路是相似的。</p>
 <p><img alt="image" src="../res/grid_rcnn.png" /></p>
+<h2 id="varifocalnet-an-iou-aware-dense-object-detector">VarifocalNet: An IoU-aware Dense Object Detector</h2>
+<p><a href="https://arxiv.org/pdf/2008.13367.pdf">pdf</a></p>
+<p><img alt="image" src="../res/varifocalnet_idea.png" /></p>
+<p><img alt="image" src="../res/VFNet_struct.png" /></p>
+<p>这篇paper的主要工作:</p>
+<ul>
+<li>Star Conv: 在第一次bounding box预测的基础上多跑一个deform conv, offset正是bounding box的各个角落.(让各个角落的feature融合到中心来的思路), 后面再输出一个比例修正项.</li>
+<li>varifocal loss: </li>
+</ul>
+<p>
+<script type="math/tex; mode=display">
+\operatorname{VFL}(\mathrm{p}, \mathrm{q})=\left\{\begin{array}{ll}
+-\mathrm{q}(\mathrm{q} \log (\mathrm{p})+(1-\mathrm{q}) \log (1-\mathrm{p})) & \mathrm{q}>0 \\
+-\alpha \mathrm{p}^{\gamma} \log (1-\mathrm{p}) & \mathrm{q}=0
+\end{array}\right.
+</script>
+</p>
 <h1 id="two-stage-methods">Two Stage Methods</h1>
 <h2 id="htc">HTC</h2>
 <p><a href="https://arxiv.org/pdf/1901.07518.pdf">pdf</a> <a href="https://github.com/open-mmlab/mmdetection/tree/master/configs/htc">code</a></p>
@@ -1636,7 +1659,23 @@ L_{G H M-C} &=\frac{1}{N} \sum_{i=1}^{N} \beta_{i} L_{C E}\left(p_{i}, p_{i}^{*}
 <p>主要提出的点是Recursive Feature Pyramid以及 Switchable Atrous Convolution</p>
 <p><img alt="image" src="../res/detectoRS_RFP.png" /></p>
 <p><img alt="image" src="../res/detectoRS_SAC.png" /></p>
-<p>点数提升较为惊人，模型大小以及内存占用比较大(注意由于backbone的改变，其ResNet-50模型的大小近乎于HTC ResNeXt-101-64x4d的大小，且由于RFP的迭代原因，占用显存可能更大)。</p></div>
+<p>点数提升较为惊人，模型大小以及内存占用比较大(注意由于backbone的改变，其ResNet-50模型的大小近乎于HTC ResNeXt-101-64x4d的大小，且由于RFP的迭代原因，占用显存可能更大)。</p>
+<h2 id="centripetalnet-pursuing-high-quality-keypoint-pairs-for-object-detection">CentripetalNet: Pursuing High-quality Keypoint Pairs for Object Detection</h2>
+<p><a href="https://arxiv.org/pdf/2003.09119.pdf">pdf</a></p>
+<p><img alt="image" src="../res/centripetal_arch.png" /></p>
+<p>这个paper延续的是 <a href="../CornerNet_Detecting_Objects_as_Paired_Keypoints/">CornerNet</a>和<a href="CenterNet:_Keypoint_Triplets_for_Object_Detection.md">CenterNet</a>的思路.</p>
+<ul>
+<li>用heatmap分别预测左上角以及右下角</li>
+<li>预测一个左上角/右下角到中心点的偏移，作为guiding， 这个guiding可以被监督</li>
+<li>以此偏移为基准跑deformable conv, 输出更精确的 centripetal shift</li>
+<li>基于对中心点的预测将左上角与右下角进行匹配聚类</li>
+<li>以预测出来的2D bounding box为基础预测 instance mask.</li>
+</ul>
+<p>热点预测中角点的偏移(用于finetuning corner) / Guiding shift / 基于中心点预测的匹配中心区:
+<img alt="image" src="../res/centripetal_concepth.png" /></p>
+<p>使用guiding deform conv的 intuition</p>
+<p><img alt="image" src="../res/centripetal_guide.png" /></p>
+<p>代码上本文的代码有点混乱，head与corner head代码有点重叠混杂.</p></div>
                     
                 </div>
         </div>
