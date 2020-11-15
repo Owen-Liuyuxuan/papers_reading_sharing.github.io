@@ -77,6 +77,25 @@ Inference的时候则让所有6个分支各自输出，直接merge
 
 ![image](res/grid_rcnn.png)
 
+## VarifocalNet: An IoU-aware Dense Object Detector
+[pdf](https://arxiv.org/pdf/2008.13367.pdf)
+
+![image](res/varifocalnet_idea.png)
+
+![image](res/VFNet_struct.png)
+
+这篇paper的主要工作:
+
+- Star Conv: 在第一次bounding box预测的基础上多跑一个deform conv, offset正是bounding box的各个角落.(让各个角落的feature融合到中心来的思路), 后面再输出一个比例修正项.
+- varifocal loss: 
+
+$$
+\operatorname{VFL}(\mathrm{p}, \mathrm{q})=\left\{\begin{array}{ll}
+-\mathrm{q}(\mathrm{q} \log (\mathrm{p})+(1-\mathrm{q}) \log (1-\mathrm{p})) & \mathrm{q}>0 \\
+-\alpha \mathrm{p}^{\gamma} \log (1-\mathrm{p}) & \mathrm{q}=0
+\end{array}\right.
+$$
+
 # Two Stage Methods
 
 ## HTC
@@ -135,3 +154,26 @@ $$\begin{aligned}
 ![image](res/detectoRS_SAC.png)
 
 点数提升较为惊人，模型大小以及内存占用比较大(注意由于backbone的改变，其ResNet-50模型的大小近乎于HTC ResNeXt-101-64x4d的大小，且由于RFP的迭代原因，占用显存可能更大)。
+
+## CentripetalNet: Pursuing High-quality Keypoint Pairs for Object Detection
+
+[pdf](https://arxiv.org/pdf/2003.09119.pdf)
+
+![image](res/centripetal_arch.png)
+
+这个paper延续的是 [CornerNet](CornerNet_Detecting_Objects_as_Paired_Keypoints.md)和[CenterNet](CenterNet:_Keypoint_Triplets_for_Object_Detection.md)的思路.
+
+- 用heatmap分别预测左上角以及右下角
+- 预测一个左上角/右下角到中心点的偏移，作为guiding， 这个guiding可以被监督
+- 以此偏移为基准跑deformable conv, 输出更精确的 centripetal shift
+- 基于对中心点的预测将左上角与右下角进行匹配聚类
+- 以预测出来的2D bounding box为基础预测 instance mask.
+
+热点预测中角点的偏移(用于finetuning corner) / Guiding shift / 基于中心点预测的匹配中心区:
+![image](res/centripetal_concepth.png)
+
+使用guiding deform conv的 intuition
+
+![image](res/centripetal_guide.png)
+
+代码上本文的代码有点混乱，head与corner head代码有点重叠混杂.
