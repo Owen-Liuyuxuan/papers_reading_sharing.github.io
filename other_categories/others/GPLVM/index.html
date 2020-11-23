@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>R2D2: Repeatable and Reliable Detector and Descriptor - Reading Collections</title>
+        <title>Gaussian Process Latent Variable Models for Visualisation of High Dimensional Data (GPLVM) - Reading Collections</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
@@ -613,7 +613,7 @@
     </li>
               
     <li>
-        <a href="../GPLVM/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             GPLVM
         </a>
     </li>
@@ -673,7 +673,7 @@
     </li>
               
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../R2D2/" class="dropdown-item">
             R2D2
         </a>
     </li>
@@ -1476,12 +1476,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../PointFlow : 3D Point Cloud Generation with Continuous Normalizing Flows/" class="nav-link">
+                                <a rel="prev" href="../FADNet/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../SPM_SPR/" class="nav-link">
+                                <a rel="next" href="../Gated2Depth:_Real-Time_Dense_Lidar_From_Gated_Images/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -1504,55 +1504,113 @@
         
         <ul class="nav flex-column bs-sidenav">
         
-        <a href=https://papers.nips.cc/paper/9407-r2d2-reliable-and-repeatable-detector-and-descriptor.pdf>
+        <a href=https://papers.nips.cc/paper/2003/file/9657c1fffd38824e5ab0472e022e577e-Paper.pdf>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
         </a>
         
 
         
-        <a href=https://github.com/naver/r2d2>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
-        </a>
-
-        
-            <li class="nav-item main"><a href="#r2d2-repeatable-and-reliable-detector-and-descriptor">R2D2: Repeatable and Reliable Detector and Descriptor</a></li>
+            <li class="nav-item main"><a href="#gaussian-process-latent-variable-models-for-visualisation-of-high-dimensional-data-gplvm">Gaussian Process Latent Variable Models for Visualisation of High Dimensional Data (GPLVM)</a></li>
                 <li class="nav-item">
-                    <a href="#_1" class="nav-link">网络结构</a>
+                    <a href="#linear-probabilistic-pca-ppca" class="nav-link">Linear Probabilistic PCA (PPCA)</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#dual-probabilistic-pca-dual-pca" class="nav-link">Dual Probabilistic PCA (Dual PCA)</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#gplvm" class="nav-link">GPLVM</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#extension-unified-objective-function" class="nav-link">Extension: Unified Objective Function</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
-<a href=https://papers.nips.cc/paper/9407-r2d2-reliable-and-repeatable-detector-and-descriptor.pdf>
+<a href=https://papers.nips.cc/paper/2003/file/9657c1fffd38824e5ab0472e022e577e-Paper.pdf>
     <i class="fa fa-file-pdf-o"> pdf</i>
 </a>
 
 
 
-<a href=https://github.com/naver/r2d2>
-    <i class="fa fa-github"> code</i>
-</a>
-
 </span>
-<h1 id="r2d2-repeatable-and-reliable-detector-and-descriptor">R2D2: Repeatable and Reliable Detector and Descriptor</h1>
-<p>这篇paper在输出keypoints的时候输出两个分支预测其重复性以及可靠性。paper的主要贡献有两点，第一在于判断认为有必要将可靠性与可重复性分成两个单独的metrics进行预测，且使用不同的训练方式。第二在于使用metric learning训练可靠性与准确度(不算独创但是属于有效的融合)</p>
-<h2 id="_1">网络结构</h2>
-<p><img alt="image" src="../res/r2d2_arch.png" /></p>
-<h3 id="_2">可重复性</h3>
-<p>可重复性这里与其他做法相似，选择的是自监督学习的方法。</p>
-<p>对于两张已知correspondence的图，损失的目的是让两张图对应的部分有较高的相似度(cosine similarity)，</p>
+<h1 id="gaussian-process-latent-variable-models-for-visualisation-of-high-dimensional-data-gplvm">Gaussian Process Latent Variable Models for Visualisation of High Dimensional Data (GPLVM)</h1>
+<p>GPLVM 是一个对高维数据降维的方法.根据作者的talks，应该被命名为 probablistic dimentional reduction.</p>
+<p>数据降维最为基础的思路就是找出数据中方差最大的主线性轴, 也就是 PCA算法的结果. </p>
+<p>本文首先尝试从概率角度对PCA进行重新描述,并提出更通用的GPLVM.</p>
+<p><a href="https://wiki.math.uwaterloo.ca/statwiki/index.php?title=probabilistic_PCA_with_GPLVM">waterloo的一个paper summary</a></p>
+<p><a href="http://inverseprobability.com/talks/slides//gplvm_brown17.pdf">作者的一个talk.pdf</a></p>
+<h2 id="linear-probabilistic-pca-ppca">Linear Probabilistic PCA (PPCA)</h2>
+<ul>
+<li>数据与 latent variables之间有线性高斯关系, </li>
+<li>已知latent variables <script type="math/tex">X</script> 满足高斯分布</li>
+<li>Marginalize w.r.t. <script type="math/tex">X</script>
+</li>
+</ul>
 <p>
-<script type="math/tex; mode=display">\mathcal{L}_{\operatorname{cosim}}\left(I, I^{\prime}, U\right)=1-\frac{1}{|\mathcal{P}|} \sum_{p \in \mathcal{P}} \operatorname{cosim}\left(\boldsymbol{S}[p], \boldsymbol{S}_{U}^{\prime}[p]\right)</script>
+<script type="math/tex; mode=display">
+\begin{array}{c}
+p(\mathbf{Y} \mid \mathbf{X}, \mathbf{W})=\prod_{i=1}^{n} \mathcal{N}\left(\mathbf{y}_{i_{i}} \mid \mathbf{W} \mathbf{x}_{i, i}, \sigma^{2} \mathbf{I}\right) \\
+p(\mathbf{X})=\prod_{i=1}^{n} \mathcal{N}\left(\mathbf{x}_{i, i} \mid \mathbf{0}, \mathbf{I}\right) \\
+p(\mathbf{Y} \mid \mathbf{W})=\prod_{i=1}^{n} \mathcal{N}\left(\mathbf{y}_{i, j} \mid \mathbf{0}, \mathbf{W} \mathbf{W}^{\top}+\sigma^{2} \mathbf{I}\right)
+\end{array}
+</script>
 </p>
-<p>这会有一个trivial的解就是所有值为常数，所以给出一个补充的损失函数要求提升区域内最大值与均值的差</p>
+<p>前人分析发现这个PPCA的<script type="math/tex">W</script>的解与PCA的一致.</p>
+<h2 id="dual-probabilistic-pca-dual-pca">Dual Probabilistic PCA (Dual PCA)</h2>
+<ul>
+<li>数据与 latent variables之间有线性高斯关系</li>
+<li>已知 参数<script type="math/tex">W</script>满足高斯分布</li>
+<li>Marginalize w.r.t. <script type="math/tex">W</script>
+</li>
+</ul>
 <p>
-<script type="math/tex; mode=display">\mathcal{L}_{\text {peaky}}(I)=1-\frac{1}{|\mathcal{P}|} \sum_{p \in \mathcal{P}}\left(\max _{(i, j) \in p} \boldsymbol{S}_{i j}-\operatorname{mean}_{(i, j) \in p} \boldsymbol{S}_{i j}\right)</script>
+<script type="math/tex; mode=display">
+\begin{array}{c}
+p(\mathbf{Y} \mid \mathbf{X}, \mathbf{W})=\prod_{i=1}^{n} \mathcal{N}\left(\mathbf{y}_{i,} \mid \mathbf{W} \mathbf{x}_{i, \prime}, \sigma^{2} \mathbf{I}\right) \\
+p(\mathbf{W})=\prod_{i=1}^{p} \mathcal{N}\left(\mathbf{w}_{i, j} \mid \mathbf{0}, \mathbf{I}\right) \\
+p(\mathbf{Y} \mid \mathbf{X})=\prod_{j=1}^{p} \mathcal{N}\left(\mathbf{y}_{\mathbf{i}, j} \mid \mathbf{0}, \mathbf{X} \mathbf{X}^{\top}+\sigma^{2} \mathbf{I}\right)
+\end{array}
+</script>
 </p>
-<h3 id="_3">可靠性</h3>
-<p>即要求匹配的准确度提升，这里引用了 <a href="http://openaccess.thecvf.com/content_cvpr_2018/papers/He_Local_Descriptors_Optimized_CVPR_2018_paper.pdf">Local Descriptors Optimized for Average Precision.pdf</a>的做法。其中两个histogram之间的loss来自于<a href="https://arxiv.org/pdf/1611.00822.pdf">Learning Deep Embeddings with Histogram Loss.pdf</a></p>
-<p><img alt="image" src="../res/historgram_loss.png" /></p>
-<p>code in <a href="https://github.com/naver/r2d2/blob/master/nets/ap_loss.py">here</a></p></div>
+<p>对应的 log-likelihood 是
+<script type="math/tex; mode=display">
+\begin{aligned}
+    L &= -\frac{DN}{2}\ln{(2\pi)} - \frac{D}{2} \ln |K| - \frac{1}{2} \text{tr} (K^{-1} Y Y^T) \\
+    K &= \alpha XX^T + \beta^{-1}I
+\end{aligned}
+</script>
+</p>
+<p>使<script type="math/tex">L</script>关于<script type="math/tex">X</script>的导数为零，可以求得<script type="math/tex">X</script>满足以下方程
+<script type="math/tex; mode=display">
+    \frac{1}{D}YY^TK^{-1}X = X
+</script>
+</p>
+<p>观察前面的式子可以发现， 数据的分布变为了以零为期望，由latent variable组成的协方差矩阵. 一个自然的延伸就是假设这个协方差矩阵是由通用的可能非线性的核函数<script type="math/tex">K</script>替代。</p>
+<h2 id="gplvm">GPLVM</h2>
+<p>如将核函数设定为 RBF 指数核:</p>
+<p>
+<script type="math/tex; mode=display">
+    k_{n,m} = \alpha \exp (-\frac{\gamma}{2}(x_n-  x_m)^T (x_n - x_m)) + \delta_{nm}\beta^{-1}
+</script>
+</p>
+<p>损失函数<script type="math/tex">L</script>关于核函数的导数仍然没有变化，可以通过一阶优化方法迭代得到local minima解.</p>
+<h3 id="_1">实际执行</h3>
+<p>实际执行GPLVM的时候可以采取一些技巧减少运算量:</p>
+<ul>
+<li>稀疏化: 仅用部分数据(active set)计算协方差矩阵拟合高斯过程模型. 选择方法依据: <a href="https://papers.nips.cc/paper/2002/file/d4dd111a4fd973394238aca5c05bebe3-Paper.pdf">作者的另一篇关于sparcity &amp; GP的文章</a></li>
+<li>latent variable优化:从 active set 得到协方差之后，用高斯过程推理的方法得到每一个数据的forward pass, 其梯度仅与自己以及其他active set中的数据有关，因而所有 inactive set中的数据可以并行求解得到自己对应的latent variable.</li>
+</ul>
+<p><img alt="image" src="../res/gplvm_algo.png" /></p>
+<h2 id="extension-unified-objective-function">Extension: Unified Objective Function</h2>
+<p><a href="https://wiki.math.uwaterloo.ca/statwiki/index.php?title=probabilistic_PCA_with_GPLVM#Unifying_Objective_Function">参考</a></p>
+<p>这里指出可以用一个 KL divergence来统一 PCA, kernel PCA, PPCA, GP-LVM, 它们分别对应对<script type="math/tex">S, K</script>的不同设置.</p>
+<p>
+<script type="math/tex; mode=display">
+\mathrm{KL}(N(\mathbf{z|0,S)} || N(\mathbf{z|0,K})) = -\int N(\mathbf{z|0,S)}\;ln\frac{N(\mathbf{z|0,K})}{N(\mathbf{z|0,S)}}\;d\mathbf{z} = \frac{1}{2} ln |\mathbf{K}| - \frac{1}{2} ln |\mathbf{S}| + \frac{1}{2} tr(\mathbf{SK^{-1}}) - \frac{N}{2}
+</script>
+</p></div>
                     
                 </div>
         </div>
