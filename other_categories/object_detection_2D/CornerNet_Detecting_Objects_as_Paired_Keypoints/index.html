@@ -761,6 +761,12 @@
             Plane sweeping for multi-image matching
         </a>
     </li>
+              
+    <li>
+        <a href="../../others/vip_deeplab/" class="dropdown-item">
+            ViP-DeepLab: Learning Visual Perception with Depth-aware Video Panoptic Segmentation
+        </a>
+    </li>
           
       </ul>
     </li>
@@ -1584,22 +1590,21 @@
 </script>
 </p>
 <p>原版code有错误，经过一些修正后正确的实现应当是。</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_radius</span><span class="p">(</span><span class="n">det_size</span><span class="p">,</span> <span class="n">min_overlap</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Compute radius from ground truth bbox.</span>
+<pre class="codehilite"><code class="language-python">def compute_radius(det_size, min_overlap=0.7):
+    &quot;&quot;&quot; Compute radius from ground truth bbox.
 
-<span class="sd">    original equation: (w - 2r) (h - 2r) / (wh) = min_overlap</span>
-<span class="sd">    Take the solution with a smaller magnitude.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">det_size</span>
+    original equation: (w - 2r) (h - 2r) / (wh) = min_overlap
+    Take the solution with a smaller magnitude.
+    &quot;&quot;&quot;
+    height, width = det_size
 
-    <span class="n">a2</span> <span class="o">=</span> <span class="mi">4</span>
-    <span class="n">b2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
-    <span class="n">c2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">min_overlap</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span> <span class="o">*</span> <span class="n">height</span>
-    <span class="n">sq2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b2</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">a2</span> <span class="o">*</span> <span class="n">c2</span><span class="p">)</span>
-    <span class="n">r2</span> <span class="o">=</span> <span class="p">(</span><span class="n">b2</span> <span class="o">-</span> <span class="n">sq2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">a2</span><span class="p">)</span>
+    a2 = 4
+    b2 = 2 * (height + width)
+    c2 = (1 - min_overlap) * width * height
+    sq2 = np.sqrt(b2 ** 2 - 4 * a2 * c2)
+    r2 = (b2 - sq2) / (2 * a2)
 
-    <span class="k">return</span> <span class="n">r2</span>
-</code></pre></div>
+    return r2</code></pre>
 
 
 <p>这个idea热点图的idea以及official code(尽管不一定正确)被多个后续的文章使用, 包括 <a href="../Object_as_points/">Object as point</a>, <a href="https://github.com/maudzung/RTM3D">RTM3D Unofficial Implementation</a></p>
