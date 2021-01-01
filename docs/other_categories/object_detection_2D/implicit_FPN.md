@@ -1,4 +1,4 @@
-time: 20200101
+time: 20210101
 pdf_source: https://arxiv.org/pdf/2012.13563.pdf
 
 # Implicit Feature Pyramid Network for Object Detection
