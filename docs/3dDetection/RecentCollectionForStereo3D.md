@@ -1,4 +1,4 @@
-time: 20200714
+time: 20210126
 short_title: Recent Collections for Stereo 3D
 
 # Recent Collections for Stereo 3D detection
@@ -10,6 +10,7 @@ short_title: Recent Collections for Stereo 3D
 Update:
     2020.0409: Add Disp-RCNN and PL E2E.
     2020.0714: Add CDN
+    2021.0126: Add RTS3D
 
 | Methods             | Moderate |   Easy  |   Hard  |  Time  |
 |---------------------|:--------:|:-------:|:-------:|:------:|
@@ -22,6 +23,7 @@ Update:
 | [Disp R-CNN] (velo) |  39.34 % | 59.58 % | 31.99 % |  0.42 s|
 | [ZoomNet]           |  38.64 % | 55.98 % | 30.97 % |  0.3 s |
 | [OC Stereo]         |  37.60 % | 55.15 % | 30.25 % | 0.35 s |
+| [RTS3D]             |  37.38 % | 58.51 % | 31.12 % | 0.03 s |
 | [Pseudo-Lidar]      |  34.05 % | 54.53 % | 28.25 % |  0.4 s |
 | [Stereo R-CNN]      |  30.23 % | 47.58 % | 23.72 % |  0.3 s |
 | [RT3DStereo]        |  23.28 % | 29.90 % | 18.96 % | 0.08 s |
@@ -35,6 +37,7 @@ Update:
   - [Disp-RCNN](#disp-rcnn)
   - [ZoomNet](#zoomnet)
   - [OC Stereo](#oc-stereo)
+  - [RTS3D](#rts3d)
   - [Pseudo-Lidar](#pseudo-lidar-1)
   - [Stereo R-CNN](#stereo-r-cnn)
   - [RT3D Stereo](#rt3d-stereo)
@@ -111,6 +114,11 @@ voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的
 
 在得到局部RGB点云之后作者使用[AVOD](https://github.com/kujason/avod) 进行3D检测。
 
+## RTS3D
+[pdf](https://arxiv.org/pdf/2012.15072.pdf) [code](https://github.com/Banconxuan/RTS3D)
+
+![image](res/RTS3D_structure.png)
+
 ## Pseudo-Lidar
 [pdf](https://arxiv.org/pdf/1812.07179.pdf) [code](https://github.com/mileyan/pseudo_lidar)
 
@@ -158,6 +166,7 @@ $$argmin (N_{out}/N+ (k_l(l-μ_l)/σ_l )^2+(k_w(w-μ_w)/σ_w )^2)$$
 [Disp R-CNN]:#disp-rcnn
 [ZoomNet]:#zoomnet
 [OC Stereo]:#oc-stereo
+[RTS3D]:#rts3d
 [Pseudo-Lidar]:#pseudo-lidar_1
 [Stereo R-CNN]:#stereo-r-cnn
 [RT3DStereo]:#rt3d-stereo
