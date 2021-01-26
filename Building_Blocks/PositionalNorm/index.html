@@ -1247,6 +1247,12 @@
     </li>
                                     
     <li>
+        <a href="../fcanet/" class="dropdown-item">
+            FcaNet: Frequency Channel Attention Networks
+        </a>
+    </li>
+                                    
+    <li>
         <a href="../gabor_layer/" class="dropdown-item">
             Gabor Layers
         </a>
@@ -1603,21 +1609,22 @@
 <h2 id="normalization-review-and-positional-normalization">Normalization Review and Positional Normalization</h2>
 <p><img alt="image" src="../res/posnorm.png" /></p>
 <p><a href="https://github.com/Boyiliee/PONO/blob/master/pono_ms_torch.py">代码</a></p>
-<pre class="codehilite"><code class="language-python">import torch
-# x is the features of shape [B, C, H, W]
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="c1"># x is the features of shape [B, C, H, W]</span>
 
-# In the Encoder
-def PONO(x, epsilon=1e-5):
-    mean = x.mean(dim=1, keepdim=True)
-    std = x.var(dim=1, keepdim=True).add(epsilon).sqrt()
-    output = (x - mean) / std
-    return output, mean, std
+<span class="c1"># In the Encoder</span>
+<span class="k">def</span> <span class="nf">PONO</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+    <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span>
 
-# In the Decoder
-# one can call MS(x, mean, std)
-# with the mean and std are from a PONO in the encoder
-def MS(x, beta, gamma):
-    return x * gamma + beta</code></pre>
+<span class="c1"># In the Decoder</span>
+<span class="c1"># one can call MS(x, mean, std)</span>
+<span class="c1"># with the mean and std are from a PONO in the encoder</span>
+<span class="k">def</span> <span class="nf">MS</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">gamma</span> <span class="o">+</span> <span class="n">beta</span>
+</code></pre></div>
 
 
 <h2 id="shortcut-in-generative-model">ShortCut in Generative Model</h2>
