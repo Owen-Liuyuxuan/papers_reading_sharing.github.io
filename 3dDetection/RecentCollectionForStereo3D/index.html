@@ -1592,6 +1592,9 @@
                     <a href="#oc-stereo" class="nav-link">OC Stereo</a>
                 </li>
                 <li class="nav-item">
+                    <a href="#rts3d" class="nav-link">RTS3D</a>
+                </li>
+                <li class="nav-item">
                     <a href="#pseudo-lidar_1" class="nav-link">Pseudo-Lidar</a>
                 </li>
                 <li class="nav-item">
@@ -1613,7 +1616,8 @@
 <p>这里列出目前有文章可寻的KITTI排行榜(2020.04.09)</p>
 <p>Update:
     2020.0409: Add Disp-RCNN and PL E2E.
-    2020.0714: Add CDN</p>
+    2020.0714: Add CDN
+    2021.0126: Add RTS3D</p>
 <table>
 <thead>
 <tr>
@@ -1689,6 +1693,13 @@
 <td align="center">0.35 s</td>
 </tr>
 <tr>
+<td><a href="#rts3d">RTS3D</a></td>
+<td align="center">37.38 %</td>
+<td align="center">58.51 %</td>
+<td align="center">31.12 %</td>
+<td align="center">0.03 s</td>
+</tr>
+<tr>
 <td><a href="#pseudo-lidar_1">Pseudo-Lidar</a></td>
 <td align="center">34.05 %</td>
 <td align="center">54.53 %</td>
@@ -1720,6 +1731,7 @@
 <li><a href="#disp-rcnn">Disp-RCNN</a></li>
 <li><a href="#zoomnet">ZoomNet</a></li>
 <li><a href="#oc-stereo">OC Stereo</a></li>
+<li><a href="#rts3d">RTS3D</a></li>
 <li><a href="#pseudo-lidar-1">Pseudo-Lidar</a></li>
 <li><a href="#stereo-r-cnn">Stereo R-CNN</a></li>
 <li><a href="#rt3d-stereo">RT3D Stereo</a></li>
@@ -1769,6 +1781,9 @@
 <p>这篇paper的想法是使用RoIAlign将左右目两个区域的feature 提出来，然后使用instance seg与Cost volumn计算对应pixel处的disparity。</p>
 <p>作者对于RoIAlign前后的segmentation pixel的位置关系做了很细致的解释。</p>
 <p>在得到局部RGB点云之后作者使用<a href="https://github.com/kujason/avod">AVOD</a> 进行3D检测。</p>
+<h2 id="rts3d">RTS3D</h2>
+<p><a href="https://arxiv.org/pdf/2012.15072.pdf">pdf</a> <a href="https://github.com/Banconxuan/RTS3D">code</a></p>
+<p><img alt="image" src="../res/RTS3D_structure.png" /></p>
 <h2 id="pseudo-lidar_1">Pseudo-Lidar</h2>
 <p><a href="https://arxiv.org/pdf/1812.07179.pdf">pdf</a> <a href="https://github.com/mileyan/pseudo_lidar">code</a></p>
 <p>这篇paper理论上来说是pseudo-lidar的第一篇文章</p>
