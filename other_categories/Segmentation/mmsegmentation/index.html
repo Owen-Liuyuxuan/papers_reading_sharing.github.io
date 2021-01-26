@@ -1593,6 +1593,9 @@
                 <li class="nav-item">
                     <a href="#object-contextual-representations-for-semantic-segmentation" class="nav-link">Object-Contextual Representations for Semantic Segmentation</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#disentangled-non-local-neural-networks-dnl" class="nav-link">Disentangled Non-Local Neural Networks (DNL)</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1618,24 +1621,24 @@
 </thead>
 <tbody>
 <tr>
-<td>FCN</td>
-<td align="center">72.25</td>
-<td align="center">4.17</td>
-</tr>
-<tr>
-<td><a href="#pyramid-scene-parsing-network-pspnetwork">PSPNet</a></td>
-<td align="center">77.85</td>
-<td align="center">4.07</td>
-</tr>
-<tr>
 <td><a href="#encoder-decoder-with-atrous-separable-convolution-for-semantic-image-segmentation">DeepLabV3+</a></td>
 <td align="center">79.61</td>
 <td align="center">3.94</td>
 </tr>
 <tr>
+<td><a href="#disentangled-non-local-neural-networks-dnl">DNLNet</a></td>
+<td align="center">78.61</td>
+<td align="center">2.56</td>
+</tr>
+<tr>
 <td><a href="../../../Building_Blocks/Non-local_Neural_Networks/">NonLocal</a></td>
 <td align="center">78.24</td>
 <td align="center">2.72</td>
+</tr>
+<tr>
+<td><a href="#pyramid-scene-parsing-network-pspnetwork">PSPNet</a></td>
+<td align="center">77.85</td>
+<td align="center">4.07</td>
 </tr>
 <tr>
 <td><a href="#gcnet-non-local-networks-meet-squeeze-excitation-networks-and-beyond">GCNet</a></td>
@@ -1651,6 +1654,11 @@
 <td><a href="#object-contextual-representations-for-semantic-segmentation">OCRNet</a></td>
 <td align="center">74.30</td>
 <td align="center">10.45</td>
+</tr>
+<tr>
+<td>FCN</td>
+<td align="center">72.25</td>
+<td align="center">4.17</td>
 </tr>
 </tbody>
 </table>
@@ -1668,7 +1676,12 @@
 <p><img alt="image" src="../res/ANN.png" /></p>
 <h2 id="object-contextual-representations-for-semantic-segmentation">Object-Contextual Representations for Semantic Segmentation</h2>
 <p><a href="https://arxiv.org/pdf/1909.11065.pdf">pdf</a> <a href="https://github.com/open-mmlab/mmsegmentation/blob/master/mmseg/models/decode_heads/ocr_head.py">code</a></p>
-<p><img alt="image" src="../res/OCRNet.png" /></p></div>
+<p><img alt="image" src="../res/OCRNet.png" /></p>
+<h2 id="disentangled-non-local-neural-networks-dnl">Disentangled Non-Local Neural Networks (DNL)</h2>
+<p><a href="https://arxiv.org/pdf/2006.06668.pdf">pdf</a> <a href="https://github.com/open-mmlab/mmsegmentation/blob/0264de0bb000e09a4dc348fc1759d0834a4af940/mmseg/models/decode_heads/dnl_head.py">code</a></p>
+<p><img alt="image" src="../res/DNL_structure.png" /></p>
+<p>图中whiten的操作指的是减去关于channel通道的均值.</p>
+<h2 id="_1"></h2></div>
                     
                 </div>
         </div>
