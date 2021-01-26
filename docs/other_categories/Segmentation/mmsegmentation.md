@@ -1,4 +1,4 @@
-time: 20200729
+time: 20210126
 code_source: https://github.com/open-mmlab/mmsegmentation
 short_title: MMSegmentation
 
@@ -10,13 +10,14 @@ short_title: MMSegmentation
 
 |   Methods  | mIoU |  FPS | 
 |---------------|:-----:|:-----:|
-| FCN           | 72.25 | 4.17  | 
-| [PSPNet]      | 77.85 | 4.07  |
 | [DeepLabV3+]  | 79.61 | 3.94  |
+| [DNLNet]      | 78.61 | 2.56  |
 | [NonLocal]    | 78.24 | 2.72  |
+| [PSPNet]      | 77.85 | 4.07  |
 | [GCNet]       | 77.69 | 3.93  |
 | [ANN]         | 77.40 | 3.71  |
 | [OCRNet]      | 74.30 | 10.45 |
+| FCN           | 72.25 | 4.17  | 
 
 
 ## Pyramid Scene Parsing Network (PSPNetwork)
@@ -46,6 +47,15 @@ short_title: MMSegmentation
 ![image](res/OCRNet.png)
 
 
+## Disentangled Non-Local Neural Networks (DNL)
+[pdf](https://arxiv.org/pdf/2006.06668.pdf) [code](https://github.com/open-mmlab/mmsegmentation/blob/0264de0bb000e09a4dc348fc1759d0834a4af940/mmseg/models/decode_heads/dnl_head.py)
+
+![image](res/DNL_structure.png)
+
+图中whiten的操作指的是减去关于channel通道的均值.
+
+## 
+
 [MMSegmentation]:https://github.com/open-mmlab/mmsegmentation
 [NonLocal]:../../Building_Blocks/Non-local_Neural_Networks.md
 [PSPNet]:#pyramid-scene-parsing-network-pspnetwork
@@ -53,4 +63,4 @@ short_title: MMSegmentation
 [GCNet]:#gcnet-non-local-networks-meet-squeeze-excitation-networks-and-beyond
 [ANN]:#asymmetric-non-local-neural-networks-for-semantic-segmentation-ann
 [OCRNet]:#object-contextual-representations-for-semantic-segmentation
-
+[DNLNet]:#disentangled-non-local-neural-networks-dnl
