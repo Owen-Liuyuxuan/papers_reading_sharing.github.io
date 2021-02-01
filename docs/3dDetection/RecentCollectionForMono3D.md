@@ -6,10 +6,15 @@ short_title: Recent Collections for Mono3D
 在IROS2020投稿前后积攒了一系列单目3D检测paper的阅读。这里一次过进行记录,开源在前，未开源在后.
 
 这里列出目前有文章可寻的KITTI排行榜(2020.02.27)
+
 Update(2020.04.02):Update scores for YOLOMono3D
+
 Update(2020.07.24): Update Kinematic 3D
+
 Update(2020.09.08): Update SSL-RTM3D
+
 Update(2021.02.01): Update Ground Aware 3D
+
 
 |   Methods  | Moderate |  Easy | Hard | Time |
 |----------|:--------:|:------:|:------:|:------:|
