@@ -21,7 +21,7 @@ The basic idea is an attempt to mimic how people perceive depth from a single im
 
 | Benchmark             | Easy |   Moderate  |   Hard   |
 |---------------------|:--------:|:-------:|:-------:|
-| Car Detection             |  92.35 \% | 79.57 \%| 59.61 \% | 
-| Car Orientation             | 90.87 \%  |77.47 \% | 57.99 \% | 
-| Car 3D Detection             |  21.60 \% | 13.17 \% | 9.94 \% | 
-| Car Bird's Eye View             |  29.38 \% | 18.00 \% | 13.14 \% | 
+| Car Detection             |  92.35  | 79.57 | 59.61 | 
+| Car Orientation             | 90.87  |77.47 | 57.99 | 
+| Car 3D Detection             |  21.60 | 13.17  | 9.94  | 
+| Car Bird's Eye View             |  29.38 | 18.00 | 13.14 | 
