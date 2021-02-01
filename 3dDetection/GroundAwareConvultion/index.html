@@ -1591,6 +1591,9 @@
                 <li class="nav-item">
                     <a href="#core-operations-and-code-placement" class="nav-link">Core Operations and Code Placement</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#result-for-the-published-model" class="nav-link">Result for the published model:</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1616,7 +1619,45 @@
 <li>Using the statistics for anchors: <a href="https://github.com/Owen-Liuyuxuan/visualDet3D/blob/master/visualDet3D/networks/heads/detection_3d_head.py">head github page</a></li>
 <li>Ground-Aware Convolution Module: <a href="https://github.com/Owen-Liuyuxuan/visualDet3D/blob/master/visualDet3D/networks/lib/look_ground.py">block github page</a></li>
 <li>Change the "cfg.detector.name" in config to <strong>Yolo3D</strong> and experiment with DeformConv (which also provide robust and top performance). </li>
-</ul></div>
+</ul>
+<h2 id="result-for-the-published-model">Result for the published model:</h2>
+<p><a href="https://github.com/Owen-Liuyuxuan/visualDet3D/releases/tag/1.0">Release Page</a></p>
+<table>
+<thead>
+<tr>
+<th>Benchmark</th>
+<th align="center">Easy</th>
+<th align="center">Moderate</th>
+<th align="center">Hard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Car Detection</td>
+<td align="center">92.35 \%</td>
+<td align="center">79.57 \%</td>
+<td align="center">59.61 \%</td>
+</tr>
+<tr>
+<td>Car Orientation</td>
+<td align="center">90.87 \%</td>
+<td align="center">77.47 \%</td>
+<td align="center">57.99 \%</td>
+</tr>
+<tr>
+<td>Car 3D Detection</td>
+<td align="center">21.60 \%</td>
+<td align="center">13.17 \%</td>
+<td align="center">9.94 \%</td>
+</tr>
+<tr>
+<td>Car Bird's Eye View</td>
+<td align="center">29.38 \%</td>
+<td align="center">18.00 \%</td>
+<td align="center">13.14 \%</td>
+</tr>
+</tbody>
+</table></div>
                     
                 </div>
         </div>
