@@ -18,7 +18,7 @@ Update(2021.02.01): Update Ground Aware 3D
 
 |   Methods  | Moderate |  Easy | Hard | Time |
 |----------|:--------:|:------:|:------:|:------:|
-| [GroundAware3D]|  21.60  | 13.17  | 9.94  | 0.05|
+| [GroundAware3D]|  13.17  |  21.60 | 9.94  | 0.05|
 | [Kinematic3D]| 12.72   | 19.07 | 9.17 | 0.12 |
 | [YOLOMono3D] | 12.06   | 18.28 | 8.42 | 0.05 |
 | [D4LCN]      | 11.72   | 16.65 | 9.51 | 0.2  |
