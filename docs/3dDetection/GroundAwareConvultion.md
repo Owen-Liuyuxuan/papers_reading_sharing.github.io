@@ -14,3 +14,14 @@ The basic idea is an attempt to mimic how people perceive depth from a single im
 - Using the statistics for anchors: [head github page](https://github.com/Owen-Liuyuxuan/visualDet3D/blob/master/visualDet3D/networks/heads/detection_3d_head.py)
 - Ground-Aware Convolution Module: [block github page](https://github.com/Owen-Liuyuxuan/visualDet3D/blob/master/visualDet3D/networks/lib/look_ground.py)
 - Change the "cfg.detector.name" in config to **Yolo3D** and experiment with DeformConv (which also provide robust and top performance). 
+
+## Result for the published model:
+
+[Release Page](https://github.com/Owen-Liuyuxuan/visualDet3D/releases/tag/1.0)
+
+| Benchmark             | Easy |   Moderate  |   Hard   |
+|---------------------|:--------:|:-------:|:-------:|
+| Car Detection             |  92.35 \% | 79.57 \%| 59.61 \% | 
+| Car Orientation             | 90.87 \%  |77.47 \% | 57.99 \% | 
+| Car 3D Detection             |  21.60 \% | 13.17 \% | 9.94 \% | 
+| Car Bird's Eye View             |  29.38 \% | 18.00 \% | 13.14 \% | 
