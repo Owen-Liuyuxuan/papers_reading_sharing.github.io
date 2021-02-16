@@ -1626,6 +1626,9 @@
                 <li class="nav-item">
                     <a href="#centripetalnet-pursuing-high-quality-keypoint-pairs-for-object-detection" class="nav-link">CentripetalNet: Pursuing High-quality Keypoint Pairs for Object Detection</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#scnet-training-inference-sample-consistency-for-instance-segmentation" class="nav-link">SCNet: Training Inference Sample Consistency for Instance Segmentation</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1777,7 +1780,14 @@ L_{G H M-C} &=\frac{1}{N} \sum_{i=1}^{N} \beta_{i} L_{C E}\left(p_{i}, p_{i}^{*}
 <img alt="image" src="../res/centripetal_concepth.png" /></p>
 <p>使用guiding deform conv的 intuition</p>
 <p><img alt="image" src="../res/centripetal_guide.png" /></p>
-<p>代码上本文的代码有点混乱，head与corner head代码有点重叠混杂.</p></div>
+<p>代码上本文的代码有点混乱，head与corner head代码有点重叠混杂.</p>
+<h2 id="scnet-training-inference-sample-consistency-for-instance-segmentation">SCNet: Training Inference Sample Consistency for Instance Segmentation</h2>
+<p><a href="https://arxiv.org/pdf/2012.10150.pdf">pdf</a> <a href="https://github.com/open-mmlab/mmdetection/tree/master/configs/scnet">code</a></p>
+<p>这篇paper基于 cascade mask RCNN 以及 HTC的串级思路。</p>
+<p>主要提出的一个idea是克服训练时的RoI 准确率和推理时不同这个问题。</p>
+<p><img alt="image" src="../res/scnet_cascadeapproach.png" /></p>
+<p>作者发现使用cascade训练的时候，提供给segmentation的bounding box有很多是基于没有那么准确的前方分支，而inferece的时候则只使用最后的分支。这里存在错配。因而提出mask只应该在最后一个分支出现。</p>
+<p><img alt="image" src="../res/scnet_modules.png" /></p></div>
                     
                 </div>
         </div>
