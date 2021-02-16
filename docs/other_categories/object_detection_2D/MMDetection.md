@@ -1,4 +1,4 @@
-time: 20201115
+time: 20210216
 pdf_source: https://arxiv.org/pdf/1906.07155.pdf
 code_source: https://github.com/open-mmlab/mmdetection
 
@@ -177,3 +177,18 @@ $$\begin{aligned}
 ![image](res/centripetal_guide.png)
 
 代码上本文的代码有点混乱，head与corner head代码有点重叠混杂.
+
+## SCNet: Training Inference Sample Consistency for Instance Segmentation
+
+[pdf](https://arxiv.org/pdf/2012.10150.pdf) [code](https://github.com/open-mmlab/mmdetection/tree/master/configs/scnet)
+
+这篇paper基于 cascade mask RCNN 以及 HTC的串级思路。
+
+主要提出的一个idea是克服训练时的RoI 准确率和推理时不同这个问题。
+
+![image](res/scnet_cascadeapproach.png)
+
+作者发现使用cascade训练的时候，提供给segmentation的bounding box有很多是基于没有那么准确的前方分支，而inferece的时候则只使用最后的分支。这里存在错配。因而提出mask只应该在最后一个分支出现。
+
+
+![image](res/scnet_modules.png)
