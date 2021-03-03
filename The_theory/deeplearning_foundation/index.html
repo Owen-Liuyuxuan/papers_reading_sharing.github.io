@@ -1635,9 +1635,11 @@
 <h1 id="deep-learning-foundations">Deep Learning "Foundations"</h1>
 <p>关于神经网络为什么有强大的拟合能力，近年来有很多重要的数学paper逐渐构筑了一个具有一定解释性的分析框架，本文尝试以<a href="https://www.cs.umd.edu/class/fall2020/cmsc828W/">Feizi</a>公开的<a href="https://www.youtube.com/playlist?list=PLHgjs9ncvHi80UCSlSvQe-TK_uOyDv_Jf">课程</a>为基础，结合几篇paper给出一个大致的回答。</p>
 <h3 id="_1">整体思路</h3>
-<p>对于“神经网络为什么有强大的拟合能力”这个问题，Feizi在课程设置的时候就将它拆成了两个子问题
-1. 为什么神经网络能训练 (Optimization)
-2. 为什么神经网络能泛化 (Generalization)</p>
+<p>对于“神经网络为什么有强大的拟合能力”这个问题，Feizi在课程设置的时候就将它拆成了两个子问题</p>
+<ol>
+<li>为什么神经网络能训练 (Optimization)</li>
+<li>为什么神经网络能泛化 (Generalization)</li>
+</ol>
 <p>如果能回答这两个问题，也就能回答为什么神经网络能成功了。</p>
 <p>在之前，很多人或者论文会尝试从可解释性(interpretability)等方向来考虑，比如对网络进行可视化，了解网络学习到了什么特征,然后较为抽象地用传统机器学习的特征提取加分类回归进行解释。</p>
 <p>这里Feizi在课程中统一地使用数学范式，从以上提出的两个子问题角度进行解答。</p>
