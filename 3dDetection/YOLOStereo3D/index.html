@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>YOLOStereo3D - Reading Collections</title>
+        <title>YOLOStereo3D: A Step Back to 2D for Efficient Stereo 3D Detection (EN) - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -1021,7 +1021,7 @@
                                     
     <li>
         <a href="./" class="dropdown-item active">
-            YOLOStereo3D
+            YOLOStereo3D: A Step Back to 2D for Efficient Stereo 3D Detection
         </a>
     </li>
                                     
@@ -1636,17 +1636,117 @@
         
         <ul class="nav flex-column bs-sidenav">
         
+        <a href=https://www.ram-lab.com/papers/2021/yuxuan2021mono3d.pdf>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
+        </a>
+        
 
         
+        <a href=https://github.com/Owen-Liuyuxuan/visualDet3D>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
+        </a>
+
+        
+            <li class="nav-item main"><a href="#yolostereo3d-a-step-back-to-2d-for-efficient-stereo-3d-detection-en">YOLOStereo3D: A Step Back to 2D for Efficient Stereo 3D Detection (EN)</a></li>
+                <li class="nav-item">
+                    <a href="#core-operations-and-code-placement" class="nav-link">Core Operations and Code Placement</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#result-for-the-published-model" class="nav-link">Result for the published model:</a>
+                </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
+<a href=https://www.ram-lab.com/papers/2021/yuxuan2021mono3d.pdf>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
 
+
+
+<a href=https://github.com/Owen-Liuyuxuan/visualDet3D>
+    <i class="fa fa-github"> code</i>
+</a>
 
 </span>
-</div>
+<h1 id="yolostereo3d-a-step-back-to-2d-for-efficient-stereo-3d-detection-en">YOLOStereo3D: A Step Back to 2D for Efficient Stereo 3D Detection (EN)</h1>
+<p>This is my paper accepcted by <em>ICRA</em> 2021. The open-sourced code is in https://github.com/Owen-Liuyuxuan/visualDet3D .</p>
+<p>The basic idea is an attempt to mimic how people perceive depth from a single image, and more importantly try to incorperate calibration matrix and ground plane information into the detection model.</p>
+<p>The basic idea is to train Stereo 3D detection model "like" a Monocular one, to obtain fast inference speed and reasonable performance. Multiple modules are introduced and merged.</p>
+<p>The re-production of the stereo/monocular results of this paper should be rather stable provided with the open-source repo.</p>
+<h2 id="core-operations-and-code-placement">Core Operations and Code Placement</h2>
+<ul>
+<li>Precomputing statistics for anchors: <a href="https://github.com/Owen-Liuyuxuan/visualDet3D/blob/master/scripts/imdb_precompute_3d.py">script github page</a></li>
+<li>Using the statistics for anchors: <a href="https://github.com/Owen-Liuyuxuan/visualDet3D/blob/master/visualDet3D/networks/heads/detection_3d_head.py">head github page</a></li>
+<li>Matching Module: <a href="https://github.com/Owen-Liuyuxuan/visualDet3D/blob/master/visualDet3D/networks/lib/PSM_cost_volume.py">lib github page</a></li>
+<li>Ghost Module: <a href="https://github.com/Owen-Liuyuxuan/visualDet3D/blob/master/visualDet3D/networks/lib/ghost_module.py">lib github page</a></li>
+<li>Multi-Scale Fusion: <a href="https://github.com/Owen-Liuyuxuan/visualDet3D/blob/master/visualDet3D/networks/detectors/yolostereo3d_core.py">core github page</a></li>
+<li>Disparity Loss: <a href="https://github.com/Owen-Liuyuxuan/visualDet3D/tree/master/visualDet3D/networks/lib/disparity_loss">loss github page</a></li>
+<li>To obtain the monocular results in this paper, just trained the with the monocular 3D settings like the <a href="../GroundAwareConvultion/">GAC</a> paper and get rid of additiona modules (DeformConv/GAC/...).</li>
+</ul>
+<h2 id="result-for-the-published-model">Result for the published model:</h2>
+<p><a href="https://github.com/Owen-Liuyuxuan/visualDet3D/releases/tag/1.1">Release Page</a></p>
+<table>
+<thead>
+<tr>
+<th>Benchmark</th>
+<th align="center">Easy</th>
+<th align="center">Moderate</th>
+<th align="center">Hard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Car Detection</td>
+<td align="center">94.75 \%</td>
+<td align="center">84.50 \%</td>
+<td align="center">62.13 \%</td>
+</tr>
+<tr>
+<td>Car Orientation</td>
+<td align="center">93.65 \%</td>
+<td align="center">82.88 \%</td>
+<td align="center">60.92 \%</td>
+</tr>
+<tr>
+<td>Car 3D Detection</td>
+<td align="center">65.77 \%</td>
+<td align="center">40.71 \%</td>
+<td align="center">29.99 \%</td>
+</tr>
+<tr>
+<td>Car Bird's Eye View</td>
+<td align="center">74.00 \%</td>
+<td align="center">49.54 \%</td>
+<td align="center">36.30 \%</td>
+</tr>
+<tr>
+<td>Pedestrian Detection</td>
+<td align="center">58.34 \%</td>
+<td align="center">49.54 \%</td>
+<td align="center">36.30 \%</td>
+</tr>
+<tr>
+<td>Pedestrian Orientation</td>
+<td align="center">50.41 \%</td>
+<td align="center">36.81 \%</td>
+<td align="center">31.51 \%</td>
+</tr>
+<tr>
+<td>Pedestrian 3D Detection</td>
+<td align="center">31.03 \%</td>
+<td align="center">20.67 \%</td>
+<td align="center">18.34 \%</td>
+</tr>
+<tr>
+<td>Pedestrian Bird's Eye View</td>
+<td align="center">32.52 \%</td>
+<td align="center">22.74 \%</td>
+<td align="center">19.16 \%</td>
+</tr>
+</tbody>
+</table></div>
                     
                 </div>
         </div>
