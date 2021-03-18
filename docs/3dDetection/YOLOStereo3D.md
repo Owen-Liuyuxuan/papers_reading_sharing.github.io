@@ -6,8 +6,6 @@ short_title:  YOLOStereo3D: A Step Back to 2D for Efficient Stereo 3D Detection
 #  YOLOStereo3D: A Step Back to 2D for Efficient Stereo 3D Detection (EN)
 This is my paper accepcted by *ICRA* 2021. The open-sourced code is in https://github.com/Owen-Liuyuxuan/visualDet3D .
 
-The basic idea is an attempt to mimic how people perceive depth from a single image, and more importantly try to incorperate calibration matrix and ground plane information into the detection model.
-
 The basic idea is to train Stereo 3D detection model "like" a Monocular one, to obtain fast inference speed and reasonable performance. Multiple modules are introduced and merged.
 
 The re-production of the stereo/monocular results of this paper should be rather stable provided with the open-source repo.
