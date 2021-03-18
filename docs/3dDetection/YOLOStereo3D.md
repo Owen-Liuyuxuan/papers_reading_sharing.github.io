@@ -26,13 +26,13 @@ The re-production of the stereo/monocular results of this paper should be rather
 
 [Release Page](https://github.com/Owen-Liuyuxuan/visualDet3D/releases/tag/1.1)
 
-| Benchmark             | Easy |   Moderate  |   Hard   |
-|---------------------|:--------:|:-------:|:-------:|
-| Car Detection             |  94.75 \% | 84.50 \%| 62.13 \% | 
-| Car Orientation             | 93.65 \%  |82.88 \% | 60.92 \% | 
-| Car 3D Detection             |  65.77 \% | 40.71 \% | 29.99 \% | 
-| Car Bird's Eye View             |  74.00 \% | 49.54 \% | 36.30 \% | 
-| Pedestrian Detection             |  58.34 \% | 49.54 \%| 36.30 \% | 
-| Pedestrian Orientation             | 50.41 \%  | 36.81 \% | 31.51 \% | 
-| Pedestrian 3D Detection             |  31.03 \% | 20.67 \% | 18.34 \% | 
-| Pedestrian Bird's Eye View             |  32.52 \% | 22.74 \% | 19.16 \% | 
+| Benchmark                  |  Easy   | Moderate |  Hard   |
+| -------------------------- | :-----: | :------: | :-----: |
+| Car Detection              | 94.75 % | 84.50 %  | 62.13 % |
+| Car Orientation            | 93.65 % | 82.88 %  | 60.92 % |
+| Car 3D Detection           | 65.77 % | 40.71 %  | 29.99 % |
+| Car Bird's Eye View        | 74.00 % | 49.54 %  | 36.30 % |
+| Pedestrian Detection       | 58.34 % | 49.54 %  | 36.30 % |
+| Pedestrian Orientation     | 50.41 % | 36.81 %  | 31.51 % |
+| Pedestrian 3D Detection    | 31.03 % | 20.67 %  | 18.34 % |
+| Pedestrian Bird's Eye View | 32.52 % | 22.74 %  | 19.16 % |
