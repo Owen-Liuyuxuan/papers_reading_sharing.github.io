@@ -17,12 +17,17 @@ Update(2021.02.01): Update Ground Aware 3D
 
 Update(2021.03.17): Update CaDDN
 
+Update(2021.04.10): Update MonoFlex, MonoRun, MonoRCNN
+
 
 | Methods         | Moderate | Easy  | Hard  | Time  |
 | --------------- | :------: | :---: | :---: | :---: |
+| [MonoFlex]      |  13.89   | 19.94 | 12.07 | 0.03  |
 | [CaDDN]         |  13.41   | 19.17 | 11.46 | 0.64  |
 | [GroundAware3D] |  13.17   | 21.60 | 9.94  | 0.05  |
 | [Kinematic3D]   |  12.72   | 19.07 | 9.17  | 0.12  |
+| [MonoRCNN]      |  12.65   | 18.36 | 10.03 | 0.07  |
+| [MonoRun]       |  12.30   | 19.65 | 10.58 | 0.07  |
 | [YOLOMono3D]    |  12.06   | 18.28 | 8.42  | 0.05  |
 | [D4LCN]         |  11.72   | 16.65 | 9.51  |  0.2  |
 | [SSL-RTM3D]     |  11.45   | 16.73 | 9.92  | 0.04  |
@@ -36,11 +41,29 @@ Update(2021.03.17): Update CaDDN
 目录:
 
 - [Recent Collections for Mono 3D detection](#recent-collections-for-mono-3d-detection)
+  - [MonoFlex](#monoflex)
+  - [MonoRCNN](#monorcnn)
   - [D4LCN](#d4lcn)
   - [RTM3D](#rtm3d)
   - [MonoPair](#monopair)
   - [SMOKE](#smoke)
   - [YOLOMono3D](#yolomono3d)
+
+## MonoFlex
+[pdf](https://arxiv.org/pdf/2104.02323.pdf) [code](https://github.com/zhangyp15/MonoFlex)
+
+![image](res/monoflex_arch.png)
+
+这篇paper在计算深度的时候和MonoRCNN不谋而合，觉得尽管同时找出多个角点很有诱惑力，但是一点点的误差就会造成3D回归很大的错误，所以主要依靠计算角点在图像上的高度来推理深度。
+
+![image](res/monoflex_depth.png)
+
+## MonoRCNN
+[pdf](https://arxiv.org/pdf/2104.03775.pdf) [code](https://github.com/MagicRock100/MonoRCNN)
+
+这篇paper与MonoFlex有相似的思路，都是用projected visual height来计算深度。这篇文章则是基于two-stage的算法。文章直接指出了keypoints的问题。
+
+![image](res/monorcnn_arch.png)
 
 ## D4LCN
 [pdf](https://arxiv.org/pdf/1912.04799.pdf)  [code](https://github.com/dingmyu/D4LCN)
@@ -86,6 +109,9 @@ Update(2021.03.17): Update CaDDN
 
 <iframe src="//player.bilibili.com/player.html?aid=91364947&cid=156014191&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true" height=270 width=480> </iframe>
 
+[MonoFlex]:#monoflex
+[MonoRCNN]:#monorcnn
+[MonoRun]:monorun.md
 [CaDDN]:caddn.md
 [GroundAware3D]:GroundAwareConvultion.md
 [Kinematic3D]:Kinematic_video3d.md
