@@ -1670,6 +1670,12 @@
         
             <li class="nav-item main"><a href="#recent-collections-for-mono-3d-detection">Recent Collections for Mono 3D detection</a></li>
                 <li class="nav-item">
+                    <a href="#monoflex" class="nav-link">MonoFlex</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#monorcnn" class="nav-link">MonoRCNN</a>
+                </li>
+                <li class="nav-item">
                     <a href="#d4lcn" class="nav-link">D4LCN</a>
                 </li>
                 <li class="nav-item">
@@ -1700,6 +1706,7 @@
 <p>Update(2020.09.08): Update SSL-RTM3D</p>
 <p>Update(2021.02.01): Update Ground Aware 3D</p>
 <p>Update(2021.03.17): Update CaDDN</p>
+<p>Update(2021.04.10): Update MonoFlex, MonoRun, MonoRCNN</p>
 <table>
 <thead>
 <tr>
@@ -1711,6 +1718,13 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><a href="#monoflex">MonoFlex</a></td>
+<td align="center">13.89</td>
+<td align="center">19.94</td>
+<td align="center">12.07</td>
+<td align="center">0.03</td>
+</tr>
 <tr>
 <td><a href="../caddn/">CaDDN</a></td>
 <td align="center">13.41</td>
@@ -1731,6 +1745,20 @@
 <td align="center">19.07</td>
 <td align="center">9.17</td>
 <td align="center">0.12</td>
+</tr>
+<tr>
+<td><a href="#monorcnn">MonoRCNN</a></td>
+<td align="center">12.65</td>
+<td align="center">18.36</td>
+<td align="center">10.03</td>
+<td align="center">0.07</td>
+</tr>
+<tr>
+<td><a href="../monorun/">MonoRun</a></td>
+<td align="center">12.30</td>
+<td align="center">19.65</td>
+<td align="center">10.58</td>
+<td align="center">0.07</td>
 </tr>
 <tr>
 <td><a href="#yolomono3d">YOLOMono3D</a></td>
@@ -1800,12 +1828,23 @@
 <p>目录:</p>
 <ul>
 <li><a href="#recent-collections-for-mono-3d-detection">Recent Collections for Mono 3D detection</a></li>
+<li><a href="#monoflex">MonoFlex</a></li>
+<li><a href="#monorcnn">MonoRCNN</a></li>
 <li><a href="#d4lcn">D4LCN</a></li>
 <li><a href="#rtm3d">RTM3D</a></li>
 <li><a href="#monopair">MonoPair</a></li>
 <li><a href="#smoke">SMOKE</a></li>
 <li><a href="#yolomono3d">YOLOMono3D</a></li>
 </ul>
+<h2 id="monoflex">MonoFlex</h2>
+<p><a href="https://arxiv.org/pdf/2104.02323.pdf">pdf</a> <a href="https://github.com/zhangyp15/MonoFlex">code</a></p>
+<p><img alt="image" src="../res/monoflex_arch.png" /></p>
+<p>这篇paper在计算深度的时候和MonoRCNN不谋而合，觉得尽管同时找出多个角点很有诱惑力，但是一点点的误差就会造成3D回归很大的错误，所以主要依靠计算角点在图像上的高度来推理深度。</p>
+<p><img alt="image" src="../res/monoflex_depth.png" /></p>
+<h2 id="monorcnn">MonoRCNN</h2>
+<p><a href="https://arxiv.org/pdf/2104.03775.pdf">pdf</a> <a href="https://github.com/MagicRock100/MonoRCNN">code</a></p>
+<p>这篇paper与MonoFlex有相似的思路，都是用projected visual height来计算深度。这篇文章则是基于two-stage的算法。文章直接指出了keypoints的问题。</p>
+<p><img alt="image" src="../res/monorcnn_arch.png" /></p>
 <h2 id="d4lcn">D4LCN</h2>
 <p><a href="https://arxiv.org/pdf/1912.04799.pdf">pdf</a>  <a href="https://github.com/dingmyu/D4LCN">code</a></p>
 <p>这篇paper完全继承了<a href="../M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection/">M3D-RPN</a>的衣钵，它不同的地方在于，摒弃了M3D-RPN处理缓慢的height-wise convolution,而是使用单目估计深度，然后使用深度作为卷积核的guide, 这个guide类似于这几篇文章的操作:<a href="../../other_categories/depth_completion/guideNet/">guidenet</a>;<a href="../../Building_Blocks/DynanicFilteringNetwork/">DFN</a></p>
