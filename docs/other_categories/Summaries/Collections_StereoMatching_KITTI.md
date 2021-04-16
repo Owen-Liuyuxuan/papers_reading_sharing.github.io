@@ -1,42 +1,41 @@
-time: 20201110
+time: 20210415
 
 # Collections of Stereo Matching from KITTI
 
 本文记录了 Stereo Matching 有文章/有code实现的主要paper.将会持续update
 
 
-Update:
-    2020.0714: Add CDN
-    2020.1110: Add STTR
 
-| Methods       | D1-all | D1-bg | D1-fg | Time  |
-| ------------- | :----: | :---: | :---: | :---: |
-| [CSPN]        |  1.74  | 1.51  | 2.88  |  1.0  |
-| [GANet-deep]  |  1.81  | 1.48  | 3.46  |  1.8  |
-| [AcfNet]      |  1.89  | 1.51  | 3.80  | 0.48  |
-| [CDN-GANet]   |  1.92  | 1.66  | 3.20  | 0.40  |
-| [AANet+]      |  2.03  | 1.65  | 3.96  | 0.06  |
-| [DeepPruner]  |  2.15  | 1.87  | 3.56  | 0.18  |
-| [PSMNet]      |  2.32  | 1.86  | 4.62  | 0.21  |
-| [FADNet]      |  2.82  | 2.68  | 3.50  | 0.05  |
-| [NVStereoNet] |  3.13  | 2.62  | 5.69  |  0.6  |
-| [RTS2Net]     |  3.56  | 3.09  | 5.91  | 0.02  |
-| [SsSMnet]     |  3.40  | 2.70  | 6.92  |  0.8  |
-| [STTR]        |  3.73  | 3.23  |  6.2  |  0.6  |
+| Methods        | D1-all | D1-bg | D1-fg | Time  |
+| -------------- | :----: | :---: | :---: | :---: |
+| [CSPN]         |  1.74  | 1.51  | 2.88  |  1.0  |
+| [GANet-deep]   |  1.81  | 1.48  | 3.46  |  1.8  |
+| [AcfNet]       |  1.89  | 1.51  | 3.80  | 0.48  |
+| [CDN-GANet]    |  1.92  | 1.66  | 3.20  | 0.40  |
+| [AANet+]       |  2.03  | 1.65  | 3.96  | 0.06  |
+| [DecomposeNet] |  2.37  | 2.07  | 3.87  | 0.05  |
+| [DeepPruner]   |  2.15  | 1.87  | 3.56  | 0.18  |
+| [PSMNet]       |  2.32  | 1.86  | 4.62  | 0.21  |
+| [FADNet]       |  2.82  | 2.68  | 3.50  | 0.05  |
+| [NVStereoNet]  |  3.13  | 2.62  | 5.69  |  0.6  |
+| [RTS2Net]      |  3.56  | 3.09  | 5.91  | 0.02  |
+| [SsSMnet]      |  3.40  | 2.70  | 6.92  |  0.8  |
+| [STTR]         |  3.73  | 3.23  |  6.2  |  0.6  |
 
-其中本站已有的文章为[CSPN],[AcfNet], [CDN-GANet], [DeepPruner], [PSMNet], [FADNet], [SsSMnet], [RTS2Net].
+其中本站其他页面已有的文章为[CSPN],[AcfNet], [CDN-GANet], [DeepPruner], [PSMNet], [FADNet], [SsSMnet], [RTS2Net].
 
 目录:
 
 - [Collections of Stereo Matching from KITTI](#collections-of-stereo-matching-from-kitti)
   - [GANet](#ganet)
   - [AANet](#aanet)
+  - [DecomposeNet](#decomposenet)
   - [NVStereoNet](#nvstereonet)
   - [STTR: Revisiting Stereo Depth Estimation From a Sequence-to-Sequence Perspective with Transformers](#sttr-revisiting-stereo-depth-estimation-from-a-sequence-to-sequence-perspective-with-transformers)
     - [整体结构](#整体结构)
     - [Optimal Transport](#optimal-transport)
 
-Update: 2020.06.08: add RTS2Net
+
 ## GANet
 [pdf](http://openaccess.thecvf.com/content_CVPR_2019/papers/Zhang_GA-Net_Guided_Aggregation_Net_for_End-To-End_Stereo_Matching_CVPR_2019_paper.pdf) [code](https://github.com/feihuzhang/GANet)
 
@@ -88,6 +87,43 @@ $$f_{k}=\left\{\begin{array}{l}
 (s-k) \text { stride }-2\oplus 3 \times 3 \text { convs, } \quad k<s \\
 \text { upsampling } \oplus 1 \times 1 \text { conv, } \quad k>s
 \end{array}\right.$$
+
+## DecomposeNet
+[pdf](https://arxiv.org/pdf/2104.07516.pdf)
+
+![image](res/DecomposeNet_arch.png)
+
+这篇paper的思路还是降低复杂度，在最低的分辨率下计算 Full Stereo Matching 的 Cost Volume. 在高分辨率下进行 Sparse Matching.
+
+一张图概念上可以分为两种区域，一种是粗分类区域$CA$，这里的双目匹配结果可以从低分辨率上采样后refine出来；一种是细分类区域$FA$，这里的双目由高分辨率的sparse matching还原.
+
+$$
+\begin{array}{c}
+\hat{D}_{L}=\widehat{\mathcal{F}}\left(\mathrm{FA}_{L}, \mathrm{FA}_{L}\right) \\
+\vdots \\
+\hat{D}_{1}=\widehat{\mathcal{F}}\left(\mathrm{FA}_{1}, \mathrm{FA}_{1}\right) \\
+D_{0}=\mathcal{F}\left(\dot{\mathrm{A}}_{0}, \dot{\mathrm{A}}_{0}\right) \\
+\tilde{D}=\hat{D}_{L} \cup \cdots \cup \hat{D}_{1} \cup D_{0}
+\end{array}
+$$
+
+本文提出一个自监督的方案训练一个小网络识别图中被downsampling破坏的特征, 其输入是本层的特征$F_l$以及下层上采样的$F'_{l-1}$的特征差$F_l - F'_{l-1}$, 输出的网络可以被训练，训练目标是增加 $FA$区域的特征差，同时要求其稀疏.
+
+$$
+\mathcal{L}_{l}^{\mathrm{DLD}}=\left|F A_{l}\right|-\alpha \frac{\sum_{(h, w) \in F A_{l}}\left\|F_{l}(h, w)-F_{l-1}^{\prime}(h, w)\right\|_{2}}{\left|F A_{l}\right|}
+$$
+
+在稀疏Mask上直接计算disparity:
+
+$$
+\begin{aligned}
+C_{l}(h, w, d)&=<{F}_{l}^{left}(h, w), {F}_{l}^{right}(h, w-d)> \\
+P_{l}(h, w, d) &=\frac{\mathrm{e}^{C_{l}(h, w, d)-C_{l}^{\max }(h, w)}}{\sum_{d=0} \mathrm{e}^{C_{l}(h, w, d)-C_{l}^{\max }(h, w)}} \\
+C_{l}^{\max }(h, w) &=\max _{d} C_{l}(h, w, d) \\
+
+\hat{D}_{l}(h, w)&=\sum_{d=0} P_{l}(h, w, d) * d
+\end{aligned}
+$$
 
 
 ## NVStereoNet
@@ -190,6 +226,7 @@ def compute_optimal_transport(M, r, c, lam, epsilon=1e-8):
 本文的代码则是默认$\lambda$为1，在 $\log$空间中进行迭代计算。
 
 [CSPN]:../../Building_Blocks/SPN_CSPN.md
+[DecomposeNet]:#decomposenet
 [AcfNet]:../others/Adaptive_Unimodal_Cost_Volume_Filtering_for_Deep_Stereo_Matching.md
 [CDN-GANet]:../../3dDetection/CDN.md
 [DeepPruner]:../../Building_Blocks/deepPruner.md
