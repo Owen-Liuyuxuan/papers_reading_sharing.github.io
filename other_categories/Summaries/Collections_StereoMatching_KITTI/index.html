@@ -787,6 +787,12 @@
     </li>
               
     <li>
+        <a href="../../others/meta_updater_tracking/" class="dropdown-item">
+            High-Performance Long-Term Tracking with Meta-Updater
+        </a>
+    </li>
+              
+    <li>
         <a href="../../others/mixmatch/" class="dropdown-item">
             MixMatch: A Holistic Approach to Semi-Supervised Learning
         </a>
@@ -1676,6 +1682,9 @@
                     <a href="#aanet" class="nav-link">AANet</a>
                 </li>
                 <li class="nav-item">
+                    <a href="#decomposenet" class="nav-link">DecomposeNet</a>
+                </li>
+                <li class="nav-item">
                     <a href="#nvstereonet" class="nav-link">NVStereoNet</a>
                 </li>
                 <li class="nav-item">
@@ -1691,9 +1700,6 @@
 </span>
 <h1 id="collections-of-stereo-matching-from-kitti">Collections of Stereo Matching from KITTI</h1>
 <p>本文记录了 Stereo Matching 有文章/有code实现的主要paper.将会持续update</p>
-<p>Update:
-    2020.0714: Add CDN
-    2020.1110: Add STTR</p>
 <table>
 <thead>
 <tr>
@@ -1739,6 +1745,13 @@
 <td align="center">1.65</td>
 <td align="center">3.96</td>
 <td align="center">0.06</td>
+</tr>
+<tr>
+<td><a href="#decomposenet">DecomposeNet</a></td>
+<td align="center">2.37</td>
+<td align="center">2.07</td>
+<td align="center">3.87</td>
+<td align="center">0.05</td>
 </tr>
 <tr>
 <td><a href="../../../Building_Blocks/deepPruner/">DeepPruner</a></td>
@@ -1791,12 +1804,13 @@
 </tr>
 </tbody>
 </table>
-<p>其中本站已有的文章为<a href="../../../Building_Blocks/SPN_CSPN/">CSPN</a>,<a href="../../others/Adaptive_Unimodal_Cost_Volume_Filtering_for_Deep_Stereo_Matching/">AcfNet</a>, <a href="../../../3dDetection/CDN/">CDN-GANet</a>, <a href="../../../Building_Blocks/deepPruner/">DeepPruner</a>, <a href="../../others/PSMNet/">PSMNet</a>, <a href="../../others/FADNet/">FADNet</a>, <a href="../../others/self_supervised_stereo/">SsSMnet</a>, <a href="../Summary_of_ICRA_2020/">RTS2Net</a>.</p>
+<p>其中本站其他页面已有的文章为<a href="../../../Building_Blocks/SPN_CSPN/">CSPN</a>,<a href="../../others/Adaptive_Unimodal_Cost_Volume_Filtering_for_Deep_Stereo_Matching/">AcfNet</a>, <a href="../../../3dDetection/CDN/">CDN-GANet</a>, <a href="../../../Building_Blocks/deepPruner/">DeepPruner</a>, <a href="../../others/PSMNet/">PSMNet</a>, <a href="../../others/FADNet/">FADNet</a>, <a href="../../others/self_supervised_stereo/">SsSMnet</a>, <a href="../Summary_of_ICRA_2020/">RTS2Net</a>.</p>
 <p>目录:</p>
 <ul>
 <li><a href="#collections-of-stereo-matching-from-kitti">Collections of Stereo Matching from KITTI</a></li>
 <li><a href="#ganet">GANet</a></li>
 <li><a href="#aanet">AANet</a></li>
+<li><a href="#decomposenet">DecomposeNet</a></li>
 <li><a href="#nvstereonet">NVStereoNet</a></li>
 <li><a href="#sttr-revisiting-stereo-depth-estimation-from-a-sequence-to-sequence-perspective-with-transformers">STTR: Revisiting Stereo Depth Estimation From a Sequence-to-Sequence Perspective with Transformers</a><ul>
 <li><a href="#整体结构">整体结构</a></li>
@@ -1804,7 +1818,6 @@
 </ul>
 </li>
 </ul>
-<p>Update: 2020.06.08: add RTS2Net</p>
 <h2 id="ganet">GANet</h2>
 <p><a href="http://openaccess.thecvf.com/content_CVPR_2019/papers/Zhang_GA-Net_Guided_Aggregation_Net_for_End-To-End_Stereo_Matching_CVPR_2019_paper.pdf">pdf</a> <a href="https://github.com/feihuzhang/GANet">code</a></p>
 <p><img alt="image" src="../res/GANet_arch.png" /></p>
@@ -1849,6 +1862,37 @@ C^{A}(\mathbf{p}, d)=\operatorname{sum}\left\{\begin{array}{l}
 \text { upsampling } \oplus 1 \times 1 \text { conv, } \quad k>s
 \end{array}\right.</script>
 </p>
+<h2 id="decomposenet">DecomposeNet</h2>
+<p><a href="https://arxiv.org/pdf/2104.07516.pdf">pdf</a></p>
+<p><img alt="image" src="../res/DecomposeNet_arch.png" /></p>
+<p>这篇paper的思路还是降低复杂度，在最低的分辨率下计算 Full Stereo Matching 的 Cost Volume. 在高分辨率下进行 Sparse Matching.</p>
+<p>一张图概念上可以分为两种区域，一种是粗分类区域<script type="math/tex">CA</script>，这里的双目匹配结果可以从低分辨率上采样后refine出来；一种是细分类区域<script type="math/tex">FA</script>，这里的双目由高分辨率的sparse matching还原.</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{array}{c}
+\hat{D}_{L}=\widehat{\mathcal{F}}\left(\mathrm{FA}_{L}, \mathrm{FA}_{L}\right) \\
+\vdots \\
+\hat{D}_{1}=\widehat{\mathcal{F}}\left(\mathrm{FA}_{1}, \mathrm{FA}_{1}\right) \\
+D_{0}=\mathcal{F}\left(\dot{\mathrm{A}}_{0}, \dot{\mathrm{A}}_{0}\right) \\
+\tilde{D}=\hat{D}_{L} \cup \cdots \cup \hat{D}_{1} \cup D_{0}
+\end{array}
+</script>
+</p>
+<p>本文提出一个自监督的方案训练一个小网络识别图中被downsampling破坏的特征, 其输入是本层的特征<script type="math/tex">F_l</script>以及下层上采样的<script type="math/tex">F'_{l-1}</script>的特征差<script type="math/tex">F_l - F'_{l-1}</script>, 输出的网络可以被训练，训练目标是增加 <script type="math/tex">FA</script>区域的特征差，同时要求其稀疏.</p>
+<p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{l}^{\mathrm{DLD}}=\left|F A_{l}\right|-\alpha \frac{\sum_{(h, w) \in F A_{l}}\left\|F_{l}(h, w)-F_{l-1}^{\prime}(h, w)\right\|_{2}}{\left|F A_{l}\right|}
+</script>
+</p>
+<p>在稀疏Mask上直接计算disparity:</p>
+<p>$$
+\begin{aligned}
+C_{l}(h, w, d)&amp;=&lt;{F}<em>{l}^{left}(h, w), {F}</em>{l}^{right}(h, w-d)&gt; \
+P_{l}(h, w, d) &amp;=\frac{\mathrm{e}^{C_{l}(h, w, d)-C_{l}^{\max }(h, w)}}{\sum_{d=0} \mathrm{e}^{C_{l}(h, w, d)-C_{l}^{\max }(h, w)}} \
+C_{l}^{\max }(h, w) &amp;=\max <em>{d} C</em>{l}(h, w, d) \</p>
+<p>\hat{D}<em>{l}(h, w)&amp;=\sum</em>{d=0} P_{l}(h, w, d) * d
+\end{aligned}
+$$</p>
 <h2 id="nvstereonet">NVStereoNet</h2>
 <p><a href="http://openaccess.thecvf.com/content_cvpr_2018_workshops/papers/w14/Smolyanskiy_On_the_Importance_CVPR_2018_paper.pdf">pdf</a>
 <a href="https://github.com/NVIDIA-AI-IOT/redtail/tree/master/stereoDNN">code</a></p>
