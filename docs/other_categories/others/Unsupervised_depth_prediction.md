@@ -70,3 +70,19 @@ $$
 
 [pytorch实现]:https://github.com/OniroAI/MonoDepth-PyTorch
 [SSIM距离]:https://www.wikiwand.com/en/Structural_similarity#/Algorithm
+
+
+## Deep Depth Estimation from Visual-Inertial SLAM
+[pdf](https://arxiv.org/pdf/2008.00092.pdf)
+
+![image](../depth_completion/res/SLAMComplete.png)
+
+这篇文章是监督学习的，使用平面假设去增强SLAM的深度密度.
+
+## Self-Supervised Sparse-to-Dense: Self-Supervised Depth Completion from LiDAR and Monocular Camera
+[pdf](https://arxiv.org/pdf/1807.00275.pdf) [code](https://github.com/fangchangma/self-supervised-depth-completion)
+
+![image](../depth_completion/res/self-training.png)
+
+
+补全是基于sparse lidar进行补全.
