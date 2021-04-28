@@ -1696,6 +1696,12 @@
                 <li class="nav-item">
                     <a href="#loss" class="nav-link">Loss结构</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#deep-depth-estimation-from-visual-inertial-slam" class="nav-link">Deep Depth Estimation from Visual-Inertial SLAM</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#self-supervised-sparse-to-dense-self-supervised-depth-completion-from-lidar-and-monocular-camera" class="nav-link">Self-Supervised Sparse-to-Dense: Self-Supervised Depth Completion from LiDAR and Monocular Camera</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1769,7 +1775,15 @@ C_{d s}^{l}=\frac{1}{N} \sum_{i, j}\left|\partial_{x} d_{i j}^{l}\right| e^{-\le
 <script type="math/tex; mode=display">
 C_{l r}^{l}=\frac{1}{N} \sum_{i, j}\left|d_{i j}^{l}-d_{i j+d_{i j}^{l}}^{r}\right|
 </script>
-</p></div>
+</p>
+<h2 id="deep-depth-estimation-from-visual-inertial-slam">Deep Depth Estimation from Visual-Inertial SLAM</h2>
+<p><a href="https://arxiv.org/pdf/2008.00092.pdf">pdf</a></p>
+<p><img alt="image" src="../../depth_completion/res/SLAMComplete.png" /></p>
+<p>这篇文章是监督学习的，使用平面假设去增强SLAM的深度密度.</p>
+<h2 id="self-supervised-sparse-to-dense-self-supervised-depth-completion-from-lidar-and-monocular-camera">Self-Supervised Sparse-to-Dense: Self-Supervised Depth Completion from LiDAR and Monocular Camera</h2>
+<p><a href="https://arxiv.org/pdf/1807.00275.pdf">pdf</a> <a href="https://github.com/fangchangma/self-supervised-depth-completion">code</a></p>
+<p><img alt="image" src="../../depth_completion/res/self-training.png" /></p>
+<p>补全是基于sparse lidar进行补全.</p></div>
                     
                 </div>
         </div>
