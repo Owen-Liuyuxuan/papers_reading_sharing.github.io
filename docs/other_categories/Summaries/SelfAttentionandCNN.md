@@ -1,8 +1,8 @@
 code_source: https://github.com/epfml/attention-cnn
 pdf_source: https://arxiv.org/pdf/1911.03584.pdf
-time: 20200115
+time: 20210515
 short_title: Self-Attention & CNN
-# Summary of Self Attention / Transformer in Vision System (Last update 2020-01-15)
+# Summary of Self Attention / Transformer in Vision System (Last update 2021-05-15)
 
 这是一份描述数篇关于在CNN系统中使用self-attention的小统计.
 
@@ -32,3 +32,13 @@ $$
 本文还有一个[官方网站](https://epfml.github.io/attention-cnn/)以及[官方英文博客](http://jbcordonnier.com/posts/attention-cnn/)
 
 理论结论是局部Attention是CNN的扩展，具体implementation有区别。
+
+## Swin Transformer: Hierarchical Vision Transformer using Shifted Windows
+
+[pdf](https://arxiv.org/pdf/2103.14030.pdf) [code](https://github.com/microsoft/Swin-Transformer)
+
+![image](res/swin_transformer_arch.png)
+
+![image](res/swin_transformer_idea.png)
+
+这篇paper其实有点回到local了，但是更加可靠了，每次只对窗口内的跑transformer, 依靠多层级逐渐提升感受野.
