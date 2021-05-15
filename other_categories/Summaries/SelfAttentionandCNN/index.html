@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>Summary of Self Attention / Transformer in Vision System (Last update 2020-01-15) - Reading Collections</title>
+        <title>Summary of Self Attention / Transformer in Vision System (Last update 2021-05-15) - Reading Collections</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
@@ -1719,12 +1719,15 @@
         </a>
 
         
-            <li class="nav-item main"><a href="#summary-of-self-attention-transformer-in-vision-system-last-update-2020-01-15">Summary of Self Attention / Transformer in Vision System (Last update 2020-01-15)</a></li>
+            <li class="nav-item main"><a href="#summary-of-self-attention-transformer-in-vision-system-last-update-2021-05-15">Summary of Self Attention / Transformer in Vision System (Last update 2021-05-15)</a></li>
                 <li class="nav-item">
                     <a href="#stand-alone-self-attention-in-vision-models" class="nav-link">Stand-Alone Self-Attention in Vision Models</a>
                 </li>
                 <li class="nav-item">
                     <a href="#on-the-relationship-between-self-attention-and-convolution-layers" class="nav-link">On The Relationship Between Self-Attention and Convolution Layers</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#swin-transformer-hierarchical-vision-transformer-using-shifted-windows" class="nav-link">Swin Transformer: Hierarchical Vision Transformer using Shifted Windows</a>
                 </li>
         </ul>
     </div>
@@ -1742,7 +1745,7 @@
 </a>
 
 </span>
-<h1 id="summary-of-self-attention-transformer-in-vision-system-last-update-2020-01-15">Summary of Self Attention / Transformer in Vision System (Last update 2020-01-15)</h1>
+<h1 id="summary-of-self-attention-transformer-in-vision-system-last-update-2021-05-15">Summary of Self Attention / Transformer in Vision System (Last update 2021-05-15)</h1>
 <p>这是一份描述数篇关于在CNN系统中使用self-attention的小统计.</p>
 <p>对于在NLP取得很好表现的self-attention机制，本网站在论文<a href="../../../Building_Blocks/Attention_is_all_you_need/">Attention is all you need</a>有详细的介绍。</p>
 <p>2019年上半年，Google 提出了 <a href="../../../Building_Blocks/Attention_Augmented_Conv/">Attention Augmented Convolution</a>, 这是一个类似<a href="../../../Building_Blocks/Non-local_Neural_Networks/">Non-local</a>模块的思路，借用self-attention的机制加上positional-encoding，设计出一个提供全局attention的模块，这个模块的缺点在于在图片很大的时候会需要一个很大的矩阵乘法，所以这个模块必须只能在多次下采样后使用，且还需要注重显存管理，可以理解为是一个难以scale up的方案。</p>
@@ -1760,7 +1763,12 @@ y_{i j}=\sum_{a, b \in \mathcal{N}_{k}(i, j)} \operatorname{softmax}_{a b}\left(
 <h2 id="on-the-relationship-between-self-attention-and-convolution-layers">On The Relationship Between Self-Attention and Convolution Layers</h2>
 <p><a href="https://arxiv.org/pdf/1911.03584.pdf">pdf</a> <a href="https://github.com/epfml/attention-cnn">code</a></p>
 <p>本文还有一个<a href="https://epfml.github.io/attention-cnn/">官方网站</a>以及<a href="http://jbcordonnier.com/posts/attention-cnn/">官方英文博客</a></p>
-<p>理论结论是局部Attention是CNN的扩展，具体implementation有区别。</p></div>
+<p>理论结论是局部Attention是CNN的扩展，具体implementation有区别。</p>
+<h2 id="swin-transformer-hierarchical-vision-transformer-using-shifted-windows">Swin Transformer: Hierarchical Vision Transformer using Shifted Windows</h2>
+<p><a href="https://arxiv.org/pdf/2103.14030.pdf">pdf</a> <a href="https://github.com/microsoft/Swin-Transformer">code</a></p>
+<p><img alt="image" src="../res/swin_transformer_arch.png" /></p>
+<p><img alt="image" src="../res/swin_transformer_idea.png" /></p>
+<p>这篇paper其实有点回到local了，但是更加可靠了，每次只对窗口内的跑transformer, 依靠多层级逐渐提升感受野.</p></div>
                     
                 </div>
         </div>
