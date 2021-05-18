@@ -1,4 +1,4 @@
-time: 20210507
+time: 20210518
 short_title: ICLR 2021 clips
 
 # Summaries for several ICLR 2021 papers
@@ -39,3 +39,10 @@ $$
 
 ![image](res/network_extrapolate.png)
 
+## Image Augmentation Is All You Need: Regularizing Deep Reinforcement Learning from Pixels 
+
+[pdf](https://openreview.net/pdf?id=GY6-6sTvGaf)
+
+这篇paper发现简单的数据增强也能实现增强学习的SOTA.
+
+![image](res/image_aug_RL.png)
