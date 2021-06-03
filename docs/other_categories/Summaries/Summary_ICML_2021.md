@@ -3,6 +3,15 @@ short_title: ICML 2021 clips
 
 # Summaries for several ICML 2021 papers
 
+## ViLT: Vision-and-Language Transformer Without Convolution or Region Supervision
+
+[pdf](https://arxiv.org/pdf/2102.03334.pdf)
+
+本文是第一篇使用Transformer，不使用CNN feature 实现的VLP模型
+
+![image](https://i.imgur.com/oLkvvyQ.png)
+
+
 ## Relative Positional Encoding for Transformers with Linear Complexity
 [pdf](https://arxiv.org/abs/2105.08399) [code](https://github.com/aliutkus/spe/tree/main/src/pytorch)
 
