@@ -2013,32 +2013,33 @@ E_{d s}^{l} &=\frac{1}{n} \sum_{i, j}\left|\partial_{x} d_{i j}^{l}\right| e^{-\
 </script>
 其中 <script type="math/tex">\alpha</script>和<script type="math/tex">\beta</script>与拉格朗日乘子和超参数<script type="math/tex">\lambda</script>有关，从约束中求解获得.</p>
 <p>Sinkhorn Distances的原始代码则是:</p>
-<pre class="codehilite"><code class="language-python">def compute_optimal_transport(M, r, c, lam, epsilon=1e-8):
-    &quot;&quot;&quot;
-    Computes the optimal transport matrix and Slinkhorn distance using the
-    Sinkhorn-Knopp algorithm. From https://michielstock.github.io/OptimalTransport/
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_optimal_transport</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the optimal transport matrix and Slinkhorn distance using the</span>
+<span class="sd">    Sinkhorn-Knopp algorithm. From https://michielstock.github.io/OptimalTransport/</span>
 
-    Inputs:
-        - M : cost matrix (n x m)
-        - r : vector of marginals (n, )
-        - c : vector of marginals (m, )
-        - lam : strength of the entropic regularization
-        - epsilon : convergence parameter
+<span class="sd">    Inputs:</span>
+<span class="sd">        - M : cost matrix (n x m)</span>
+<span class="sd">        - r : vector of marginals (n, )</span>
+<span class="sd">        - c : vector of marginals (m, )</span>
+<span class="sd">        - lam : strength of the entropic regularization</span>
+<span class="sd">        - epsilon : convergence parameter</span>
 
-    Outputs:
-        - P : optimal transport matrix (n x m)
-        - dist : Sinkhorn distance
-    &quot;&quot;&quot;
-    n, m = M.shape
-    P = np.exp(- lam * M)
-    P /= P.sum()
-    u = np.zeros(n)
-    # normalize this matrix
-    while np.max(np.abs(u - P.sum(1))) &gt; epsilon:
-        u = P.sum(1)
-        P *= (r / u).reshape((-1, 1)) # normalize in first dimension
-        P *= (c / P.sum(0)).reshape((1, -1)) #normalize in second dimension
-    return P, np.sum(P * M)</code></pre>
+<span class="sd">    Outputs:</span>
+<span class="sd">        - P : optimal transport matrix (n x m)</span>
+<span class="sd">        - dist : Sinkhorn distance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">M</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">/=</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="c1"># normalize this matrix</span>
+    <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="n">epsilon</span><span class="p">:</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">*=</span> <span class="p">(</span><span class="n">r</span> <span class="o">/</span> <span class="n">u</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># normalize in first dimension</span>
+        <span class="n">P</span> <span class="o">*=</span> <span class="p">(</span><span class="n">c</span> <span class="o">/</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="c1">#normalize in second dimension</span>
+    <span class="k">return</span> <span class="n">P</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P</span> <span class="o">*</span> <span class="n">M</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>本文的代码则是默认<script type="math/tex">\lambda</script>为1，在 <script type="math/tex">\log</script>空间中进行迭代计算。</p></div>

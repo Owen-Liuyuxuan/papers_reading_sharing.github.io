@@ -1808,7 +1808,8 @@
 <h2 id="distance-labeling">distance labeling</h2>
 <p>最后一个问题就是如何获得每一个instance中每一个center point的射线ground truth.</p>
 <p>第一步是预处理的时候使用 </p>
-<pre class="codehilite"><code class="language-python">cv2.findCoutours</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">cv2</span><span class="o">.</span><span class="n">findCoutours</span>
+</code></pre></div>
 
 
 <p>得到一系列边缘点。然后对每一个需要计算distance groud truth的center点运行：</p>
