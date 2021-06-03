@@ -3,6 +3,13 @@ short_title: ICML 2021 clips
 
 # Summaries for several ICML 2021 papers
 
+## Relative Positional Encoding for Transformers with Linear Complexity
+[pdf](https://arxiv.org/abs/2105.08399) [code](https://github.com/aliutkus/spe/tree/main/src/pytorch)
+
+这篇paper提出了 Stochastic Positional Encoding (SPE)，重点的思路在于将准确的positional Attention理解为一个covariance(因为它设计两个feature以及positional encoding的点乘)因而可以用采样去学习。
+
+![image](res/SPE_alg.jpg)
+
 ## Accelerate CNNs from Three Dimensions: A Comprehensive Pruning Framework
 
 [pdf](https://arxiv.org/pdf/2010.04879.pdf)
