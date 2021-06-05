@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Dynamic Graph CNN for Learning on Point Clouds - Reading Collections</title>
+        <title>Container: Context Aggregation Network - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -1193,13 +1193,13 @@
     </li>
                                     
     <li>
-        <a href="../Container_context_aggregation_network/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             Container: Context Aggregation Network
         </a>
     </li>
                                     
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../DGCNN/" class="dropdown-item">
             DGCNN and edgeConv
         </a>
     </li>
@@ -1710,12 +1710,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../Container_context_aggregation_network/" class="nav-link">
+                                <a rel="prev" href="../Can GCNs Go as Deep as CNNs/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../DO-Conv/" class="nav-link">
+                                <a rel="next" href="../DGCNN/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -1738,56 +1738,97 @@
         
         <ul class="nav flex-column bs-sidenav">
         
-        <a href=https://arxiv.org/pdf/1801.07829.pdf>
+        <a href=https://arxiv.org/pdf/2106.01401v1.pdf>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
         </a>
         
 
         
-        <a href=https://github.com/WangYueFt/dgcnn>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
-        </a>
-
-        
-            <li class="nav-item main"><a href="#dynamic-graph-cnn-for-learning-on-point-clouds">Dynamic Graph CNN for Learning on Point Clouds</a></li>
+            <li class="nav-item main"><a href="#container-context-aggregation-network">Container: Context Aggregation Network</a></li>
                 <li class="nav-item">
-                    <a href="#edgeconv" class="nav-link">EdgeConv</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#_1" class="nav-link">动态重组</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#_2" class="nav-link">网络总体结构</a>
+                    <a href="#method" class="nav-link">Method:</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
-<a href=https://arxiv.org/pdf/1801.07829.pdf>
+<a href=https://arxiv.org/pdf/2106.01401v1.pdf>
     <i class="fa fa-file-pdf-o"> pdf</i>
 </a>
 
 
 
-<a href=https://github.com/WangYueFt/dgcnn>
-    <i class="fa fa-github"> code</i>
-</a>
-
 </span>
-<h1 id="dynamic-graph-cnn-for-learning-on-point-clouds">Dynamic Graph CNN for Learning on Point Clouds</h1>
-<p>这篇论文提出了edgeConv作为新的pointNet操作符,它的特点在于考虑了点的坐标以及相邻点的距离。这里推荐<a href="https://blog.csdn.net/hongbin_xu/article/details/85258278">中文论文笔记</a></p>
-<h2 id="edgeconv">EdgeConv</h2>
-<p><img alt="image" src="../res/DGCNN_operation.png" />
-直觉介绍，由于每一个点的特征经常包含坐标、颜色的信息，本文的算法是显式地让相邻的点直接相互融合运算，这样方便得到两者的差或者两者的均值，这也是本文edgeConv的名字来源。</p>
-<p>定义边缘特征<script type="math/tex">e_{ij} = h_{\Theta}(x_i,x_j)</script>其中<script type="math/tex">h_{\Theta}</script>为可学习的非线性函数，这会输出<script type="math/tex">F'</script>个特征，当前点的输出为附近多个相邻边缘值的综合，可以是求和也可以是求最大值。</p>
-<p>对<script type="math/tex">h_{\Theta}</script>的定义也是多样化的，1.对单个对方点的加权求和;2.对本地点特征的加权求和(与pointNet一致);3.<script type="math/tex">h_{\Theta}(x_i,x_j) = h_\Theta(x_j - x_i)</script>这样就只会有局部信息差值而缺少全局信息(当前点的全局位置);4. <script type="math/tex">h_\Theta(x_i,x_j) = h_\Theta(x_i, x_j - x_i)</script>从而综合全局与局部信息，也是主流选择。(原论文还提到一种使用高斯核的方法，这里省略)</p>
-<p>综合不同边缘的运算符选择的是max，这样整个计算可以用一个共享参数的MLP实现。</p>
-<h2 id="_1">动态重组</h2>
-<p>一些传统的pointnet会将点的位置固定下来，每次的卷积都只在点原来的相邻边中挑选。本文的思路是每层运算后，用新的特征作为feature vector，在整个点云中重新进行KNN运算找在新特征条件下最靠近的点。如此以来每一层运算后点的邻域都会被洗乱。</p>
-<h2 id="_2">网络总体结构</h2>
-<p><img alt="image" src="../res/DGCNN_pipeline.png" />
-以PointNet为基础。具体可以观察代码以及图片解释。</p></div>
+<h1 id="container-context-aggregation-network">Container: Context Aggregation Network</h1>
+<p>这篇paper从临近矩阵的形成方式的角度，将MLP Mixer, CNN以及transformer统一起来.</p>
+<h2 id="method">Method:</h2>
+<p>一个残差网络层的计算表达可以抽象地表达为</p>
+<p>
+<script type="math/tex; mode=display">Y = \mathcal{F}(X, \{W_i\}) + X</script>
+</p>
+<p>其中<script type="math/tex">W_i</script>是可学习的参数.</p>
+<p>其中，定义关联矩阵<script type="math/tex">\mathcal{A} \in \mathbb{R}^{N \times N}</script>, 代表邻域的关注，那么网络层可以表达为</p>
+<p>
+<script type="math/tex; mode=display">Y = (\mathcal{A}V)W_1 + X</script>
+</p>
+<p>其中<script type="math/tex">V\in\mathbb{R}^{N\times C} = XW_2</script>是X的一个线性投影.通过引入不同的关联矩阵， 这个模块的拟合capacity可以进一步提升，其中可以采用multi-head的版本</p>
+<p>
+<script type="math/tex; mode=display">Y = \text{Concat}(\mathcal{A}_1V_1, ..., \mathcal{A}_MV_M)W_2 + X</script>
+</p>
+<h3 id="typical-instance-of-the-context-aggregation-module">Typical instance of the Context Aggregation Module</h3>
+<p><strong>Transformer</strong>: 
+<script type="math/tex; mode=display">A_m^{sa} = \text{Softmax}(Q_mK^T_m / \sqrt{C/M})</script>
+</p>
+<p><strong>Depthwise Convolution</strong>:</p>
+<p>
+<script type="math/tex; mode=display">
+\mathcal{A}_{m i j}^{\text {conv }}=\left\{\begin{array}{cl}
+\operatorname{Ker}[m, 0,|i-j|] & |i-j| \leq k \\
+0 & |i-j|>k
+\end{array}\right.
+</script>
+</p>
+<p>这个矩阵的形态是静态的，值是可以学习的.</p>
+<p><strong>MLP-Mixer</strong>:</p>
+<p>其计算公式为<script type="math/tex">X=X + (V^TW_{MLP})^T</script>, 关联矩阵为</p>
+<p>
+<script type="math/tex; mode=display">A^{mlp} = (W_{MLP})^T</script>
+</p>
+<p>因而这个矩阵是完全静态的且完全可学习的。但是完全没有参数共享。</p>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">Attention</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">qkv_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">qk_scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">attn_drop</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">proj_drop</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">seq_l</span><span class="o">=</span><span class="mi">196</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_heads</span> <span class="o">=</span> <span class="n">num_heads</span>
+        <span class="n">head_dim</span> <span class="o">=</span> <span class="n">dim</span> <span class="o">//</span> <span class="n">num_heads</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">qk_scale</span> <span class="ow">or</span> <span class="n">head_dim</span> <span class="o">**</span> <span class="o">-</span><span class="mf">0.5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qkv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="n">qkv_bias</span><span class="p">)</span>
+
+        <span class="c1">#Uncomment this line for Container-PAM</span>
+        <span class="c1">#self.static_a = nn.Parameter(torch.Tensor(1, num_heads, 1 + seq_l , 1 + seq_l))</span>
+        <span class="c1">#trunc_normal_(self.static_a)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">attn_drop</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">attn_drop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proj_drop</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">proj_drop</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">qkv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qkv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_heads</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_heads</span><span class="p">)</span><span class="o">.</span>
+        <span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">qkv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qkv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qkv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">attn</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">@</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+        <span class="n">attn</span> <span class="o">=</span> <span class="n">attn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1">#Uncomment this line for Container-PAM</span>
+        <span class="c1">#attn = attn + self.static_a</span>
+
+        <span class="n">attn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn_drop</span><span class="p">(</span><span class="n">attn</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">attn</span> <span class="o">@</span> <span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj_drop</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</code></pre></div></div>
                     
                 </div>
         </div>
