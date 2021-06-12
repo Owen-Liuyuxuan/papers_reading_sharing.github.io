@@ -459,6 +459,12 @@
       <ul class="dropdown-menu">
               
     <li>
+        <a href="../../SLAM/ interval_based_Visual-LiDAR_Sensor-Fusion/" class="dropdown-item">
+            Interval-Based Visual-LiDAR Sensor Fusion
+        </a>
+    </li>
+              
+    <li>
         <a href="../../SLAM/CubeSLAM/" class="dropdown-item">
             CubeSLAM
         </a>
@@ -1759,6 +1765,9 @@
                 <li class="nav-item">
                     <a href="#swin-transformer-hierarchical-vision-transformer-using-shifted-windows" class="nav-link">Swin Transformer: Hierarchical Vision Transformer using Shifted Windows</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#scaling-vision-transformers" class="nav-link">Scaling Vision Transformers</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1798,7 +1807,19 @@ y_{i j}=\sum_{a, b \in \mathcal{N}_{k}(i, j)} \operatorname{softmax}_{a b}\left(
 <p><a href="https://arxiv.org/pdf/2103.14030.pdf">pdf</a> <a href="https://github.com/microsoft/Swin-Transformer">code</a></p>
 <p><img alt="image" src="../res/swin_transformer_arch.png" /></p>
 <p><img alt="image" src="../res/swin_transformer_idea.png" /></p>
-<p>这篇paper其实有点回到local了，但是更加可靠了，每次只对窗口内的跑transformer, 依靠多层级逐渐提升感受野.</p></div>
+<p>这篇paper其实有点回到local了，但是更加可靠了，每次只对窗口内的跑transformer, 依靠多层级逐渐提升感受野.</p>
+<h2 id="scaling-vision-transformers">Scaling Vision Transformers</h2>
+<p><a href="https://arxiv.org/pdf/2106.04560.pdf">pdf</a></p>
+<p>这篇google的paper在JFT-3B以及数千TPU的加持下训练了一个SOTA的Transformer.改进了ViT的架构和训练，减少了内存消耗并提高了模型的准确性.</p>
+<p><a href="https://blog.csdn.net/amusi1994/article/details/117827006">BLOG</a></p>
+<p>方案</p>
+<ul>
+<li>Decouple weight decay for the head. 让输出头的weight decay更大。</li>
+<li>Save memory by removing the [class] token</li>
+<li>Scale up data</li>
+<li>Memory-efficient optimizers: adafactor optimizer</li>
+<li>Learning-rate schedule: Reciprocal-square root</li>
+</ul></div>
                     
                 </div>
         </div>
