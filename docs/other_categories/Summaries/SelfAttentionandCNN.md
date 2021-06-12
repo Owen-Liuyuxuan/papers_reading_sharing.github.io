@@ -1,6 +1,6 @@
 code_source: https://github.com/epfml/attention-cnn
 pdf_source: https://arxiv.org/pdf/1911.03584.pdf
-time: 20210515
+time: 20210612
 short_title: Self-Attention & CNN
 # Summary of Self Attention / Transformer in Vision System (Last update 2021-05-15)
 
@@ -42,3 +42,19 @@ $$
 ![image](res/swin_transformer_idea.png)
 
 这篇paper其实有点回到local了，但是更加可靠了，每次只对窗口内的跑transformer, 依靠多层级逐渐提升感受野.
+
+## Scaling Vision Transformers
+[pdf](https://arxiv.org/pdf/2106.04560.pdf)
+
+这篇google的paper在JFT-3B以及数千TPU的加持下训练了一个SOTA的Transformer.改进了ViT的架构和训练，减少了内存消耗并提高了模型的准确性.
+
+[BLOG](https://blog.csdn.net/amusi1994/article/details/117827006)
+
+方案
+
+- Decouple weight decay for the head. 让输出头的weight decay更大。
+- Save memory by removing the [class] token
+- Scale up data
+- Memory-efficient optimizers: adafactor optimizer
+- Learning-rate schedule: Reciprocal-square root
+
