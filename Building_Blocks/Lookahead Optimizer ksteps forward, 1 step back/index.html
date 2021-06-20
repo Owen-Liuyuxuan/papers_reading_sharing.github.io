@@ -1768,6 +1768,9 @@
                 <li class="nav-item">
                     <a href="#gradient-centralization-a-new-optimization-technique-for-deep-neural-networks" class="nav-link">Gradient Centralization: A New Optimization Technique for Deep Neural Networks</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#decoupled-weight-decay-regularization" class="nav-link">Decoupled Weight Decay Regularization</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1799,7 +1802,22 @@
 </code></pre></div>
 
 
-<p>这种训练方式要求网络的权重的均值一直是不变的，也就是regularize了权重的搜索空间.作者也证明这种写法会regularize feature output space.但是kaiming init 还有imagenet pretrained的权重值都不会太大，所以这个regularization不会轻易崩。</p></div>
+<p>这种训练方式要求网络的权重的均值一直是不变的，也就是regularize了权重的搜索空间.作者也证明这种写法会regularize feature output space.但是kaiming init 还有imagenet pretrained的权重值都不会太大，所以这个regularization不会轻易崩。</p>
+<h2 id="decoupled-weight-decay-regularization">Decoupled Weight Decay Regularization</h2>
+<p><a href="https://arxiv.org/pdf/1711.05101.pdf">pdf</a> <a href="https://pytorch.org/docs/stable/generated/torch.optim.AdamW.html#torch.optim.AdamW">code</a></p>
+<p>这篇paper提出的AdamW主要的特点是将weight decay从优化中解耦合。</p>
+<p>定义:</p>
+<ul>
+<li>L2 Regularization指的是在Loss function上加上weight square.</li>
+<li>weight decay指的是在更新权重的时候额外减去weight的大小.</li>
+</ul>
+<p>理论与实验前置结论:</p>
+<ul>
+<li>L2 Regularization 与 weight decay效果有不同。 这是因为Adam的特性造成的，在SGD时是一样的。</li>
+<li>使用Adam的时候，L2 regularization效果不好。</li>
+<li>对于SGD和Adam, weight decay一样好.</li>
+</ul>
+<p><img alt="image" src="../res/adamW_alg.png" /></p></div>
                     
                 </div>
         </div>
