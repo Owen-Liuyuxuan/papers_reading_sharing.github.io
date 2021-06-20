@@ -28,4 +28,20 @@ for p in group['params']:
 
 这种训练方式要求网络的权重的均值一直是不变的，也就是regularize了权重的搜索空间.作者也证明这种写法会regularize feature output space.但是kaiming init 还有imagenet pretrained的权重值都不会太大，所以这个regularization不会轻易崩。
 
+## Decoupled Weight Decay Regularization
+[pdf](https://arxiv.org/pdf/1711.05101.pdf) [code](https://pytorch.org/docs/stable/generated/torch.optim.AdamW.html#torch.optim.AdamW)
 
+这篇paper提出的AdamW主要的特点是将weight decay从优化中解耦合。
+
+定义:
+
+- L2 Regularization指的是在Loss function上加上weight square.
+- weight decay指的是在更新权重的时候额外减去weight的大小.
+
+理论与实验前置结论:
+
+- L2 Regularization 与 weight decay效果有不同。 这是因为Adam的特性造成的，在SGD时是一样的。
+- 使用Adam的时候，L2 regularization效果不好。
+- 对于SGD和Adam, weight decay一样好.
+
+![image](res/adamW_alg.png)
