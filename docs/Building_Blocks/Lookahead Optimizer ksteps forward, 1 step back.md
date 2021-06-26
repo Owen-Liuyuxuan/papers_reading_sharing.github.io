@@ -1,7 +1,7 @@
 pdf_source: https://arxiv.org/pdf/1907.08610.pdf
 short_title: New Optimizers
 code_source: https://github.com/lessw2020/Ranger-Deep-Learning-Optimizer
-time: 20200415
+time: 20200623
 
 # New Optimizers
 

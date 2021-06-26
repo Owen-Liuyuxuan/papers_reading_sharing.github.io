@@ -1,4 +1,4 @@
-time: 20210410
+time: 20210626
 short_title: Recent Collections for Mono3D
 
 # Recent Collections for Mono 3D detection
@@ -19,10 +19,13 @@ Update(2021.03.17): Update CaDDN
 
 Update(2021.04.10): Update MonoFlex, MonoRun, MonoRCNN
 
+Update(2021.06.26): Update MonoEF
+
 
 | Methods         | Moderate | Easy  | Hard  | Time  |
 | --------------- | :------: | :---: | :---: | :---: |
 | [MonoFlex]      |  13.89   | 19.94 | 12.07 | 0.03  |
+| [MonoEF]        |  13.87   | 21.29 | 11.74 | 0.03  |
 | [CaDDN]         |  13.41   | 19.17 | 11.46 | 0.64  |
 | [GroundAware3D] |  13.17   | 21.60 | 9.94  | 0.05  |
 | [Kinematic3D]   |  12.72   | 19.07 | 9.17  | 0.12  |
@@ -42,6 +45,7 @@ Update(2021.04.10): Update MonoFlex, MonoRun, MonoRCNN
 
 - [Recent Collections for Mono 3D detection](#recent-collections-for-mono-3d-detection)
   - [MonoFlex](#monoflex)
+  - [MonoEF](#monoef)
   - [MonoRCNN](#monorcnn)
   - [D4LCN](#d4lcn)
   - [RTM3D](#rtm3d)
@@ -57,6 +61,17 @@ Update(2021.04.10): Update MonoFlex, MonoRun, MonoRCNN
 这篇paper在计算深度的时候和MonoRCNN不谋而合，觉得尽管同时找出多个角点很有诱惑力，但是一点点的误差就会造成3D回归很大的错误，所以主要依靠计算角点在图像上的高度来推理深度。
 
 ![image](res/monoflex_depth.png)
+
+## MonoEF
+[pdf](https://openaccess.thecvf.com/content/CVPR2021/papers/Zhou_Monocular_3D_Object_Detection_An_Extrinsic_Parameter_Free_Approach_CVPR_2021_paper.pdf) [code](https://github.com/ZhouYunsong-SJTU/MonoEF)
+
+![image](res/monoef_example.png)
+
+这篇paper关注外参的变动以及外参变动最相机感知效果的影响。同时会主动地通过序列图片预判车辆的运动.
+
+![image](res/monofe_system.png)
+
+
 
 ## MonoRCNN
 [pdf](https://arxiv.org/pdf/2104.03775.pdf) [code](https://github.com/MagicRock100/MonoRCNN)
@@ -110,6 +125,7 @@ Update(2021.04.10): Update MonoFlex, MonoRun, MonoRCNN
 <iframe src="//player.bilibili.com/player.html?aid=91364947&cid=156014191&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true" height=270 width=480> </iframe>
 
 [MonoFlex]:#monoflex
+[MonoEF]:#monoef
 [MonoRCNN]:#monorcnn
 [MonoRun]:monorun.md
 [CaDDN]:caddn.md
