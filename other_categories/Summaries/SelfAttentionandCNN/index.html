@@ -1774,6 +1774,9 @@
                 <li class="nav-item">
                     <a href="#scaling-vision-transformers" class="nav-link">Scaling Vision Transformers</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#volo-vision-outlooker-for-visual-recognition" class="nav-link">VOLO: Vision Outlooker for Visual Recognition</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1825,7 +1828,14 @@ y_{i j}=\sum_{a, b \in \mathcal{N}_{k}(i, j)} \operatorname{softmax}_{a b}\left(
 <li>Scale up data</li>
 <li>Memory-efficient optimizers: adafactor optimizer</li>
 <li>Learning-rate schedule: Reciprocal-square root</li>
-</ul></div>
+</ul>
+<h2 id="volo-vision-outlooker-for-visual-recognition">VOLO: Vision Outlooker for Visual Recognition</h2>
+<p><a href="https://arxiv.org/pdf/2106.13112.pdf">PDF</a> <a href="https://github.com/sail-sg/volo">code</a></p>
+<p>这篇paper在不使用额外数据的情况下首次突破了87%的ImageNet准确率.</p>
+<p><img alt="image" src="../res/outlook_module.png" />
+<img alt="image" src="../res/outlook_code.png" /></p>
+<p>与其他paper相比，本文更专注于对local feature的形成。
+outlook的方法就是将<script type="math/tex">K\times K</script>的核展开，对每一个点，计算其附近<script type="math/tex">K\times K</script>个像素的自相似矩阵<script type="math/tex">(K\times K) \times (K\times K)</script>, 然后融合这些近邻的features.</p></div>
                     
                 </div>
         </div>
