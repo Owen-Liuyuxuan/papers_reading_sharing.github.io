@@ -1,6 +1,6 @@
 code_source: https://github.com/epfml/attention-cnn
 pdf_source: https://arxiv.org/pdf/1911.03584.pdf
-time: 20210612
+time: 20210629
 short_title: Self-Attention & CNN
 # Summary of Self Attention / Transformer in Vision System (Last update 2021-05-15)
 
@@ -57,4 +57,17 @@ $$
 - Scale up data
 - Memory-efficient optimizers: adafactor optimizer
 - Learning-rate schedule: Reciprocal-square root
+
+
+## VOLO: Vision Outlooker for Visual Recognition
+
+[PDF](https://arxiv.org/pdf/2106.13112.pdf) [code](https://github.com/sail-sg/volo)
+
+这篇paper在不使用额外数据的情况下首次突破了87%的ImageNet准确率.
+
+![image](res/outlook_module.png)
+![image](res/outlook_code.png)
+
+与其他paper相比，本文更专注于对local feature的形成。
+outlook的方法就是将$K\times K$的核展开，对每一个点，计算其附近$K\times K$个像素的自相似矩阵$(K\times K) \times (K\times K)$, 然后融合这些近邻的features.
 
