@@ -1,4 +1,4 @@
-time: 20210126
+time: 20210703
 short_title: Recent Collections for Stereo 3D
 
 # Recent Collections for Stereo 3D detection
@@ -119,6 +119,13 @@ voxel里面每一个bin都对应一个基类，每一个bin是自己与周围的
 [pdf](https://arxiv.org/pdf/2012.15072.pdf) [code](https://github.com/Banconxuan/RTS3D)
 
 ![image](res/RTS3D_structure.png)
+
+这篇paper推理时的操作是先让一个单目检测网络输出一个检测结果。 然后另外使用一个类似pointnet的机制去增强mono的结果.
+
+- 用两个resnet分别输出两张图的feature
+- 在predicted bounding box的附近生成一个cube voxel
+- 根据calibration matrix以及cube voxel从双目Feature 上sample特征。
+- 使用CNN处理sample得到的特征输出最终结果
 
 ## Pseudo-Lidar
 [pdf](https://arxiv.org/pdf/1812.07179.pdf) [code](https://github.com/mileyan/pseudo_lidar)
