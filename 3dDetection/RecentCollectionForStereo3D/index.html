@@ -1971,6 +1971,13 @@
 <h2 id="rts3d">RTS3D</h2>
 <p><a href="https://arxiv.org/pdf/2012.15072.pdf">pdf</a> <a href="https://github.com/Banconxuan/RTS3D">code</a></p>
 <p><img alt="image" src="../res/RTS3D_structure.png" /></p>
+<p>这篇paper推理时的操作是先让一个单目检测网络输出一个检测结果。 然后另外使用一个类似pointnet的机制去增强mono的结果.</p>
+<ul>
+<li>用两个resnet分别输出两张图的feature</li>
+<li>在predicted bounding box的附近生成一个cube voxel</li>
+<li>根据calibration matrix以及cube voxel从双目Feature 上sample特征。</li>
+<li>使用CNN处理sample得到的特征输出最终结果</li>
+</ul>
 <h2 id="pseudo-lidar_1">Pseudo-Lidar</h2>
 <p><a href="https://arxiv.org/pdf/1812.07179.pdf">pdf</a> <a href="https://github.com/mileyan/pseudo_lidar">code</a></p>
 <p>这篇paper理论上来说是pseudo-lidar的第一篇文章</p>
