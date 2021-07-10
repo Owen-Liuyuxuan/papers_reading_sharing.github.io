@@ -847,6 +847,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/others/octsqueeze/" class="dropdown-item">
+            OctSqueeze: Octree-Structured Entropy Model for LiDAR Compression
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/others/openpose_part_afinity_fileds/" class="dropdown-item">
             OpenPose: Part Affinity Fields
         </a>
@@ -1772,6 +1778,9 @@
                     <a href="#d4lcn" class="nav-link">D4LCN</a>
                 </li>
                 <li class="nav-item">
+                    <a href="#m3dssd" class="nav-link">M3DSSD</a>
+                </li>
+                <li class="nav-item">
                     <a href="#rtm3d" class="nav-link">RTM3D</a>
                 </li>
                 <li class="nav-item">
@@ -1876,6 +1885,13 @@
 <td align="center">0.2</td>
 </tr>
 <tr>
+<td><a href="#m3dssd">M3DSSD</a></td>
+<td align="center">11.46</td>
+<td align="center">17.51</td>
+<td align="center">8.98</td>
+<td align="center">*</td>
+</tr>
+<tr>
 <td><a href="../SSL_RTM3D/">SSL-RTM3D</a></td>
 <td align="center">11.45</td>
 <td align="center">16.73</td>
@@ -1933,6 +1949,7 @@
 <li><a href="#monoef">MonoEF</a></li>
 <li><a href="#monorcnn">MonoRCNN</a></li>
 <li><a href="#d4lcn">D4LCN</a></li>
+<li><a href="#m3dssd">M3DSSD</a></li>
 <li><a href="#rtm3d">RTM3D</a></li>
 <li><a href="#monopair">MonoPair</a></li>
 <li><a href="#smoke">SMOKE</a></li>
@@ -1956,6 +1973,11 @@
 <p><a href="https://arxiv.org/pdf/1912.04799.pdf">pdf</a>  <a href="https://github.com/dingmyu/D4LCN">code</a></p>
 <p>这篇paper完全继承了<a href="../M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection/">M3D-RPN</a>的衣钵，它不同的地方在于，摒弃了M3D-RPN处理缓慢的height-wise convolution,而是使用单目估计深度，然后使用深度作为卷积核的guide, 这个guide类似于这几篇文章的操作:<a href="../../other_categories/depth_completion/guideNet/">guidenet</a>;<a href="../../Building_Blocks/DynanicFilteringNetwork/">DFN</a></p>
 <p><img alt="image" src="../res/D4LCN.png" /></p>
+<h2 id="m3dssd">M3DSSD</h2>
+<p><a href="https://arxiv.org/pdf/2103.13164.pdf">pdf</a> <a href="https://github.com/mumianyuxin/M3DSSD">code</a></p>
+<p><img alt="image" src="../res/M3DSSD_arch.png" /></p>
+<p>这篇paper采用了大backbone,用deformable convolution的方法，重点解决2D detection中感受野与anchor不匹配问题以及3D中心与2D中心不匹配的问题. Shape alignment 与 center alignment 对应基于2D与3D的两种deformable base shift的产生方式。</p>
+<p>另外本文又提出了 Asymmetric Non-Local Attention Block (ANAB)模块, 用于增强感受野.</p>
 <h2 id="rtm3d">RTM3D</h2>
 <p><a href="https://arxiv.org/pdf/2001.03343.pdf">pdf</a> <a href="https://github.com/Banconxuan/RTM3D">code</a></p>
 <p>这篇文章还没有正式开源，但是github就先开着了。这篇文章在技术上有一定的新意，它使用<a href="../../other_categories/object_detection_2D/Object_as_points/#object-as-point">CenterNet</a>的架构估计大量的keypoints以及冗余的3D信息，最后通过最优化融合。使用大量冗余信息它不是第一个,前者比如有<a href="../Monocular_3D_Object_Detection_and_Box_Fitting_Trained_End-to-End_Using_Intersection-over-Union_Loss/">SS3D</a>,但是它绕过了anchor使用CenterNet有一定的新意。
