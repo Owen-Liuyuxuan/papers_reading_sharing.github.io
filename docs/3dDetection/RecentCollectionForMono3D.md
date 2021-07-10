@@ -1,4 +1,4 @@
-time: 20210626
+time: 20210710
 short_title: Recent Collections for Mono3D
 
 # Recent Collections for Mono 3D detection
@@ -33,6 +33,7 @@ Update(2021.06.26): Update MonoEF
 | [MonoRun]       |  12.30   | 19.65 | 10.58 | 0.07  |
 | [YOLOMono3D]    |  12.06   | 18.28 | 8.42  | 0.05  |
 | [D4LCN]         |  11.72   | 16.65 | 9.51  |  0.2  |
+| [M3DSSD]        |  11.46   | 17.51 | 8.98  | \*    |
 | [SSL-RTM3D]     |  11.45   | 16.73 | 9.92  | 0.04  |
 | [Refined-MPL]   |  11.14   | 18.09 | 8.94  | 0.15  |
 | [AM3D]          |  10.74   | 16.50 | 9.52  |  0.4  |
@@ -48,6 +49,7 @@ Update(2021.06.26): Update MonoEF
   - [MonoEF](#monoef)
   - [MonoRCNN](#monorcnn)
   - [D4LCN](#d4lcn)
+  - [M3DSSD](#m3dssd)
   - [RTM3D](#rtm3d)
   - [MonoPair](#monopair)
   - [SMOKE](#smoke)
@@ -87,6 +89,15 @@ Update(2021.06.26): Update MonoEF
 这篇paper完全继承了[M3D-RPN]的衣钵，它不同的地方在于，摒弃了M3D-RPN处理缓慢的height-wise convolution,而是使用单目估计深度，然后使用深度作为卷积核的guide, 这个guide类似于这几篇文章的操作:[guidenet](../other_categories/depth_completion/guideNet.md);[DFN](../Building_Blocks/DynanicFilteringNetwork.md)
 
 ![image](res/D4LCN.png)
+
+## M3DSSD
+[pdf](https://arxiv.org/pdf/2103.13164.pdf) [code](https://github.com/mumianyuxin/M3DSSD)
+
+![image](res/M3DSSD_arch.png)
+
+这篇paper采用了大backbone,用deformable convolution的方法，重点解决2D detection中感受野与anchor不匹配问题以及3D中心与2D中心不匹配的问题. Shape alignment 与 center alignment 对应基于2D与3D的两种deformable base shift的产生方式。
+
+另外本文又提出了 Asymmetric Non-Local Attention Block (ANAB)模块, 用于增强感受野.
 
 ## RTM3D
 [pdf](https://arxiv.org/pdf/2001.03343.pdf) [code](https://github.com/Banconxuan/RTM3D)
@@ -134,6 +145,7 @@ Update(2021.06.26): Update MonoEF
 [SSL-RTM3D]:SSL_RTM3D.md
 [M3D-RPN]:M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection.md
 [D4LCN]:#d4lc
+[M3DSSD]:#m3dssd
 [Refined-MPL]:./RefinedMPL.md
 [AM3D]:AM3D.md
 [RTM3D]:#rtm3d
