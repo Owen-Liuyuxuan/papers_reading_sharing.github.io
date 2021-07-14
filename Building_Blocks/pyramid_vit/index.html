@@ -1774,6 +1774,9 @@
 
         
             <li class="nav-item main"><a href="#pyramid-vision-transformer-a-versatile-backbone-for-dense-prediction-without-convolutions">Pyramid Vision Transformer: A Versatile Backbone for Dense Prediction without Convolutions</a></li>
+                <li class="nav-item">
+                    <a href="#pvtv2-improved-baselines-with-pyramid-vision-transformer" class="nav-link">PVTv2: Improved Baselines with Pyramid Vision Transformer</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1795,7 +1798,17 @@
 <p><img alt="image" src="../res/pyramid_vit_arch.png" /></p>
 <p>在stage <script type="math/tex">i</script>, 特征图会变成 <script type="math/tex">\frac{H_{i-1}W_{i-1}}{P_i^2}</script>个patches</p>
 <p><img alt="image" src="../res/pyramid_vit_sra.png" /></p>
-<p>对于高分辨率的图，可以采用如图的方式，spatially reduce key和value的维度，以控制在高分辨率时的维度.</p></div>
+<p>对于高分辨率的图，可以采用如图的方式，spatially reduce key和value的维度，以控制在高分辨率时的维度.</p>
+<h2 id="pvtv2-improved-baselines-with-pyramid-vision-transformer">PVTv2: Improved Baselines with Pyramid Vision Transformer</h2>
+<p><a href="https://arxiv.org/pdf/2106.13797.pdf">pdf</a> </p>
+<p>这篇paper 给出三个新的PVT改良:</p>
+<ul>
+<li>overlapping patch embedding</li>
+<li>Zero-padding and depth-wise convolution aided feed forward network</li>
+<li>Linear SRA</li>
+</ul>
+<p><img alt="image" src="../res/pyramid_vit_v2_1.png" />
+<img alt="image" src="../res/pyramid_vit_v2_2.png" /></p></div>
                     
                 </div>
         </div>

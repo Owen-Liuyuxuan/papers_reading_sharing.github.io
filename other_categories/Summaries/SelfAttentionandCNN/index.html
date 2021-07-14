@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../../img/favicon.ico">
-        <title>Summary of Self Attention / Transformer in Vision System (Last update 2021-05-15) - Reading Collections</title>
+        <title>Summary of Self Attention / Transformer in Vision System (Last update 2021-07-14) - Reading Collections</title>
         <link href="../../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../../css/base.css" rel="stylesheet">
@@ -1773,7 +1773,7 @@
         </a>
 
         
-            <li class="nav-item main"><a href="#summary-of-self-attention-transformer-in-vision-system-last-update-2021-05-15">Summary of Self Attention / Transformer in Vision System (Last update 2021-05-15)</a></li>
+            <li class="nav-item main"><a href="#summary-of-self-attention-transformer-in-vision-system-last-update-2021-07-14">Summary of Self Attention / Transformer in Vision System (Last update 2021-07-14)</a></li>
                 <li class="nav-item">
                     <a href="#stand-alone-self-attention-in-vision-models" class="nav-link">Stand-Alone Self-Attention in Vision Models</a>
                 </li>
@@ -1788,6 +1788,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="#volo-vision-outlooker-for-visual-recognition" class="nav-link">VOLO: Vision Outlooker for Visual Recognition</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#a-survey-on-visual-transformer" class="nav-link">A Survey on Visual Transformer</a>
                 </li>
         </ul>
     </div>
@@ -1805,7 +1808,7 @@
 </a>
 
 </span>
-<h1 id="summary-of-self-attention-transformer-in-vision-system-last-update-2021-05-15">Summary of Self Attention / Transformer in Vision System (Last update 2021-05-15)</h1>
+<h1 id="summary-of-self-attention-transformer-in-vision-system-last-update-2021-07-14">Summary of Self Attention / Transformer in Vision System (Last update 2021-07-14)</h1>
 <p>这是一份描述数篇关于在CNN系统中使用self-attention的小统计.</p>
 <p>对于在NLP取得很好表现的self-attention机制，本网站在论文<a href="../../../Building_Blocks/Attention_is_all_you_need/">Attention is all you need</a>有详细的介绍。</p>
 <p>2019年上半年，Google 提出了 <a href="../../../Building_Blocks/Attention_Augmented_Conv/">Attention Augmented Convolution</a>, 这是一个类似<a href="../../../Building_Blocks/Non-local_Neural_Networks/">Non-local</a>模块的思路，借用self-attention的机制加上positional-encoding，设计出一个提供全局attention的模块，这个模块的缺点在于在图片很大的时候会需要一个很大的矩阵乘法，所以这个模块必须只能在多次下采样后使用，且还需要注重显存管理，可以理解为是一个难以scale up的方案。</p>
@@ -1847,7 +1850,11 @@ y_{i j}=\sum_{a, b \in \mathcal{N}_{k}(i, j)} \operatorname{softmax}_{a b}\left(
 <p><img alt="image" src="../res/outlook_module.png" />
 <img alt="image" src="../res/outlook_code.png" /></p>
 <p>与其他paper相比，本文更专注于对local feature的形成。
-outlook的方法就是将<script type="math/tex">K\times K</script>的核展开，对每一个点，计算其附近<script type="math/tex">K\times K</script>个像素的自相似矩阵<script type="math/tex">(K\times K) \times (K\times K)</script>, 然后融合这些近邻的features.</p></div>
+outlook的方法就是将<script type="math/tex">K\times K</script>的核展开，对每一个点，计算其附近<script type="math/tex">K\times K</script>个像素的自相似矩阵<script type="math/tex">(K\times K) \times (K\times K)</script>, 然后融合这些近邻的features.</p>
+<h2 id="a-survey-on-visual-transformer">A Survey on Visual Transformer</h2>
+<p><a href="https://arxiv.org/pdf/2012.12556.pdf">pdf</a></p>
+<p><img alt="image" src="../res/Surver_vit.png" />
+<img alt="image" src="../res/Survey_vit_table.png" /></p></div>
                     
                 </div>
         </div>
