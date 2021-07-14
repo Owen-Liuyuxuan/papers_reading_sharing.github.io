@@ -1,8 +1,8 @@
 code_source: https://github.com/epfml/attention-cnn
 pdf_source: https://arxiv.org/pdf/1911.03584.pdf
-time: 20210629
+time: 20210714
 short_title: Self-Attention & CNN
-# Summary of Self Attention / Transformer in Vision System (Last update 2021-05-15)
+# Summary of Self Attention / Transformer in Vision System (Last update 2021-07-14)
 
 这是一份描述数篇关于在CNN系统中使用self-attention的小统计.
 
@@ -70,4 +70,11 @@ $$
 
 与其他paper相比，本文更专注于对local feature的形成。
 outlook的方法就是将$K\times K$的核展开，对每一个点，计算其附近$K\times K$个像素的自相似矩阵$(K\times K) \times (K\times K)$, 然后融合这些近邻的features.
+
+## A Survey on Visual Transformer
+
+[pdf](https://arxiv.org/pdf/2012.12556.pdf)
+
+![image](res/Surver_vit.png)
+![image](res/Survey_vit_table.png)
 
