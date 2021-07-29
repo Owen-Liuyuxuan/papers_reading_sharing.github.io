@@ -1,4 +1,4 @@
-time: 20210710
+time: 20210729
 short_title: Recent Collections for Mono3D
 
 # Recent Collections for Mono 3D detection
@@ -28,12 +28,13 @@ Update(2021.06.26): Update MonoEF
 | [MonoEF]        |  13.87   | 21.29 | 11.74 | 0.03  |
 | [CaDDN]         |  13.41   | 19.17 | 11.46 | 0.64  |
 | [GroundAware3D] |  13.17   | 21.60 | 9.94  | 0.05  |
+| [Aug3DRPN]      |  12.99   | 17.82 | 9.78  | 0.08  |
 | [Kinematic3D]   |  12.72   | 19.07 | 9.17  | 0.12  |
 | [MonoRCNN]      |  12.65   | 18.36 | 10.03 | 0.07  |
 | [MonoRun]       |  12.30   | 19.65 | 10.58 | 0.07  |
 | [YOLOMono3D]    |  12.06   | 18.28 | 8.42  | 0.05  |
 | [D4LCN]         |  11.72   | 16.65 | 9.51  |  0.2  |
-| [M3DSSD]        |  11.46   | 17.51 | 8.98  | \*    |
+| [M3DSSD]        |  11.46   | 17.51 | 8.98  |  \*   |
 | [SSL-RTM3D]     |  11.45   | 16.73 | 9.92  | 0.04  |
 | [Refined-MPL]   |  11.14   | 18.09 | 8.94  | 0.15  |
 | [AM3D]          |  10.74   | 16.50 | 9.52  |  0.4  |
@@ -48,6 +49,7 @@ Update(2021.06.26): Update MonoEF
   - [MonoFlex](#monoflex)
   - [MonoEF](#monoef)
   - [MonoRCNN](#monorcnn)
+  - [Aug3DRPN](#aug3drpn)
   - [D4LCN](#d4lcn)
   - [M3DSSD](#m3dssd)
   - [RTM3D](#rtm3d)
@@ -81,6 +83,18 @@ Update(2021.06.26): Update MonoEF
 这篇paper与MonoFlex有相似的思路，都是用projected visual height来计算深度。这篇文章则是基于two-stage的算法。文章直接指出了keypoints的问题。
 
 ![image](res/monorcnn_arch.png)
+
+## Aug3DRPN
+[pdf](https://arxiv.org/pdf/2107.13269.pdf) 
+
+![image](res/aug3drpn_arch.png)
+
+![image](res/aug3drpn_synthetic.png)
+
+这篇paper基于[M3D-RPN]的做法
+
+- 额外的深度预测
+- 利用深度预测，渲染虚拟相机结果,增强训练结果.
 
 ## D4LCN
 [pdf](https://arxiv.org/pdf/1912.04799.pdf)  [code](https://github.com/dingmyu/D4LCN)
@@ -141,6 +155,7 @@ Update(2021.06.26): Update MonoEF
 [MonoRun]:monorun.md
 [CaDDN]:caddn.md
 [GroundAware3D]:GroundAwareConvultion.md
+[Aug3DRPN]:#aug3drpn
 [Kinematic3D]:Kinematic_video3d.md
 [SSL-RTM3D]:SSL_RTM3D.md
 [M3D-RPN]:M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection.md
