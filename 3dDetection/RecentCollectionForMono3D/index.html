@@ -1793,6 +1793,9 @@
                     <a href="#monorcnn" class="nav-link">MonoRCNN</a>
                 </li>
                 <li class="nav-item">
+                    <a href="#aug3drpn" class="nav-link">Aug3DRPN</a>
+                </li>
+                <li class="nav-item">
                     <a href="#d4lcn" class="nav-link">D4LCN</a>
                 </li>
                 <li class="nav-item">
@@ -1866,6 +1869,13 @@
 <td align="center">21.60</td>
 <td align="center">9.94</td>
 <td align="center">0.05</td>
+</tr>
+<tr>
+<td><a href="#aug3drpn">Aug3DRPN</a></td>
+<td align="center">12.99</td>
+<td align="center">17.82</td>
+<td align="center">9.78</td>
+<td align="center">0.08</td>
 </tr>
 <tr>
 <td><a href="../Kinematic_video3d/">Kinematic3D</a></td>
@@ -1966,6 +1976,7 @@
 <li><a href="#monoflex">MonoFlex</a></li>
 <li><a href="#monoef">MonoEF</a></li>
 <li><a href="#monorcnn">MonoRCNN</a></li>
+<li><a href="#aug3drpn">Aug3DRPN</a></li>
 <li><a href="#d4lcn">D4LCN</a></li>
 <li><a href="#m3dssd">M3DSSD</a></li>
 <li><a href="#rtm3d">RTM3D</a></li>
@@ -1987,6 +1998,15 @@
 <p><a href="https://arxiv.org/pdf/2104.03775.pdf">pdf</a> <a href="https://github.com/MagicRock100/MonoRCNN">code</a></p>
 <p>这篇paper与MonoFlex有相似的思路，都是用projected visual height来计算深度。这篇文章则是基于two-stage的算法。文章直接指出了keypoints的问题。</p>
 <p><img alt="image" src="../res/monorcnn_arch.png" /></p>
+<h2 id="aug3drpn">Aug3DRPN</h2>
+<p><a href="https://arxiv.org/pdf/2107.13269.pdf">pdf</a> </p>
+<p><img alt="image" src="../res/aug3drpn_arch.png" /></p>
+<p><img alt="image" src="../res/aug3drpn_synthetic.png" /></p>
+<p>这篇paper基于<a href="../M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection/">M3D-RPN</a>的做法</p>
+<ul>
+<li>额外的深度预测</li>
+<li>利用深度预测，渲染虚拟相机结果,增强训练结果.</li>
+</ul>
 <h2 id="d4lcn">D4LCN</h2>
 <p><a href="https://arxiv.org/pdf/1912.04799.pdf">pdf</a>  <a href="https://github.com/dingmyu/D4LCN">code</a></p>
 <p>这篇paper完全继承了<a href="../M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection/">M3D-RPN</a>的衣钵，它不同的地方在于，摒弃了M3D-RPN处理缓慢的height-wise convolution,而是使用单目估计深度，然后使用深度作为卷积核的guide, 这个guide类似于这几篇文章的操作:<a href="../../other_categories/depth_completion/guideNet/">guidenet</a>;<a href="../../Building_Blocks/DynanicFilteringNetwork/">DFN</a></p>
