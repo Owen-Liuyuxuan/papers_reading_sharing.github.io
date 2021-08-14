@@ -1,4 +1,4 @@
-time: 20210401
+time: 20210814
 short_title: CVPR 2021 clips
 
 # Summaries for several CVPR 2021 papers
@@ -48,3 +48,29 @@ $G_d, P_d$定义为距离ground truth与预测的contours距离在$d$以内的�
 这篇paper提出了一个新的NMS算法，但是仅仅使用了2D等信息，但是仅evaluate在3D算法上.思路是让NMS变得可以训练
 
 ![image](res/group_nms_alg.png)
+
+
+## Learning Optical Flow From a Few Matches
+[pdf](https://openaccess.thecvf.com/content/CVPR2021/papers/Jiang_Learning_Optical_Flow_From_a_Few_Matches_CVPR_2021_paper.pdf)
+
+这篇文章的作者指出新的光流框架，比如[RAFT](Summary_of_serveral_eccv2020.md), 会计算每一个像素与整个特征图计算匹配以及光流。但是作者认为这个占用存储太多，不好，但是原来的邻域匹配也还是不尽如人意。作者提出在RAFT的基础上，只存储每个像素的tok-k个匹配。最终形成一个离散的匹配。存储方法也从密集存储变为\{值，坐标\}存储
+
+![image](res/FewMatch_arch.png)
+
+
+## UPFlow: Upsampling Pyramid for Unsupervised Optical Flow Learning
+[pdf](https://openaccess.thecvf.com/content/CVPR2021/papers/Luo_UPFlow_Upsampling_Pyramid_for_Unsupervised_Optical_Flow_Learning_CVPR_2021_paper.pdf) [code](https://github.com/coolbeam/UPFlow_pytorch)
+
+这篇paper改善了无监督的光流。
+
+- self-guided upsample. 
+- Loss guidance at pyramid levels. 其他无监督光流的低分辨率输出层是用GT训练的。本文则是用高分辨率的输出下采样进行训练，
+
+![image](res/upflow_arch.png)
+
+
+
+## AutoFlow: Learning a Better Training Set for Optical Flow
+[pdf](https://openaccess.thecvf.com/content/CVPR2021/papers/Sun_AutoFlow_Learning_a_Better_Training_Set_for_Optical_Flow_CVPR_2021_paper.pdf) [project-page](https://autoflow-google.github.io/)
+
+这篇paper的任务是根据少量非连续图片数据，合成光流训练用的数据。
