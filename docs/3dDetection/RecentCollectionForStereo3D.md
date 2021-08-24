@@ -1,4 +1,4 @@
-time: 20210703
+time: 20210824
 short_title: Recent Collections for Stereo 3D
 
 # Recent Collections for Stereo 3D detection
@@ -14,6 +14,7 @@ Update:
 
 | Methods               | Moderate |  Easy   |  Hard   |  Time  |
 | --------------------- | :------: | :-----: | :-----: | :----: |
+| [LIGAStereo]          | 64.66 %  | 81.39 % | 57.22 % | 0.4  s |
 | [CDN]                 | 54.22 %  | 74.52 % | 46.36 % | 0.6  s |
 | [CG-Stereo]           | 53.58 %  | 74.39 % | 46.50 % | 0.57 s |
 | [DSGN]                | 52.18 %  | 73.50 % | 45.14 % | 0.67 s |
@@ -32,6 +33,7 @@ Update:
 目录:
 
 - [Recent Collections for Stereo 3D detection](#recent-collections-for-stereo-3d-detection)
+  - [LIGAStereo](#ligastereo)
   - [CG-stereo](#cg-stereo)
   - [Pseudo-LiDAR E2E](#pseudo-lidar-e2e)
   - [Pseudo-Lidar++](#pseudo-lidar)
@@ -42,6 +44,21 @@ Update:
   - [Pseudo-Lidar](#pseudo-lidar-1)
   - [Stereo R-CNN](#stereo-r-cnn)
   - [RT3D Stereo](#rt3d-stereo)
+
+
+## LIGAStereo
+[pdf](https://arxiv.org/pdf/2108.08258.pdf) [code](https://github.com/xy-guo/LIGA-Stereo)
+
+这篇paper是近期来性能第一个超过三/四年前点云检测的双目检测网络。性能上全面超越双目此前的网络。其主要思想是使用类似于 [DSGN]的网络， 但是于此同时，另外训练一个点云检测网络，两个网络输出受相同的监督损失训练，此外双目的cost volume分支在最后一层还会受点云最后一层的知识蒸馏训练。
+
+![image](res/LIGA-arch.png)
+
+知识蒸馏损失: 
+$$
+\mathcal{L}_{i m}=\sum_{\mathcal{F}_{i m} \in \mathbb{F}_{i m}} \frac{1}{N_{p o s}}\left\|M_{f g} M_{s p}\left(g\left(\mathcal{F}_{i m}\right)-\frac{\mathcal{F}_{i m}^{l i d a r}}{\mathbb{E}\left[\left|\mathcal{F}_{i m}^{l i d a r}\right|\right]}\right)\right\|_{2}^{2}
+$$
+
+
 
 ## CG-stereo
 [pdf](https://arxiv.org/pdf/2003.05505v1.pdf)
@@ -164,7 +181,7 @@ $$argmin (N_{out}/N+ (k_l(l-μ_l)/σ_l )^2+(k_w(w-μ_w)/σ_w )^2)$$
 
 
 
-
+[LIGAStereo]:(#ligastereo)
 [CDN]:CDN.md
 [CDN P-LiDAR++]:CDN.md
 [CG-Stereo]:#cg-stereo
