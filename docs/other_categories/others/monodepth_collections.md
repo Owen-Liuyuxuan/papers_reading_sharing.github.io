@@ -1,4 +1,4 @@
-time:20210421
+time:20210823
 code_source: https://github.com/nianticlabs/monodepth2
 pdf_source: https://arxiv.org/pdf/1806.01260.pdf
 
@@ -18,6 +18,29 @@ MonoDepth2是非监督单目深度估计的一个Baseline，
 2. 图片并接直接输出相对pose
 3. 用前一帧或者后一帧或者双目的图片重建处当前帧.
 4. 重建loss使用 SSIM, 且选择重建的min的loss，重建损失过大的遮挡部分被滤掉了.
+
+
+
+## Self-Supervised Monocular Depth Hints
+
+[pdf](https://arxiv.org/abs/1909.09051) [code](https://github.com/nianticlabs/depth-hints)
+
+这篇paper以前面monodepth2的文章为基础，着重提升了在使用stereo pairs进行自监督深度训练时的训练精度。
+
+根据monodepth2, 每个像素的损失函数:
+
+$$
+l_{r}\left(d_{i}\right)=\alpha \frac{1-\operatorname{SSIM}\left(I_{i}, \tilde{I}_{i}\right)}{2}+(1-\alpha)\left|I_{i}-\tilde{I}_{i}\right|
+$$
+
+这里融入了双目匹配的结果，在单目预测效果比较差的像素给予双目的监督:
+
+$$
+l_{\text {ours }}\left(d_{i}\right)=\left\{\begin{array}{ll}
+l_{r}\left(d_{i}\right)+l_{s}^{\log L_{1}}\left(d_{i}, h_{i}\right) & \text { if } l_{r}\left(h_{i}\right)<l_{r}\left(d_{i}\right) \\
+l_{r}\left(d_{i}\right) & \text { otherwise }
+\end{array}\right.
+$$
 
 
 ## Full Surround Monodepth from Multiple Cameras
