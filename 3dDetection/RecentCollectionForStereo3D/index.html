@@ -1802,6 +1802,9 @@
         
             <li class="nav-item main"><a href="#recent-collections-for-stereo-3d-detection">Recent Collections for Stereo 3D detection</a></li>
                 <li class="nav-item">
+                    <a href="#ligastereo" class="nav-link">LIGAStereo</a>
+                </li>
+                <li class="nav-item">
                     <a href="#cg-stereo" class="nav-link">CG-stereo</a>
                 </li>
                 <li class="nav-item">
@@ -1857,6 +1860,13 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><a href="(#ligastereo)">LIGAStereo</a></td>
+<td align="center">64.66 %</td>
+<td align="center">81.39 %</td>
+<td align="center">57.22 %</td>
+<td align="center">0.4  s</td>
+</tr>
 <tr>
 <td><a href="../CDN/">CDN</a></td>
 <td align="center">54.22 %</td>
@@ -1960,6 +1970,7 @@
 <p>目录:</p>
 <ul>
 <li><a href="#recent-collections-for-stereo-3d-detection">Recent Collections for Stereo 3D detection</a></li>
+<li><a href="#ligastereo">LIGAStereo</a></li>
 <li><a href="#cg-stereo">CG-stereo</a></li>
 <li><a href="#pseudo-lidar-e2e">Pseudo-LiDAR E2E</a></li>
 <li><a href="#pseudo-lidar">Pseudo-Lidar++</a></li>
@@ -1971,6 +1982,15 @@
 <li><a href="#stereo-r-cnn">Stereo R-CNN</a></li>
 <li><a href="#rt3d-stereo">RT3D Stereo</a></li>
 </ul>
+<h2 id="ligastereo">LIGAStereo</h2>
+<p><a href="https://arxiv.org/pdf/2108.08258.pdf">pdf</a> <a href="https://github.com/xy-guo/LIGA-Stereo">code</a></p>
+<p>这篇paper是近期来性能第一个超过三/四年前点云检测的双目检测网络。性能上全面超越双目此前的网络。其主要思想是使用类似于 <a href="../DSGN/">DSGN</a>的网络， 但是于此同时，另外训练一个点云检测网络，两个网络输出受相同的监督损失训练，此外双目的cost volume分支在最后一层还会受点云最后一层的知识蒸馏训练。</p>
+<p><img alt="image" src="../res/LIGA-arch.png" /></p>
+<p>知识蒸馏损失: 
+<script type="math/tex; mode=display">
+\mathcal{L}_{i m}=\sum_{\mathcal{F}_{i m} \in \mathbb{F}_{i m}} \frac{1}{N_{p o s}}\left\|M_{f g} M_{s p}\left(g\left(\mathcal{F}_{i m}\right)-\frac{\mathcal{F}_{i m}^{l i d a r}}{\mathbb{E}\left[\left|\mathcal{F}_{i m}^{l i d a r}\right|\right]}\right)\right\|_{2}^{2}
+</script>
+</p>
 <h2 id="cg-stereo">CG-stereo</h2>
 <p><a href="https://arxiv.org/pdf/2003.05505v1.pdf">pdf</a>
 <img alt="image" src="../res/CG-Stereo_arch.png" />
