@@ -24,6 +24,7 @@ Update(2021.06.26): Update MonoEF
 
 | Methods         | Moderate | Easy  | Hard  | Time  |
 | --------------- | :------: | :---: | :---: | :---: |
+| [AutoShape]     |  14.17   | 22.47 | 11.36 | 0.05  |
 | [MonoFlex]      |  13.89   | 19.94 | 12.07 | 0.03  |
 | [MonoEF]        |  13.87   | 21.29 | 11.74 | 0.03  |
 | [CaDDN]         |  13.41   | 19.17 | 11.46 | 0.64  |
@@ -149,6 +150,7 @@ Update(2021.06.26): Update MonoEF
 
 <iframe src="//player.bilibili.com/player.html?aid=91364947&cid=156014191&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true" height=270 width=480> </iframe>
 
+[Autoshape]:../other_categories/Summaries/Summary_ICCV_2021.md
 [MonoFlex]:#monoflex
 [MonoEF]:#monoef
 [MonoRCNN]:#monorcnn
