@@ -181,7 +181,7 @@ $$argmin (N_{out}/N+ (k_l(l-μ_l)/σ_l )^2+(k_w(w-μ_w)/σ_w )^2)$$
 
 
 
-[LIGAStereo]:(#ligastereo)
+[LIGAStereo]:#ligastereo
 [CDN]:CDN.md
 [CDN P-LiDAR++]:CDN.md
 [CG-Stereo]:#cg-stereo
