@@ -1,6 +1,6 @@
 time: 20200724
 pdf_source: https://arxiv.org/pdf/2007.09548.pdf
-
+code_source: https://github.com/garrickbrazil/kinematic3d
 # Kinematic 3D Object Detection in Monocular Video
 
 这篇paper是基于[M3D-RPN](M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection.md)的单目时序融合。

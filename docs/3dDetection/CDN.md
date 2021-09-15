@@ -1,6 +1,6 @@
 time: 20200714
 pdf_source: https://arxiv.org/pdf/2007.03085v1.pdf
-
+code_source: https://github.com/Div99/W-Stereo-Disp
 # Wasserstein Distances for Stereo Disparity Estimation
 
 这篇paper提出了双目匹配的一个新的输出方式与训练方式，作者将其替换到不同的双目匹配以及双目检测的方案中，都得到了直接的性能提升。

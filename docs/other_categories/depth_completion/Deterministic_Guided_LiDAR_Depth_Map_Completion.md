@@ -3,7 +3,7 @@ pdf_source: https://arxiv.org/pdf/2106.07256.pdf
 
 # Deterministic Guided LiDAR Depth Map Completion
 
-这篇paper提出了一套不用learning的深度补全算法。与 [IP-basic](https://github.com/kujason/ip_basic) 相比，功能更齐全，分析更有深度。且可以和其他方法相互配合.
+这篇paper提出了一套不用learning的深度补全算法。与 [IP-basic](../others/In_Defense_of_Classical_Image_Processing_Fast_Depth_Completion_on_the_CPU.md) 相比，功能更齐全，分析更有深度。且可以和其他方法相互配合.
 
 ## 相关工作
 

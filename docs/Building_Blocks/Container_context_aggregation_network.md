@@ -1,6 +1,6 @@
 time: 20210605
 pdf_source: https://arxiv.org/pdf/2106.01401v1.pdf
-
+code_source: https://github.com/gaopengcuhk/Container
 # Container: Context Aggregation Network
 
 这篇paper从临近矩阵的形成方式的角度，将MLP Mixer, CNN以及transformer统一起来.
