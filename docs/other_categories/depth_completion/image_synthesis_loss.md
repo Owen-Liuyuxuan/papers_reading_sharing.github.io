@@ -3,7 +3,7 @@ pdf_source: https://arxiv.org/pdf/2109.06163.pdf
 
 # On the Sins of Image Synthesis Loss for Self-supervised Depth Estimation
 
-新近主流的无监督深度预测 [\[1\]](../others/monodepth_collections.md) [\[2\]](manydepth.md) [\[3\]](../others/Unsupervised_depth_prediction.md), 无监督的光流预测 [\[4\]](https://github.com/lliuz/ARFlow), 无监督的双目估计 [\[5\]](../others/self_supervised_stereo.md) 都有一个共同点，就是使用图片之间的相互的重建作为网络学习的监督信号。其中一个很强的假设在于，假设环境的深度是被正确感知的，那么在不同图片(时序图片, 双目图片)之间重投影就会是完美的，**并且反之亦然**. 这篇paper没有给出新的解决方案，但是对前面提到的假设提出了质疑并给出了相关的反例证据。核心的几个结论:
+新近主流的无监督深度预测 [1](../others/monodepth_collections.md) [2](manydepth.md) [3](../others/Unsupervised_depth_prediction.md), 无监督的光流预测 [4](https://github.com/lliuz/ARFlow), 无监督的双目估计 [5](../others/self_supervised_stereo.md) 都有一个共同点，就是使用图片之间的相互的重建作为网络学习的监督信号。其中一个很强的假设在于，假设环境的深度是被正确感知的，那么在不同图片(时序图片, 双目图片)之间重投影就会是完美的，**并且反之亦然**. 这篇paper没有给出新的解决方案，但是对前面提到的假设提出了质疑并给出了相关的反例证据。核心的几个结论:
 
 - 图片重建合成的质量作为深度估计网络的一个辅助训练网络是否有效? 回答：有效，但是只到一定程度。在一个阈值之上继续推进优化图片重建的质量会降低深度估计的准确率.
 - 使用真实的深度值是否能够实现完美的图片重建? 回答: 是*不可以*的. 且如果图片重建是唯一的损失函数，在得到真实深度的网络附近，损失函数的导数不为0， 因而网络不会稳定停留在输出真实深度的位置.
