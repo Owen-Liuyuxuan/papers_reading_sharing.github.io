@@ -1866,7 +1866,7 @@
 
 </span>
 <h1 id="on-the-sins-of-image-synthesis-loss-for-self-supervised-depth-estimation">On the Sins of Image Synthesis Loss for Self-supervised Depth Estimation</h1>
-<p>新近主流的无监督深度预测 <a href="../../others/monodepth_collections/"><script type="math/tex; mode=display">1</script></a> <a href="../manydepth/"><script type="math/tex; mode=display">2</script></a> <a href="../../others/Unsupervised_depth_prediction/"><script type="math/tex; mode=display">3</script></a>, 无监督的光流预测 <a href="https://github.com/lliuz/ARFlow"><script type="math/tex; mode=display">4</script></a>, 无监督的双目估计 <a href="../../others/self_supervised_stereo/"><script type="math/tex; mode=display">5</script></a> 都有一个共同点，就是使用图片之间的相互的重建作为网络学习的监督信号。其中一个很强的假设在于，假设环境的深度是被正确感知的，那么在不同图片(时序图片, 双目图片)之间重投影就会是完美的，<strong>并且反之亦然</strong>. 这篇paper没有给出新的解决方案，但是对前面提到的假设提出了质疑并给出了相关的反例证据。核心的几个结论:</p>
+<p>新近主流的无监督深度预测 <a href="../../others/monodepth_collections/">1</a> <a href="../manydepth/">2</a> <a href="../../others/Unsupervised_depth_prediction/">3</a>, 无监督的光流预测 <a href="https://github.com/lliuz/ARFlow">4</a>, 无监督的双目估计 <a href="../../others/self_supervised_stereo/">5</a> 都有一个共同点，就是使用图片之间的相互的重建作为网络学习的监督信号。其中一个很强的假设在于，假设环境的深度是被正确感知的，那么在不同图片(时序图片, 双目图片)之间重投影就会是完美的，<strong>并且反之亦然</strong>. 这篇paper没有给出新的解决方案，但是对前面提到的假设提出了质疑并给出了相关的反例证据。核心的几个结论:</p>
 <ul>
 <li>图片重建合成的质量作为深度估计网络的一个辅助训练网络是否有效? 回答：有效，但是只到一定程度。在一个阈值之上继续推进优化图片重建的质量会降低深度估计的准确率.</li>
 <li>使用真实的深度值是否能够实现完美的图片重建? 回答: 是<em>不可以</em>的. 且如果图片重建是唯一的损失函数，在得到真实深度的网络附近，损失函数的导数不为0， 因而网络不会稳定停留在输出真实深度的位置.</li>
