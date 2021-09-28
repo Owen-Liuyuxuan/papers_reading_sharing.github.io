@@ -1,9 +1,9 @@
-time: 20210910
+time: 20210928
 pdf_source: https://arxiv.org/pdf/2108.06417.pdf
 code_source: https://github.com/TRI-ML/dd3d
 # Is Pseudo-Lidar needed for Monocular 3D Object detection? (DD3D)
 
-这篇paper在单目3D检测上融合了很多细节的想法，达到了很高的性能点数。(paper中声称已经达到了 16.34的mAP，但是尚没在KITTI官网上公开)
+这篇paper在单目3D检测上融合了很多细节的想法，达到了很高的性能点数
 
 ![image](res/dd3d_idea.png)
 
