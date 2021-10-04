@@ -600,6 +600,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/Summaries/Summary_NIPS_2021/" class="dropdown-item">
+            NeurIPS 2021 clips
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/Summaries/Summary_of_ICRA_2020/" class="dropdown-item">
             ICRA 2020 clips
         </a>
@@ -1898,10 +1904,9 @@
 <h2 id="gradient-centralization-a-new-optimization-technique-for-deep-neural-networks">Gradient Centralization: A New Optimization Technique for Deep Neural Networks</h2>
 <p><a href="https://arxiv.org/pdf/2004.01461v2.pdf">pdf</a> <a href="https://github.com/Yonghongwei/Gradient-Centralization">code</a></p>
 <p>计算方式很简单，就是计算graident之后，在update之前normalize全局gradient</p>
-<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]:</span>
-    <span class="n">d_p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span>
-    <span class="n">d_p</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="o">-</span><span class="n">d_p</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">d_p</span><span class="o">.</span><span class="n">size</span><span class="p">())))),</span> <span class="n">keepdim</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-python">for p in group['params']:
+    d_p = p.grad.data
+    d_p.add_(-d_p.mean(dim = tuple(range(1,len(list(d_p.size())))), keepdim = True))</code></pre>
 
 
 <p>这种训练方式要求网络的权重的均值一直是不变的，也就是regularize了权重的搜索空间.作者也证明这种写法会regularize feature output space.但是kaiming init 还有imagenet pretrained的权重值都不会太大，所以这个regularization不会轻易崩。</p>

@@ -600,6 +600,12 @@
     </li>
               
     <li>
+        <a href="../../Summaries/Summary_NIPS_2021/" class="dropdown-item">
+            NeurIPS 2021 clips
+        </a>
+    </li>
+              
+    <li>
         <a href="../../Summaries/Summary_of_ICRA_2020/" class="dropdown-item">
             ICRA 2020 clips
         </a>
@@ -1915,17 +1921,16 @@
 <h2 id="code">Code</h2>
 <p>代码不算复杂。</p>
 <p><strong>数据扰动与Target生成</strong>:</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">anneal_dsm_score_estimation</span><span class="p">(</span><span class="n">scorenet</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">,</span> <span class="n">anneal_power</span><span class="o">=</span><span class="mf">2.</span><span class="p">):</span>
-    <span class="n">used_sigmas</span> <span class="o">=</span> <span class="n">sigmas</span><span class="p">[</span><span class="n">labels</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])))</span>
-    <span class="n">perturbed_samples</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">*</span> <span class="n">used_sigmas</span>
-    <span class="n">target</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">used_sigmas</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">perturbed_samples</span> <span class="o">-</span> <span class="n">samples</span><span class="p">)</span>
-    <span class="n">scores</span> <span class="o">=</span> <span class="n">scorenet</span><span class="p">(</span><span class="n">perturbed_samples</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="c1">#[B, 3, H, W]</span>
-    <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">scores</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">*</span> <span class="p">((</span><span class="n">scores</span> <span class="o">-</span> <span class="n">target</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">used_sigmas</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span> <span class="o">**</span> <span class="n">anneal_power</span>
+<pre class="codehilite"><code class="language-python">def anneal_dsm_score_estimation(scorenet, samples, labels, sigmas, anneal_power=2.):
+    used_sigmas = sigmas[labels].view(samples.shape[0], *([1] * len(samples.shape[1:])))
+    perturbed_samples = samples + torch.randn_like(samples) * used_sigmas
+    target = - 1 / (used_sigmas ** 2) * (perturbed_samples - samples)
+    scores = scorenet(perturbed_samples, labels) #[B, 3, H, W]
+    target = target.view(target.shape[0], -1)
+    scores = scores.view(scores.shape[0], -1)
+    loss = 1 / 2. * ((scores - target) ** 2).sum(dim=-1) * used_sigmas.squeeze() ** anneal_power
 
-    <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</code></pre></div></div>
+    return loss.mean(dim=0)</code></pre></div>
                     
                 </div>
         </div>
