@@ -234,6 +234,12 @@
     </li>
               
     <li>
+        <a href="../pix2seq/" class="dropdown-item">
+            PIX2SEQ: A Language Modeling Framework for Object Detection
+        </a>
+    </li>
+              
+    <li>
         <a href="../polarnet/" class="dropdown-item">
             PolarNet
         </a>
@@ -1903,31 +1909,33 @@
 <p>reppoints论文的核心思路是让网络自适应地学习keypoints,并利用keypoints分析2D框的位置与大小。这里牵涉的难点在于bbox detection任务中是没有keypoint设置的，因为网络需要自己去学keypoint的位置。</p>
 <h3 id="_1">网络结构</h3>
 <p><img alt="image" src="../res/repPoints_arch.png" /></p>
-<pre class="codehilite"><code class="language-python"># pts_out_init -&gt; offsets fields from CNN
-pts_out_init_grad_mul = (1 - self.gradient_mul) * pts_out_init.detach() + self.gradient_mul * pts_out_init # a trick to wind down the gradient from DCN
-dcn_offset = pts_out_init_grad_mul - dcn_base_offset
-cls_out = self.reppoints_cls_out(
-    self.relu(self.reppoints_cls_conv(cls_feat, dcn_offset))) # conv ( relu (deform_conv))
-pts_out_refine = self.reppoints_pts_refine_out(
-    self.relu(self.reppoints_pts_refine_conv(pts_feat, dcn_offset))) # conv ( relu (deform_conv))</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="c1"># pts_out_init -&gt; offsets fields from CNN</span>
+<span class="n">pts_out_init_grad_mul</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">gradient_mul</span><span class="p">)</span> <span class="o">*</span> <span class="n">pts_out_init</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">gradient_mul</span> <span class="o">*</span> <span class="n">pts_out_init</span> <span class="c1"># a trick to wind down the gradient from DCN</span>
+<span class="n">dcn_offset</span> <span class="o">=</span> <span class="n">pts_out_init_grad_mul</span> <span class="o">-</span> <span class="n">dcn_base_offset</span>
+<span class="n">cls_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reppoints_cls_out</span><span class="p">(</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reppoints_cls_conv</span><span class="p">(</span><span class="n">cls_feat</span><span class="p">,</span> <span class="n">dcn_offset</span><span class="p">)))</span> <span class="c1"># conv ( relu (deform_conv))</span>
+<span class="n">pts_out_refine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reppoints_pts_refine_out</span><span class="p">(</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reppoints_pts_refine_conv</span><span class="p">(</span><span class="n">pts_feat</span><span class="p">,</span> <span class="n">dcn_offset</span><span class="p">)))</span> <span class="c1"># conv ( relu (deform_conv))</span>
+</code></pre></div>
 
 
 <p>这里实际上有两次Ground Truth Assign的过程，第一次采用的K最近点的分配,首先根据框的大小分配到指定的FPN Scale上，然后寻找中点最近的k(默认正样本)个点给正样本.第二次则是根据第一阶段的预测框作为anchor(这样每一个scale上每一个点都有一个anchor),选择IoU超越threshold的作为正样本。最后分类loss按照在第二次分配的结果来算。</p>
 <p>而由点到bounding box的算法作者给了三个方案，最直观的是其中的min-max方案。但是最后default的是自适应的</p>
-<pre class="codehilite"><code class="language-python">pts_y_mean = pts_y.mean(dim=1, keepdim=True)
-pts_x_mean = pts_x.mean(dim=1, keepdim=True)
-pts_y_std = torch.std(pts_y - pts_y_mean, dim=1, keepdim=True)
-pts_x_std = torch.std(pts_x - pts_x_mean, dim=1, keepdim=True)
-moment_transfer = (self.moment_transfer * self.moment_mul) + (
-    self.moment_transfer.detach() * (1 - self.moment_mul))
-moment_width_transfer = moment_transfer[0]
-moment_height_transfer = moment_transfer[1]
-half_width = pts_x_std * torch.exp(moment_width_transfer) # \lambda_x in paper, learnable parameters of the module
-half_height = pts_y_std * torch.exp(moment_height_transfer)
-bbox = torch.cat([
-    pts_x_mean - half_width, pts_y_mean - half_height,
-    pts_x_mean + half_width, pts_y_mean + half_height
-], dim=1)</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">pts_y_mean</span> <span class="o">=</span> <span class="n">pts_y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pts_x_mean</span> <span class="o">=</span> <span class="n">pts_x</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pts_y_std</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">pts_y</span> <span class="o">-</span> <span class="n">pts_y_mean</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pts_x_std</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">pts_x</span> <span class="o">-</span> <span class="n">pts_x_mean</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">moment_transfer</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">moment_transfer</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">moment_mul</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">moment_transfer</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">moment_mul</span><span class="p">))</span>
+<span class="n">moment_width_transfer</span> <span class="o">=</span> <span class="n">moment_transfer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">moment_height_transfer</span> <span class="o">=</span> <span class="n">moment_transfer</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">half_width</span> <span class="o">=</span> <span class="n">pts_x_std</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">moment_width_transfer</span><span class="p">)</span> <span class="c1"># \lambda_x in paper, learnable parameters of the module</span>
+<span class="n">half_height</span> <span class="o">=</span> <span class="n">pts_y_std</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">moment_height_transfer</span><span class="p">)</span>
+<span class="n">bbox</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span>
+    <span class="n">pts_x_mean</span> <span class="o">-</span> <span class="n">half_width</span><span class="p">,</span> <span class="n">pts_y_mean</span> <span class="o">-</span> <span class="n">half_height</span><span class="p">,</span>
+    <span class="n">pts_x_mean</span> <span class="o">+</span> <span class="n">half_width</span><span class="p">,</span> <span class="n">pts_y_mean</span> <span class="o">+</span> <span class="n">half_height</span>
+<span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
 
 
 <h2 id="dense-reppoints">Dense RepPoints</h2>

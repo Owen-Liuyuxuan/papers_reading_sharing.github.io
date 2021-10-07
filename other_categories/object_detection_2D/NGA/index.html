@@ -234,6 +234,12 @@
     </li>
               
     <li>
+        <a href="../pix2seq/" class="dropdown-item">
+            PIX2SEQ: A Language Modeling Framework for Object Detection
+        </a>
+    </li>
+              
+    <li>
         <a href="../polarnet/" class="dropdown-item">
             PolarNet
         </a>
@@ -1932,17 +1938,18 @@
 </p>
 <h4 id="code">code</h4>
 <p><a href="https://keras.io/examples/neural_style_transfer/">keras example for style transfer</a></p>
-<pre class="codehilite"><code class="language-python">def gram_matrix(x):
-    &quot;&quot;&quot;
-        x.shape = [C, H, W] for 'channels_first'
-    &quot;&quot;&quot;
-    assert K.ndim(x) == 3
-    if K.image_data_format() == 'channels_first':
-        features = K.batch_flatten(x) #[C, H*W]
-    else:
-        features = K.batch_flatten(K.permute_dimensions(x, (2, 0, 1)))
-    gram = K.dot(features, K.transpose(features))
-    return gram</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">gram_matrix</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        x.shape = [C, H, W] for &#39;channels_first&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">K</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">image_data_format</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;channels_first&#39;</span><span class="p">:</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">batch_flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">#[C, H*W]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">batch_flatten</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">permute_dimensions</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">gram</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">features</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">gram</span>
+</code></pre></div>
 
 
 <h2 id="network-seperation">Network seperation</h2>

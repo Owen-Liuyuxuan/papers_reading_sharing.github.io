@@ -234,6 +234,12 @@
     </li>
               
     <li>
+        <a href="../../object_detection_2D/pix2seq/" class="dropdown-item">
+            PIX2SEQ: A Language Modeling Framework for Object Detection
+        </a>
+    </li>
+              
+    <li>
         <a href="../../object_detection_2D/polarnet/" class="dropdown-item">
             PolarNet
         </a>
@@ -1919,25 +1925,26 @@ C_{s}=\alpha_{a p}\left(C_{a p}^{l}+C_{a p}^{r}\right)+\alpha_{d s}\left(C_{d s}
 C_{a p}^{l}=\frac{1}{N} \sum_{i, j} \alpha \frac{1-\operatorname{SSIM}\left(I_{i j}^{l}, \tilde{I}_{i j}^{l}\right)}{2}+(1-\alpha)\left\|I_{i j}^{l}-\tilde{I}_{i j}^{l}\right\|
 </script>
 </p>
-<pre class="codehilite"><code class="language-python">def SSIM(self, x, y):
-    C1 = 0.01 ** 2
-    C2 = 0.03 ** 2
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">SSIM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">C1</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">C2</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="o">**</span> <span class="mi">2</span>
 
-    mu_x = nn.AvgPool2d(3, 1)(x)
-    mu_y = nn.AvgPool2d(3, 1)(y)
-    mu_x_mu_y = mu_x * mu_y
-    mu_x_sq = mu_x.pow(2)
-    mu_y_sq = mu_y.pow(2)
+    <span class="n">mu_x</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">mu_y</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">mu_x_mu_y</span> <span class="o">=</span> <span class="n">mu_x</span> <span class="o">*</span> <span class="n">mu_y</span>
+    <span class="n">mu_x_sq</span> <span class="o">=</span> <span class="n">mu_x</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">mu_y_sq</span> <span class="o">=</span> <span class="n">mu_y</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-    sigma_x = nn.AvgPool2d(3, 1)(x * x) - mu_x_sq
-    sigma_y = nn.AvgPool2d(3, 1)(y * y) - mu_y_sq
-    sigma_xy = nn.AvgPool2d(3, 1)(x * y) - mu_x_mu_y
+    <span class="n">sigma_x</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">mu_x_sq</span>
+    <span class="n">sigma_y</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">mu_y_sq</span>
+    <span class="n">sigma_xy</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">mu_x_mu_y</span>
 
-    SSIM_n = (2 * mu_x_mu_y + C1) * (2 * sigma_xy + C2)
-    SSIM_d = (mu_x_sq + mu_y_sq + C1) * (sigma_x + sigma_y + C2)
-    SSIM = SSIM_n / SSIM_d
+    <span class="n">SSIM_n</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">mu_x_mu_y</span> <span class="o">+</span> <span class="n">C1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma_xy</span> <span class="o">+</span> <span class="n">C2</span><span class="p">)</span>
+    <span class="n">SSIM_d</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu_x_sq</span> <span class="o">+</span> <span class="n">mu_y_sq</span> <span class="o">+</span> <span class="n">C1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">sigma_x</span> <span class="o">+</span> <span class="n">sigma_y</span> <span class="o">+</span> <span class="n">C2</span><span class="p">)</span>
+    <span class="n">SSIM</span> <span class="o">=</span> <span class="n">SSIM_n</span> <span class="o">/</span> <span class="n">SSIM_d</span>
 
-    return torch.clamp((1 - SSIM) / 2, 0, 1)</code></pre>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">SSIM</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
 
 
 <h3 id="_2">光滑损失</h3>
