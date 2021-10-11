@@ -80,7 +80,46 @@ d=L a\left(\mu_{p}, \sigma_{p}\right)+L a\left(\mu_{b}, \sigma_{b}\right) \\
 
 $$\mathcal{L}_{\text {depth }}=\frac{\sqrt{2}}{\sigma_{d}}\left|\mu_{d}-d^{g t}\right|+\log \left(\sigma_{d}\right)$$
 
+本文还提出了一个hierarchical task learning.指优先把2D检测训练好，再把WHL训练好，最后再训练depth。"训练好"的评判标准是epochs之间的mean loss相差不大。
 
+```python
+self.loss_graph = {'seg_loss':[],
+                   'size2d_loss':[], 
+                   'offset2d_loss':[],
+                   'offset3d_loss':['size2d_loss','offset2d_loss'], 
+                   'size3d_loss':['size2d_loss','offset2d_loss'], 
+                   'heading_loss':['size2d_loss','offset2d_loss'], 
+                   'depth_loss':['size2d_loss','size3d_loss','offset2d_loss']}  
+def compute_weight(self,current_loss,epoch):
+    T=140
+    #compute initial weights
+    loss_weights = {}
+    eval_loss_input = torch.cat([_.unsqueeze(0) for _ in current_loss.values()]).unsqueeze(0)
+    for term in self.loss_graph:
+        if len(self.loss_graph[term])==0:
+            loss_weights[term] = torch.tensor(1.0).to(current_loss[term].device)
+        else:
+            loss_weights[term] = torch.tensor(0.0).to(current_loss[term].device) 
+    #update losses list
+    if len(self.past_losses)==self.stat_epoch_nums:
+        past_loss = torch.cat(self.past_losses)
+        mean_diff = (past_loss[:-2]-past_loss[2:]).mean(0)
+        if not hasattr(self, 'init_diff'):
+            self.init_diff = mean_diff
+        c_weights = 1-(mean_diff/self.init_diff).relu().unsqueeze(0)
+        
+        time_value = min(((epoch-5)/(T-5)),1.0)
+        for current_topic in self.loss_graph:
+            if len(self.loss_graph[current_topic])!=0:
+                control_weight = 1.0
+                for pre_topic in self.loss_graph[current_topic]:
+                    control_weight *= c_weights[0][self.term2index[pre_topic]]      
+                loss_weights[current_topic] = time_value**(1-control_weight)
+        #pop first list
+        self.past_losses.pop(0)
+    self.past_losses.append(eval_loss_input)   
+    return loss_weights
+```
 
 ## MonoFlex
 [pdf](https://arxiv.org/pdf/2104.02323.pdf) [code](https://github.com/zhangyp15/MonoFlex)
