@@ -24,7 +24,8 @@ Update(2021.06.26): Update MonoEF
 
 | Methods         | Moderate | Easy  | Hard  | Time  |
 | --------------- | :------: | :---: | :---: | :---: |
-| [dd3d]          |  16.34   | 23.22 | 14.20 | -  |
+| [dd3d]          |  16.34   | 23.22 | 14.20 |   -   |
+| [GUP]           |  15.02   | 22.26 | 13.12 |   -   |
 | [AutoShape]     |  14.17   | 22.47 | 11.36 | 0.05  |
 | [MonoFlex]      |  13.89   | 19.94 | 12.07 | 0.03  |
 | [MonoEF]        |  13.87   | 21.29 | 11.74 | 0.03  |
@@ -48,6 +49,7 @@ Update(2021.06.26): Update MonoEF
 目录:
 
 - [Recent Collections for Mono 3D detection](#recent-collections-for-mono-3d-detection)
+  - [GUPNet](#gupnet)
   - [MonoFlex](#monoflex)
   - [MonoEF](#monoef)
   - [MonoRCNN](#monorcnn)
@@ -58,6 +60,27 @@ Update(2021.06.26): Update MonoEF
   - [MonoPair](#monopair)
   - [SMOKE](#smoke)
   - [YOLOMono3D](#yolomono3d)
+
+## GUPNet
+[pdf](https://arxiv.org/pdf/2107.13774.pdf) [code](https://github.com/SuperMHP/GUPNet)
+
+![image](res/GUPNet_arch.png)
+
+这篇paper是目前少有的使用二阶段检测网络实现高性能的结果.使用centerNet完成2D检测，然后使用RoIAlign提取特征.3D的输出与[MonoFlex]有点相似，输出的是带有不确定的深度，采用的是2D的简要推理加上网络的一个学习值:
+
+$$\begin{aligned}
+d_{p} &=\frac{f \cdot h_{3 d}}{h_{2 d}}=\frac{f \cdot\left(\lambda_{h} \cdot X+\mu_{h}\right)}{h_{2 d}} \\
+&=\frac{f \cdot \lambda_{h}}{h_{2 d}} \cdot X+\frac{f \cdot \mu_{h}}{h_{2 d}}
+\end{aligned}$$
+
+$$\begin{array}{c}
+d=L a\left(\mu_{p}, \sigma_{p}\right)+L a\left(\mu_{b}, \sigma_{b}\right) \\
+\mu_{d}=\mu_{p}+\mu_{b}, \quad \sigma_{d}=\sqrt{\left(\sigma_{p}\right)^{2}+\left(\sigma_{b}\right)^{2}}
+\end{array}$$
+
+$$\mathcal{L}_{\text {depth }}=\frac{\sqrt{2}}{\sigma_{d}}\left|\mu_{d}-d^{g t}\right|+\log \left(\sigma_{d}\right)$$
+
+
 
 ## MonoFlex
 [pdf](https://arxiv.org/pdf/2104.02323.pdf) [code](https://github.com/zhangyp15/MonoFlex)
@@ -151,6 +174,7 @@ Update(2021.06.26): Update MonoEF
 
 <iframe src="//player.bilibili.com/player.html?aid=91364947&cid=156014191&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true" height=270 width=480> </iframe>
 
+[GUPNet]:#gupnet
 [dd3d]:is_plidar_needed.md
 [Autoshape]:../other_categories/Summaries/Summary_ICCV_2021.md
 [MonoFlex]:#monoflex
