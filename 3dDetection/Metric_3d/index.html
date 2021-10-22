@@ -955,6 +955,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/others/vectornet/" class="dropdown-item">
+            VectorNet: Encoding HD Maps and Agent Dynamics from Vectorized Representation
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/others/vip_deeplab/" class="dropdown-item">
             ViP-DeepLab: Learning Visual Perception with Depth-aware Video Panoptic Segmentation
         </a>
@@ -1913,25 +1919,24 @@
 <h3 id="true-positive_1">匹配(true positive判定)</h3>
 <p>nuscene的matching是从sorted predicted boxes出发，按confidence大小循环(注意这里的排序以及循环是以所有帧的预测bounding box为准，而匹配的时候根据sample_token只在同一帧的gt中进行匹配， sample_token也是这个方法能方便地实现的原因，如果对KITTI结果要用同样的算法，则需要对每一个box都记录自己在哪一帧)，贪婪地寻找尚未被匹配的且与其平面距离最近的ground truth，如果最近的距离在阈值内，则认为是一对true positive。由于这个match已经是从高confidence到低confidence了，所以可以直接计算precisions跟recall曲线。</p>
 <p>Thresholds分四次，分别取<script type="math/tex">[0.5, 1, 2, 4]</script>,得到的mAP取均值。此外以<script type="math/tex">threshold=2</script>时的匹配为准，计算其他 True positive metrics(TP metrics)</p>
-<div class="codehilite"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    tp: List[Union[0, 1]], len(tp) = num_prediction</span>
-<span class="sd">    fp: List[Union[1, 0]], len(fp) = num_prediction fp[i] = 1 - tp[i],相当于</span>
-<span class="sd">    conf: List[float], len(conf) = num_prediction (sorted)</span>
-<span class="sd">        They recorded whether each predicted object is true positive or false positive, and also its score.</span>
-<span class="sd">    npos: number of positive ground truth</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="n">tp_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">tp</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
-<span class="n">fp_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
-<span class="n">conf_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+<pre class="codehilite"><code class="language-python">&quot;&quot;&quot;
+    tp: List[Union[0, 1]], len(tp) = num_prediction
+    fp: List[Union[1, 0]], len(fp) = num_prediction fp[i] = 1 - tp[i],相当于
+    conf: List[float], len(conf) = num_prediction (sorted)
+        They recorded whether each predicted object is true positive or false positive, and also its score.
+    npos: number of positive ground truth
+&quot;&quot;&quot;
+tp_array = np.cumsum(tp).astype(np.float)
+fp_array = np.cumsum(fp).astype(np.float)
+conf_array = np.array(conf)
 
-<span class="n">prec</span> <span class="o">=</span> <span class="n">tp_array</span> <span class="o">/</span> <span class="p">(</span><span class="n">fp_array</span> <span class="o">+</span> <span class="n">tp_array</span><span class="p">)</span>
-<span class="n">rec</span> <span class="o">=</span> <span class="n">tp_array</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">npos</span><span class="p">)</span>
+prec = tp_array / (fp_array + tp_array)
+rec = tp_array / float(npos)
 
-<span class="n">rec_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>              <span class="c1"># sample 0,0.01,0.02,..0.99,1;totally 101 samples</span>
-<span class="n">prec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">rec_interp</span><span class="p">,</span> <span class="n">rec</span><span class="p">,</span> <span class="n">prec</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># 1d-interpolate</span>
-<span class="n">conf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">rec_interp</span><span class="p">,</span> <span class="n">rec</span><span class="p">,</span> <span class="n">conf</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># np.interp(x_coordinate, x_data, y_data) -&gt; interpolated_y</span>
-<span class="n">rec</span> <span class="o">=</span> <span class="n">rec_interp</span>
-</code></pre></div>
+rec_interp = np.linspace(0, 1, 101)              # sample 0,0.01,0.02,..0.99,1;totally 101 samples
+prec = np.interp(rec_interp, rec, prec, right=0) # 1d-interpolate
+conf = np.interp(rec_interp, rec, conf, right=0) # np.interp(x_coordinate, x_data, y_data) -&gt; interpolated_y
+rec = rec_interp</code></pre>
 
 
 <h3 id="tp-metrics">TP Metrics</h3>

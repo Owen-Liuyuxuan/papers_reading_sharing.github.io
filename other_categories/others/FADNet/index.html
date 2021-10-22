@@ -955,6 +955,12 @@
     </li>
               
     <li>
+        <a href="../vectornet/" class="dropdown-item">
+            VectorNet: Encoding HD Maps and Agent Dynamics from Vectorized Representation
+        </a>
+    </li>
+              
+    <li>
         <a href="../vip_deeplab/" class="dropdown-item">
             ViP-DeepLab: Learning Visual Perception with Depth-aware Video Panoptic Segmentation
         </a>
@@ -1912,23 +1918,21 @@
 <p>作者指出这里暗示了一个patch里面不同位置的权重一致，而这并不一定正确，因而选择先分别做一个<script type="math/tex">3\times3</script>的卷积再运行点乘
 <script type="math/tex; mode=display">c\left(\mathbf{x}_{1}, \mathbf{x}_{2}\right)=\sum\left\langle\mathbf{f}_{1}\left(\mathbf{x}_{1}\right), \mathbf{f}_{2}\left(\mathbf{x}_{2}\right)\right\rangle</script>
 </p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">build_corr</span><span class="p">(</span><span class="n">img_left</span><span class="p">,</span> <span class="n">img_right</span><span class="p">,</span> <span class="n">max_disp</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
-    <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">img_left</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">volume</span> <span class="o">=</span> <span class="n">img_left</span><span class="o">.</span><span class="n">new_zeros</span><span class="p">([</span><span class="n">B</span><span class="p">,</span> <span class="n">max_disp</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_disp</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">volume</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">img_left</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">:]</span> <span class="o">*</span> <span class="n">img_right</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">volume</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">img_left</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">img_right</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:])</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<pre class="codehilite"><code class="language-python">def build_corr(img_left, img_right, max_disp=40):
+    B, C, H, W = img_left.shape
+    volume = img_left.new_zeros([B, max_disp, H, W])
+    for i in range(max_disp):
+        if i &gt; 0:
+            volume[:, i, :, i:] = (img_left[:, :, :, i:] * img_right[:, :, :, :-i]).mean(dim=1)
+        else:
+            volume[:, i, :, :] = (img_left[:, :, :, :] * img_right[:, :, :, :]).mean(dim=1)
 
-    <span class="n">volume</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">volume</span>
-</code></pre></div>
+    volume = volume.contiguous()
+    return volume</code></pre>
 
 
 <p>第二部分采用的是与<a href="../flownet/">FlowNetV2</a>一致的思路，将右图重采样到左图. </p>
-<div class="codehilite"><pre><span></span><code><span class="n">inputs_net2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">inputs</span><span class="p">,</span> <span class="n">resampled_img1</span><span class="p">,</span> <span class="n">dispnetc_final_flow</span><span class="p">,</span> <span class="n">norm_diff_img0</span><span class="p">),</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-</code></pre></div></div>
+<pre class="codehilite"><code class="language-python">inputs_net2 = torch.cat((inputs, resampled_img1, dispnetc_final_flow, norm_diff_img0), dim = 1)</code></pre></div>
                     
                 </div>
         </div>

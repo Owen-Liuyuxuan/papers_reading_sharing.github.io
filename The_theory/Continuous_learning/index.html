@@ -955,6 +955,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/others/vectornet/" class="dropdown-item">
+            VectorNet: Encoding HD Maps and Agent Dynamics from Vectorized Representation
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/others/vip_deeplab/" class="dropdown-item">
             ViP-DeepLab: Learning Visual Perception with Depth-aware Video Panoptic Segmentation
         </a>
@@ -1927,9 +1933,8 @@
 <p>$$
 \begin{aligned}
     \log p(D_A | \theta) &amp;= \log p(D_A | \theta^<em><em>A) + \frac{\partial}{\partial \theta} \log p(D_A | \theta) |</em>{\theta=\theta_A^</em>} (\theta - \theta_A^<em>) + \frac{\partial^2}{\partial\theta^2} \log p(D_A|\theta)(\theta - \theta_A^</em>)^2\</p>
-<div class="codehilite"><pre><span></span><code><span class="err">&amp;=  \frac{\partial^2}{\partial\theta^2} \log p(D_A|\theta)(\theta - \theta_A^*)^2 + \text{const}\\</span>
-<span class="err">&amp;= -\mathbb{F}(D_A, \theta_A^*)(\theta - \theta_A^*)^2</span>
-</code></pre></div>
+<pre class="codehilite"><code>&amp;=  \frac{\partial^2}{\partial\theta^2} \log p(D_A|\theta)(\theta - \theta_A^*)^2 + \text{const}\\
+&amp;= -\mathbb{F}(D_A, \theta_A^*)(\theta - \theta_A^*)^2</code></pre>
 
 
 <p>\end{aligned}
