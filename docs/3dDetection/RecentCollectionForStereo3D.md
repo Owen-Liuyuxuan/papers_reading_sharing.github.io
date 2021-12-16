@@ -18,6 +18,7 @@ Update:
 | [CDN]                 | 54.22 %  | 74.52 % | 46.36 % | 0.6  s |
 | [CG-Stereo]           | 53.58 %  | 74.39 % | 46.50 % | 0.57 s |
 | [DSGN]                | 52.18 %  | 73.50 % | 45.14 % | 0.67 s |
+| [EGFN]                | 46.39 %  | 65.80 % | 38.42 % | 0.09 s |
 | [CDN P-LiDAR++]       | 44.86 %  | 64.31 % | 38.11 % | 0.4 s  |
 | [Pseudo-LiDAR E2E]    | 43.92 %  | 64.75 % | 38.14 % | 0.4 s  |
 | [Pseudo-LiDAR++]      | 42.43 %  | 61.11 % | 36.99 % | 0.4 s  |
@@ -186,6 +187,7 @@ $$argmin (N_{out}/N+ (k_l(l-μ_l)/σ_l )^2+(k_w(w-μ_w)/σ_w )^2)$$
 [CDN P-LiDAR++]:CDN.md
 [CG-Stereo]:#cg-stereo
 [DSGN]:DSGN.md
+[EGFN]:EGFN.md
 [Pseudo-LiDAR E2E]:#pseudo-lidar-e2e
 [Pseudo-LiDAR++]:#pseudo-lidar
 [YOLOStereo3D]:YOLOStereo3D.md
