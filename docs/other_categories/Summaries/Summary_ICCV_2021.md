@@ -1,4 +1,4 @@
-time: 20210901
+time: 20211217
 short_title: ICCV 2021 clips
 
 # Summaries for several ICCV 2021 papers
@@ -44,4 +44,9 @@ $$
 
 本文实现了目前SOTA的性能。 参考[表格](../../3dDetection/RecentCollectionForMono3D.md)
 
+## SOTR: Segmenting Objects with Transformers
+[pdf](https://arxiv.org/pdf/2108.06747.pdf) [code](https://github.com/easton-cau/SOTR)
 
+![image](https://github.com/easton-cau/SOTR/raw/main/images/overview.png)
+
+这篇paper使用Transformer 处理 Instance Segmentation 如[YOLOACT](../Segmentation/YOLACT.md)中的分类头，并提供动态卷积核输出不同得instances.
