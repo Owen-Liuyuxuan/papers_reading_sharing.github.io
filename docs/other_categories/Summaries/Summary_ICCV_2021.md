@@ -50,3 +50,22 @@ $$
 ![image](https://github.com/easton-cau/SOTR/raw/main/images/overview.png)
 
 这篇paper使用Transformer 处理 Instance Segmentation 如[YOLOACT](../Segmentation/YOLACT.md)中的分类头，并提供动态卷积核输出不同得instances.
+
+
+## Are we Missing Confidence in Pseudo-LiDAR Methods for Monocular 3D Object Detection?
+[pdf](https://openaccess.thecvf.com/content/ICCV2021/papers/Simonelli_Are_We_Missing_Confidence_in_Pseudo-LiDAR_Methods_for_Monocular_3D_ICCV_2021_paper.pdf)
+
+这篇文章正面分析了Pseudo LiDAR在validation set上与在test set上巨大的性能偏差.
+
+比较显然的是,depth prediction的训练集和检测的训练集和验证集之间有很大的交集.这使得在一部分的validation set上,预训练的深度预测网络能预测出不真实的高精确度.大幅度地提升了validation的点数.
+
+![image](res/pseudo_lidar_biased_graph.png)
+
+上图说明了现在PLiDAR路径很强的validation结果但是不是特别强的test set结果.
+
+通过描画detection sequence和depth prediction sequence的GIS重叠度.可以得到下图
+![image](res/pseudo_lidar_biased_geo.png)
+
+本文提出增加预测3D bounding box的置信度.同时控制在validation training的时候使用的depth prediction split. 得到了更加平衡的PLiDAR结果.
+
+*性能和网络结构上的创新并不是很巨大, 但是系统地正面说明了PLiDAR目前在validation set上失真的事实.*
