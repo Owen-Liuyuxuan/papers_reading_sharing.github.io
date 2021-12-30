@@ -1927,6 +1927,9 @@
                 <li class="nav-item">
                     <a href="#sotr-segmenting-objects-with-transformers" class="nav-link">SOTR: Segmenting Objects with Transformers</a>
                 </li>
+                <li class="nav-item">
+                    <a href="#are-we-missing-confidence-in-pseudo-lidar-methods-for-monocular-3d-object-detection" class="nav-link">Are we Missing Confidence in Pseudo-LiDAR Methods for Monocular 3D Object Detection?</a>
+                </li>
         </ul>
     </div>
 </div></div>
@@ -1968,7 +1971,17 @@ L_{ij} = (l(i) - l*(i))p(j|i)
 <h2 id="sotr-segmenting-objects-with-transformers">SOTR: Segmenting Objects with Transformers</h2>
 <p><a href="https://arxiv.org/pdf/2108.06747.pdf">pdf</a> <a href="https://github.com/easton-cau/SOTR">code</a></p>
 <p><img alt="image" src="https://github.com/easton-cau/SOTR/raw/main/images/overview.png" /></p>
-<p>这篇paper使用Transformer 处理 Instance Segmentation 如<a href="../../Segmentation/YOLACT/">YOLOACT</a>中的分类头，并提供动态卷积核输出不同得instances.</p></div>
+<p>这篇paper使用Transformer 处理 Instance Segmentation 如<a href="../../Segmentation/YOLACT/">YOLOACT</a>中的分类头，并提供动态卷积核输出不同得instances.</p>
+<h2 id="are-we-missing-confidence-in-pseudo-lidar-methods-for-monocular-3d-object-detection">Are we Missing Confidence in Pseudo-LiDAR Methods for Monocular 3D Object Detection?</h2>
+<p><a href="https://openaccess.thecvf.com/content/ICCV2021/papers/Simonelli_Are_We_Missing_Confidence_in_Pseudo-LiDAR_Methods_for_Monocular_3D_ICCV_2021_paper.pdf">pdf</a></p>
+<p>这篇文章正面分析了Pseudo LiDAR在validation set上与在test set上巨大的性能偏差.</p>
+<p>比较显然的是,depth prediction的训练集和检测的训练集和验证集之间有很大的交集.这使得在一部分的validation set上,预训练的深度预测网络能预测出不真实的高精确度.大幅度地提升了validation的点数.</p>
+<p><img alt="image" src="../res/pseudo_lidar_biased_graph.png" /></p>
+<p>上图说明了现在PLiDAR路径很强的validation结果但是不是特别强的test set结果.</p>
+<p>通过描画detection sequence和depth prediction sequence的GIS重叠度.可以得到下图
+<img alt="image" src="../res/pseudo_lidar_biased_geo.png" /></p>
+<p>本文提出增加预测3D bounding box的置信度.同时控制在validation training的时候使用的depth prediction split. 得到了更加平衡的PLiDAR结果.</p>
+<p><em>性能和网络结构上的创新并不是很巨大, 但是系统地正面说明了PLiDAR目前在validation set上失真的事实.</em></p></div>
                     
                 </div>
         </div>
