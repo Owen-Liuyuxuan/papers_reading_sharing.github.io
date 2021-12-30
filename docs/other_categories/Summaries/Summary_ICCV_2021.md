@@ -1,4 +1,4 @@
-time: 20211217
+time: 20211230
 short_title: ICCV 2021 clips
 
 # Summaries for several ICCV 2021 papers
