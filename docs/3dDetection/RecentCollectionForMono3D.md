@@ -26,6 +26,7 @@ Update(2021.06.26): Update MonoEF
 | --------------- | :------: | :---: | :---: | :---: |
 | [dd3d]          |  16.34   | 23.22 | 14.20 |   -   |
 | [GUPNet]           |  15.02   | 22.26 | 13.12 |   -   |
+| [DLE]           |  14.33   | 24.23 | 10.30 | 0.06  |
 | [AutoShape]     |  14.17   | 22.47 | 11.36 | 0.05  |
 | [MonoFlex]      |  13.89   | 19.94 | 12.07 | 0.03  |
 | [MonoEF]        |  13.87   | 21.29 | 11.74 | 0.03  |
@@ -216,6 +217,7 @@ def compute_weight(self,current_loss,epoch):
 [GUPNet]:#gupnet
 [dd3d]:is_plidar_needed.md
 [Autoshape]:../other_categories/Summaries/Summary_ICCV_2021.md
+[DLE]:../other_categories/depth_completion/DeepLineEncode.md
 [MonoFlex]:#monoflex
 [MonoEF]:#monoef
 [MonoRCNN]:#monorcnn
