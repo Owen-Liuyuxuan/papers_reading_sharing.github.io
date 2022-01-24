@@ -1,6 +1,6 @@
 code_source: https://github.com/epfml/attention-cnn
 pdf_source: https://arxiv.org/pdf/1911.03584.pdf
-time: 20210714
+time: 20220124
 short_title: Self-Attention & CNN
 # Summary of Self Attention / Transformer in Vision System (Last update 2021-07-14)
 
@@ -78,3 +78,19 @@ outlook的方法就是将$K\times K$的核展开，对每一个点，计算其�
 ![image](res/Surver_vit.png)
 ![image](res/Survey_vit_table.png)
 
+
+## A Comprehensive Study of Vision Transformers on Dense Prediction Tasks
+
+[pdf](https://arxiv.org/pdf/2201.08683.pdf)
+
+![image](res/GeneralViT.png)
+
+这篇论文比较了CNN与Transformer的性能以及扩展性区别，关注于2D检测以及语义分割。
+
+结论：
+
+- ViT与CNN相比，在原数据集上精度更低，理论运算复杂度更低，但是速度更慢。 作者认为如果GPU为Transformer优化，则Transformer有在速度上超越CNN的潜力。
+- ViT在跨数据集测试中表现更好，语义分割上比目标检测更明显。分析其收敛的Local minima损失landscape, 认为ViT收敛到的local minima更平滑。(做法上扰动网络的权重，损失在训练集上测试)
+- ViT才测试集更well-calibrated。
+- ViT对噪声以及对抗攻击的抵抗性更强。
+- 对于高分辨输入，CNN的性能保存比ViT更好，尽管ViT理论上有更大的感受野，但是性能反而不行，作者认为和Positional Embedding有关系。
