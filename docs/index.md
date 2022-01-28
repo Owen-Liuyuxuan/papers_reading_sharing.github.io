@@ -36,6 +36,10 @@ Papers are now sorted in Several categories
 
 欢迎共同记录论文阅读,对文章的解读有质疑和补充的建议提交github issue.
 
+## Comments (since 2022.01.28)
+
+本博客站使用[utterances](https://github.com/utterance/utterances),对每一篇文章开启单独的评论区.
+
 <!-- <div id="tester" style="width:600px;height:250px;"></div>
 
 <script src="index.js">
