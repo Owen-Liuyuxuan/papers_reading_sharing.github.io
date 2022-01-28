@@ -2004,40 +2004,41 @@
 <p><a href="https://arxiv.org/pdf/1805.07925.pdf">pdf</a> <a href="https://github.com/hyeonseobnam/Batch-Instance-Normalization">code</a></p>
 <p>这篇paper指出，Instance Normalization在 style transfer和GAN 上应用比较多, 如<a href="../../Building_Blocks/AdaIN/">AdaIn</a>. 但是 IN却被实验证明会使分类网络性能下降,作者推测这是因为分类有时候确实需要图像的风格信息。指出不同任务可能需要BN也可能需要IN。因而提出了BN-IN Gated by parameter的设计.</p>
 <p>其官方实现:</p>
-<pre class="codehilite"><code class="language-python">class _BatchInstanceNorm(_BatchNorm):
-    def __init__(self, num_features, eps=1e-5, momentum=0.1, affine=True):
-        super(_BatchInstanceNorm, self).__init__(num_features, eps, momentum, affine)
-        self.gate = Parameter(torch.Tensor(num_features))
-        self.gate.data.fill_(1)
-        setattr(self.gate, 'bin_gate', True)
+<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">_BatchInstanceNorm</span><span class="p">(</span><span class="n">_BatchNorm</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_features</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">affine</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_BatchInstanceNorm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">num_features</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">momentum</span><span class="p">,</span> <span class="n">affine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gate</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">num_features</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gate</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gate</span><span class="p">,</span> <span class="s1">&#39;bin_gate&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
-    def forward(self, input):
-        self._check_input_dim(input)
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_input_dim</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 
-        # Batch norm
-        if self.affine:
-            bn_w = self.weight * self.gate
-        else:
-            bn_w = self.gate
-        out_bn = F.batch_norm(
-            input, self.running_mean, self.running_var, bn_w, self.bias,
-            self.training, self.momentum, self.eps)
+        <span class="c1"># Batch norm</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine</span><span class="p">:</span>
+            <span class="n">bn_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bn_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate</span>
+        <span class="n">out_bn</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">batch_norm</span><span class="p">(</span>
+            <span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">running_mean</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">running_var</span><span class="p">,</span> <span class="n">bn_w</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
 
-        # Instance norm
-        b, c  = input.size(0), input.size(1)
-        if self.affine:
-            in_w = self.weight * (1 - self.gate)
-        else:
-            in_w = 1 - self.gate
-        input = input.view(1, b * c, *input.size()[2:])
-        out_in = F.batch_norm(
-            input, None, None, None, None,
-            True, self.momentum, self.eps)
-        out_in = out_in.view(b, c, *input.size()[2:])
-        out_in.mul_(in_w[None, :, None, None])
+        <span class="c1"># Instance norm</span>
+        <span class="n">b</span><span class="p">,</span> <span class="n">c</span>  <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="nb">input</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine</span><span class="p">:</span>
+            <span class="n">in_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">in_w</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="o">*</span><span class="nb">input</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="n">out_in</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">batch_norm</span><span class="p">(</span>
+            <span class="nb">input</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+        <span class="n">out_in</span> <span class="o">=</span> <span class="n">out_in</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="o">*</span><span class="nb">input</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="n">out_in</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">in_w</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
 
-        return out_bn + out_in
-</code></pre>
+        <span class="k">return</span> <span class="n">out_bn</span> <span class="o">+</span> <span class="n">out_in</span>
+</code></pre></div>
+
 
 <h2 id="two-at-once-enhancing-learning-and-generalization-capacities-via-ibn-net">Two at Once: Enhancing Learning and Generalization Capacities via IBN-Net</h2>
 <p><a href="https://arxiv.org/pdf/1807.09441.pdf">pdf</a> <a href="https://github.com/XingangPan/IBN-Net">code</a></p>
@@ -2048,23 +2049,31 @@
 <p>这篇paper提出了一个两次normalize的算法，算法由两次normalization 构成</p>
 <p><img alt="image" src="../res/DSM.png" /></p>
 <p>作者在论文中的图中提到，使用Domain Norm计算的特征图，在不同数据集上得到的norm distribution基本是一致的。</p>
-<pre class="codehilite"><code class="language-python">class DomainNorm(nn.Module):
-    def __init__(self, channel, l2=True):
-        super(DomainNorm, self).__init__()
-        self.normalize = nn.InstanceNorm2d(num_features=channel, affine=False)
-        self.l2 = l2
-        self.weight = nn.Parameter(torch.ones(1,channel,1,1))
-        self.bias = nn.Parameter(torch.zeros(1,channel,1,1))
-        self.weight.requires_grad = True
-        self.bias.requires_grad = True
-    def forward(self, x):
-        x = self.normalize(x)
-        if self.l2:
-            return F.normalize(x, p=2, dim=1)
-        return x * self.weight + self.bias
-</code></pre></div>
+<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">DomainNorm</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DomainNorm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">InstanceNorm2d</span><span class="p">(</span><span class="n">num_features</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span> <span class="n">affine</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">l2</span> <span class="o">=</span> <span class="n">l2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">channel</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">channel</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">l2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span>
+</code></pre></div></div>
                     
                 </div>
+
+            <script src="https://utteranc.es/client.js"
+                repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
+                issue-term="Style and Normalization comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+            </script>
         </div>
 
         <footer class="col-md-12">

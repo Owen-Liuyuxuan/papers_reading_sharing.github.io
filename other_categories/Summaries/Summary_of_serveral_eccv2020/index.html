@@ -2091,67 +2091,68 @@ K(d, s) = 1 - \frac{1}{1 + e^{-k(d-s)}}
 <h2 id="attentive-normalization">Attentive Normalization</h2>
 <p><a href="https://arxiv.org/pdf/1908.01259.pdf">pdf</a> <a href="https://github.com/iVMCL/AttentiveNorm_Detection">code</a></p>
 <p>这篇paper提出了一个Normalization + SE的融合</p>
-<pre class="codehilite"><code class="language-python">class hsigmoid(nn.Module):
-    &quot;&quot;&quot; Hard Linear Sigmoid
-    &quot;&quot;&quot;
-    def forward(self, x):
-        out = F.relu6(x + 3, inplace=True) / 6
-        return out
+<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">hsigmoid</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Hard Linear Sigmoid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu6</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>
+        <span class="k">return</span> <span class="n">out</span>
 
 
-class AttentionWeights(nn.Module):
-    def __init__(self, num_channels, k, attention_mode=0):
-        super(AttentionWeights, self).__init__()
-        self.k = k
-        self.avgpool = nn.AdaptiveAvgPool2d(1)
-        layers = []
-        if attention_mode == 0:
-            layers = [ nn.Conv2d(num_channels, k, 1),
-                       hsigmoid() ]
-        elif attention_mode == 2:
-            layers = [ nn.Conv2d(num_channels, k, 1, bias=False),
-                        hsigmoid() ]
-        else:
-            raise NotImplementedError(&quot;Unknow attention weight type&quot;)
-        self.attention = nn.Sequential(*layers)
+<span class="k">class</span> <span class="nc">AttentionWeights</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">attention_mode</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AttentionWeights</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avgpool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">attention_mode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                       <span class="n">hsigmoid</span><span class="p">()</span> <span class="p">]</span>
+        <span class="k">elif</span> <span class="n">attention_mode</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                        <span class="n">hsigmoid</span><span class="p">()</span> <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Unknow attention weight type&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
 
-    def forward(self, x):
-        b, c, _, _ = x.size()
-        y = self.avgpool(x)#.view(b, c)
-        var = torch.var(x, dim=(2, 3)).view(b, c, 1, 1)
-        y *= (var + 1e-3).rsqrt()
-        #y = torch.cat((y, var), dim=1)
-        return self.attention(y).view(b, self.k)
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avgpool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="c1">#.view(b, c)</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">*=</span> <span class="p">(</span><span class="n">var</span> <span class="o">+</span> <span class="mf">1e-3</span><span class="p">)</span><span class="o">.</span><span class="n">rsqrt</span><span class="p">()</span>
+        <span class="c1">#y = torch.cat((y, var), dim=1)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)</span>
 
 
 
-class AttentiveGroupNorm(nn.GroupNorm):
-    def __init__(self, num_groups, num_channels, k, eps=1e-5):
-        super(AttentiveGroupNorm, self).__init__(num_groups, num_channels, eps=eps, affine=False)
-        self.k = k
-        self.weight_ = nn.Parameter(torch.Tensor(k, num_channels))
-        self.bias_ = nn.Parameter(torch.Tensor(k, num_channels))
+<span class="k">class</span> <span class="nc">AttentiveGroupNorm</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">GroupNorm</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AttentiveGroupNorm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">num_groups</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="n">affine</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias_</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">))</span>
 
-        self.attention_weights = AttentionWeights(num_channels, k)
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span> <span class="o">=</span> <span class="n">AttentionWeights</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
 
-        self._init_params()
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_params</span><span class="p">()</span>
 
-    def _init_params(self):
-        nn.init.normal_(self.weight_, 1, 0.1)
-        nn.init.normal_(self.bias_, 0, 0.1)
+    <span class="k">def</span> <span class="nf">_init_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias_</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
 
-    def forward(self, input):
-        output = super(AttentiveGroupNorm, self).forward(input)
-        size = output.size()
-        y = self.attention_weights(input)
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">AttentiveGroupNorm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
 
-        weight = y @ self.weight_
-        bias = y @ self.bias_
-        weight = weight.unsqueeze(-1).unsqueeze(-1).expand(size)
-        bias = bias.unsqueeze(-1).unsqueeze(-1).expand(size)
+        <span class="n">weight</span> <span class="o">=</span> <span class="n">y</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">y</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias_</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">bias</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
 
-        return weight * output + bias
-</code></pre>
+        <span class="k">return</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">output</span> <span class="o">+</span> <span class="n">bias</span>
+</code></pre></div>
+
 
 <h2 id="tide-a-general-toolbox-for-identifying-object-detection-errors">TIDE: A General Toolbox for Identifying Object Detection Errors</h2>
 <p><a href="https://dbolya.github.io/tide/paper.pdf">pdf</a> <a href="https://github.com/dbolya/tide">code</a></p>
@@ -2175,6 +2176,14 @@ class AttentiveGroupNorm(nn.GroupNorm):
 <p>核心的创新在于在scale 8 预计算两帧之间每两个像素之间的匹配score(dot product),在迭代优化的过程中"LookUp" Operator负责将sample光流对应位置的cost. 避免了多次重复计算cost volume. 使得在scale 8上搜索长距离的光流成为可能，对快速移动的小物体的检测能力变强。</p></div>
                     
                 </div>
+
+            <script src="https://utteranc.es/client.js"
+                repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
+                issue-term="Summaries for several ECCV 2020 papers comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+            </script>
         </div>
 
         <footer class="col-md-12">

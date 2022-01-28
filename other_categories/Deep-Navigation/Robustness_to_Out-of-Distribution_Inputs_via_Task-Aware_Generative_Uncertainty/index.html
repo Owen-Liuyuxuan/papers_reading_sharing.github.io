@@ -1996,6 +1996,14 @@
 <p>本文一个与其他文章不同的理由是，不应该单纯地因为测试时输入图片与训练时不同就判断结果会有很大的不确定性。简单的例子比如说天花板的颜色，如果测试时与训练时不同，一个正常好的机器人深度学习模型不会因此得到不同的行动输出，"输出结果的不确定性不会因无关部分的区别而提升"。这个情况在本文的模型中也有所体现，作者实验室能发现VAE测试时输出的图片的天花板颜色与实际的输入不符合，但是最终输出的行动差别不大，也就不会提升对应的不确定性。这也是作者在估计不确定性的时候，坚持要去到最后行动输出时再估计不确定性，而不是从图像的输入就开始估计。</p></div>
                     
                 </div>
+
+            <script src="https://utteranc.es/client.js"
+                repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
+                issue-term="Robustness to Out-of-Distribution Inputs via Task-Aware Generative Uncertainty comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+            </script>
         </div>
 
         <footer class="col-md-12">

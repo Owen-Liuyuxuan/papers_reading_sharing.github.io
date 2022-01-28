@@ -2000,9 +2000,10 @@
 <p>本文中的<script type="math/tex">\delta, \eta</script>都是取自一定scale的随机高斯分布，作者表示这种方案由于没有考虑到网络的scale-invariance。对于一个ReLU网络，增大<script type="math/tex">i</script>层10倍，缩小<script type="math/tex">i+1</script>层10倍,输出值是不会变的。如果有normalization层，则更显然。</p>
 <p>如果我们对网络的扰动都是一个固定的单元值，则不同scale的网络受扰动的影响会不同.</p>
 <p>作者首先通过高斯分布得到随机矢量<script type="math/tex">d</script>, 然后将<script type="math/tex">d</script>的scale统一到<script type="math/tex">\theta</script>上 <script type="math/tex">d_{i,j} = \frac{d_{i,j}}{|d_{i,j}|} |\theta_{i,j}|</script> 其中这表达的是第<script type="math/tex">i</script>层第<script type="math/tex">j</script>个filter</p>
-<pre class="codehilite"><code class="language-python">for d, w in zip(direction, weights): # First channel -&gt; output filter num
-    d.mul_(w.norm()/(d.norm() + 1e-10))
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span> <span class="c1"># First channel -&gt; output filter num</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">))</span>
+</code></pre></div>
+
 
 <p>对于只有一维的矢量则用0(default)或者复制代替。</p>
 <h3 id="-">实验 - 分析现有模型</h3>
@@ -2018,6 +2019,14 @@
 <p><img alt="image" src="../res/visualize_landscape_opt_traj.png" /></p></div>
                     
                 </div>
+
+            <script src="https://utteranc.es/client.js"
+                repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
+                issue-term="Visualizing the Loss Landscape of Neural Nets comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+            </script>
         </div>
 
         <footer class="col-md-12">

@@ -2001,14 +2001,23 @@
 </p>
 <h3 id="ghost-batchnormbatch">使用Ghost BatchNorm模仿小batch时数据的统计特性。</h3>
 <p>根据Tensorflow Batchnorm的<a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization?hl=en">官方API文档</a>,设定</p>
-<pre class="codehilite"><code class="language-python">layer = tf.keras.layers.BatchNormalization(*args, virtual_batch_size=&lt;any_number&gt;)
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">layer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">virtual_batch_size</span><span class="o">=&lt;</span><span class="n">any_number</span><span class="o">&gt;</span><span class="p">)</span>
+</code></pre></div>
+
 
 <p>可以让batchnorm对大batch拆分，分成大小为<script type="math/tex"><any\_number></script>的小batch运行batchnorm</p>
 <h3 id="lossoverfitting-train">训练loss趋于平滑后不要畏惧overfitting， 继续train</h3>
 <p>作者实验判断的认为是，大batch性能差的主要原因是update的次数不够多(旁白:这个有些时候很真实)。</p></div>
                     
                 </div>
+
+            <script src="https://utteranc.es/client.js"
+                repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
+                issue-term="Train longer, generalize better: closing the generalization gap in large batch training of neural networks comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+            </script>
         </div>
 
         <footer class="col-md-12">

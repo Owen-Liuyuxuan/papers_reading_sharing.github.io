@@ -2006,6 +2006,14 @@ M=\sigma\left(P C^{T}\right)
 <p>思路就是允许被删除的bounding box去抑制其他网格，在原版的nms中，box的抑制与iou的计算需要一定迭代计算，这里可以直接并行运算并且用<a href="https://github.com/dbolya/yolact/blob/master/layers/functions/detection.py">pytorch API直接快速实现</a>，只不过会多suppress一些bbox。</p></div>
                     
                 </div>
+
+            <script src="https://utteranc.es/client.js"
+                repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
+                issue-term="YOLACT Real-time Instance Segmentation comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+            </script>
         </div>
 
         <footer class="col-md-12">

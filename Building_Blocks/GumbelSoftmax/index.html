@@ -1971,16 +1971,17 @@
 <p>这篇文章的内容已经固化为了pytorch的一个<a href="https://pytorch.org/docs/stable/nn.functional.html#gumbel-softmax">函数</a></p>
 <p>其作用是允许 Stochastic, Differentiable, Probabilistic Weighted, Indexing.</p>
 <p>先用代码解释 gumbel采样可以如何用均匀随机采样表达：</p>
-<pre class="codehilite"><code class="language-python">def gumbel(*shape):
-    u = np.random.rand(*shape)
-    return -np.log(-np.log(u))
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">gumbel</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">):</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
 
-def gumbelsoftmax(weights, lmbda=1, N=10000):
-    d = len(weights)
-    logits = np.log(weights.reshape(d, 1))
-    gumbel_noise = gumbel(d*N).reshape(d, N)
-    return softmax(( logits + gumbel_noise)/ lmbda, axis=0)
-</code></pre>
+<span class="k">def</span> <span class="nf">gumbelsoftmax</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">lmbda</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">gumbel_noise</span> <span class="o">=</span> <span class="n">gumbel</span><span class="p">(</span><span class="n">d</span><span class="o">*</span><span class="n">N</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">softmax</span><span class="p">((</span> <span class="n">logits</span> <span class="o">+</span> <span class="n">gumbel_noise</span><span class="p">)</span><span class="o">/</span> <span class="n">lmbda</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
 
 <p>通过采样 gumbelsoftmax,得到的分布近似于 </p>
 <p>
@@ -1988,44 +1989,54 @@ def gumbelsoftmax(weights, lmbda=1, N=10000):
 </p>
 <p>其中<script type="math/tex">lmbda</script>变量理解为温度超参，其作用在于控制采样系统的随机性.</p>
 <p>pytorch functional 的代码如下(不必复制使用，这内置于pytorch中):</p>
-<pre class="codehilite"><code class="language-python">def gumbel_softmax(logits, tau=1, hard=False, eps=1e-10, dim=-1):
-    # type: (Tensor, float, bool, float, int) -&gt; Tensor
-    r&quot;&quot;&quot;
-    Examples::
-        &gt;&gt;&gt; logits = torch.randn(20, 32)
-        &gt;&gt;&gt; # Sample soft categorical using reparametrization trick:
-        &gt;&gt;&gt; F.gumbel_softmax(logits, tau=1, hard=False)
-        &gt;&gt;&gt; # Sample hard categorical using &quot;Straight-through&quot; trick:
-        &gt;&gt;&gt; F.gumbel_softmax(logits, tau=1, hard=True)
-    &quot;&quot;&quot;
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">gumbel_softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">hard</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># type: (Tensor, float, bool, float, int) -&gt; Tensor</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; logits = torch.randn(20, 32)</span>
+<span class="sd">        &gt;&gt;&gt; # Sample soft categorical using reparametrization trick:</span>
+<span class="sd">        &gt;&gt;&gt; F.gumbel_softmax(logits, tau=1, hard=False)</span>
+<span class="sd">        &gt;&gt;&gt; # Sample hard categorical using &quot;Straight-through&quot; trick:</span>
+<span class="sd">        &gt;&gt;&gt; F.gumbel_softmax(logits, tau=1, hard=True)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    if eps != 1e-10:
-        warnings.warn(&quot;`eps` parameter is deprecated and has no effect.&quot;)
+    <span class="k">if</span> <span class="n">eps</span> <span class="o">!=</span> <span class="mf">1e-10</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;`eps` parameter is deprecated and has no effect.&quot;</span><span class="p">)</span>
 
-    gumbels = -torch.empty_like(logits, memory_format=torch.legacy_contiguous_format).exponential_().log()  # ~Gumbel(0,1)
-    gumbels = (logits + gumbels) / tau  # ~Gumbel(logits,tau)
-    y_soft = gumbels.softmax(dim)
+    <span class="n">gumbels</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">memory_format</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">legacy_contiguous_format</span><span class="p">)</span><span class="o">.</span><span class="n">exponential_</span><span class="p">()</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>  <span class="c1"># ~Gumbel(0,1)</span>
+    <span class="n">gumbels</span> <span class="o">=</span> <span class="p">(</span><span class="n">logits</span> <span class="o">+</span> <span class="n">gumbels</span><span class="p">)</span> <span class="o">/</span> <span class="n">tau</span>  <span class="c1"># ~Gumbel(logits,tau)</span>
+    <span class="n">y_soft</span> <span class="o">=</span> <span class="n">gumbels</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
 
-    if hard:
-        # Straight through.
-        index = y_soft.max(dim, keepdim=True)[1]
-        y_hard = torch.zeros_like(logits, memory_format=torch.legacy_contiguous_format).scatter_(dim, index, 1.0)
-        ret = y_hard - y_soft.detach() + y_soft
-    else:
-        # Reparametrization trick.
-        ret = y_soft
-    return ret
-</code></pre>
+    <span class="k">if</span> <span class="n">hard</span><span class="p">:</span>
+        <span class="c1"># Straight through.</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">y_soft</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">y_hard</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">memory_format</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">legacy_contiguous_format</span><span class="p">)</span><span class="o">.</span><span class="n">scatter_</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">y_hard</span> <span class="o">-</span> <span class="n">y_soft</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span> <span class="o">+</span> <span class="n">y_soft</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Reparametrization trick.</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">y_soft</span>
+    <span class="k">return</span> <span class="n">ret</span>
+</code></pre></div>
+
 
 <p>值得注意的是这里使用了</p>
-<pre class="codehilite"><code class="language-python">ret = y_hard - y_soft.detach() + y_soft
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">ret</span> <span class="o">=</span> <span class="n">y_hard</span> <span class="o">-</span> <span class="n">y_soft</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span> <span class="o">+</span> <span class="n">y_soft</span>
+</code></pre></div>
+
 
 <p>这一个trick使得one-hot的<script type="math/tex">y\_hard</script>在forward时是indexing量，但是backward的时候用的是<script type="math/tex">y\_soft</script>的梯度。</p>
 <p>这篇文章与很多其他内容相关，比如在强化学习中作为一个可以exploit又可以explore的hard indexing. 在网络剪枝中可以作为一个可以学习使用的参量。</p>
 <p>比较奇妙的是这篇paper在ICLR发布的时候只是marginally accepted,也只是poster,主要是可能原作者以及Reviewer当时只是在考虑使用在Generative Model上，提升没有那么显著，而没有预知这么多后来的应用。不过后来大家对它的引用以及发挥是很巨大的.</p></div>
                     
                 </div>
+
+            <script src="https://utteranc.es/client.js"
+                repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
+                issue-term="Categorical Reparameterization with Gumbel-Softmax comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+            </script>
         </div>
 
         <footer class="col-md-12">

@@ -2204,43 +2204,44 @@ d=L a\left(\mu_{p}, \sigma_{p}\right)+L a\left(\mu_{b}, \sigma_{b}\right) \\
 <script type="math/tex; mode=display">\mathcal{L}_{\text {depth }}=\frac{\sqrt{2}}{\sigma_{d}}\left|\mu_{d}-d^{g t}\right|+\log \left(\sigma_{d}\right)</script>
 </p>
 <p>本文还提出了一个hierarchical task learning.指优先把2D检测训练好，再把WHL训练好，最后再训练depth。"训练好"的评判标准是epochs之间的mean loss相差不大。</p>
-<pre class="codehilite"><code class="language-python">self.loss_graph = {'seg_loss':[],
-                   'size2d_loss':[], 
-                   'offset2d_loss':[],
-                   'offset3d_loss':['size2d_loss','offset2d_loss'], 
-                   'size3d_loss':['size2d_loss','offset2d_loss'], 
-                   'heading_loss':['size2d_loss','offset2d_loss'], 
-                   'depth_loss':['size2d_loss','size3d_loss','offset2d_loss']}  
-def compute_weight(self,current_loss,epoch):
-    T=140
-    #compute initial weights
-    loss_weights = {}
-    eval_loss_input = torch.cat([_.unsqueeze(0) for _ in current_loss.values()]).unsqueeze(0)
-    for term in self.loss_graph:
-        if len(self.loss_graph[term])==0:
-            loss_weights[term] = torch.tensor(1.0).to(current_loss[term].device)
-        else:
-            loss_weights[term] = torch.tensor(0.0).to(current_loss[term].device) 
-    #update losses list
-    if len(self.past_losses)==self.stat_epoch_nums:
-        past_loss = torch.cat(self.past_losses)
-        mean_diff = (past_loss[:-2]-past_loss[2:]).mean(0)
-        if not hasattr(self, 'init_diff'):
-            self.init_diff = mean_diff
-        c_weights = 1-(mean_diff/self.init_diff).relu().unsqueeze(0)
+<div class="codehilite"><pre><span></span><code><span class="bp">self</span><span class="o">.</span><span class="n">loss_graph</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;seg_loss&#39;</span><span class="p">:[],</span>
+                   <span class="s1">&#39;size2d_loss&#39;</span><span class="p">:[],</span> 
+                   <span class="s1">&#39;offset2d_loss&#39;</span><span class="p">:[],</span>
+                   <span class="s1">&#39;offset3d_loss&#39;</span><span class="p">:[</span><span class="s1">&#39;size2d_loss&#39;</span><span class="p">,</span><span class="s1">&#39;offset2d_loss&#39;</span><span class="p">],</span> 
+                   <span class="s1">&#39;size3d_loss&#39;</span><span class="p">:[</span><span class="s1">&#39;size2d_loss&#39;</span><span class="p">,</span><span class="s1">&#39;offset2d_loss&#39;</span><span class="p">],</span> 
+                   <span class="s1">&#39;heading_loss&#39;</span><span class="p">:[</span><span class="s1">&#39;size2d_loss&#39;</span><span class="p">,</span><span class="s1">&#39;offset2d_loss&#39;</span><span class="p">],</span> 
+                   <span class="s1">&#39;depth_loss&#39;</span><span class="p">:[</span><span class="s1">&#39;size2d_loss&#39;</span><span class="p">,</span><span class="s1">&#39;size3d_loss&#39;</span><span class="p">,</span><span class="s1">&#39;offset2d_loss&#39;</span><span class="p">]}</span>  
+<span class="k">def</span> <span class="nf">compute_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">current_loss</span><span class="p">,</span><span class="n">epoch</span><span class="p">):</span>
+    <span class="n">T</span><span class="o">=</span><span class="mi">140</span>
+    <span class="c1">#compute initial weights</span>
+    <span class="n">loss_weights</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">eval_loss_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">_</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">current_loss</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_graph</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_graph</span><span class="p">[</span><span class="n">term</span><span class="p">])</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">loss_weights</span><span class="p">[</span><span class="n">term</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">current_loss</span><span class="p">[</span><span class="n">term</span><span class="p">]</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">loss_weights</span><span class="p">[</span><span class="n">term</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">current_loss</span><span class="p">[</span><span class="n">term</span><span class="p">]</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> 
+    <span class="c1">#update losses list</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">past_losses</span><span class="p">)</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">stat_epoch_nums</span><span class="p">:</span>
+        <span class="n">past_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">past_losses</span><span class="p">)</span>
+        <span class="n">mean_diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">past_loss</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">past_loss</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;init_diff&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_diff</span> <span class="o">=</span> <span class="n">mean_diff</span>
+        <span class="n">c_weights</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">mean_diff</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">init_diff</span><span class="p">)</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-        time_value = min(((epoch-5)/(T-5)),1.0)
-        for current_topic in self.loss_graph:
-            if len(self.loss_graph[current_topic])!=0:
-                control_weight = 1.0
-                for pre_topic in self.loss_graph[current_topic]:
-                    control_weight *= c_weights[0][self.term2index[pre_topic]]      
-                loss_weights[current_topic] = time_value**(1-control_weight)
-        #pop first list
-        self.past_losses.pop(0)
-    self.past_losses.append(eval_loss_input)   
-    return loss_weights
-</code></pre>
+        <span class="n">time_value</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(((</span><span class="n">epoch</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="mi">5</span><span class="p">)),</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">current_topic</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_graph</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_graph</span><span class="p">[</span><span class="n">current_topic</span><span class="p">])</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">control_weight</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="k">for</span> <span class="n">pre_topic</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_graph</span><span class="p">[</span><span class="n">current_topic</span><span class="p">]:</span>
+                    <span class="n">control_weight</span> <span class="o">*=</span> <span class="n">c_weights</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">term2index</span><span class="p">[</span><span class="n">pre_topic</span><span class="p">]]</span>      
+                <span class="n">loss_weights</span><span class="p">[</span><span class="n">current_topic</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_value</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">control_weight</span><span class="p">)</span>
+        <span class="c1">#pop first list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">past_losses</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">past_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eval_loss_input</span><span class="p">)</span>   
+    <span class="k">return</span> <span class="n">loss_weights</span>
+</code></pre></div>
+
 
 <h2 id="monoflex">MonoFlex</h2>
 <p><a href="https://arxiv.org/pdf/2104.02323.pdf">pdf</a> <a href="https://github.com/zhangyp15/MonoFlex">code</a></p>
@@ -2296,6 +2297,14 @@ def compute_weight(self,current_loss,epoch):
 <iframe src="//player.bilibili.com/player.html?aid=91364947&cid=156014191&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true" height=270 width=480> </iframe></div>
                     
                 </div>
+
+            <script src="https://utteranc.es/client.js"
+                repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
+                issue-term="Recent Collections for Mono 3D detection comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+            </script>
         </div>
 
         <footer class="col-md-12">

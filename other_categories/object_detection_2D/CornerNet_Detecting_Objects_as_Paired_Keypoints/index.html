@@ -2004,22 +2004,23 @@
 </script>
 </p>
 <p>原版code有错误，经过一些修正后正确的实现应当是。</p>
-<pre class="codehilite"><code class="language-python">def compute_radius(det_size, min_overlap=0.7):
-    &quot;&quot;&quot; Compute radius from ground truth bbox.
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_radius</span><span class="p">(</span><span class="n">det_size</span><span class="p">,</span> <span class="n">min_overlap</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Compute radius from ground truth bbox.</span>
 
-    original equation: (w - 2r) (h - 2r) / (wh) = min_overlap
-    Take the solution with a smaller magnitude.
-    &quot;&quot;&quot;
-    height, width = det_size
+<span class="sd">    original equation: (w - 2r) (h - 2r) / (wh) = min_overlap</span>
+<span class="sd">    Take the solution with a smaller magnitude.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">det_size</span>
 
-    a2 = 4
-    b2 = 2 * (height + width)
-    c2 = (1 - min_overlap) * width * height
-    sq2 = np.sqrt(b2 ** 2 - 4 * a2 * c2)
-    r2 = (b2 - sq2) / (2 * a2)
+    <span class="n">a2</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">b2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
+    <span class="n">c2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">min_overlap</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span> <span class="o">*</span> <span class="n">height</span>
+    <span class="n">sq2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b2</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">a2</span> <span class="o">*</span> <span class="n">c2</span><span class="p">)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="p">(</span><span class="n">b2</span> <span class="o">-</span> <span class="n">sq2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">a2</span><span class="p">)</span>
 
-    return r2
-</code></pre>
+    <span class="k">return</span> <span class="n">r2</span>
+</code></pre></div>
+
 
 <p>这个idea热点图的idea以及official code(尽管不一定正确)被多个后续的文章使用, 包括 <a href="../Object_as_points/">Object as point</a>, <a href="https://github.com/maudzung/RTM3D">RTM3D Unofficial Implementation</a></p>
 <p>最终设计出一个focal loss,原版focal loss源自与<a href="https://arxiv.org/pdf/1708.02002.pdf">这篇文章</a>,在<a href="../../../3dDetection/Disentangling_Monocular_3D_Object_Detection/">这里</a>有简介。这里的定义是</p>
@@ -2070,6 +2071,14 @@ l_{i j}=\left\{\begin{array}{cl}{\max \left(f_{l_{i j}}, l_{i(j+1)}\right)} & {\
 <p>先将基础的resblock的第一个<script type="math/tex">3\times 3</script>卷积改为corner pooling.</p></div>
                     
                 </div>
+
+            <script src="https://utteranc.es/client.js"
+                repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
+                issue-term="CornerNet: Detecting Objects as Paired Keypoints comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+            </script>
         </div>
 
         <footer class="col-md-12">
