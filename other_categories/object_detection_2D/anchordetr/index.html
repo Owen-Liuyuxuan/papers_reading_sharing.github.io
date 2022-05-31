@@ -348,6 +348,12 @@
     </li>
               
     <li>
+        <a href="../../Segmentation/BEV_segmentation/" class="dropdown-item">
+            Summary of Multiple Papers on BEV Fusion
+        </a>
+    </li>
+              
+    <li>
         <a href="../../Segmentation/CONVOLUTIONAL%20CRFS%20%20FOR%20SEMANTIC%20SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
@@ -2014,7 +2020,6 @@
             <span class="n">bs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_pattern</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_position</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>在每一层decoder网络的输出形式:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># output 与 前文的 tgt经过transformer的连接, 注意:tgt与output有直接的残差连接(也就是网络刚初始化时,接近于 output=tgt).</span>
 <span class="c1"># output在每一层decoder中会持续优化.但是全部都是残差连接.</span>
@@ -2023,7 +2028,6 @@
 <span class="n">tmp</span> <span class="o">+=</span> <span class="n">reference</span> <span class="c1"># tmp = reference_anchor + network_residual</span>
 <span class="n">outputs_coord</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
 </code></pre></div>
-
 
 <p>RCDA模式的每一层decoder由自注意力,交叉注意力,残差全连接堆叠而成.
 - 自注意力的Q,K为带有anchor点位置embedding的tgt, 而V为tgt. 

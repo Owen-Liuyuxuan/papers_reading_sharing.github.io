@@ -348,6 +348,12 @@
     </li>
               
     <li>
+        <a href="../../Segmentation/BEV_segmentation/" class="dropdown-item">
+            Summary of Multiple Papers on BEV Fusion
+        </a>
+    </li>
+              
+    <li>
         <a href="../../Segmentation/CONVOLUTIONAL%20CRFS%20%20FOR%20SEMANTIC%20SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
@@ -2020,7 +2026,6 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reppoints_pts_refine_conv</span><span class="p">(</span><span class="n">pts_feat</span><span class="p">,</span> <span class="n">dcn_offset</span><span class="p">)))</span> <span class="c1"># conv ( relu (deform_conv))</span>
 </code></pre></div>
 
-
 <p>这里实际上有两次Ground Truth Assign的过程，第一次采用的K最近点的分配,首先根据框的大小分配到指定的FPN Scale上，然后寻找中点最近的k(默认正样本)个点给正样本.第二次则是根据第一阶段的预测框作为anchor(这样每一个scale上每一个点都有一个anchor),选择IoU超越threshold的作为正样本。最后分类loss按照在第二次分配的结果来算。</p>
 <p>而由点到bounding box的算法作者给了三个方案，最直观的是其中的min-max方案。但是最后default的是自适应的</p>
 <div class="codehilite"><pre><span></span><code><span class="n">pts_y_mean</span> <span class="o">=</span> <span class="n">pts_y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -2038,7 +2043,6 @@
     <span class="n">pts_x_mean</span> <span class="o">+</span> <span class="n">half_width</span><span class="p">,</span> <span class="n">pts_y_mean</span> <span class="o">+</span> <span class="n">half_height</span>
 <span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
-
 
 <h2 id="dense-reppoints">Dense RepPoints</h2>
 <p>这篇paper在2D bounding box detection的基本概念是在RepPoints的基础上预测更多的representation points， 同时提出了</p>

@@ -348,6 +348,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/Segmentation/BEV_segmentation/" class="dropdown-item">
+            Summary of Multiple Papers on BEV Fusion
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/Segmentation/CONVOLUTIONAL%20CRFS%20%20FOR%20SEMANTIC%20SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
@@ -2000,7 +2006,6 @@
     <span class="k">return</span> <span class="n">softmax</span><span class="p">((</span> <span class="n">logits</span> <span class="o">+</span> <span class="n">gumbel_noise</span><span class="p">)</span><span class="o">/</span> <span class="n">lmbda</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>通过采样 gumbelsoftmax,得到的分布近似于 </p>
 <p>
 <script type="math/tex">\frac{weights}{\sum(weights)}</script>
@@ -2036,11 +2041,9 @@
     <span class="k">return</span> <span class="n">ret</span>
 </code></pre></div>
 
-
 <p>值得注意的是这里使用了</p>
 <div class="codehilite"><pre><span></span><code><span class="n">ret</span> <span class="o">=</span> <span class="n">y_hard</span> <span class="o">-</span> <span class="n">y_soft</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span> <span class="o">+</span> <span class="n">y_soft</span>
 </code></pre></div>
-
 
 <p>这一个trick使得one-hot的<script type="math/tex">y\_hard</script>在forward时是indexing量，但是backward的时候用的是<script type="math/tex">y\_soft</script>的梯度。</p>
 <p>这篇文章与很多其他内容相关，比如在强化学习中作为一个可以exploit又可以explore的hard indexing. 在网络剪枝中可以作为一个可以学习使用的参量。</p>

@@ -348,6 +348,12 @@
     </li>
               
     <li>
+        <a href="../../Segmentation/BEV_segmentation/" class="dropdown-item">
+            Summary of Multiple Papers on BEV Fusion
+        </a>
+    </li>
+              
+    <li>
         <a href="../../Segmentation/CONVOLUTIONAL%20CRFS%20%20FOR%20SEMANTIC%20SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
@@ -2052,7 +2058,6 @@
     <span class="n">gram</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">features</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">gram</span>
 </code></pre></div>
-
 
 <h2 id="network-seperation">Network seperation</h2>
 <p>对于YOLOv3一共5次下采样，分成6段网络，将第二 or 第三段的输出作为<script type="math/tex">H</script>，将第四段的输出作为<script type="math/tex">R</script>得到的结果较好（重复实验结果）</p>

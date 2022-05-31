@@ -348,6 +348,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/Segmentation/BEV_segmentation/" class="dropdown-item">
+            Summary of Multiple Papers on BEV Fusion
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/Segmentation/CONVOLUTIONAL%20CRFS%20%20FOR%20SEMANTIC%20SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
@@ -2016,7 +2022,6 @@
     <span class="n">d_p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span>
     <span class="n">d_p</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="o">-</span><span class="n">d_p</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">d_p</span><span class="o">.</span><span class="n">size</span><span class="p">())))),</span> <span class="n">keepdim</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
 </code></pre></div>
-
 
 <p>这种训练方式要求网络的权重的均值一直是不变的，也就是regularize了权重的搜索空间.作者也证明这种写法会regularize feature output space.但是kaiming init 还有imagenet pretrained的权重值都不会太大，所以这个regularization不会轻易崩。</p>
 <h2 id="decoupled-weight-decay-regularization">Decoupled Weight Decay Regularization</h2>

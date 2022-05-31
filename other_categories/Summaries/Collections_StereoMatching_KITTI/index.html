@@ -348,6 +348,12 @@
     </li>
               
     <li>
+        <a href="../../Segmentation/BEV_segmentation/" class="dropdown-item">
+            Summary of Multiple Papers on BEV Fusion
+        </a>
+    </li>
+              
+    <li>
         <a href="../../Segmentation/CONVOLUTIONAL%20CRFS%20%20FOR%20SEMANTIC%20SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
@@ -2274,7 +2280,6 @@ E_{d s}^{l} &=\frac{1}{n} \sum_{i, j}\left|\partial_{x} d_{i j}^{l}\right| e^{-\
         <span class="n">P</span> <span class="o">*=</span> <span class="p">(</span><span class="n">c</span> <span class="o">/</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="c1">#normalize in second dimension</span>
     <span class="k">return</span> <span class="n">P</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P</span> <span class="o">*</span> <span class="n">M</span><span class="p">)</span>
 </code></pre></div>
-
 
 <p>本文的代码则是默认<script type="math/tex">\lambda</script>为1，在 <script type="math/tex">\log</script>空间中进行迭代计算。</p></div>
                     

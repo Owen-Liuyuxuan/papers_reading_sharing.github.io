@@ -348,6 +348,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/Segmentation/BEV_segmentation/" class="dropdown-item">
+            Summary of Multiple Papers on BEV Fusion
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/Segmentation/CONVOLUTIONAL%20CRFS%20%20FOR%20SEMANTIC%20SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
@@ -2021,7 +2027,6 @@
 <div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span> <span class="c1"># First channel -&gt; output filter num</span>
     <span class="n">d</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">/</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">))</span>
 </code></pre></div>
-
 
 <p>对于只有一维的矢量则用0(default)或者复制代替。</p>
 <h3 id="-">实验 - 分析现有模型</h3>

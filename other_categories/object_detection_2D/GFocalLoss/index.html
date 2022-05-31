@@ -348,6 +348,12 @@
     </li>
               
     <li>
+        <a href="../../Segmentation/BEV_segmentation/" class="dropdown-item">
+            Summary of Multiple Papers on BEV Fusion
+        </a>
+    </li>
+              
+    <li>
         <a href="../../Segmentation/CONVOLUTIONAL%20CRFS%20%20FOR%20SEMANTIC%20SEGMENTATION/" class="dropdown-item">
             Convolutional CRF
         </a>
@@ -2015,7 +2021,9 @@
 p, & \text { when } y=1 \\
 1-p, & \text { when } y=0
 \end{aligned}\right.</script>
-<div id="focalLoss" ></div></p>
+</p>
+<div id="focalLoss" ></div>
+
 <h2 id="quality-focal-loss">Quality Focal Loss</h2>
 <p>
 <script type="math/tex; mode=display">\mathbf{Q} \mathbf{F} \mathbf{L}(\sigma)=-|y-\sigma|^{\beta}((1-y) \log (1-\sigma)+y \log (\sigma))</script>
@@ -2054,7 +2062,6 @@ p, & \text { when } y=1 \\
     <span class="k">return</span> <span class="n">loss</span>
 </code></pre></div>
 
-
 <h2 id="distribution-focal-loss-dfl">Distribution Focal Loss (DFL)</h2>
 <p>当我们使用序列的多个分类值(multi-bin)分类时，inference的时候我们使用 <script type="math/tex">\hat{y}=\sum_{i=0}^{n} P\left(y_{i}\right) y_{i}</script>。 <script type="math/tex; mode=display">\mathbf{D F L}\left(\mathcal{S}_{i}, \mathcal{S}_{i+1}\right)=-\left(\left(y_{i+1}-y\right) \log \left(\mathcal{S}_{i}\right)+\left(y-y_{i}\right) \log \left(\mathcal{S}_{i+1}\right)\right)</script>
 </p>
@@ -2079,7 +2086,6 @@ p, & \text { when } y=1 \\
     <span class="n">loss</span> <span class="o">=</span> <span class="n">weight_reduce_loss</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">reduction</span><span class="p">,</span> <span class="n">avg_factor</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">loss</span>
 </code></pre></div>
-
 
 <h2 id="generalized-focal-loss-gfl">Generalized Focal Loss (GFL)</h2>
 <p>
