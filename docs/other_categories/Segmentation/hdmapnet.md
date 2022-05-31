@@ -1,4 +1,4 @@
-time: 20210506
+time: 20220506
 pdf_source: https://arxiv.org/pdf/2107.06307.pdf
 code_source: https://github.com/Tsinghua-MARS-Lab/HDMapNet
 
