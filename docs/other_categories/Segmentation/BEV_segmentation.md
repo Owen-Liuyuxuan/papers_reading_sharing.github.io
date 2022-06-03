@@ -62,8 +62,32 @@ time: 20220531
 相机转换方案: 与LSS一致。
 加入了LiDAR.
 
+## 相机与BEV特征输出之间的转换的进一步数学化整理:
 
+目前的方案来说，都是对BEV上每一个像素点，去"寻找"，或者融合相机图像上的特征。同一数学符号，BEV上第$i$个点的特征为$F_{BEV}(x_i, z_i)$, 图片上第$j$个点的坐标是 $F_{IMG}(Cx_j, Cy_j)$, 扩展起见，如果$Cx_j, Cy_j$是小数，则代表我们使用插值得到的特征值。这里着重考虑的输出是在相机坐标系下的BEV特征，环视系统的转换的额外的外参不考虑。
 
+基于传统CV的 IPM(Inverse Perspective Mapping), 对地面高度的BEV上的每一个点根据坐标找到对应图片上的那个点的特征，这里举无人车中常见的已知距离地面高度$L$的平视(俯仰角为0)相机为例，把坐标$(x_i, L, z_i)$投影到相机中，我们可以得到以下关系:
+
+$$F_{BEV}(x_i, z_i) = F_{img}(\frac{f_x x_i}{z_i} + cx, \frac{f_y L}{z_i} + cy)$$
+
+Neural Transformer (HDMapNet): 对输入图片使用全连接层输出直接是BEV，尽管实际操作上是多层线性网络，我们观察到实质上图片每个像素点与输出特征之间的连接都是学习后固定下来的参数。
+
+$$F_{BEV}(x_i, z_i) = MLP[F_{IMG}(Cx_j, Cy_j)] = \sum_j W_{ij} F_{img}(Cx_j, Cy_j)$$
+
+Lift-Splat-Shoot (LSS): 让输入图片输出一个完整的深度概率分布，然后投射到BEV上，由于默认方案是没有监督的，所以这个深度概率本质上就是一个由CNN从语义中提取出来的一个权重. 而且特征的融合都在图片的一个竖线上$CX_i = \frac{f_x x_i}{z_i} + cx$
+
+$$F_{BEV}(x_i, z_i) = \sum_{j}F_{IMG}(CX_i, Cy_i) *P(Z(CX_i, Cy_i) == z_i)$$
+$$F_{BEV}(x_i, z_i) = \sum_{j}F_{IMG}(CX_i, Cy_i) *CNN(F_{IMG}(CX_i, Cy_j))$$
+
+本质上就是一个[dynamic kernel](../../Building_Blocks/DynamicFilteringNetwork_Fewshot.md)
+
+Cross View Transformer实质上是一个BEV固定embedding $Q$, 与image feature+image embedding产生的K,V之间的Cross-attention
+
+$$
+F_{BEV}(x_i, z_i) = \sum_jw_{i,j} V(Cx_j, Cy_j) = \sum_{j}[K(Cx_j, Cy_j), Q(x_i, z_i)]V(Cx_j, Cy_j)
+$$
+
+主要的难点在于QKV同时需要学习，Q甚至是从零开始学习，重要的image embedding也是从零开始学习。在数据量有限的情况下性能不一定是最佳的。
 
 [HDMapNet]:hdmapnet.md
 [Lift-Splat-Shoot]:lift_splat_shoot.md
