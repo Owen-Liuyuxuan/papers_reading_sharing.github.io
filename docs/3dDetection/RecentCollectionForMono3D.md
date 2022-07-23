@@ -5,7 +5,7 @@ short_title: Recent Collections for Mono3D
 
 在IROS2020投稿前后积攒了一系列单目3D检测paper的阅读。这里一次过进行记录,开源在前，未开源在后.
 
-这里列出目前有文章可寻的KITTI排行榜(2020.02.27)
+这里列出目前有文章可寻的KITTI排行榜(2022.07.23)
 
 Update(2020.04.02):Update scores for YOLOMono3D
 
@@ -24,8 +24,14 @@ Update(2021.06.26): Update MonoEF
 
 | Methods         | Moderate | Easy  | Hard  | Time  |
 | --------------- | :------: | :---: | :---: | :---: |
+| [LPCG]          |  17.80   | 25.56 | 15.38 | 0.03  |
+| [PS-fld]        |  17.74   | 23.74 | 15.14 | 0.25  |
 | [dd3d]          |  16.34   | 23.22 | 14.20 |   -   |
-| [GUPNet]           |  15.02   | 22.26 | 13.12 |   -   |
+| [DID-M3D]       |  16.29   | 22.50 | 13.95 | 0.02  |
+| [MonoDETR]      |  16.26   | 24.52 | 13.93 | 0.04  |
+| [MonoDTR]       |  15.39   | 21.99 | 12.73 | 0.04  |
+| [GUPNet]        |  15.02   | 22.26 | 13.12 |   -   |
+| [DEVIANT]       |  14.46   | 21.88 | 11.89 | 0.04  |
 | [DLE]           |  14.33   | 24.23 | 10.30 | 0.06  |
 | [AutoShape]     |  14.17   | 22.47 | 11.36 | 0.05  |
 | [MonoFlex]      |  13.89   | 19.94 | 12.07 | 0.03  |
@@ -50,6 +56,11 @@ Update(2021.06.26): Update MonoEF
 目录:
 
 - [Recent Collections for Mono 3D detection](#recent-collections-for-mono-3d-detection)
+  - [LPCG](#lpcg)
+  - [Pseudo-Stereo](#pseudo-stereo)
+  - [DiD-M3D](#did-m3d)
+  - [MonoDETR](#monodetr)
+  - [MonoDTR](#monodtr)
   - [GUPNet](#gupnet)
   - [MonoFlex](#monoflex)
   - [MonoEF](#monoef)
@@ -61,6 +72,66 @@ Update(2021.06.26): Update MonoEF
   - [MonoPair](#monopair)
   - [SMOKE](#smoke)
   - [YOLOMono3D](#yolomono3d)
+
+
+## LPCG
+[pdf](https://arxiv.org/pdf/2104.09035.pdf) [code](https://github.com/SPengLiang/LPCG)
+
+![image](res/LPCG_arch.png)
+
+这篇paper带来了很强的实用性。利用雷达，利用自监督，利用上大量kitti raw中没有被标记的数据。
+
+- Step 1， 训练一个雷达的detector, 并且准备一个基于雷达的 unsupervised detector.
+- Step 2. 训练图片的时候，利用雷达的detector以及unsupervised detector, 在没有被标记的数据上生成 pseudo label. 扩大训练数据量。得到很好的性能。
+
+## Pseudo-Stereo
+[pdf](https://arxiv.org/abs/2203.02112) [code](https://github.com/revisitq/Pseudo-Stereo-3D)
+![image](res/pseudo_stereo.png)
+
+这篇paper做了很神奇的操作，就是采用单目伪装双目，然后使用双目的detector ([LIGA](RecentCollectionForStereo3D.md), [YOLOStereo3D](YOLOStereo3D.md))出结果，得到相当不错的性能。
+
+作者尝试了几种方案，
+
+- 图像级别的生成：单目预测一个disparity map,完全直接构建双目图像。  性能一般
+- 特征级别的生成：使用上述的Disparity map直接构建一个特征图，和右图的特征图输入双目匹配部分。效果最好
+- 克隆，直接复制原来的单目特征，进入双目匹配部分。效果还不错
+
+## DiD-M3D
+[pdf](https://arxiv.org/pdf/2207.08531.pdf) [code](https://github.com/SPengLiang/DID-M3D)
+
+![image](res/didm3d_idea.png)
+
+这篇paper整体方案上与[GUPNet]是一致的，是一个二阶段的算法。它第一个引入并强调了 visual depth / attribute depth的概念。
+
+visual depth也就是物体表面的深度，可以理解为该像素实际物体点的深度，attribute depth则是该点到物体中心的深度距离。作者强调认为，我们不应该直接预测中心的深度距离，而应该把这两个深度解耦。并且这个算法现在可以对内参完全不敏感了。
+
+- Visual Depth 是物体像素到相机的距离，如果我们把图片裁剪/放大，那么对应的，我们预测的深度像素应该会随着焦距改变，这部分的深度是affine-sensitive的。
+- attribute depth是物体表面到三维目标中心点的距离，这部分深度是由车子的姿态和车子的大小决定的，因而可以认为这部分深度是 affine-insensitive, 与我们放大缩小图片无关。
+- GT和[MultiSensor Refinement](multisensor_refinement.md)那篇的做法比较接近，利用3D框内的点云点构造一个稀疏的visual depth label.然后用gt 减去它就可以得到 attribute loss. 后续做数据增强的时候 visual depth随着scale改变，但是attribute loss则不改变。
+- 使用L1 Loss, 都预测Laplacian uncertainty, 融合也一样。
+
+## MonoDETR
+[pdf](https://arxiv.org/pdf/2203.13310.pdf) [code](https://github.com/ZrrSkywalker/MonoDETR)
+
+这篇paper则完全引入了DETR, 似乎是第一篇把DETR的输出头完全地引入Mono3D这个任务。
+![image](res/monodetr_pipeline.jpg)
+
+- 特征上分开visual encoder和有独立深度信息补充的depth encoder;
+- depth predictor预测一个多分类深度估计，由object depth进行监督，2d框内的所有点深度gt为物体的深度，相交部分取深度最小值，框外分类为独立的背景类。
+- 在depth cross-attention中，利用深度的预测值构建深度positional embedding；把对应坐标的深度预测分布，引入作为positional embedding.
+- DETR深度的最终输出，由$d_{geo}=f\frac{h_{3D}}{t+b}$，($t,b$分别是上下边到3D投影中心的距离，网络也以此作为prediction attribute)
+，$d_reg$直接预测以及$d_{map}(x_{3D}, y_{3D})$预测的深度图在对应点的插值组成。
+## MonoDTR
+[pdf](https://arxiv.org/pdf/2203.10981.pdf) [code](https://github.com/KuanchihHuang/MonoDTR)
+
+![image](res/monodtr_arch.png)
+
+整体来说这篇paper采用了卷积backbone加transformer head的整体方案来构造网络，输出的形态与[YOLOMono3D]是一样的。
+
+也通过DFE引入了深度监督。
+
+![image](res/monodtr_dfe.png)
+
 
 ## GUPNet
 [pdf](https://arxiv.org/pdf/2107.13774.pdf) [code](https://github.com/SuperMHP/GUPNet)
@@ -214,6 +285,7 @@ def compute_weight(self,current_loss,epoch):
 
 <iframe src="//player.bilibili.com/player.html?aid=91364947&cid=156014191&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true" height=270 width=480> </iframe>
 
+[DEVIANT]:https://github.com/abhi1kumar/DEVIANT
 [GUPNet]:#gupnet
 [dd3d]:is_plidar_needed.md
 [Autoshape]:../other_categories/Summaries/Summary_ICCV_2021.md
