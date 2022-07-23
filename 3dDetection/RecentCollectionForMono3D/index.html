@@ -1188,12 +1188,6 @@
     </li>
                                     
     <li>
-        <a href="../Multi-Sensor%203D%20Object%20Box%20Refinement%20for%20Autonomous%20Driving/" class="dropdown-item">
-            Multi-Sensor Refinement - Li Peiliang
-        </a>
-    </li>
-                                    
-    <li>
         <a href="../Multi-View_3D_Detection_Network_for_autonomous_Driving/" class="dropdown-item">
             MV3D
         </a>
@@ -1292,6 +1286,12 @@
     <li>
         <a href="../monorun/" class="dropdown-item">
             MonoRUn: Monocular 3D Object Detection by Reconstruction and Uncertainty Propagation
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../multisensor_refinement/" class="dropdown-item">
+            Multi-Sensor Refinement - Li Peiliang
         </a>
     </li>
                                     
@@ -1994,6 +1994,21 @@
         
             <li class="nav-item main"><a href="#recent-collections-for-mono-3d-detection">Recent Collections for Mono 3D detection</a></li>
                 <li class="nav-item">
+                    <a href="#lpcg" class="nav-link">LPCG</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#pseudo-stereo" class="nav-link">Pseudo-Stereo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#did-m3d" class="nav-link">DiD-M3D</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#monodetr" class="nav-link">MonoDETR</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#monodtr" class="nav-link">MonoDTR</a>
+                </li>
+                <li class="nav-item">
                     <a href="#gupnet" class="nav-link">GUPNet</a>
                 </li>
                 <li class="nav-item">
@@ -2036,7 +2051,7 @@
 </span>
 <h1 id="recent-collections-for-mono-3d-detection">Recent Collections for Mono 3D detection</h1>
 <p>在IROS2020投稿前后积攒了一系列单目3D检测paper的阅读。这里一次过进行记录,开源在前，未开源在后.</p>
-<p>这里列出目前有文章可寻的KITTI排行榜(2020.02.27)</p>
+<p>这里列出目前有文章可寻的KITTI排行榜(2022.07.23)</p>
 <p>Update(2020.04.02):Update scores for YOLOMono3D</p>
 <p>Update(2020.07.24): Update Kinematic 3D</p>
 <p>Update(2020.09.08): Update SSL-RTM3D</p>
@@ -2056,6 +2071,20 @@
 </thead>
 <tbody>
 <tr>
+<td>[LPCG]</td>
+<td align="center">17.80</td>
+<td align="center">25.56</td>
+<td align="center">15.38</td>
+<td align="center">0.03</td>
+</tr>
+<tr>
+<td>[PS-fld]</td>
+<td align="center">17.74</td>
+<td align="center">23.74</td>
+<td align="center">15.14</td>
+<td align="center">0.25</td>
+</tr>
+<tr>
 <td><a href="../is_plidar_needed/">dd3d</a></td>
 <td align="center">16.34</td>
 <td align="center">23.22</td>
@@ -2063,11 +2092,39 @@
 <td align="center">-</td>
 </tr>
 <tr>
+<td>[DID-M3D]</td>
+<td align="center">16.29</td>
+<td align="center">22.50</td>
+<td align="center">13.95</td>
+<td align="center">0.02</td>
+</tr>
+<tr>
+<td>[MonoDETR]</td>
+<td align="center">16.26</td>
+<td align="center">24.52</td>
+<td align="center">13.93</td>
+<td align="center">0.04</td>
+</tr>
+<tr>
+<td>[MonoDTR]</td>
+<td align="center">15.39</td>
+<td align="center">21.99</td>
+<td align="center">12.73</td>
+<td align="center">0.04</td>
+</tr>
+<tr>
 <td><a href="#gupnet">GUPNet</a></td>
 <td align="center">15.02</td>
 <td align="center">22.26</td>
 <td align="center">13.12</td>
 <td align="center">-</td>
+</tr>
+<tr>
+<td><a href="https://github.com/abhi1kumar/DEVIANT">DEVIANT</a></td>
+<td align="center">14.46</td>
+<td align="center">21.88</td>
+<td align="center">11.89</td>
+<td align="center">0.04</td>
 </tr>
 <tr>
 <td><a href="../../other_categories/depth_completion/DeepLineEncode/">DLE</a></td>
@@ -2214,6 +2271,11 @@
 <p>目录:</p>
 <ul>
 <li><a href="#recent-collections-for-mono-3d-detection">Recent Collections for Mono 3D detection</a></li>
+<li><a href="#lpcg">LPCG</a></li>
+<li><a href="#pseudo-stereo">Pseudo-Stereo</a></li>
+<li><a href="#did-m3d">DiD-M3D</a></li>
+<li><a href="#monodetr">MonoDETR</a></li>
+<li><a href="#monodtr">MonoDTR</a></li>
 <li><a href="#gupnet">GUPNet</a></li>
 <li><a href="#monoflex">MonoFlex</a></li>
 <li><a href="#monoef">MonoEF</a></li>
@@ -2226,6 +2288,52 @@
 <li><a href="#smoke">SMOKE</a></li>
 <li><a href="#yolomono3d">YOLOMono3D</a></li>
 </ul>
+<h2 id="lpcg">LPCG</h2>
+<p><a href="https://arxiv.org/pdf/2104.09035.pdf">pdf</a> <a href="https://github.com/SPengLiang/LPCG">code</a></p>
+<p><img alt="image" src="../res/LPCG_arch.png" /></p>
+<p>这篇paper带来了很强的实用性。利用雷达，利用自监督，利用上大量kitti raw中没有被标记的数据。</p>
+<ul>
+<li>Step 1， 训练一个雷达的detector, 并且准备一个基于雷达的 unsupervised detector.</li>
+<li>Step 2. 训练图片的时候，利用雷达的detector以及unsupervised detector, 在没有被标记的数据上生成 pseudo label. 扩大训练数据量。得到很好的性能。</li>
+</ul>
+<h2 id="pseudo-stereo">Pseudo-Stereo</h2>
+<p><a href="https://arxiv.org/abs/2203.02112">pdf</a> <a href="https://github.com/revisitq/Pseudo-Stereo-3D">code</a>
+<img alt="image" src="../res/pseudo_stereo.png" /></p>
+<p>这篇paper做了很神奇的操作，就是采用单目伪装双目，然后使用双目的detector (<a href="../RecentCollectionForStereo3D/">LIGA</a>, <a href="../YOLOStereo3D/">YOLOStereo3D</a>)出结果，得到相当不错的性能。</p>
+<p>作者尝试了几种方案，</p>
+<ul>
+<li>图像级别的生成：单目预测一个disparity map,完全直接构建双目图像。  性能一般</li>
+<li>特征级别的生成：使用上述的Disparity map直接构建一个特征图，和右图的特征图输入双目匹配部分。效果最好</li>
+<li>克隆，直接复制原来的单目特征，进入双目匹配部分。效果还不错</li>
+</ul>
+<h2 id="did-m3d">DiD-M3D</h2>
+<p><a href="https://arxiv.org/pdf/2207.08531.pdf">pdf</a> <a href="https://github.com/SPengLiang/DID-M3D">code</a></p>
+<p><img alt="image" src="../res/didm3d_idea.png" /></p>
+<p>这篇paper整体方案上与<a href="#gupnet">GUPNet</a>是一致的，是一个二阶段的算法。它第一个引入并强调了 visual depth / attribute depth的概念。</p>
+<p>visual depth也就是物体表面的深度，可以理解为该像素实际物体点的深度，attribute depth则是该点到物体中心的深度距离。作者强调认为，我们不应该直接预测中心的深度距离，而应该把这两个深度解耦。并且这个算法现在可以对内参完全不敏感了。</p>
+<ul>
+<li>Visual Depth 是物体像素到相机的距离，如果我们把图片裁剪/放大，那么对应的，我们预测的深度像素应该会随着焦距改变，这部分的深度是affine-sensitive的。</li>
+<li>attribute depth是物体表面到三维目标中心点的距离，这部分深度是由车子的姿态和车子的大小决定的，因而可以认为这部分深度是 affine-insensitive, 与我们放大缩小图片无关。</li>
+<li>GT和<a href="../multisensor_refinement/">MultiSensor Refinement</a>那篇的做法比较接近，利用3D框内的点云点构造一个稀疏的visual depth label.然后用gt 减去它就可以得到 attribute loss. 后续做数据增强的时候 visual depth随着scale改变，但是attribute loss则不改变。</li>
+<li>使用L1 Loss, 都预测Laplacian uncertainty, 融合也一样。</li>
+</ul>
+<h2 id="monodetr">MonoDETR</h2>
+<p><a href="https://arxiv.org/pdf/2203.13310.pdf">pdf</a> <a href="https://github.com/ZrrSkywalker/MonoDETR">code</a></p>
+<p>这篇paper则完全引入了DETR, 似乎是第一篇把DETR的输出头完全地引入Mono3D这个任务。
+<img alt="image" src="../res/monodetr_pipeline.jpg" /></p>
+<ul>
+<li>特征上分开visual encoder和有独立深度信息补充的depth encoder;</li>
+<li>depth predictor预测一个多分类深度估计，由object depth进行监督，2d框内的所有点深度gt为物体的深度，相交部分取深度最小值，框外分类为独立的背景类。</li>
+<li>在depth cross-attention中，利用深度的预测值构建深度positional embedding；把对应坐标的深度预测分布，引入作为positional embedding.</li>
+<li>DETR深度的最终输出，由<script type="math/tex">d_{geo}=f\frac{h_{3D}}{t+b}</script>，(<script type="math/tex">t,b</script>分别是上下边到3D投影中心的距离，网络也以此作为prediction attribute)
+，<script type="math/tex">d_reg</script>直接预测以及<script type="math/tex">d_{map}(x_{3D}, y_{3D})</script>预测的深度图在对应点的插值组成。</li>
+</ul>
+<h2 id="monodtr">MonoDTR</h2>
+<p><a href="https://arxiv.org/pdf/2203.10981.pdf">pdf</a> <a href="https://github.com/KuanchihHuang/MonoDTR">code</a></p>
+<p><img alt="image" src="../res/monodtr_arch.png" /></p>
+<p>整体来说这篇paper采用了卷积backbone加transformer head的整体方案来构造网络，输出的形态与<a href="#yolomono3d">YOLOMono3D</a>是一样的。</p>
+<p>也通过DFE引入了深度监督。</p>
+<p><img alt="image" src="../res/monodtr_dfe.png" /></p>
 <h2 id="gupnet">GUPNet</h2>
 <p><a href="https://arxiv.org/pdf/2107.13774.pdf">pdf</a> <a href="https://github.com/SuperMHP/GUPNet">code</a></p>
 <p><img alt="image" src="../res/GUPNet_arch.png" /></p>
