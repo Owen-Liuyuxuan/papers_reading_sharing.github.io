@@ -1,4 +1,4 @@
-time: 20211011
+time: 20220726
 short_title: Recent Collections for Mono3D
 
 # Recent Collections for Mono 3D detection
@@ -285,6 +285,11 @@ def compute_weight(self,current_loss,epoch):
 
 <iframe src="//player.bilibili.com/player.html?aid=91364947&cid=156014191&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true" height=270 width=480> </iframe>
 
+[LPCG]:#lpcg
+[PS-fld]:#pseudo-stereo
+[DID-M3D]:#did-m3d
+[MonoDETR]:#monodetr
+[MonoDTR]:#monodtr
 [DEVIANT]:https://github.com/abhi1kumar/DEVIANT
 [GUPNet]:#gupnet
 [dd3d]:is_plidar_needed.md
