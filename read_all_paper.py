@@ -115,6 +115,8 @@ mkdown_file['root'].split('/')[-1]
 
 # %%
 for mkdown_file in mkdown_files_col.find():
+    if 'file' not in mkdown_file:
+        print(mkdown_file['title'], "not in paper reading database")
     query = {'file': mkdown_file['file']}
     file_data = {}
     all_path = mkdown_file.get('all_path', '')
