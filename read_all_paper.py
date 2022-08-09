@@ -68,6 +68,9 @@ import re
 from PIL import Image
 
 for mkdown_file in mkdown_files_col.find():
+    all_path = mkdown_file.get('all_path', '')
+    if not (len(all_path) > 0):
+        continue
     with open(mkdown_file['all_path'], 'r') as f:
         lines = f.readlines()
         for i, line in enumerate(lines):
