@@ -20,7 +20,7 @@ short_title: MonoUncertainty
 - Log-likelihood Maximization. 有一些预测方案是让网络预测网络参数的均值与方差(bayesian network中的参数不确定性的描述)，
 - Self-Teaching, 加入teacher网络作为额外的回归监督。使得不确定性估计成为可能。
 
-- Bayesian Estimation.也就是融合乐 Empirical Estimation and Predicted Estimation.
+- Bayesian Estimation.也就是融合了 Empirical Estimation and Predicted Estimation.
 
 ## Metric : How to evaluate uncertainty
 

@@ -62,10 +62,6 @@ image_files_col.find_one({'all_path': image_file['all_path'], 'root': image_file
 # %%
 image_file
 
-# %%
-for mkdown_file in mkdown_files_col.find():
-    print(mkdown_file)
-    break
 
 # %%
 import re
@@ -136,6 +132,8 @@ for mkdown_file in mkdown_files_col.find():
                 if 'title' not in file_data:
                     title = line[2:].strip()
                     file_data['title'] = title
+    with open(mkdown_file['all_path'], 'r') as f:
+        file_data['content'] = f.read().lower()
     cls_1 = mkdown_file['root'].split('/')[-1]
     cls_2 = mkdown_file['root'].split('/')[-2]
     file_name = mkdown_file['file'][:-3].replace(' ', '%20').replace(':', '%3A')
