@@ -114,6 +114,9 @@ mkdown_file['root'].split('/')[-1]
 for mkdown_file in mkdown_files_col.find():
     query = {'file': mkdown_file['file']}
     file_data = {}
+    all_path = mkdown_file.get('all_path', '')
+    if not (len(all_path) > 0):
+        continue
     with open(mkdown_file['all_path'], 'r') as f:
         lines = f.readlines()
         tag = [mkdown_file['root'].split('/')[-1]]
