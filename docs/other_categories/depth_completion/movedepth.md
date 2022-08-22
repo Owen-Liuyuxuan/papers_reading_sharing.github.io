@@ -1,4 +1,4 @@
-time:20220822
+time: 20220822
 code_source: https://github.com/JeffWang987/MOVEDepth
 pdf_source: https://arxiv.org/pdf/2208.09170.pdf
 
