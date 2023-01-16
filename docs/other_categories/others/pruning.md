@@ -1,5 +1,5 @@
 time: 20230116
-pdf_source: https://arxiv.org/pdf/2301.05219.pdfc
+pdf_source: https://arxiv.org/pdf/2301.05219.pdf
 code_source: https://github.com/MingSun-Tse/Why-the-State-of-Pruning-So-Confusing
 
 # Why is the State of Neural Network Pruning so Confusing? On the Fairness, Comparison Setup, and Trainability in Network Pruning
@@ -17,3 +17,4 @@ M2: 直接对修剪后的模型，从预训练开始重新训练，可能比fine
     To summarize, our results suggest a larger LR does not really “improve” the performance.
     
     What really happens is, a larger LR accelerates the optimization process, making the higher performance observed earlier.
+
