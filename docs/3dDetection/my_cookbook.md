@@ -13,12 +13,13 @@ It mainly involves three open-source repo:
 Menu:
 
 <!-- vscode-markdown-toc -->
-* 1. [Data](#Data)
-* 2. [Training / Numerical Testing](#TrainingNumericalTesting)
-* 3. [Visualize offline test results (Optional)](#VisualizeofflinetestresultsOptional)
-* 4. [Visualize real-time prediction results in ROS.](#Visualizereal-timepredictionresultsinROS.)
-* 5. [Visualize real-time streaming in ROS.](#Visualizereal-timestreaminginROS.)
-* 6. [Streaming results on other/customized datasets](#Streamingresultsonothercustomizeddatasets)
+- [Synthetic Cookbook for Using/Testing/Demonstrating VisualDet3D in ROS](#synthetic-cookbook-for-usingtestingdemonstrating-visualdet3d-in-ros)
+  - [1. Data](#1-data)
+  - [2. Training / Numerical Testing](#2-training--numerical-testing)
+  - [3. Visualize offline test results (Optional)](#3-visualize-offline-test-results-optional)
+  - [4. Visualize real-time prediction results in ROS.](#4-visualize-real-time-prediction-results-in-ros)
+  - [5. Visualize real-time streaming in ROS.](#5-visualize-real-time-streaming-in-ros)
+  - [6. Streaming results on other/customized datasets](#6-streaming-results-on-othercustomized-datasets)
 
 <!-- vscode-markdown-toc-config
 	numbering=true
