@@ -29,6 +29,7 @@ Papers are now sorted in Several categories
 
 ### [Yolov4 & Review of Structure and Tricks for Object Detection](other_categories/object_detection_2D/YOLOv4.md)
 
+### [Comprehensive Practiacl Cookbook for visualDet3D](3dDetection/my_cookbook.md)
 
 ## Github
 
