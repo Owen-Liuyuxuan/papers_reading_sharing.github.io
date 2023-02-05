@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Wasserstein Distances for Stereo Disparity Estimation - Reading Collections</title>
+        <title>Synthetic Cookbook for Using/Testing/Demonstrating VisualDet3D in ROS - Reading Collections</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/font-awesome.min.css" rel="stylesheet">
         <link href="../../css/base.css" rel="stylesheet">
@@ -1092,7 +1092,7 @@
     </li>
                                     
     <li>
-        <a href="./" class="dropdown-item active">
+        <a href="../CDN/" class="dropdown-item">
             Wasserstein Distances for Stereo Disparity Estimation
         </a>
     </li>
@@ -1332,7 +1332,7 @@
     </li>
                                     
     <li>
-        <a href="../my_cookbook/" class="dropdown-item">
+        <a href="./" class="dropdown-item active">
             Synthetic Cookbook for Using/Testing/Demonstrating VisualDet3D in ROS
         </a>
     </li>
@@ -2016,12 +2016,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../AM3D/" class="nav-link">
+                                <a rel="prev" href="../multisensor_refinement/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../CameraDistanceAware/" class="nav-link">
+                                <a rel="next" href="../pointnet_related/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -2044,61 +2044,120 @@
         
         <ul class="nav flex-column bs-sidenav">
         
-        <a href=https://arxiv.org/pdf/2007.03085v1.pdf>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
-        </a>
-        
 
         
-        <a href=https://github.com/Div99/W-Stereo-Disp>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
-        </a>
-
-        
-            <li class="nav-item main"><a href="#wasserstein-distances-for-stereo-disparity-estimation">Wasserstein Distances for Stereo Disparity Estimation</a></li>
+            <li class="nav-item main"><a href="#synthetic-cookbook-for-usingtestingdemonstrating-visualdet3d-in-ros">Synthetic Cookbook for Using/Testing/Demonstrating VisualDet3D in ROS</a></li>
                 <li class="nav-item">
-                    <a href="#_1" class="nav-link">输出方式</a>
+                    <a href="#1-data" class="nav-link">1. Data</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#_2" class="nav-link">训练方式</a>
+                    <a href="#2-training-numerical-testing" class="nav-link">2. Training / Numerical Testing</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#3-visualize-offline-test-results-optional" class="nav-link">3. Visualize offline test results (Optional)</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#4-visualize-real-time-prediction-results-in-ros" class="nav-link">4. Visualize real-time prediction results in ROS.</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#5-visualize-real-time-streaming-in-ros" class="nav-link">5. Visualize real-time streaming in ROS.</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#6-streaming-results-on-othercustomized-datasets" class="nav-link">6. Streaming results on other/customized datasets</a>
                 </li>
         </ul>
     </div>
 </div></div>
                             <div class="col-md-9" role="main"><span>
     
-<a href=https://arxiv.org/pdf/2007.03085v1.pdf>
-    <i class="fa fa-file-pdf-o"> pdf</i>
-</a>
 
-
-
-<a href=https://github.com/Div99/W-Stereo-Disp>
-    <i class="fa fa-github"> code</i>
-</a>
 
 </span>
-<h1 id="wasserstein-distances-for-stereo-disparity-estimation">Wasserstein Distances for Stereo Disparity Estimation</h1>
-<p>这篇paper提出了双目匹配的一个新的输出方式与训练方式，作者将其替换到不同的双目匹配以及双目检测的方案中，都得到了直接的性能提升。</p>
-<h2 id="_1">输出方式</h2>
-<p><img alt="image" src="../res/CDN_arch.png" /></p>
-<p>此前的双目匹配是建立在单模预测的假设上的，每一个点预测一个概率，然后期望将结果训练成为一个单峰的高斯分布。</p>
-<p>但是作者指出，在物体边界上的点，大概率得到的disparity是一个双模的分布(disparity可能对应前景也可能对应后景)，如果直接对结果进行加权平均，就会观察到像<a href="../Pseudo-Lidar/">P-lidar</a>文章图片中看到的情况，也就是边缘点洒落在物体前景与后景之间。</p>
-<p>作者给出的方案是让每一个base disparity独立地计算ground truth与自己的offset以及概率，网络的输出则是直接输出其中概率最高的模态。</p>
-<h2 id="_2">训练方式</h2>
-<p>对于单模态训练，作者提出使用wasserstein距离进行训练:</p>
-<p>
-<script type="math/tex; mode=display">\begin{aligned}
-W_{p}\left(\tilde{p}, p^{\star}\right)=\left(\mathbb{E}_{\tilde{p}}\left\|d^{\prime}-d^{*}\right\|^{p}\right)^{1 / p} &=\left(\sum_{d \in \mathcal{D}} p(d \mid u, v)\left\|d+b(u, v, d)-d^{\star}\right\|^{p}\right)^{1 / p} \\
-&=\left(\sum_{d \in \mathcal{D}} \operatorname{softmax}\left(-S_{\text {disp }}(u, v, d)\right)\left\|d+b(u, v, d)-d^{\star}\right\|^{p}\right)^{1 / p}
-\end{aligned}</script>
-</p></div>
+<h1 id="synthetic-cookbook-for-usingtestingdemonstrating-visualdet3d-in-ros">Synthetic Cookbook for Using/Testing/Demonstrating VisualDet3D in ROS</h1>
+<p>One of the most often required features of visual detection 3D is a full tool chain including data / model training / model testing / ROS deployment / demonstration and more.</p>
+<p>In this cookbook, a set of tools are introduced to help this entire process.</p>
+<p>It mainly involves three open-source repo:</p>
+<ul>
+<li><a href="https://github.com/Owen-Liuyuxuan/kitti_visualize">kitti_visualize</a></li>
+<li><a href="https://github.com/Owen-Liuyuxuan/visualDet3D">visualDet3D</a></li>
+<li><a href="https://github.com/Owen-Liuyuxuan/visualDet3D_ros">visualDet3D_ros</a></li>
+</ul>
+<p>Menu:</p>
+<!-- vscode-markdown-toc -->
+<ul>
+<li>
+<ol>
+<li><a href="#Data">Data</a></li>
+</ol>
+</li>
+<li>
+<ol>
+<li><a href="#TrainingNumericalTesting">Training / Numerical Testing</a></li>
+</ol>
+</li>
+<li>
+<ol>
+<li><a href="#VisualizeofflinetestresultsOptional">Visualize offline test results (Optional)</a></li>
+</ol>
+</li>
+<li>
+<ol>
+<li><a href="#Visualizereal-timepredictionresultsinROS.">Visualize real-time prediction results in ROS.</a></li>
+</ol>
+</li>
+<li>
+<ol>
+<li><a href="#Visualizereal-timestreaminginROS.">Visualize real-time streaming in ROS.</a></li>
+</ol>
+</li>
+<li>
+<ol>
+<li><a href="#Streamingresultsonothercustomizeddatasets">Streaming results on other/customized datasets</a></li>
+</ol>
+</li>
+</ul>
+<!-- vscode-markdown-toc-config
+    numbering=true
+    autoSave=true
+    /vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
+
+<h2 id="1-data">1. <a name='Data'></a>Data</h2>
+<p>Download the <a href="https://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=3d">KITTI object dataset</a> to local. The file structure should end up like /data/kitti/{training/testing}/{image_2/calib/label_2...}.</p>
+<p>Please follow the setup process of <a href="https://github.com/Owen-Liuyuxuan/kitti_visualize">kitti_visualize</a> and make sure you could correctly visualize kitti object data (<strong>unselect</strong> isSequential in the GUI, and playing around with the index number). </p>
+<p>Now you can play around with the data and also confirm the file structure is fine.</p>
+<h2 id="2-training-numerical-testing">2. <a name='TrainingNumericalTesting'></a>Training / Numerical Testing</h2>
+<p>Checkout the training pipeline in <a href="https://github.com/Owen-Liuyuxuan/visualDet3D/blob/master/docs/mono3d.md">visualDet3D for mono3D</a>.</p>
+<p>If you do not want to train, one of the methods is to download the <strong>code and assets</strong> at <a href="https://github.com/Owen-Liuyuxuan/visualDet3D/releases/tag/1.0">Release 1.0 of visualDet3D</a> to reproduce the result of a pre-uploaded checkpoint. </p>
+<h2 id="3-visualize-offline-test-results-optional">3. <a name='VisualizeofflinetestresultsOptional'></a>Visualize offline test results (Optional)</h2>
+<p>Checkout the <a href="https://github.com/Owen-Liuyuxuan/kitti_visualize#additional-labels">additional labels</a> part. </p>
+<p>Basically, you need to copy the texts under <em>workdirs/Yolo3D/output/testing/data</em> of visualDet3D into  <em>/data/kitti_obj/testing/additional_label_2</em>, and launch <a href="https://github.com/Owen-Liuyuxuan/kitti_visualize">kitti_visualize</a> on the testing split to visual the offline results.</p>
+<h2 id="4-visualize-real-time-prediction-results-in-ros">4. <a name='Visualizereal-timepredictionresultsinROS.'></a>Visualize real-time prediction results in ROS.</h2>
+<p>Checkout the setup process of <a href="https://github.com/Owen-Liuyuxuan/visualDet3D_ros">visualDet3D_ros</a>. Notice to modify the "visual3d_path", "cfg_file", "weight_path" parameters based on your own setting of visualDet3D.</p>
+<p>Launch both <a href="https://github.com/Owen-Liuyuxuan/kitti_visualize">kitti_visualize</a> and <a href="https://github.com/Owen-Liuyuxuan/visualDet3D_ros">visualDet3D_ros</a>, <strong>unselect</strong> isSequential in the GUI. With the default launch file, the two node publish and read on the same image/camera_param topics. By adjusting what is shown in the RVIZ, we can now visualize the inference result in real-time. </p>
+<h2 id="5-visualize-real-time-streaming-in-ros">5. <a name='Visualizereal-timestreaminginROS.'></a>Visualize real-time streaming in ROS.</h2>
+<p>We suggest download the KITTI <a href="https://www.cvlibs.net/datasets/kitti/raw_data.php">raw dataset</a> to streaming out image/lidar data.</p>
+<ol>
+<li>
+<p>Please follow the setup process of <a href="https://github.com/Owen-Liuyuxuan/kitti_visualize">kitti_visualize</a> and make sure you could correctly visualize kitti raw data (<strong>select</strong> isSequential in the GUI, and playing around with the index number). </p>
+</li>
+<li>
+<p>Launch visualDet3D_ros as usual.</p>
+</li>
+</ol>
+<p>With the sequence data in <a href="https://github.com/Owen-Liuyuxuan/kitti_visualize">kitti_visualize</a> keep streaming into ROS, visualDet3D_ros will also streamingly conduct inference on the images, producing demo results like the one on the readme page of <a href="https://github.com/Owen-Liuyuxuan/visualDet3D_ros">visualDet3D_ros</a>. </p>
+<p>Notice, that the IO/computational stress will be high at this step. You could adjust the streaming speed of <a href="https://github.com/Owen-Liuyuxuan/kitti_visualize">kitti_visualize</a> by changing local param in the launch file(UPDATE_FREQUENCY) or directly modifying the code.</p>
+<h2 id="6-streaming-results-on-othercustomized-datasets">6. <a name='Streamingresultsonothercustomizeddatasets'></a>Streaming results on other/customized datasets</h2>
+<p>After sucessfully setting up <a href="https://github.com/Owen-Liuyuxuan/visualDet3D_ros">visualDet3D_ros</a>, practically we can test the inference of <a href="https://github.com/Owen-Liuyuxuan/visualDet3D">visualDet3D</a> on any image streams with ROS interface (like USB webcam).</p>
+<p>We provide ROS interface to <a href="https://github.com/Owen-Liuyuxuan/nuscenes_visualize">nuScenes dataset</a> and <a href="https://github.com/Owen-Liuyuxuan/kitti360_visualize">KITTI-360 dataset</a>. </p>
+<p>To get more robust results, training on customized datasets, or trying camera-insensitive algorithms (like the adapted version of MonoFlex in visualDet3D) worth the efforts.</p>
+<p>By adapting your own dataset to kitti/kitti360/nuscenes formats, you can also make use of these existing tools to boost development of your 3D detection project.</p></div>
                     
                 </div>
 
             <script src="https://utteranc.es/client.js"
                 repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
-                issue-term="Wasserstein Distances for Stereo Disparity Estimation comments"
+                issue-term="Synthetic Cookbook for Using/Testing/Demonstrating VisualDet3D in ROS comments"
                 theme="github-light"
                 crossorigin="anonymous"
                 async>
