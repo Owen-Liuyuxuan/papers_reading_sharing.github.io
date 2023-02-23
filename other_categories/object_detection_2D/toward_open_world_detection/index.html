@@ -2118,7 +2118,11 @@
 <p>OWOD的第四部分在于抵制遗忘，这引自于 GDumb这篇文章的一个简单做法。</p>
 <p>GDumb一文对<a href="../../../The_theory/Continuous_learning/">Continuous Learning</a>社区提出了很强的质疑。</p>
 <p>GDumb的算法就是在训练的过程中贪婪地维护一个额定大小的数据记忆池(python deque，每个step训练都将数据存起来). 在incremental learning的时候将原来的数据拿出来重新训练一下即可，这个做法做出了很高的性能。</p>
-<p>OWOD本文则基于这个做法，维护一个 class-balanced 的数据池,每次incremental learning的时候就把模型在这些数据上fine-tune一下。</p></div>
+<p>OWOD本文则基于这个做法，维护一个 class-balanced 的数据池,每次incremental learning的时候就把模型在这些数据上fine-tune一下。</p>
+
+
+<iframe src=https://arxiv.org/pdf/2103.02603.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

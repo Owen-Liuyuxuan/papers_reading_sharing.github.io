@@ -2107,7 +2107,9 @@
 <p>本文把前文的BEV query， BEV label assignment全部换到了极坐标系下，而网络结构上仅仅需要改变 polar box encoding (这个在实际coding中没有改变，只是逻辑上发生了变化)。</p>
 <p><img alt="image" src="../res/polarbev_arch.png" /></p>
 <p>在时序融合的时候，这里的采样是投影点 + 可学习偏移，性质上类似于前文的deformable attention.可学习偏移由当前点特征与query concat + linear输出。</p>
-<p>融合多帧数据的时候，本文的方案是把当前帧的 polar pillar 点投影到过去的 image frame上面，用上文的方法进行信息融合。</p></div>
+<p>融合多帧数据的时候，本文的方案是把当前帧的 polar pillar 点投影到过去的 image frame上面，用上文的方法进行信息融合。</p>
+
+</div>
                     
                 </div>
 

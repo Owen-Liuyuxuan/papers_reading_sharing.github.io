@@ -2102,7 +2102,11 @@
 <h3 id="cropping-to-translation-variant">Cropping to Translation-variant</h3>
 <p>前一步的一个关键问题在于同类object 不同instance在上一步还是会得到高的相关性，在cropping这一步需要打破这个相关性。作者的做法比较直白，将现有的object 边缘expand一个预设的比例之后(expand的原因是避免因为估计的不准确度)，将对应pixel stream中在边缘外的点设为背景。</p>
 <h3 id="mbrm-mask-assisted-detection">MBRM mask assisted detection</h3>
-<p>这一步的考虑是让instance segmentation去提升object detection的准确度,个人的感觉与直觉并不太相符合,<a href="https://github.com/wangsr126/RDSNet/blob/master/mmdet/models/detectors/rdsnet.py">代码</a></p></div>
+<p>这一步的考虑是让instance segmentation去提升object detection的准确度,个人的感觉与直觉并不太相符合,<a href="https://github.com/wangsr126/RDSNet/blob/master/mmdet/models/detectors/rdsnet.py">代码</a></p>
+
+
+<iframe src=https://arxiv.org/pdf/1912.05070.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

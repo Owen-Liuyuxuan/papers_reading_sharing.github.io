@@ -2125,7 +2125,11 @@
 <script type="math/tex; mode=display">L_{o f f}=\frac{1}{N} \sum_{i=1}^{N}\left|\hat{D}_{\mathbf{p}_{i}^{(t)}}-\left(\mathbf{p}_{i}^{(t-1)}-\mathbf{p}_{i}^{(t)}\right)\right|</script>
 </p>
 <p>因而在tracking的时候，按照confidence的排序，将当前位置点与最靠近<script type="math/tex">p - D_p</script>的前一帧点贪婪地匹配，如果发现在一定范围内unmatched，就认为产生了一个新的物体。</p>
-<p><strong>比较神奇的是，本文是可以用静态图片进行训练的</strong>,随机将图片平移，scale up，结果惊人地好</p></div>
+<p><strong>比较神奇的是，本文是可以用静态图片进行训练的</strong>,随机将图片平移，scale up，结果惊人地好</p>
+
+
+<iframe src=https://arxiv.org/pdf/1904.07850.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

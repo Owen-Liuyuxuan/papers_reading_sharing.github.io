@@ -2105,7 +2105,11 @@
 <p>一些传统的pointnet会将点的位置固定下来，每次的卷积都只在点原来的相邻边中挑选。本文的思路是每层运算后，用新的特征作为feature vector，在整个点云中重新进行KNN运算找在新特征条件下最靠近的点。如此以来每一层运算后点的邻域都会被洗乱。</p>
 <h2 id="_2">网络总体结构</h2>
 <p><img alt="image" src="../res/DGCNN_pipeline.png" />
-以PointNet为基础。具体可以观察代码以及图片解释。</p></div>
+以PointNet为基础。具体可以观察代码以及图片解释。</p>
+
+
+<iframe src=https://arxiv.org/pdf/1801.07829.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

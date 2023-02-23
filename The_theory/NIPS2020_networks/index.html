@@ -2238,7 +2238,9 @@
 <li>事实上在训练的时候不一定要让不同resblock层数上的权重一致，因为经验上来说不同网络层成熟速度就是不一样的，在不同的训练阶段有不同的需求，所以本文提出给这个比例参数一个可学习的乘子: <script type="math/tex">\boldsymbol{x}_{k}=\sqrt{\frac{k-1+L}{k+L}} \boldsymbol{x}_{k-1}+\frac{m_{k}}{\sqrt{L}} \mathcal{F}_{k}\left(\boldsymbol{x}_{k-1}\right)</script>
 </li>
 <li>Bias的初始化作者也提出新的观点，首先将运算<script type="math/tex">y=Wx + b</script>重新理解为<script type="math/tex">y = W(x + b)</script> 而这个 b的初始化为第一个输入的mini-batch的均值的负值，也就是让第一个batch在与权重相乘之前接近是 normalized的 (在代码实现上，是定下了一个threshold, 前n=8个batch训练过程中都会求累积均值)，一定程度上实现了BN的效果. 同时作者指出这个技巧可以显著减轻relu的问题.</li>
-</ul></div>
+</ul>
+
+</div>
                     
                 </div>
 

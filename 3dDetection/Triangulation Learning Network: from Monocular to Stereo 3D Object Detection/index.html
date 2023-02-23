@@ -2101,7 +2101,11 @@
 <h3 id="tl-netobject-level-triangulation">TL-Net:Object level triangulation</h3>
 <p><img alt="image" src="../res/TLNet.png" /></p>
 <p>输入是一对ROI，一致性评分 Pairwise Coherence Score是一个 <script type="math/tex">1 \times 1 \times C_{roi}</script>的权重张量，然后分别改变两个图中各个特征通道的权重，然后相加，再全连接输出。</p>
-<p>这个Coherence Score是两个特征feature map的余弦距离，作者的论点是如果3D位置正确，那么anchor box投影到左右相机中的特征会相似，也都是物体的feature， 若偏了则差距会很大，随机、完全无关的条件下reweight 权重会为0，最终输出的confidence也会有所影响。</p></div>
+<p>这个Coherence Score是两个特征feature map的余弦距离，作者的论点是如果3D位置正确，那么anchor box投影到左右相机中的特征会相似，也都是物体的feature， 若偏了则差距会很大，随机、完全无关的条件下reweight 权重会为0，最终输出的confidence也会有所影响。</p>
+
+
+<iframe src=https://arxiv.org/pdf/1906.01193.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

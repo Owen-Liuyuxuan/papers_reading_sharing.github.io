@@ -2086,7 +2086,11 @@
 <li>在压缩的时候，记录下GT occupancy probability和predicted occupancy probability的差值(0-1序列).如果网路的预测准确率比较高的话，这个0-1序列差值很多都会是0，将会是一个很稀疏的序列，然后用一般的二进制压缩算法(如zip, huffman coding)等可以得到很高的压缩率.</li>
 <li>在解压缩的时候，让网路在每一层进行概率预测，然后将差值进行解码；将网络的预测值与解码值进行相加，就能无损地还原点云压缩时被输入网络的0-1序列.</li>
 <li>在尤其是高层的时候，稀疏序列的存储加起来比原来稠密序列的存储要更少，实现压缩。而网络权重则是在不同网络间通用的。</li>
-</ul></div>
+</ul>
+
+
+<iframe src=https://arxiv.org/pdf/2005.07178.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

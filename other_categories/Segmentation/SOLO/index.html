@@ -2150,7 +2150,11 @@ D(\mathbf{p}, \mathbf{q})&=\frac{2 \sum_{x, y}\left(\mathbf{p}_{x, y} \cdot \mat
 简单来说就是用<a href="https://github.com/mkocabas/CoordConv-pytorch">Coord Conv</a>计算后上采样所有scale的特征，求和，然后<script type="math/tex">1\times 1</script>卷积得到最终输出</p>
 <h2 id="matrix-nms">Matrix NMS</h2>
 <p>采用的概念是 SoftNMS的概念，也就是根据重合的框的IOU与概率 进一步降低 低score box的score的做法。这里在后面NMS时，用IoU的函数替代概率值，因而decay scale只与IoU有关</p>
-<p><img alt="image" src="../res/SOLOv2_matrixNMS.png" /></p></div>
+<p><img alt="image" src="../res/SOLOv2_matrixNMS.png" /></p>
+
+
+<iframe src=https://arxiv.org/pdf/1912.04488.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

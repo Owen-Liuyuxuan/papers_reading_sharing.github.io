@@ -2101,7 +2101,11 @@
 <p>对planner的训练可以用Imitation，因为GDP给出action的算法尽管有梯度的使用，但是是完全可导的。在这个基础上给出相对参考行动的损失函数<script type="math/tex">L_{imitate} = ||\hat a_{t:T} - a^{*}_{t:t+T}||_2^2</script>,用梯度更新编码器以及过程网络的参数。</p>
 <p>本文进一步介绍了使用这个学习到的编码器与系统模型来辅助强化学习的运动生成。</p>
 <div class="codehilite"><pre><span></span><code>个人理解，这个文章的代码难度在于模仿学习的时候，一方面需要用梯度更新运动，另一方面要进一步的用梯度更新系统参数。pytorch以及Tensorflow默认情况下只会记住一次运算过程中的梯度信息，然后在梯度更新的时候需要删除此前记录的所有运算图。但是这里模仿的时候似乎需要我们记住梯度更新的时候使用的整个运算图(也可能只需要最后一步，并保留最后一步的梯度)
-</code></pre></div></div>
+</code></pre></div>
+
+
+<iframe src=https://arxiv.org/pdf/1804.00645.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

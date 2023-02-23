@@ -2094,7 +2094,11 @@
 <li>Normalization必不可少，但是由于Detection高清图要求高，显存不够，所以如果需要从头开始train batch normalization会因为batch太小影响效果，所以尝试GroupNorm等。</li>
 <li>对于数据量足够大的detection task来说，pretrain可以使结果更快收敛，但是random-initialization足够长epoch后得到的结果一般不会差于pretrain，当然要求有GN</li>
 <li>使用初始学习率(较大的学习率)，训练更长的时间是有用的，长时间使用低学习率提高准确率经常会导致overfitting</li>
-</ol></div>
+</ol>
+
+
+<iframe src=https://arxiv.org/pdf/1811.08883.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

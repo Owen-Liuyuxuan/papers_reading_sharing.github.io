@@ -2126,7 +2126,11 @@
 <p>作者发现，网络会在<script type="math/tex">v_1, v_2</script>中选择一个特征来正确分类label==1，以及<script type="math/tex">v_3, v_4</script>中选择一个来正确分类label==2. 因此90%的数据会很快地分类成功。训练一段时间后，这90%的数据就不再提供梯度了。</p>
 <p>接着网络会尝试记忆剩余的10%训练样本，但是是依靠网络的噪音记忆能力而不是真正的找到了新的特征依据。 test set的准确率就卡在90左右</p>
 <p>模型ensemble之后，由于随机初始化的网络是随机选择主特征的，因而有限个模型的融合，就可以凑齐所以需要的特征，test set准确率上到100%。</p>
-<p>而KD的时候由于我们提供的是软label，所以网络实际上是被强行要求学习multi-view.</p></div>
+<p>而KD的时候由于我们提供的是软label，所以网络实际上是被强行要求学习multi-view.</p>
+
+
+<iframe src=https://arxiv.org/pdf/2012.09816.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

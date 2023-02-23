@@ -2112,7 +2112,11 @@
 <p>对于错判loss，首先汉明距离小时reward difference自然也会小，而汉明距离大时reward difference也应该为一个大的负数以抵消，如果出现汉明距离大而reward difference不够小，则这个worst case需要被修正，也就是这个玩意儿的intuition。</p>
 <p>关于其梯度，建议参考<a href="https://www.wikiwand.com/en/Hinge_loss">这篇</a>。得到的结果是</p>
 <p><img alt="image" src="../res/gradient.png" /></p>
-<p>关键是根据引文6，这个约束矩阵A是一个单模矩阵，所以其逆矩阵的解都是整数，所以Integer programming被转换为Linear Programming并同时保证了最优解一定是整数。</p></div>
+<p>关键是根据引文6，这个约束矩阵A是一个单模矩阵，所以其逆矩阵的解都是整数，所以Integer programming被转换为Linear Programming并同时保证了最优解一定是整数。</p>
+
+
+<iframe src=https://www.cs.toronto.edu/~frossard/papers/frossard_etal_tracking.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

@@ -2111,7 +2111,11 @@
 <p>评价层， 将右图特征根据randomly select的disparity estimation warp到左图上。然后由于在传播层的时候就已经将相邻的特征都聚集起来了，在评价层对每一个pixel计算左右图相邻特征的相似度。最后使用Softmax 求出各个disparity estimation的概率，并计算其expectation.</p>
 <h3 id="_1">全局算法</h3>
 <p>迭代处理，sampler layer-&gt; propagation layer-&gt; evaluation layer.</p>
-<p>从全局平均采样开始，在之后的每次迭代中，使用evaluation layer估计的expectation附近一定大小的窗口作为新的采样范围。最终每一个点的采样范围就被进一步地缩小。</p></div>
+<p>从全局平均采样开始，在之后的每次迭代中，使用evaluation layer估计的expectation附近一定大小的窗口作为新的采样范围。最终每一个点的采样范围就被进一步地缩小。</p>
+
+
+<iframe src=https://arxiv.org/pdf/1909.05845.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

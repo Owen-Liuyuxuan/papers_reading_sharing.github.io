@@ -2106,7 +2106,11 @@
 <h2 id="decoupled-head">Decoupled Head</h2>
 <p><img alt="image" src="../res/yolox_arch.png" /></p>
 <h2 id="label-assignment-with-simota">label assignment with SimOTA</h2>
-<p>这个方法基于 <a href="../../Summaries/Summary_CVPR_2021/">OTA</a>的做法。但是没有采用sinkhorn迭代来优化分配方案，只是计算了cost matrix之后，对每一个ground truth选取cost最小的前k个值. k采用动态估计方法，算法与OTA一致.</p></div>
+<p>这个方法基于 <a href="../../Summaries/Summary_CVPR_2021/">OTA</a>的做法。但是没有采用sinkhorn迭代来优化分配方案，只是计算了cost matrix之后，对每一个ground truth选取cost最小的前k个值. k采用动态估计方法，算法与OTA一致.</p>
+
+
+<iframe src=https://arxiv.org/pdf/2107.08430.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

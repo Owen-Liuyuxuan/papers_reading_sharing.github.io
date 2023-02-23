@@ -2098,7 +2098,11 @@
 <h2 id="iou-uniform-sampling">IoU-uniform sampling</h2>
 <p><img alt="image" src="../res/IoU-Uniform_structure.png" /></p>
 <p>这篇论文提出的想法是如上图，在给RCNN提供正样本时，随机扰动ground truth的ROI，以此得到多个带有噪声正样本用作training。作者认为这样可以使得training phase与inference phase中RCNN的输入分布更相近。</p>
-<p>在NMS的时候依据为IoU估计值与probs的乘积。</p></div>
+<p>在NMS的时候依据为IoU估计值与probs的乘积。</p>
+
+
+<iframe src=https://arxiv.org/pdf/1912.05190.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

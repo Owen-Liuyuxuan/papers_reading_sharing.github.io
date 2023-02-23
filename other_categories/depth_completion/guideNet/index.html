@@ -2098,7 +2098,11 @@
 <h2 id="guided-convolution-module">Guided Convolution Module</h2>
 <p><img alt="image" src="../res/guidnet_module.png" /></p>
 <p>左图表达了总体的思路，就是使用RGB image的特征作为引导层，局部地生成卷积核，对稀疏深度图进行卷积(与<a href="../../../Building_Blocks/DynanicFilteringNetwork/">DFN</a>的第二种实现相似)。
-但是这种类似于局部卷积的方式对GPU显存消耗很大。作者提出模仿Mobile Net的思路。第一阶段使用Channel-wise 局部卷积，第二阶段使用Spatial-invariant的普通卷积.</p></div>
+但是这种类似于局部卷积的方式对GPU显存消耗很大。作者提出模仿Mobile Net的思路。第一阶段使用Channel-wise 局部卷积，第二阶段使用Spatial-invariant的普通卷积.</p>
+
+
+<iframe src=https://arxiv.org/pdf/1908.01238.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

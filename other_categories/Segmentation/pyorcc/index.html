@@ -2103,7 +2103,11 @@
 <p>由于转到了BEV上，作者自然地进一步想到了对时序信息上进行融合，这样预测出来的BEV上的occupancy map就可以用贝叶斯方法直接更新。</p>
 <h2 id="_2">数据生成</h2>
 <p>作者使用 Nuscenes还有 Argoverse数据进行训练，作者称他将标注好的地图以及3D bounding box投影到相机坐标系的xz平面上，同时作者还标注了一个visibility mask,方法是对图上面的每一点，如果他在FOV中且至少有一个lidar 射线穿过它。</p>
-<p>最终模型的性能的绝对值还是有限的，但是visualization效果很好。</p></div>
+<p>最终模型的性能的绝对值还是有限的，但是visualization效果很好。</p>
+
+
+<iframe src=https://arxiv.org/pdf/2003.13402.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

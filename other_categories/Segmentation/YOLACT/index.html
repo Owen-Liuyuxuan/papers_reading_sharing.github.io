@@ -2111,7 +2111,11 @@ M=\sigma\left(P C^{T}\right)
 <p>其中 <script type="math/tex">P: h\times w \times k, C:n\times k</script>，P代表k个prototype，C代表n个长度为k的nms后的key vector.</p>
 <p>整个网络用分类与回归loss端到端训练</p>
 <h2 id="fast-nms">Fast NMS</h2>
-<p>思路就是允许被删除的bounding box去抑制其他网格，在原版的nms中，box的抑制与iou的计算需要一定迭代计算，这里可以直接并行运算并且用<a href="https://github.com/dbolya/yolact/blob/master/layers/functions/detection.py">pytorch API直接快速实现</a>，只不过会多suppress一些bbox。</p></div>
+<p>思路就是允许被删除的bounding box去抑制其他网格，在原版的nms中，box的抑制与iou的计算需要一定迭代计算，这里可以直接并行运算并且用<a href="https://github.com/dbolya/yolact/blob/master/layers/functions/detection.py">pytorch API直接快速实现</a>，只不过会多suppress一些bbox。</p>
+
+
+<iframe src=https://arxiv.org/pdf/1904.02689.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

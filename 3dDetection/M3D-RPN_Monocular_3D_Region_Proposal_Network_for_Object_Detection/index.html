@@ -2095,7 +2095,11 @@
 <p>depth-aware convolution如图，就是在不同的高度上使用不同的卷积核，为了使得运算快，pytorch implementation上作者将其reshape，然后使用depth-wise convolution(channel维度分组convolution)</p>
 <p>其后使用的是逐步修改<script type="math/tex">\theta</script>使得三维坐标与二维框对齐，类似于模拟退火
 <img alt="image" src="../res/Post3D-2D.png" />
-具体算上来说就是每一步计算3D对应2D框与预测2D框的L1-loss，从而来给预测的<script type="math/tex">\theta</script>打分</p></div>
+具体算上来说就是每一步计算3D对应2D框与预测2D框的L1-loss，从而来给预测的<script type="math/tex">\theta</script>打分</p>
+
+
+<iframe src=https://arxiv.org/pdf/1907.06038.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

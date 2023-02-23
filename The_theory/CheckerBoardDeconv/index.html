@@ -2092,7 +2092,11 @@
 <li>多层深度网络在理论上可以学习权重消除这个棋盘样式，但是这个很难，自然情况下多层网络，二维卷积只会加强这个artifact。</li>
 <li>使用resizing 加上convolution能更好的消除artifact</li>
 <li>deconv的artifact也会说明二维Downsample的时候，如果使用convolution直接下采样，也会在梯度上形成artifact，也就是会形成噪音，有些像素得到的梯度更多有的会少。这会影响GAN的训练以及一般卷积网络的训练。</li>
-</ol></div>
+</ol>
+
+
+<iframe src=https://distill.pub/2016/deconv-checkerboard/ height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

@@ -2280,7 +2280,9 @@ K(d, s) = 1 - \frac{1}{1 + e^{-k(d-s)}}
 <p>这篇paper是eccv2020的best paper.对于光流的计算有比较大的创新。主要实现的是在高分辨率下对大尺度光流搜索的优化方案。</p>
 <p><img alt="image" src="../res/raft_arch.png" /></p>
 <p><img alt="image" src="../res/raft_lookup.png" /></p>
-<p>核心的创新在于在scale 8 预计算两帧之间每两个像素之间的匹配score(dot product),在迭代优化的过程中"LookUp" Operator负责将sample光流对应位置的cost. 避免了多次重复计算cost volume. 使得在scale 8上搜索长距离的光流成为可能，对快速移动的小物体的检测能力变强。</p></div>
+<p>核心的创新在于在scale 8 预计算两帧之间每两个像素之间的匹配score(dot product),在迭代优化的过程中"LookUp" Operator负责将sample光流对应位置的cost. 避免了多次重复计算cost volume. 使得在scale 8上搜索长距离的光流成为可能，对快速移动的小物体的检测能力变强。</p>
+
+</div>
                     
                 </div>
 

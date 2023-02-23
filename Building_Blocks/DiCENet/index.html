@@ -2102,7 +2102,11 @@
 <p>合并之后使用分组卷积融合来自不同分支的特征，此后再分支，模仿的是<a href="Squeeze-and-Excitation&#32;Networks.md">Squeeze_and_excitation</a>.其中一个分支通过spatial平均与FC连接得到channel wise的权重，然后做一个分组卷积得到<script type="math/tex">Y_S</script>，两者相乘输出。</p>
 <h2 id="_1">不同形状的输入</h2>
 <p><img alt="image" src="../res/DiCE_for_any_input.png" /></p>
-<p>本文这里使用的是pytorch的自适应avgpool来具体实现。</p></div>
+<p>本文这里使用的是pytorch的自适应avgpool来具体实现。</p>
+
+
+<iframe src=https://arxiv.org/pdf/1906.03516.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

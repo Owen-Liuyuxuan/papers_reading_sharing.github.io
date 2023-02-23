@@ -2080,7 +2080,11 @@
 <p><img alt="image" src="../res/LRNNet.png" />
 <img alt="image" src="../res/Power_iteration.png" /></p>
 <p>具体的做法是把<script type="math/tex">C\times H \times W</script>的张量以<script type="math/tex">S</script>为量化单位，分割为<script type="math/tex">S=\frac{H\times W}{H'\times W'}</script>个超像素，non-local的面积大小变为<script type="math/tex">H', W'</script>，大幅度降低运算量。</p>
-<p>对于各个方块，<script type="math/tex">C \times H' \times W'</script>, 本文提出了使用normalized左奇异主向量作为对整个超像素的替代，将它平整为<script type="math/tex">C\times (H'\times W')</script>矩阵，然后使用power iteration算法计算左主奇异矢量<script type="math/tex">C'\times 1</script>.</p></div>
+<p>对于各个方块，<script type="math/tex">C \times H' \times W'</script>, 本文提出了使用normalized左奇异主向量作为对整个超像素的替代，将它平整为<script type="math/tex">C\times (H'\times W')</script>矩阵，然后使用power iteration算法计算左主奇异矢量<script type="math/tex">C'\times 1</script>.</p>
+
+
+<iframe src=https://arxiv.org/pdf/2006.02706.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

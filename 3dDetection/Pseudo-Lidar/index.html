@@ -2083,7 +2083,11 @@
 <p>第二由于假Lidar有很多噪点，噪音体现在两个方面，一个是有偏移，影响对距离的估计，一个是有长尾——物体边缘的一些点云会拉得很长，原因是物体边缘处的深度估计不准确。 为了缓解第一个问题，使用2D-3D box约束调整3D box的位置，这里引入了一个loss函数在training过程中处理这个问题，在inference的时候将问题转为优化再提高性能。 为了缓解第二个问题，使用instance mask来代表2D proposal而不是bounding box。相当于用segmentation的像素点级的结果输出</p>
 <h2 id="2d-3d">2D 3D约束</h2>
 <p>将3D框转换为8个坐标点，然后转换为图片坐标，求出最小bounding rectangle对应的四个坐标。BBCL就是这四个坐标与2Dbounding box的L1距离。BBCO则是在inference的时候使用global search的方式(多半是模拟退火)有货对应的L1距离。</p>
-<p>这是一年前的SOTA</p></div>
+<p>这是一年前的SOTA</p>
+
+
+<iframe src=https://arxiv.org/pdf/1903.09847.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

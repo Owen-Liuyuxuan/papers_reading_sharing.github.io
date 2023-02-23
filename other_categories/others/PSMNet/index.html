@@ -2096,7 +2096,11 @@
 来自于<a href="https://arxiv.org/pdf/1703.04309.pdf">另一篇文章.pdf</a>，
 与<a href="../../../3dDetection/DSGN/">PSV</a>不同的地方在于，与其是在实际的距离单位上均匀取Z轴再调用较为耗费资源的grid_sample函数，这里选择的是将深度轴直接理解为离散的disparity，使得grid_sample可以用轻便的indexing代替，速度更快，效果差距不算大,只不过是根据图片本身的大小disparity值的影响会直接影响到模型的大小或者说速度。</p>
 <p>如果使用 stacked-hourglass作为 inference的时候，就会在同一大小的输出层上多次做出prediction。</p>
-<p>核心在于实现以及训练细节，这些都在代码中有交代。Cost volume的实现已经在尝试迁移使用。</p></div>
+<p>核心在于实现以及训练细节，这些都在代码中有交代。Cost volume的实现已经在尝试迁移使用。</p>
+
+
+<iframe src=https://arxiv.org/pdf/1803.08669.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

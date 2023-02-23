@@ -2122,7 +2122,11 @@
 Free Mask采取与SOLO相当统一的操作。 从图片中提取特征<script type="math/tex">I</script>, 把<script type="math/tex">I</script>下采样 1/2, 1/4, 1/8 到<script type="math/tex">Q:(H' \times W' \times E)</script>, 这个Q与K计算相似性矩阵<script type="math/tex">H\times W \times (H' \times W')</script> 类似于SOLO中的mask branch.</p>
 <p>这里采用的backbone则是经过DenseCL训练的backbone，DenseCL backbone正是用相似性矩阵选正样本的，在这方面的属性比较好，可以得到比较高的预训练质量。</p>
 <p><img alt="image" src="../res/freesolo_freemask.png" /></p>
-<p>输出courase Mask label之后训练一个SOLO.采用的是BoxInst的损失，而投影损失改为Avg而不是Mean.</p></div>
+<p>输出courase Mask label之后训练一个SOLO.采用的是BoxInst的损失，而投影损失改为Avg而不是Mean.</p>
+
+
+<iframe src=https://arxiv.org/pdf/2202.12181.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

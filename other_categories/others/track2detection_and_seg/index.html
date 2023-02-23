@@ -2100,7 +2100,11 @@
 </script>
 </p>
 <p>Offset的输出方法: 先对两个方向分别做Maxpooling/softmax，得到<script type="math/tex">C^W_{i,j} \in [0, 1]^{1\times W_C}</script> 以及 <script type="math/tex">C^H_{i,j}\in[0, 1]^{H_C \times 1}</script>. 然后加权平均得到两个方向的offset. 计算方法和光流的计算很相似。</p>
-<p>为了监督这个offset, 这里采用tracking label中心的offset来训练这个网络. </p></div>
+<p>为了监督这个offset, 这里采用tracking label中心的offset来训练这个网络. </p>
+
+
+<iframe src=https://arxiv.org/pdf/2103.08808.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

@@ -2123,7 +2123,11 @@
 <h3 id="-_1">实验 - 分析优化轨迹</h3>
 <p>作者发现使用两个随机高斯矢量(两个高斯随机矢量的cosine相似度的期望为<script type="math/tex">\sqrt{2 / \pi n}</script>，因而几乎一定是垂直的)，但是在对优化轨迹进行可视化的时候，很大概率优化的方向会与随机可视化方向矢量垂直。这里提出的是使用PCA directions</p>
 <p>对于从<script type="math/tex">\theta_0</script>优化<script type="math/tex">n</script>步到达<script type="math/tex">\theta_n</script>的模型，设矩阵<script type="math/tex">M = [\theta_0 - \theta_n; ...; \theta_{n-1} - \theta_n]</script>使用主成分分析，找出奇异值最大的两个方向，根据此方向来进行可视化。</p>
-<p><img alt="image" src="../res/visualize_landscape_opt_traj.png" /></p></div>
+<p><img alt="image" src="../res/visualize_landscape_opt_traj.png" /></p>
+
+
+<iframe src=https://arxiv.org/pdf/1712.09913.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

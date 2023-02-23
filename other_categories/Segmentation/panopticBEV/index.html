@@ -2097,7 +2097,11 @@
 <p>视角转换这个核心问题上，作者提供了两种转换方法，让网络选择(softmax)一种使用。
 <img alt="image" src="../res/panopticBEV_dense_transformer.png" /></p>
 <p>第一种也就是 vertical transformer, 对每一个像素点预测其深度(multi bin classification)，使用相机内参将特征扩展成相机坐标系下的特征图，并使用3D grid_sample转到BEV上.</p>
-<p>第二种则是IPM, 假设每一个像素都在地面上,利用相机的内参以及外参(离地面高度以及几何旋转),计算图片坐标以及BEV坐标之间的Homography Matrix, 把图片坐标直接转到BEV上.</p></div>
+<p>第二种则是IPM, 假设每一个像素都在地面上,利用相机的内参以及外参(离地面高度以及几何旋转),计算图片坐标以及BEV坐标之间的Homography Matrix, 把图片坐标直接转到BEV上.</p>
+
+
+<iframe src=https://arxiv.org/abs/2108.03227 height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

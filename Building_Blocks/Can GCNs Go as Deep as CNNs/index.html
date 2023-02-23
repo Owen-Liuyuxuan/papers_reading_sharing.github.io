@@ -2098,7 +2098,11 @@
 <h2 id="dilated-convolution">图卷积网络的Dilated Convolution</h2>
 <p><img alt="结构" src="../res/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%9A%84dilatedConv.png" /></p>
 <p>本文卷积采取的方案是K-nearest-neighbor的方案，寻找与当前点距离最近的k个点进行卷积，若扩展为dilatedConv，则距离最近的点进行排序，每隔几个点找出一个卷积点。</p>
-<p>从实时运算的角度来看，需要建立一个KDtree， 对于每一层的网络都要对每一个点进行KNN的搜索。实时运算速率一般，但是能得到更好的结果。</p></div>
+<p>从实时运算的角度来看，需要建立一个KDtree， 对于每一层的网络都要对每一个点进行KNN的搜索。实时运算速率一般，但是能得到更好的结果。</p>
+
+
+<iframe src=https://arxiv.org/pdf/1904.03751.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

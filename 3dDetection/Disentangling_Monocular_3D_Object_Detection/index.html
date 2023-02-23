@@ -2218,7 +2218,11 @@ lifting transform <script type="math/tex">\mathcal{F}</script>为</p>
 <p>直觉来说，二维Regression loss与三维Regression loss,直接叠加的好处是两者不会相互影响，但是它们会产生不平衡，影响优化的过程</p>
 <p>比如对于本文的三维回归来说，原始参数分为四组，也就是深度、相机坐标、三维以及角度，回归时需要计算的参数是八个角点的坐标，其中需要一个转换。</p>
 <p>在计算loss时，分成四组。其中第<script type="math/tex">i</script>组计算loss时，第<script type="math/tex">i</script>组参数用预测值，其余用ground_truth，如此每一组都会分开优化。</p>
-<p>具体直觉看原文</p></div>
+<p>具体直觉看原文</p>
+
+
+<iframe src=https://arxiv.org/pdf/1905.12365.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

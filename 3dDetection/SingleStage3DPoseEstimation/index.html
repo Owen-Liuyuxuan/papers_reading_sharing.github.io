@@ -2094,7 +2094,11 @@
 <p><img alt="image" src="../res/one_stage_pose_est_architecture.png" /></p>
 <p>这篇文章借用YOLO的架构,输入为一张图，用dense anchor box预测各个位置上不同物体的大致位置，同时这个anchor box还会输出物体的9个控制点在图中的相当坐标，包含一个中心点以及8个长方体框的角点。另外输出<script type="math/tex">C</script>个分类指标以及<script type="math/tex">1</script>个objectness指标，这个指标的目标，由一个指数函数决定</p>
 <p><img alt="image" src="../res/one_stage_pose_est_confidence.png" /></p>
-<p>已知9个点之后，使用opencv的<a href="https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#solvepnp">solvePnP</a>函数直接求得物体的相对位移与相对姿态。</p></div>
+<p>已知9个点之后，使用opencv的<a href="https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#solvepnp">solvePnP</a>函数直接求得物体的相对位移与相对姿态。</p>
+
+
+<iframe src=https://arxiv.org/pdf/1711.08848.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

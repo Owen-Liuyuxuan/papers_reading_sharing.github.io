@@ -2103,7 +2103,11 @@
 <p>本文代码里面使用一个二维tensor按圆周顺序存储contour点，并没有使用过度的技巧。</p>
 <h2 id="_1">总体结构</h2>
 <p><img alt="image" src="../res/DeepSnake_arch.png" /></p>
-<p>图b说明整个图的结构，首先使用2D detector得到基础bounding box，然后转化为coutour, 然后使用第一层deep snake(大感受野) 计算offset<script type="math/tex">\rightarrow</script>upsampling到40个点，再经过deep snake(小感受野)得到最后的deformation output。</p></div>
+<p>图b说明整个图的结构，首先使用2D detector得到基础bounding box，然后转化为coutour, 然后使用第一层deep snake(大感受野) 计算offset<script type="math/tex">\rightarrow</script>upsampling到40个点，再经过deep snake(小感受野)得到最后的deformation output。</p>
+
+
+<iframe src=https://arxiv.org/pdf/2001.01629.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

@@ -2100,7 +2100,11 @@
 <li><a href="../../Summaries/Summary_of_serveral_eccv2020/">convex interpolation, RAFT</a>,在 1/4的双帧匹配输出到全尺寸时，采用的是</li>
 <li><a href="https://arxiv.org/abs/2104.05374">Aug</a>, 这里的做法是在训练的时候，除了主干的网络推理与训练之外，把本帧输出图片随机mask 一个方块为0输入网络中得到特征，与正常推理得到的特征进行匹配，得到cost volume和深度，与主干网络得到的深度和特征计算L1-loss,确保他们之间的相似性 (要求除了masked方块之外的像素都相似)。</li>
 </ul>
-<p>最后得到了比manydepth更优的性能。</p></div>
+<p>最后得到了比manydepth更优的性能。</p>
+
+
+<iframe src=https://arxiv.org/pdf/2208.09170.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

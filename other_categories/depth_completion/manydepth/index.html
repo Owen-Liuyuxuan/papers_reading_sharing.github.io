@@ -2106,7 +2106,11 @@ M=\max \left(\frac{D_{\mathrm{cv}}-\hat{D}_{t}}{\hat{D}_{t}}, \frac{\hat{D}_{t}-
 </script>
 </p>
 <h3 id="static-camera-and-start-of-sequences">Static Camera and Start of sequences</h3>
-<p>如果相机不动，或者如果是在Sequence的开始，深度应该如何计算呢? 为了克服第一个这个问题， 在训练的时候，有<script type="math/tex">p</script>的概率，cost volume会用一个零矩阵替代。对这些图片，我们会鼓励网络只用单图的特征进行预测；测试第一张图的时候用零矩阵替代就可以饿了。为了客服第二个问题，在训练的时候，有<script type="math/tex">q</script>的概率，我们将<script type="math/tex">I_{t-1}</script>替换为数据增强后的<script type="math/tex">I_{t}</script>, 但是仍然用<script type="math/tex">I_{t-1}</script>做重采样并计算自监督损失。也就会促使网络不要过于依赖cost volume，并在cost volume是来自静态图的时候也能有可靠的深度估计.</p></div>
+<p>如果相机不动，或者如果是在Sequence的开始，深度应该如何计算呢? 为了克服第一个这个问题， 在训练的时候，有<script type="math/tex">p</script>的概率，cost volume会用一个零矩阵替代。对这些图片，我们会鼓励网络只用单图的特征进行预测；测试第一张图的时候用零矩阵替代就可以饿了。为了客服第二个问题，在训练的时候，有<script type="math/tex">q</script>的概率，我们将<script type="math/tex">I_{t-1}</script>替换为数据增强后的<script type="math/tex">I_{t}</script>, 但是仍然用<script type="math/tex">I_{t-1}</script>做重采样并计算自监督损失。也就会促使网络不要过于依赖cost volume，并在cost volume是来自静态图的时候也能有可靠的深度估计.</p>
+
+
+<iframe src=https://arxiv.org/pdf/2104.14540.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

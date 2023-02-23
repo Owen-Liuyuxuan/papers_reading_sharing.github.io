@@ -2123,7 +2123,11 @@ f(x, w) = f(x, w_0) + \nabla_w f(x, w_0)^T (w - w_0)
 <p>神经网络的梯度雅克比矩阵<script type="math/tex">J = \nabla y(w)</script>，</p>
 <p>NTK指的就是 <script type="math/tex">J^T J</script>.</p>
 <p>可以证明过参数网络会以指数速度收敛于训练损失为零的位置。　<strong>解释网络为什么可以训练</strong></p>
-<p>同时可以发现这个NTK由于梯度下降的原因，会有一个implicit l2-norm (相当于有一个0-0的数据点). <strong>解释网络为什么可以generalize</strong></p></div>
+<p>同时可以发现这个NTK由于梯度下降的原因，会有一个implicit l2-norm (相当于有一个0-0的数据点). <strong>解释网络为什么可以generalize</strong></p>
+
+
+<iframe src=https://arxiv.org/abs/1806.07572 height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

@@ -2140,7 +2140,9 @@
 <p>对于线性可分的数据，用logistic回归，损失选择entropy loss或者其他指数衰减的loss，在训练损失逼近零的时候继续训练，网络最终会收敛于max-margin SVM的解。</p>
 <p>在直觉上这个其实比较好理解，对于entropy loss这样的指数衰减的loss, 网络其实是没有最优点的(梯度为零的点)，随着激活值的持续增加，让网络对做出的prediction获得更高的置信度，损失就会持续下降。</p>
 <p>在极限的情况下，由于损失是随着正确的置信度提升而指数衰减的，所以最终损失会由置信度最低的点dominate。所以最终结果会趋向于SVM的结果。</p>
-<p><img alt="image" src="../res/train_implicit_bias.gif" /></p></div>
+<p><img alt="image" src="../res/train_implicit_bias.gif" /></p>
+
+</div>
                     
                 </div>
 

@@ -2094,7 +2094,11 @@
 <li>激光雷达数据采用PointPillar 网络提取特征并压缩到BEV上.使用torch_scatter后本文的代码更为干净.</li>
 <li>instance embedding对每一组车道线像素位置上的特征进行计算.计算每一条车道线的特征均值,损失则是自监督的对抗性损失.</li>
 <li>direction指的是车道线在各个点上的方向,由于前进与后退不区分,所以每个点预测的都是一个<script type="math/tex">N_d</script>的矢量,而监督他们的是一个有两个<script type="math/tex">1</script> label的矢量.</li>
-</ol></div>
+</ol>
+
+
+<iframe src=https://arxiv.org/pdf/2107.06307.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 

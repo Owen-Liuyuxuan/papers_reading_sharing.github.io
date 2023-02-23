@@ -2117,7 +2117,11 @@ Actor 的训练目标为:
 <li>带有权重的Bellman更新。 在训练Q函数的时候，对于每一个"target Q"样本输入<script type="math/tex">(s_{t+1}, a_{t+1})</script>, 计算一个权重<script type="math/tex">w(s, a) = \text{sigmoid}(-\bar Q_{\text{std}}(s, a) * T) + 0.5</script>. 那么用于训练critics的损失函数都乘上这个权重<script type="math/tex">L_{WQ}(\tau_t, \theta_i) = w(s_{t+1}, a_{t+1}) L_Q(\tau_t, \theta_i)</script>.</li>
 <li>Upper Confidence Bound(UCB, 置信上限) 探索。在探索并收集replay buffer的时候，寻找<script type="math/tex">a_t = \underset{a}{\text{max}}\{Q_{\text{mean}(s_t, a)} + \lambda Q_{\text{std}} (s_t, a)\}</script>. 这个最大化的严谨解是很难求的，本文的近似做法是让<script type="math/tex">N</script>个actor生成<script type="math/tex">N</script>个action 候选，然后分别在<script type="math/tex">N</script>个critics上计算这个<script type="math/tex">N</script>个 action的<script type="math/tex">Q</script>的均值与方差。</li>
 </ul>
-<p><img alt="image" src="../res/sunrise_algorithm.png" /></p></div>
+<p><img alt="image" src="../res/sunrise_algorithm.png" /></p>
+
+
+<iframe src=https://arxiv.org/pdf/2007.04938.pdf height="800" width="100%"></iframe>
+</div>
                     
                 </div>
 
