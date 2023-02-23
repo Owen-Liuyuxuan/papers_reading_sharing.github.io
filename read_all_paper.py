@@ -111,7 +111,7 @@ sub_path
 match.group()
 
 # %%
-mkdown_file['root'].split('/')[-1]
+# mkdown_file['root'].split('/')[-1]
 
 # %%
 for mkdown_file in mkdown_files_col.find():
