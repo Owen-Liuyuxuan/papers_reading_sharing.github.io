@@ -1,4 +1,4 @@
-time:20230220
+time: 20230220
 pdf_source: https://arxiv.org/pdf/2302.04233.pdf
 
 # SkyEye: Self-Supervised Bird’s-Eye-View Semantic Mapping Using Monocular Frontal View Images
@@ -12,6 +12,7 @@ pdf_source: https://arxiv.org/pdf/2302.04233.pdf
 ![image](res/skyeye_framework.png)
 
 工作流程:
+
 1. 使用预训练的单目深度估计网络(采用的是在kitti360上双目训练的)
 2. 在有gt label的图片上面，把Front view 转到BEV上，经过densification (图形学操作erode) + bounding box fitting (填满object). 生成BEV上的pseudo label.
 3. 主网络结构包含 encoder, lifting module (LSS)， 形成voxel, 分别投影到不同相机坐标系下，预测对应的 image frame 语义分割形态,添加multi-frame consistency的loss。同时投影到BEV上，在BEV上输出结果，并使用psuedolabel 进行监督。

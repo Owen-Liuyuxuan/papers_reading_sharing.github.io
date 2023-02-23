@@ -12,3 +12,7 @@
 {% endif %}
 </span>
 {{ page.content }}
+
+{% if page.meta.pdf_source %}
+<iframe src={{page.meta.pdf_source}} height="800" width="100%"></iframe>
+{% endif %}

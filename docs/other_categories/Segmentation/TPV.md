@@ -1,4 +1,4 @@
-time:20230220
+time: 20230220
 pdf_source: https://arxiv.org/pdf/2302.07817.pdf
 code_source: https://github.com/wzzheng/TPVFormer
 
@@ -11,6 +11,7 @@ code_source: https://github.com/wzzheng/TPVFormer
 ![image](res/tpv_framework.png)
 
 基本模型描述:
+
 1. 网络输入六张图，使用cnn backbone进行处理。
 2. 三个TPV 平面的 query(embedding) 作为起始输入，经过三层 TPV平面与Images的cross attention, 再经过两层 TPV平面之间的cross attention。形成对环境场景的三视图特征描述。
 3. 与图片的cross attention。模块整体是deformable attention. 对于一个plane query上的每一个点，在垂直于平面方向采样数个三维点，投影到六个相机上，找到相机上的base reference points. 然后根据plane query -> MLP mapping 输出每个点的偏移值。在图片上采样，并使用attention求和。
