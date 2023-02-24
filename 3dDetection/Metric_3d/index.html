@@ -2060,7 +2060,7 @@
         
             <li class="nav-item main"><a href="#3d-detection-evaluation-metric">3D detection evaluation metric</a></li>
                 <li class="nav-item">
-                    <a href="#average-precisiong-kitti" class="nav-link">Average Precisiong - Kitti</a>
+                    <a href="#average-precision-kitti" class="nav-link">Average Precision - Kitti</a>
                 </li>
                 <li class="nav-item">
                     <a href="#nuscenes-detection-scorends-nuscenes" class="nav-link">nuScenes detection score(NDS) - nuScenes</a>
@@ -2082,7 +2082,7 @@
 <h1 id="3d-detection-evaluation-metric">3D detection evaluation metric</h1>
 <p>本文主要尝试综述3D检测的评价方法以及对应的一些code的分析，目标是比较细致的分析，在有新metric提出的过程中会持续更新，先综述的是KITTI与Nuscene两大benchmark的评价分数。</p>
 <p>Update 2020.09.08: Add Cityscapes 3D</p>
-<h2 id="average-precisiong-kitti">Average Precisiong - Kitti</h2>
+<h2 id="average-precision-kitti">Average Precision - Kitti</h2>
 <p><a href="https://github.com/KleinYuan/kitti-eval">Official cpp code</a> <br>
 <a href="https://github.com/traveller59/kitti-object-eval-python">fast numba code</a></p>
 <p>整体思路上来说，KITTI的测试是将2D，BEV以及3D检测的评价过程完全分开。因而三种evaluation中间需要的matching是不相关的，但是由于有相似的搜索思路，因而代码实现上有一定的复用。</p>
