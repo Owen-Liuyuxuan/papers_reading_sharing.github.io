@@ -6,7 +6,7 @@ time: 20200908
 
 Update 2020.09.08: Add Cityscapes 3D
 
-## Average Precisiong - Kitti
+## Average Precision - Kitti
 
 [Official cpp code](https://github.com/KleinYuan/kitti-eval) <br>
 [fast numba code](https://github.com/traveller59/kitti-object-eval-python)
