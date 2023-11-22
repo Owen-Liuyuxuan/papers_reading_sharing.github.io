@@ -1003,6 +1003,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/others/gaussian_splatting/" class="dropdown-item">
+            Gaussian Splatting
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/others/generate_model_score_matching/" class="dropdown-item">
             Generative Modeling by Estimating Gradients of the Data Distribution
         </a>
@@ -1388,6 +1394,12 @@
     <li>
         <a href="../../3dDetection/pyramid-rcnn/" class="dropdown-item">
             Pyramid R-CNN: Towards Better Performance and Adaptability for 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../3dDetection/renderocc/" class="dropdown-item">
+            RenderOcc
         </a>
     </li>
                                     
@@ -2143,8 +2155,8 @@
 <p>$$
 \begin{aligned}
     \log p(D_A | \theta) &amp;= \log p(D_A | \theta^<em><em>A) + \frac{\partial}{\partial \theta} \log p(D_A | \theta) |</em>{\theta=\theta_A^</em>} (\theta - \theta_A^<em>) + \frac{\partial^2}{\partial\theta^2} \log p(D_A|\theta)(\theta - \theta_A^</em>)^2\</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&amp;=</span><span class="w">  </span>\<span class="n">frac</span><span class="p">{</span>\<span class="n">partial</span><span class="o">^</span><span class="mi">2</span><span class="p">}{</span>\<span class="n">partial</span>\<span class="n">theta</span><span class="o">^</span><span class="mi">2</span><span class="p">}</span><span class="w"> </span>\<span class="nb">log</span><span class="w"> </span><span class="n">p</span><span class="p">(</span><span class="n">D_A</span><span class="o">|</span>\<span class="n">theta</span><span class="p">)(</span>\<span class="n">theta</span><span class="w"> </span><span class="o">-</span><span class="w"> </span>\<span class="n">theta_A</span><span class="o">^*</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>\<span class="n">text</span><span class="p">{</span><span class="k">const</span><span class="p">}</span>\\<span class="w"></span>
-<span class="o">&amp;=</span><span class="w"> </span><span class="o">-</span>\<span class="n">mathbb</span><span class="p">{</span><span class="n">F</span><span class="p">}(</span><span class="n">D_A</span><span class="p">,</span><span class="w"> </span>\<span class="n">theta_A</span><span class="o">^*</span><span class="p">)(</span>\<span class="n">theta</span><span class="w"> </span><span class="o">-</span><span class="w"> </span>\<span class="n">theta_A</span><span class="o">^*</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="o">&amp;=</span><span class="w">  </span>\<span class="n">frac</span><span class="p">{</span>\<span class="n">partial</span><span class="o">^</span><span class="mi">2</span><span class="p">}{</span>\<span class="n">partial</span>\<span class="n">theta</span><span class="o">^</span><span class="mi">2</span><span class="p">}</span><span class="w"> </span>\<span class="nb">log</span><span class="w"> </span><span class="n">p</span><span class="p">(</span><span class="n">D_A</span><span class="o">|</span>\<span class="n">theta</span><span class="p">)(</span>\<span class="n">theta</span><span class="w"> </span><span class="o">-</span><span class="w"> </span>\<span class="n">theta_A</span><span class="o">^*</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>\<span class="n">text</span><span class="p">{</span><span class="k">const</span><span class="p">}</span>\\
+<span class="o">&amp;=</span><span class="w"> </span><span class="o">-</span>\<span class="n">mathbb</span><span class="p">{</span><span class="n">F</span><span class="p">}(</span><span class="n">D_A</span><span class="p">,</span><span class="w"> </span>\<span class="n">theta_A</span><span class="o">^*</span><span class="p">)(</span>\<span class="n">theta</span><span class="w"> </span><span class="o">-</span><span class="w"> </span>\<span class="n">theta_A</span><span class="o">^*</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
 </code></pre></div>
 
 <p>\end{aligned}

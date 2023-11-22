@@ -1003,6 +1003,12 @@
     </li>
               
     <li>
+        <a href="../../others/gaussian_splatting/" class="dropdown-item">
+            Gaussian Splatting
+        </a>
+    </li>
+              
+    <li>
         <a href="../../others/generate_model_score_matching/" class="dropdown-item">
             Generative Modeling by Estimating Gradients of the Data Distribution
         </a>
@@ -1388,6 +1394,12 @@
     <li>
         <a href="../../../3dDetection/pyramid-rcnn/" class="dropdown-item">
             Pyramid R-CNN: Towards Better Performance and Adaptability for 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../../3dDetection/renderocc/" class="dropdown-item">
+            RenderOcc
         </a>
     </li>
                                     
@@ -2368,7 +2380,7 @@ E_{d s}^{l} &=\frac{1}{n} \sum_{i, j}\left|\partial_{x} d_{i j}^{l}\right| e^{-\
 其中 <script type="math/tex">\alpha</script>和<script type="math/tex">\beta</script>与拉格朗日乘子和超参数<script type="math/tex">\lambda</script>有关，从约束中求解获得.</p>
 <p>Sinkhorn Distances的原始代码则是:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_optimal_transport</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the optimal transport matrix and Slinkhorn distance using the</span>
 <span class="sd">    Sinkhorn-Knopp algorithm. From https://michielstock.github.io/OptimalTransport/</span>
 

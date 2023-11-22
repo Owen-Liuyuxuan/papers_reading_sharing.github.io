@@ -1,0 +1,2299 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>RenderOcc: Vision-Centric 3D Occupancy Prediction with 2D Rendering Supervision - Reading Collections</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-158625144-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-158625144-1');
+</script>
+        <!-- --> 
+    </head>
+
+    <body>
+
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <a class="navbar-brand" href="../..">Reading Collections</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Others <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-item">
+          2D Object Detection
+      </a>
+      <ul class="dropdown-menu">
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/AP_loss/" class="dropdown-item">
+            AP-Loss for Accurate One-Stage Object Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/Associative_Embedding%3AEnd-to-End_Learning_for_Joint_Detection_and_Grouping/" class="dropdown-item">
+            Associative Embedding
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/BoFDetection/" class="dropdown-item">
+            BoF for object detection (tricks)
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/CPN/" class="dropdown-item">
+            Cornet Proposal Network
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/CenterNet%3A_Keypoint_Triplets_for_Object_Detection/" class="dropdown-item">
+            CenterNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/CornerNet-Lite_Efficient_Keypoint_Based_Object_Detection/" class="dropdown-item">
+            CornetNet-Lite
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/CornerNet_Detecting_Objects_as_Paired_Keypoints/" class="dropdown-item">
+            CornetNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/DIoULoss/" class="dropdown-item">
+            Distance-IoU Loss
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/DRN_and_SKU110K-R/" class="dropdown-item">
+            Dynamic Refinement Network
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/DynamicRCNN/" class="dropdown-item">
+            Dynamic RCNN
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/EfficientDet/" class="dropdown-item">
+            EfficientDet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/FCOS/" class="dropdown-item">
+            FCOS, anchorless one-stage object detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/GFocalLoss/" class="dropdown-item">
+            Generalized Focal Loss
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/Gaussian_YOLOv3%3A_An_Accurate_and_Fast_Object_Detector_Using_Localization_Uncertainty_for_Autonomous_Driving/" class="dropdown-item">
+            Gaussian YOLOv3
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/IoU-uniform_R-CNN/" class="dropdown-item">
+            IoU-uniform R-CNN
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/IoUNet%28s%29/" class="dropdown-item">
+            IoU Net(s) - A summary
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/MMDetection/" class="dropdown-item">
+            Some Collections around MMDetection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/NGA/" class="dropdown-item">
+            Exploiting Event Cameras by Using a Network Grafting Algorithm
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/Object_as_points/" class="dropdown-item">
+            Detection and Tracking as Point
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/PAA/" class="dropdown-item">
+            Probabilistic Anchor Assignment with IoU Prediction for Object Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/RVT/" class="dropdown-item">
+            Recurrent Vision Transformers for Object Detection with Event Cameras
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/Reppoints/" class="dropdown-item">
+            The RepPoints Series
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/SSD/" class="dropdown-item">
+            SSD
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/ThunderNet%3A_Towards_Real-time_Generic_Object_Detection_on_Mobile_Devices/" class="dropdown-item">
+            ThunderNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/YOLOv4/" class="dropdown-item">
+            YOLOv4
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/aLRPLoss/" class="dropdown-item">
+            A Ranking-based, Balanced Loss Function Unifying Classification and Localisation in Object Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/anchordetr/" class="dropdown-item">
+            Anchor DETR
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/balanced_oriented_focal_loss/" class="dropdown-item">
+            Balance-Oriented Focal Loss with Linear Scheduling for Anchor Free Object Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/deformable_detr/" class="dropdown-item">
+            Deformable DETR
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/detr/" class="dropdown-item">
+            DE⫶TR
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/implicit_FPN/" class="dropdown-item">
+            Implicit Feature Pyramid Network for Object Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/onenet/" class="dropdown-item">
+            OneNet: Towards End-to-End One-Stage Object Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/pix2seq/" class="dropdown-item">
+            PIX2SEQ: A Language Modeling Framework for Object Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/polarnet/" class="dropdown-item">
+            PolarNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/slender_object_detection/" class="dropdown-item">
+            Slender Object Detection: Diagnoses and Improvements
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/toward_open_world_detection/" class="dropdown-item">
+            Towards Open World Object Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/uncertainty_detector/" class="dropdown-item">
+            Estimating and Evaluating Regression Predictive Uncertainty in Deep Object Detectors
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/yolof/" class="dropdown-item">
+            You Only Look One-level Feature
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/object_detection_2D/yolox/" class="dropdown-item">
+            YOLOX: Exceeding YOLO Series in 2021
+        </a>
+    </li>
+          
+      </ul>
+    </li>
+                                    
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-item">
+          Deep Navigation
+      </a>
+      <ul class="dropdown-menu">
+              
+    <li>
+        <a href="../../other_categories/Deep-Navigation/ChauffeurNet%3A%20Learning%20to%20Drive%20by%20Imitating%20the%20Best%20and%20Synthesizing%20the%20Worst/" class="dropdown-item">
+            ChauffeurNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Deep-Navigation/DriftingCaiRal/" class="dropdown-item">
+            Drifting with RL (Cai, Mei)
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Deep-Navigation/DroNet%20Learning%20to%20Fly%20by%20Driving/" class="dropdown-item">
+            DroNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Deep-Navigation/End-to-end%20Driving%20Deploying%20through%20Uncertainty-Aware%20ImitationLearning%20and%20Stochastic%20Visual%20Domain%20Adaptation/" class="dropdown-item">
+            Domain Transfer Imitation - Tai Lei
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Deep-Navigation/Gaze%20%20Training%20%20by%20%20Modulated%20%20Dropout%20%20Improves%20%20Imitation%20%20Learning/" class="dropdown-item">
+            Gaze Training - Chen Yuying
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Deep-Navigation/ModEL/" class="dropdown-item">
+            ModEL: A Modularized End-to-end Reinforcement Learning Framework for Autonomous Driving
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Deep-Navigation/Robustness_to_Out-of-Distribution_Inputs_via_Task-Aware_Generative_Uncertainty/" class="dropdown-item">
+            Task-Aware Generative Uncertainty
+        </a>
+    </li>
+          
+      </ul>
+    </li>
+                                    
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-item">
+          Segmentation
+      </a>
+      <ul class="dropdown-menu">
+              
+    <li>
+        <a href="../../other_categories/Segmentation/Actor-Critic%20Instance%20Segmentation/" class="dropdown-item">
+            Actor-Critic Instance Segmentation
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/BEV_segmentation/" class="dropdown-item">
+            Summary of Multiple Papers on BEV Fusion
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/CONVOLUTIONAL%20CRFS%20%20FOR%20SEMANTIC%20SEGMENTATION/" class="dropdown-item">
+            Convolutional CRF
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/Deep%20Multi-Sensor%20Lane%20Detection/" class="dropdown-item">
+            Deep Multi-Sensor Lane Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/DeepSnake/" class="dropdown-item">
+            Deep Snake
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/FCN_panoptic_seg/" class="dropdown-item">
+            Fully Convolutional Networks for Panoptic Segmentation (Panoptic FCN)
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/LRNNET/" class="dropdown-item">
+            LRNNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/Lane%20Detection%20and%20Classification%20usingCascaded%20CNNs/" class="dropdown-item">
+            Cascade Lane Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/PointRend/" class="dropdown-item">
+            PointRend
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/PolorMask/" class="dropdown-item">
+            PolarMask
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/RDSNet/" class="dropdown-item">
+            RDSNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/SAUNet/" class="dropdown-item">
+            SAUNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/SOLO/" class="dropdown-item">
+            SOLO for instance Seg
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/TPV/" class="dropdown-item">
+            Tri-Perspective View for Vision-Based 3D Semantic Occupancy Prediction
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/TensorMask%3A_A_Foundation_for_Dense_Object_Segmentation/" class="dropdown-item">
+            TensorMask-Instance Seg
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/Ultra_Fast_Structure-aware_Deep_Lane_Detection/" class="dropdown-item">
+            Ultra Fast Structure-aware Deep Lane Detection
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/YOLACT/" class="dropdown-item">
+            YOLOACT
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/blenderMask/" class="dropdown-item">
+            BlendMask
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/condInst/" class="dropdown-item">
+            Conditional Convolutions for Instance Segmentation
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/focus_on_local/" class="dropdown-item">
+            Focus on Local: Detecting Lane Marker from Bottom Up via Key Point
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/freeSOLO/" class="dropdown-item">
+            FreeSOLO
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/hdmapnet/" class="dropdown-item">
+            HDMapNet: An Online HD Map Construction and Evaluation Framework
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/lift_splat_shoot/" class="dropdown-item">
+            Lift, Splat, Shoot: Encoding Images From Arbitrary Camera Rigs by Implicitly Unprojecting to 3D
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/mmsegmentation/" class="dropdown-item">
+            MMSegmentation
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/nvidia-multi-scale-seg/" class="dropdown-item">
+            Hierarchical Multi-scale Attention for Semantic Segmentation
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/openOccupancy/" class="dropdown-item">
+            OpenOccupancy: A Large Scale Benchmark for Surrounding Semantic Occupancy Perception
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/panopticBEV/" class="dropdown-item">
+            PanopticBEV
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/pyorcc/" class="dropdown-item">
+            PyrOccNet for BEV Segmentation
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/skyeye/" class="dropdown-item">
+            SkyEye: Self-Supervised Bird’s-Eye-View Semantic Mapping Using Monocular Frontal View Images
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Segmentation/uniocc/" class="dropdown-item">
+            UniOcc: Unifying Vision-Centric 3D Occupancy Prediction with Geometric and Semantic Rendering
+        </a>
+    </li>
+          
+      </ul>
+    </li>
+                                    
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-item">
+          SLAM
+      </a>
+      <ul class="dropdown-menu">
+              
+    <li>
+        <a href="../../other_categories/SLAM/%20interval_based_Visual-LiDAR_Sensor-Fusion/" class="dropdown-item">
+            Interval-Based Visual-LiDAR Sensor Fusion
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/SLAM/BAD-SLAM/" class="dropdown-item">
+            BAD SLAM: Bundle Adjusted Direct RGB-D SLAM
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/SLAM/CubeSLAM/" class="dropdown-item">
+            CubeSLAM
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/SLAM/DISK/" class="dropdown-item">
+            DISK: Learning local features with policy gradient
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/SLAM/DeepICP%3A_An_End-to-End_Deep_Neural_Network_for_3D_Point_Cloud_Registration/" class="dropdown-item">
+            DeepICP
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/SLAM/Joint_Unsupervised_Learning_of_Optical_Flow_and_Depth_by_Watching_Stereo_Videos/" class="dropdown-item">
+            UnDepthFlow
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/SLAM/LO-Net%3A%20Deep%20Real-time%20Lidar%20Odometry/" class="dropdown-item">
+            LO-Net
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/SLAM/PWC-Net_CNNs_for_Optical_Flow_Using_Pyramid_Warping_and_Cost_Volume/" class="dropdown-item">
+            PWC-Net
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/SLAM/SuperPoint%3ASelf-Supervised_Interest_Point_Detection_and_Description/" class="dropdown-item">
+            SuperPoint
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/SLAM/Unsupervised_Learning_of_Depth_and_Ego-Motion_from_Video/" class="dropdown-item">
+            Unsupervised Learning of Depth and Ego-Motion from Video
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/SLAM/VOLDOR/" class="dropdown-item">
+            VOLDOR: Visual Odometry from Log-logistic Dense Optical flow Residuals
+        </a>
+    </li>
+          
+      </ul>
+    </li>
+                                    
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-item">
+          Summaries
+      </a>
+      <ul class="dropdown-menu">
+              
+    <li>
+        <a href="../../other_categories/Summaries/Collections_StereoMatching_KITTI/" class="dropdown-item">
+            Collections of Stereo Matching from KITTI
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/MachineLearningForRobotPlanningAndContrlGeorgiaTech/" class="dropdown-item">
+            Robotics_DL Lecture from georgia Tech
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/SelfAttentionandCNN/" class="dropdown-item">
+            Self-Attention & CNN
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/SummaryOfMono3DDetection_in2019/" class="dropdown-item">
+            Summary of Mono 3D Detection in 2019
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/SummaryOfSingleStageInstanceSeg/" class="dropdown-item">
+            Summary of Single Stage Instance Segmentation
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/SummaryOfTemperalBEV/" class="dropdown-item">
+            Summary of Temperal BEV
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_CVPR_2021/" class="dropdown-item">
+            CVPR 2021 clips
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_ICCV_2021/" class="dropdown-item">
+            ICCV 2021 clips
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_ICLR_2021/" class="dropdown-item">
+            ICLR 2021 clips
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_ICML_2021/" class="dropdown-item">
+            ICML 2021 clips
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_MapExtraction/" class="dropdown-item">
+            Summary of Several Map Extraction Papers
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_NIPS_2020_app/" class="dropdown-item">
+            Summary of NIPS 2020 for application
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_NIPS_2021/" class="dropdown-item">
+            NeurIPS 2021 clips
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_of_ICRA_2020/" class="dropdown-item">
+            ICRA 2020 clips
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_of_SegLoss/" class="dropdown-item">
+            Segmentation Loss Odyssey
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_of_serveral_cvpr2020/" class="dropdown-item">
+            CVPR 2020 clips
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_of_serveral_eccv2020/" class="dropdown-item">
+            ECCV 2020 clips
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/Summaries/Summary_of_several_iccv2019/" class="dropdown-item">
+            ICCV 2019 Clips
+        </a>
+    </li>
+          
+      </ul>
+    </li>
+                                    
+                                    
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-item">
+          Depth Completion & Depth Prediction
+      </a>
+      <ul class="dropdown-menu">
+              
+    <li>
+        <a href="../../other_categories/depth_completion/DNet/" class="dropdown-item">
+            DNet for Depth Prediction
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/DeepLineEncode/" class="dropdown-item">
+            Deep Line Encoding for Monocular 3D Object Detection and Depth Prediction
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/Deterministic_Guided_LiDAR_Depth_Map_Completion/" class="dropdown-item">
+            Deterministic Guided LiDAR Depth Map Completion
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/OrdinalRegression/" class="dropdown-item">
+            Soft Labels for Ordinal Regression
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/Sparse_and_noisy_LiDAR_completion/" class="dropdown-item">
+            LiDAR completion with RGB uncertainty
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/advancing_monodepth_splidar/" class="dropdown-item">
+            Advancing Self-supervised Monocular Depth Learning with Sparse LiDAR
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/depth_pred_before/" class="dropdown-item">
+            Depth Prediction before DL
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/dorn/" class="dropdown-item">
+            DORN Depth Prediction
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/guideNet/" class="dropdown-item">
+            GuideNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/image_synthesis_loss/" class="dropdown-item">
+            On the Sins of Image Synthesis Loss for Self-supervised Depth Estimation
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/manydepth/" class="dropdown-item">
+            ManyDepth
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/mono_uncer/" class="dropdown-item">
+            MonoUncertainty
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/monorec/" class="dropdown-item">
+            MonoRec: Semi-Supervised Dense Reconstruction in Dynamic Environments from a Single Moving Camera
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/movedepth/" class="dropdown-item">
+            Crafting Monocular Cues and Velocity Guidance for Self-Supervised Multi-Frame Depth Learning
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/multi_view_depth_estimation_epipolar_spatio_temporal/" class="dropdown-item">
+            Multi-view Depth Estimation using Epipolar Spatio-Temporal Networks
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/pRGB-D_SLAM/" class="dropdown-item">
+            Pseudo RGB-D for Self-Improving Monocular SLAM and Depth Prediction
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/steering_kernels/" class="dropdown-item">
+            Learning Steering Kernels for Guided Depth Completion
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/sub_depth/" class="dropdown-item">
+            SUB-Depth: Self-distillation and Uncertainty Boosting Self-supervised Monocular Depth Estimation
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/sungoesdown/" class="dropdown-item">
+            When the Sun Goes Down: Repairing Photometric Losses for All-Day Depth Estimation
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/depth_completion/variational_monodepth/" class="dropdown-item">
+            Variational Monocular Depth Estimation for Reliability Prediction
+        </a>
+    </li>
+          
+      </ul>
+    </li>
+                                    
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-item">
+          Others
+      </a>
+      <ul class="dropdown-menu">
+              
+    <li>
+        <a href="../../other_categories/others/Adaptive_Unimodal_Cost_Volume_Filtering_for_Deep_Stereo_Matching/" class="dropdown-item">
+            AcfNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/Attacking_Optical_Flow/" class="dropdown-item">
+            Attacking Optical Flow
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/CAM/" class="dropdown-item">
+            CAM: Class Activation Map
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/Continuous-time_Intensity_Estimation_Using_Event_Cameras/" class="dropdown-item">
+            Intensity Estimation With Event Cameras
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/FADNet/" class="dropdown-item">
+            FADNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/GPLVM/" class="dropdown-item">
+            GPLVM
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/Gated2Depth%3A_Real-Time_Dense_Lidar_From_Gated_Images/" class="dropdown-item">
+            Gated2Depth
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/GaussianProcessVAE/" class="dropdown-item">
+            Gaussian Process and Variantional Autoencoder
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/Hyperparameter_tuning/" class="dropdown-item">
+            Hyperparameter Tuning
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/In_Defense_of_Classical_Image_Processing_Fast_Depth_Completion_on_the_CPU/" class="dropdown-item">
+            Depth Completion on CPU
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/Jointly_derain_dehaze/" class="dropdown-item">
+            Joint Deraining and Dehazing
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/OptNet_Differentiable_Optimization_as_a_Layer_in_Neural_Networks/" class="dropdown-item">
+            OptNet, Optimization as Layer
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/PHOTOREALISTIC%20IMAGE%20RECONSTRUCTION%20FROM_HYBRID_INTENSITY_AND_EVENT_BASED_SENSOR/" class="dropdown-item">
+            Image Reconstruction with Event Camera
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/PSMNet/" class="dropdown-item">
+            PSMNet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/PointFlow%20%3A%203D%20Point%20Cloud%20Generation%20with%20Continuous%20Normalizing%20Flows/" class="dropdown-item">
+            PointFlow
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/R2D2/" class="dropdown-item">
+            R2D2
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/SPM_SPR/" class="dropdown-item">
+            SPM - SPR
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/SomePapersOnDifferentiableCvxOpt/" class="dropdown-item">
+            More on Differentiable Convex Optimization
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/TRPO/" class="dropdown-item">
+            Trust Region Policy Optimization
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/Unsupervised_depth_prediction/" class="dropdown-item">
+            Unsupervised Mono Depth from stereo
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/adversarialPatch/" class="dropdown-item">
+            Adversarial Patch
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/detic/" class="dropdown-item">
+            Detecting Twenty-thousand Classes using Image-level Supervision
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/flownet/" class="dropdown-item">
+            FlowNet & More
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/gaussian_splatting/" class="dropdown-item">
+            Gaussian Splatting
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/generate_model_score_matching/" class="dropdown-item">
+            Generative Modeling by Estimating Gradients of the Data Distribution
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/meta_updater_tracking/" class="dropdown-item">
+            High-Performance Long-Term Tracking with Meta-Updater
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/mixmatch/" class="dropdown-item">
+            MixMatch: A Holistic Approach to Semi-Supervised Learning
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/monodepth_collections/" class="dropdown-item">
+            Collections on Monodepth (unsupervised)
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/monolayout/" class="dropdown-item">
+            MonoLayout
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/objectvivit/" class="dropdown-item">
+            How can objects help action recognition?
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/octsqueeze/" class="dropdown-item">
+            OctSqueeze: Octree-Structured Entropy Model for LiDAR Compression
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/openpose_part_afinity_fileds/" class="dropdown-item">
+            OpenPose: Part Affinity Fields
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/patchmatchnet/" class="dropdown-item">
+            PatchmatchNet: Learned Multi-View Patchmatch Stereo
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/pruning/" class="dropdown-item">
+            Why is the State of Neural Network Pruning so Confusing? On the Fairness, Comparison Setup, and Trainability in Network Pruning
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/self_supervised_stereo/" class="dropdown-item">
+            SsSMnet
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/socialgan/" class="dropdown-item">
+            Social GAN: Socially Acceptable Trajectories with Generative Adversarial Networks
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/space_sweep/" class="dropdown-item">
+            Plane sweeping for multi-image matching
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/surround_depth/" class="dropdown-item">
+            About Surround Monodepth
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/track2detection_and_seg/" class="dropdown-item">
+            TraDeS
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/vectornet/" class="dropdown-item">
+            VectorNet: Encoding HD Maps and Agent Dynamics from Vectorized Representation
+        </a>
+    </li>
+              
+    <li>
+        <a href="../../other_categories/others/vip_deeplab/" class="dropdown-item">
+            ViP-DeepLab: Learning Visual Perception with Depth-aware Video Panoptic Segmentation
+        </a>
+    </li>
+          
+      </ul>
+    </li>
+                                </ul>
+                            </li>
+                            <!-- <li class="navitem">
+                                <a href="../.." class="nav-link">论文阅读</a>
+                            </li> -->
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">3dDetection <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+    <li>
+        <a href="../AFDet/" class="dropdown-item">
+            CenterNet for Point cloud
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../AM3D/" class="dropdown-item">
+            Color-Embedded 3D Reconstructio Mono3D
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../CDN/" class="dropdown-item">
+            Wasserstein Distances for Stereo Disparity Estimation
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../CameraDistanceAware/" class="dropdown-item">
+            camera distance-aware Mono 3D pose estimation
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../DSGN/" class="dropdown-item">
+            DSGN
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Disentangling_Monocular_3D_Object_Detection/" class="dropdown-item">
+            MonoDIS
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../EGFN/" class="dropdown-item">
+            EGFN: Efficient Geometry Feature Network for Fast Stereo 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../End-to-end%20Learning%20of%20Multi-sensor%203D%20Tracking%20by%20Detection/" class="dropdown-item">
+            End-to-end Learning of Multi-sensor 3D Tracking by Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../FCOS3D_mono/" class="dropdown-item">
+            FCOS3D: Fully Convolutional One-Stage Monocular 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Fast%20and%20Furious%20Real%20Time%20End-to-End%203D%20Detection%2C%20Tracking%20and%20MotionForecasting%20with%20a%20Single%20Convolutional%20Net/" class="dropdown-item">
+            Fast and Furious
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Frustum_PointNets_for_3D_Object_Detection_from_RGB-D_Data/" class="dropdown-item">
+            Frustum PointNets
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Generalize3DDet/" class="dropdown-item">
+            Generalization for 3D Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../GeneralizedIoU/" class="dropdown-item">
+            Genearlized IoU 2D and 3D
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../GroundAwareConvultion/" class="dropdown-item">
+            Ground-aware Monocular 3D Object Detection for Autonomous Driving
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../H23D_RCNN/" class="dropdown-item">
+            From Multi-View to Hollow-3D: Hallucinated Hollow-3D R-CNN for 3D Object Detection: (H23D-RCNN)
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Improving%203D%20Object%20Detection%20for%20Pedestrians%20with%20Virtual%20Multi-View%20Synthesis%20Orientation%20Estimation/" class="dropdown-item">
+            Multi-View Synthesis for Orientation Estimation
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../IoU%20Loss%20for%202D/" class="dropdown-item">
+            IoU Loss for 2D/3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Kinematic_video3d/" class="dropdown-item">
+            Kinematic 3D Object Detection in Monocular Video
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../LaserNet/" class="dropdown-item">
+            LaserNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../M3D-RPN_Monocular_3D_Region_Proposal_Network_for_Object_Detection/" class="dropdown-item">
+            M3D-RPN
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Metric_3d/" class="dropdown-item">
+            3D detection evaluation metric
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Mono3D_virtualcam/" class="dropdown-item">
+            Mono3d with virtual cameras
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../MonoGRNet%3A%20A%20Geometric%20Reasoning%20Network%20for%20Monocular%203D%20Object%20Localization/" class="dropdown-item">
+            MonoGRNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Monocular_3D_Object_Detection_and_Box_Fitting_Trained_End-to-End_Using_Intersection-over-Union_Loss/" class="dropdown-item">
+            Single Shot Mono 3D(SS3D)
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Multi-View_3D_Detection_Network_for_autonomous_Driving/" class="dropdown-item">
+            MV3D
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Orthographic_Feature_Transform_3D_detection/" class="dropdown-item">
+            OftNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Pseudo-Lidar/" class="dropdown-item">
+            Pseudo-Lidar with Instance Segmentation
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../RecentCollectionForMono3D/" class="dropdown-item">
+            Recent Collections for Mono3D
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../RecentCollectionForStereo3D/" class="dropdown-item">
+            Recent Collections for Stereo 3D
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../RefinedMPL/" class="dropdown-item">
+            RefinedMPL
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../SHIFT%20R-CNN%3A%20DEEP%20MONOCULAR%203D%20OBJECT%20DETECTION%20WITH%20CLOSED-FORM%20GEOMETRIC%20CONSTRAINTS/" class="dropdown-item">
+            Shift RCNN
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../SSL_RTM3D/" class="dropdown-item">
+            SSL-RTM3D
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../SingleStage3DPoseEstimation/" class="dropdown-item">
+            single-stage 3D Pose Estimation
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../Triangulation%20Learning%20Network%3A%20from%20Monocular%20to%20Stereo%203D%20Object%20Detection/" class="dropdown-item">
+            TLNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../VoteNetImVote/" class="dropdown-item">
+            VoteNet & ImVoteNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../YOLOStereo3D/" class="dropdown-item">
+            YOLOStereo3D: A Step Back to 2D for Efficient Stereo 3D Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../caddn/" class="dropdown-item">
+            CaDDN
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../digmono3d/" class="dropdown-item">
+            Digging Into Output Representation For Monocular 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../is_plidar_needed/" class="dropdown-item">
+            Is Pseudo-Lidar needed for Monocular 3D Object detection? (DD3D)
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../mono_differentiable_rendering/" class="dropdown-item">
+            Monocular Differentiable Rendering for Self-Supervised 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../monorun/" class="dropdown-item">
+            MonoRUn: Monocular 3D Object Detection by Reconstruction and Uncertainty Propagation
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../multisensor_refinement/" class="dropdown-item">
+            Multi-Sensor Refinement - Li Peiliang
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../my_cookbook/" class="dropdown-item">
+            Synthetic Cookbook for Using/Testing/Demonstrating VisualDet3D in ROS
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../pointnet_related/" class="dropdown-item">
+            Collections on PointNet and follow-ups
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../pvnet/" class="dropdown-item">
+            PVNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../pyramid-rcnn/" class="dropdown-item">
+            Pyramid R-CNN: Towards Better Performance and Adaptability for 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="./" class="dropdown-item active">
+            RenderOcc
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../siaNMS/" class="dropdown-item">
+            siaNMS
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../voxelNet/" class="dropdown-item">
+            VoxelNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../weakly_super/" class="dropdown-item">
+            Weakly Supervised 3D Object Detection from Point Clouds
+        </a>
+    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Building Blocks <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+    <li>
+        <a href="../../Building_Blocks/4D%20Spatio-Temporal%20ConvNets%3A%20Minkowski%20Convolutional%20Neural%20Networks/" class="dropdown-item">
+            Minkowski Convolutional Neural Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/ASL_loss/" class="dropdown-item">
+            Asymmetric Loss For Multi-Label Classification (ASL Loss)
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/AUGMIX/" class="dropdown-item">
+            AugMix
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/AdaIN/" class="dropdown-item">
+            AdaIn Style Transfer
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Attention_Augmented_Conv/" class="dropdown-item">
+            Attention Augmented Convolution
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Attention_is_all_you_need/" class="dropdown-item">
+            Self-Attention Mechanism
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Bpnp/" class="dropdown-item">
+            backprob through PnP Optimization
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/CBAM%3AConvolutional_Block_Attention_Module/" class="dropdown-item">
+            CBAM: Convolutional Block Attention Module
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Can%20GCNs%20Go%20as%20Deep%20as%20CNNs/" class="dropdown-item">
+            Deep GCN
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Container_context_aggregation_network/" class="dropdown-item">
+            Container: Context Aggregation Network
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/DGCNN/" class="dropdown-item">
+            DGCNN and edgeConv
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/DO-Conv/" class="dropdown-item">
+            DO-Conv
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/DiCENet/" class="dropdown-item">
+            DiCENet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Discovery_of_Latent_3D_Keypoints_via_End-to-end_Geometric_Reasoning/" class="dropdown-item">
+            keypointNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/DynamicFilteringNetwork_Fewshot/" class="dropdown-item">
+            Dynamic Conditional Networks for Few-Shot Learning
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/DynanicFilteringNetwork/" class="dropdown-item">
+            Dynamic Filtering Network
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/ELASTIC/" class="dropdown-item">
+            Elastic: Dynamic Scaling CNNs
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/EfficientNet%3A_Rethinking_Model_Scaling_for_Convolutional_Neural_Network/" class="dropdown-item">
+            EfficientNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/GhostNet/" class="dropdown-item">
+            Ghost Net
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/GumbelSoftmax/" class="dropdown-item">
+            Gumbel_softmax; Differentiable Indexing
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/HRNet/" class="dropdown-item">
+            HRNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Lookahead%20Optimizer%20ksteps%20forward%2C%201%20step%20back/" class="dropdown-item">
+            New Optimizers
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/MDEQ/" class="dropdown-item">
+            MDEQ
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/MLP_image_classification/" class="dropdown-item">
+            MLP in Image Classification
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/NRI/" class="dropdown-item">
+            Neural Relational Inference Model (NRI)
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Non-local_Neural_Networks/" class="dropdown-item">
+            Non-local Neural Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/On_Multiplicative_Integration_with_Recurrent_Neural_Networks/" class="dropdown-item">
+            On Multiplicative Integration with Recurrent Neural Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/PointAtrousNet/" class="dropdown-item">
+            PointAtrousNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/PositionalNorm/" class="dropdown-item">
+            Positional Normalization
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/RepVGG/" class="dropdown-item">
+            RepVGG
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/SPN_CSPN/" class="dropdown-item">
+            SPN, CSPN and CSPN ++
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/SQUEEZENET_ALEXNET-LEVEL_ACCURACY_WITH_50X_FEWER_PARAMETERS_AND_0.5MB_MODEL_SIZE/" class="dropdown-item">
+            SqueezeNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Songtao_Liu_Receptive_Field_Block_ECCV_2018_paper/" class="dropdown-item">
+            Receptive Field Block
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Squeeze-and-Excitation_Networks/" class="dropdown-item">
+            Squeeze-and-Excitation Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/Stacked_Hourglass_Networks_for_Human_Pose_Estimation/" class="dropdown-item">
+            Stacked Hourglass Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/convNext/" class="dropdown-item">
+            A ConvNet for the 2020s (ConvNeXt)
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/crossBatchNormalization/" class="dropdown-item">
+            Cross-iteration BatchNormalization
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/deepPruner/" class="dropdown-item">
+            Deep Pruner & Differentiable Patch Match
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/deformable_convnet_v2/" class="dropdown-item">
+            Deformable ConvNet V2
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/fcanet/" class="dropdown-item">
+            FcaNet: Frequency Channel Attention Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/gabor_layer/" class="dropdown-item">
+            Gabor Layers
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/involution/" class="dropdown-item">
+            Involution: Inverting the Inherence of Convolution for Visual Recognition
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/mpvit/" class="dropdown-item">
+            MonoViT
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/mutualNet/" class="dropdown-item">
+            MutualNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/omnivore/" class="dropdown-item">
+            OMNIVORE: A Single Model for Many Visual Modalities
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/pyramid_vit/" class="dropdown-item">
+            Pyramid Vision Transformer: A Versatile Backbone for Dense Prediction without Convolutions
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/replknet/" class="dropdown-item">
+            RepLKNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/shape_adaptor/" class="dropdown-item">
+            Shape Adaptor
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Building_Blocks/swinV2/" class="dropdown-item">
+            Swin Transformer V2: Scaling Up Capacity and Resolution
+        </a>
+    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Planning Control DL <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Aggressive_Driving_with_Model_Predictive_Path_Integral_Control/" class="dropdown-item">
+            Model Predicvtive Path Integral Control
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Backprop%20KF%20Learning%20Discriminative%20DeterministicState%20Estimators/" class="dropdown-item">
+            BackProp Kalman Filter
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Cognitive%20Mapping%20and%20Planning%20for%20Visual%20Navigation/" class="dropdown-item">
+            Cognitive Mapping and Planning
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Composable_Action-Conditioned_Predictors_Flexible_Off-Policy_Learning_for_Robot_Navigation/" class="dropdown-item">
+            Composable Action-Conditioned Predictors
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/DESPOT-%CE%B1%3A%20Online%20POMDP%20Planning%20With%20Large%20State%20And%20Observation%20Spaces/" class="dropdown-item">
+            DESPOT-α
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Differentiable%20Algorithm%20Networks%20forComposable%20Robot%20Learning/" class="dropdown-item">
+            DAN for Composable Robot Learning
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Differentiable%20MPC%20for%20End-to-end%20Planning%20and%20Control/" class="dropdown-item">
+            Differentiable MPC
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/EUDM/" class="dropdown-item">
+            EUDM Planning
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Hierarchical_Imitation_and_Reinforcement_Learning/" class="dropdown-item">
+            Hierarchical Imitation and Reinforcement Learning
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Intention-Net%20Integrating%20Planning%20and%20DeepLearning%20for%20Goal-Directed%20Autonomous%20Navigation/" class="dropdown-item">
+            Intention-Net
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Learning-based_MPC/" class="dropdown-item">
+            LMPC_GP
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/PMPNet/" class="dropdown-item">
+            PMPNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Path%20Integral%20Networks_End-to-End%20Differentiable%20Optimal%20Control/" class="dropdown-item">
+            Path Integral Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/QMDP-Net_%20Deep%20Learning%20for%20Planning%20underPartial%20Observability/" class="dropdown-item">
+            QMDP-Net
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/SUNRISE_for_Ensemble_RL/" class="dropdown-item">
+            SUNRISE
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/Universal%20Planning%20Networks/" class="dropdown-item">
+            Universal Planning Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/diff_MPC_ARE/" class="dropdown-item">
+            differentiable pre-stablized MPC
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../Planning_Control_DL/end2end_challenge/" class="dropdown-item">
+            End-to-end Autonomous Driving: Challenges and Frontiers
+        </a>
+    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Theorotical DL <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+    <li>
+        <a href="../../The_theory/CMA_ES/" class="dropdown-item">
+            Covariance matrix adaptation evolution strategy: CMA-ES
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/CNN_position_information/" class="dropdown-item">
+            Position Information in CNN
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/Channel_Pruning_for_Accelerating_Very_Deep_Neural_Networks/" class="dropdown-item">
+            Channel Pruning for Accelerating Very Deep Neural Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/CheckerBoardDeconv/" class="dropdown-item">
+            Deconvolution and Checkerboard Artifacts
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/ClosingGap/" class="dropdown-item">
+            Train longer, generalize better: closing the generalization gap in large batch training of neural networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/Continuous_learning/" class="dropdown-item">
+            Continuous Learning
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/ConvexOptimization/" class="dropdown-item">
+            Convex Optimization
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/Designing_Network_Design_Spaces/" class="dropdown-item">
+            Designing Network Design Spaces
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/DirectLossMinimization/" class="dropdown-item">
+            Direct Loss Minimization
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/Do%20Better%20ImageNet%20Models%20Transfer%20Better/" class="dropdown-item">
+            Do Better ImageNet Models Transfer Better?
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/First_order_methods_review_and_updates/" class="dropdown-item">
+            First Order Optimizers
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/Framework_Uncertainty_Propagation/" class="dropdown-item">
+            Uncertainty Propagation in Neural Network
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/FreeAnchor_Learning_to_Match_Anchors_for_Visual_Object_Detection/" class="dropdown-item">
+            FreeAnchor
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/LQF/" class="dropdown-item">
+            LQF: Linear Quadratic Fine-Tuning
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/Localization-aware%20Channel%20Pruning%20for%20Object%20Detection/" class="dropdown-item">
+            Localization-aware Channel Pruning
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/NIPS2020_networks/" class="dropdown-item">
+            NIPS 2020 for Experimental NN
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/NTK/" class="dropdown-item">
+            Neural Tangent Kernel: Convergence and Generalization in Neural Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/Rethinking%20ImageNet%20Pre-training/" class="dropdown-item">
+            Rethinking ImageNet Pre-training
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/ShuffleNet_V2%3A_Practical_Guidelines_for_Efficient_CNN_Architecture_Design/" class="dropdown-item">
+            ShuffleNet V2
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/Style_and_normalization/" class="dropdown-item">
+            Style and Normalization
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/TranslationInvarianceinCNN/" class="dropdown-item">
+            Translation invariance in CNN
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/Understanding_Deep_Learning_Requires_Rethinking_Generalization/" class="dropdown-item">
+            Understanding Deep Learning Requires Rethinking Generalization
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/VAE/" class="dropdown-item">
+            Auto-Encoding Variational Bayes
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/VovNet/" class="dropdown-item">
+            VovNet
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/Why_gradien_clip_norm/" class="dropdown-item">
+            WHY GRADIENT CLIPPING ACCELERATES TRAINING: A THEORETICAL JUSTIFICATION FOR ADAPTIVITY
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/bayesianNetwork/" class="dropdown-item">
+            Bayesian Neural Network
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/compondingTechforCNN/" class="dropdown-item">
+            Assembled Techniques for CNN
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/ddn/" class="dropdown-item">
+            Deep Declarative Networks
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/deeplearning_foundation/" class="dropdown-item">
+            Deep Learning "Foundations"
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/diffussion_model/" class="dropdown-item">
+            Denoising Diffusion Probabilistic Models
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/dino/" class="dropdown-item">
+            Emerging Properties in Self-Supervised Vision Transformers
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/lle/" class="dropdown-item">
+            An Introduction to Locally Linear Embedding
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/mean_field_theory/" class="dropdown-item">
+            Mean Field Theory in Deep Learning
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/mindthepad/" class="dropdown-item">
+            Mind The Pad - CNNs Can Develop Blind Spots
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/momentum_BN/" class="dropdown-item">
+            Momentum Batch Normalization
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/understandingKD/" class="dropdown-item">
+            Towards Understanding Ensemble, Knowledge Distillation and Self-Distillation in Deep Learning
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../The_theory/visualizing_landscape/" class="dropdown-item">
+            Visualizing the Loss Landscape of Neural Nets
+        </a>
+    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../pyramid-rcnn/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../siaNMS/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            
+                <div   class=row >
+                            <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        
+        <ul class="nav flex-column bs-sidenav">
+        
+        <a href=https://arxiv.org/pdf/2309.09502.pdf>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-file-pdf-o"> pdf</i>
+        </a>
+        
+
+        
+        <a href=https://github.com/pmj110119/RenderOcc>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-github"> code</i>
+        </a>
+
+        
+            <li class="nav-item main"><a href="#renderocc-vision-centric-3d-occupancy-prediction-with-2d-rendering-supervision">RenderOcc: Vision-Centric 3D Occupancy Prediction with 2D Rendering Supervision</a></li>
+                <li class="nav-item">
+                    <a href="#network-structure" class="nav-link">Network Structure</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#rendering-supervision" class="nav-link">Rendering Supervision</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#auxiliary-rays" class="nav-link">Auxiliary Rays:</a>
+                </li>
+        </ul>
+    </div>
+</div></div>
+                            <div class="col-md-9" role="main"><span>
+    
+<a href=https://arxiv.org/pdf/2309.09502.pdf>
+    <i class="fa fa-file-pdf-o"> pdf</i>
+</a>
+
+
+
+<a href=https://github.com/pmj110119/RenderOcc>
+    <i class="fa fa-github"> code</i>
+</a>
+
+</span>
+<h1 id="renderocc-vision-centric-3d-occupancy-prediction-with-2d-rendering-supervision">RenderOcc: Vision-Centric 3D Occupancy Prediction with 2D Rendering Supervision</h1>
+<p><img alt="image" src="../res/renderocc.png" /></p>
+<p>这篇paper呈现了基本完整的由NeRF作为训练方法的纯相机视觉三维Occupancy的方案。</p>
+<p>此前主要的3D Occupancy训练都需要使用3D Label进行监督，而3D Label的成本以及纯视觉车辆上监督数据的获取难度一直是车辆部署的痛点。</p>
+<p>NeRF的诞生使得可微分渲染走进了深度学习CV社区，能否通过可微分渲染、就像重投影训练单目深度一样、几乎自监督地训练三维占据网格?这个问题对于纯视觉的感知落地方案有相当重要的价值。相比于单目深度+语义分割+投影的分布方案，三维占据网格方案的优势也是很多的:</p>
+<ol>
+<li>从输出的数据排列来说，在空间中均匀分布的栅格比在图片域中均匀分布的像素更实用，投影过程中有很多算力是浪费在密集地近端场景。</li>
+<li>从输出的结构来说，由于MonoDepth限定了被遮挡的物体、物体被遮挡的部分完全没有任何输出，而栅格输出使得网络可以通过相邻帧的监督、帮助本帧预测场景中被遮挡的部分；猜测被遮挡的部分，甚至输出被遮挡部分的不确定性。而不像MonoDepth一样直接无法输出。</li>
+<li>三维占据网格方案理论上可以与车辆planning / prediction等一同训练，有更广的扩展空间。</li>
+</ol>
+<p>与此同时NeRF重投影渲染与单目深度训练有一定不同，也带来了相应的挑战:</p>
+<ol>
+<li>对于动态物体，单目深度可以利用同向同速物体在相机上相对位置相对稳定、与远处背景物体相似这个极强的先验，同时滤掉大部分的动态物体以及天空等动态物体。但是对于3D Occupancy的训练来说无法使用这个Trick。去除背景、处理动态物体需要新的方案。</li>
+<li>单目深度网络基本由纯卷积网络组成，网络组成简单、速度快、占用显存少。而2D-3D的网络，尽管有<a href="../../other_categories/object_detection_2D/deformable_detr/">DeformAttention</a>带来性能的大幅提升，但是整体模型大小仍然较大。在进行重投影，尤其是基于NeRF的可微分渲染时，花费的显存资源较大。</li>
+<li>在三维数据中，加剧了数据label不平衡的问题，尤其是由于模型规模、NeRF、多帧渲染的显存耗费，最终可微分渲染往往被迫只能随机采样一定数量的射线，少样本数据的保存也成为问题。</li>
+</ol>
+<p>这篇paper同样面对前文提到的这几个挑战，并提出了相应的修正Trick。</p>
+<h3 id="network-structure">Network Structure</h3>
+<p>理论上来说本文提出的方法是对2D-3D网络是不敏感的，实验中采用的网络是BEVStereo.</p>
+<p>而在最终输出密度density与semantic的时候,density的activation function为 <a href="https://pytorch.org/docs/stable/generated/torch.nn.Softplus.html">softplus</a></p>
+<p>
+<script type="math/tex; mode=display">\text{Softplus}(x) = \frac{1}{\beta} * \text{log}(1+\text{exp}(\beta * x))</script>
+</p>
+<p>保证了:</p>
+<ul>
+<li>激活函数非负，且可以非常高，全部定义域可以训练。</li>
+<li>在初始化的时候，密度约为0.7, 渲染采样会偏向于近处的网格。</li>
+</ul>
+<h3 id="rendering-supervision">Rendering Supervision</h3>
+<p>这篇paper采用的是深度与语义分割监督。深度默认来自于当帧点云，实验中来自于SFM的深度投影同样能完成训练，只是准确度有一定的区别。而语义分割来自于语义点云对图片的投影。</p>
+<p>投影方法与训练方式与NeRF一致。</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& \alpha\left(z_k\right)=1-\exp \left(-\sigma\left(z_k\right) \beta_k\right) \\
+& T\left(z_k\right)=\exp \left(-\sum_{t=1}^{k-1} \sigma\left(z_t\right) \beta_t\right)
+\end{aligned}
+</script>
+</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& S^{\text {pix }}(r)=\sum_{k=1}^N T\left(z_k\right) \alpha\left(z_k\right) S\left(z_k\right), \\
+& D^{\text {pix }}(r)=\sum_{k=1}^N T\left(z_k\right) \alpha\left(z_k\right) z_k,
+\end{aligned}
+</script>
+</p>
+<p>
+<script type="math/tex; mode=display">
+L=L_{\text {seg }}\left(S^{p i x}, \hat{S}^{p i x}\right)+L_{\text {depth }}\left(D^{p i x}, \hat{D}^{p i x}\right)+L_{r e g}(\sigma)
+</script>
+</p>
+<p>其中语义分割的损失为 cross-entropy, 深度损失为 SILog, regularization Loss采用的是 distortion loss和TV loss.</p>
+<p>而渲染点的采样方案，采用的是 mip360-sampling</p>
+<h3 id="auxiliary-rays">Auxiliary Rays:</h3>
+<p>在nuscenes这种相邻相机几乎没有重叠区域的数据集上进行采样，不可避免需要处理多帧数据。这篇paper在nuscenes采用前后共七帧的图像进行重投影。随机采样的时候是有侧重的，</p>
+<ul>
+<li>类别平衡，根据像素点出现的频率计算权重<script type="math/tex">W_b</script>
+</li>
+</ul>
+<p>
+<script type="math/tex; mode=display">
+W_b(r)=\exp \left(\lambda_s *\left(\frac{\max (M)}{N(\mathbf{C}(r))}-1\right)\right)
+</script>
+</p>
+<ul>
+<li>动态清除。降低相邻帧的权重，并且相邻帧动态类别的权重基本设置为0</li>
+</ul>
+
+
+<iframe src=https://arxiv.org/pdf/2309.09502.pdf height="800" width="100%"></iframe>
+</div>
+                    
+                </div>
+
+            <script src="https://utteranc.es/client.js"
+                repo="Owen-Liuyuxuan/papers_reading_sharing.github.io"
+                issue-term="RenderOcc: Vision-Centric 3D Occupancy Prediction with 2D Rendering Supervision comments"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
+            </script>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

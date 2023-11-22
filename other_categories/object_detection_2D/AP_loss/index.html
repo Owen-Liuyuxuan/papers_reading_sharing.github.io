@@ -1003,6 +1003,12 @@
     </li>
               
     <li>
+        <a href="../../others/gaussian_splatting/" class="dropdown-item">
+            Gaussian Splatting
+        </a>
+    </li>
+              
+    <li>
         <a href="../../others/generate_model_score_matching/" class="dropdown-item">
             Generative Modeling by Estimating Gradients of the Data Distribution
         </a>
@@ -1388,6 +1394,12 @@
     <li>
         <a href="../../../3dDetection/pyramid-rcnn/" class="dropdown-item">
             Pyramid R-CNN: Towards Better Performance and Adaptability for 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../../3dDetection/renderocc/" class="dropdown-item">
+            RenderOcc
         </a>
     </li>
                                     
@@ -2172,7 +2184,7 @@
 2. mini-batch training，作者担心不同image之间会有score-shift使得AP的计算不准确。(极端的情况下一张图的最低score高于另一张图的最高score)，因而batch ranking是必须的
 3. 对最小的负样本点直接舍弃，如果一些负样本点score很低了就不会参与梯度的计算,后面大幅度加速计算。</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">AP_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span><span class="n">targets</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    logits: Conv output, shape [B, N, Classes] (flatten from multi-scale)</span>
 <span class="sd">    targets: Int Tensor, shape [B, N, Classes] (-1: ignore, 0: negative, 1:positive)</span>
 <span class="sd">    &quot;&quot;&quot;</span>

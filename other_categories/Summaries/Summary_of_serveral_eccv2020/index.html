@@ -1003,6 +1003,12 @@
     </li>
               
     <li>
+        <a href="../../others/gaussian_splatting/" class="dropdown-item">
+            Gaussian Splatting
+        </a>
+    </li>
+              
+    <li>
         <a href="../../others/generate_model_score_matching/" class="dropdown-item">
             Generative Modeling by Estimating Gradients of the Data Distribution
         </a>
@@ -1388,6 +1394,12 @@
     <li>
         <a href="../../../3dDetection/pyramid-rcnn/" class="dropdown-item">
             Pyramid R-CNN: Towards Better Performance and Adaptability for 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../../3dDetection/renderocc/" class="dropdown-item">
+            RenderOcc
         </a>
     </li>
                                     
@@ -2230,7 +2242,7 @@ K(d, s) = 1 - \frac{1}{1 + e^{-k(d-s)}}
 <p><a href="https://arxiv.org/pdf/1908.01259.pdf">pdf</a> <a href="https://github.com/iVMCL/AttentiveNorm_Detection">code</a></p>
 <p>这篇paper提出了一个Normalization + SE的融合</p>
 <div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">hsigmoid</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Hard Linear Sigmoid</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Hard Linear Sigmoid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu6</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span>

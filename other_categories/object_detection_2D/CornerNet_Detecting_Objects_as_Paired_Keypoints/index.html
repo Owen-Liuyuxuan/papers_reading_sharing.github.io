@@ -1003,6 +1003,12 @@
     </li>
               
     <li>
+        <a href="../../others/gaussian_splatting/" class="dropdown-item">
+            Gaussian Splatting
+        </a>
+    </li>
+              
+    <li>
         <a href="../../others/generate_model_score_matching/" class="dropdown-item">
             Generative Modeling by Estimating Gradients of the Data Distribution
         </a>
@@ -1388,6 +1394,12 @@
     <li>
         <a href="../../../3dDetection/pyramid-rcnn/" class="dropdown-item">
             Pyramid R-CNN: Towards Better Performance and Adaptability for 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../../3dDetection/renderocc/" class="dropdown-item">
+            RenderOcc
         </a>
     </li>
                                     
@@ -2143,7 +2155,7 @@
 </p>
 <p>原版code有错误，经过一些修正后正确的实现应当是。</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_radius</span><span class="p">(</span><span class="n">det_size</span><span class="p">,</span> <span class="n">min_overlap</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Compute radius from ground truth bbox.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Compute radius from ground truth bbox.</span>
 
 <span class="sd">    original equation: (w - 2r) (h - 2r) / (wh) = min_overlap</span>
 <span class="sd">    Take the solution with a smaller magnitude.</span>

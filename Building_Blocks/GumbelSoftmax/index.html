@@ -1003,6 +1003,12 @@
     </li>
               
     <li>
+        <a href="../../other_categories/others/gaussian_splatting/" class="dropdown-item">
+            Gaussian Splatting
+        </a>
+    </li>
+              
+    <li>
         <a href="../../other_categories/others/generate_model_score_matching/" class="dropdown-item">
             Generative Modeling by Estimating Gradients of the Data Distribution
         </a>
@@ -1388,6 +1394,12 @@
     <li>
         <a href="../../3dDetection/pyramid-rcnn/" class="dropdown-item">
             Pyramid R-CNN: Towards Better Performance and Adaptability for 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../3dDetection/renderocc/" class="dropdown-item">
+            RenderOcc
         </a>
     </li>
                                     
@@ -2128,7 +2140,7 @@
 <p>pytorch functional 的代码如下(不必复制使用，这内置于pytorch中):</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">gumbel_softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">hard</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="c1"># type: (Tensor, float, bool, float, int) -&gt; Tensor</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Examples::</span>
 <span class="sd">        &gt;&gt;&gt; logits = torch.randn(20, 32)</span>
 <span class="sd">        &gt;&gt;&gt; # Sample soft categorical using reparametrization trick:</span>

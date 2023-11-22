@@ -1003,6 +1003,12 @@
     </li>
               
     <li>
+        <a href="../../others/gaussian_splatting/" class="dropdown-item">
+            Gaussian Splatting
+        </a>
+    </li>
+              
+    <li>
         <a href="../../others/generate_model_score_matching/" class="dropdown-item">
             Generative Modeling by Estimating Gradients of the Data Distribution
         </a>
@@ -1388,6 +1394,12 @@
     <li>
         <a href="../../../3dDetection/pyramid-rcnn/" class="dropdown-item">
             Pyramid R-CNN: Towards Better Performance and Adaptability for 3D Object Detection
+        </a>
+    </li>
+                                    
+    <li>
+        <a href="../../../3dDetection/renderocc/" class="dropdown-item">
+            RenderOcc
         </a>
     </li>
                                     
@@ -2120,7 +2132,7 @@
 <p><img alt="image" src="../res/DLE_arch.png" /></p>
 <p>其主要修改了Core Module的流程代码.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">SelfMask</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The Conv Soft-max operation on (a) subgraph to select the most significant line at each channel.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
@@ -2141,7 +2153,7 @@
 
 
 <span class="k">class</span> <span class="nc">YoloMono3DCore</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Some Information about YoloMono3DCore&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Some Information about YoloMono3DCore&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backbone_arguments</span><span class="o">=</span><span class="nb">dict</span><span class="p">()):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">YoloMono3DCore</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span> <span class="o">=</span><span class="n">resnet</span><span class="p">(</span><span class="o">**</span><span class="n">backbone_arguments</span><span class="p">)</span>
