@@ -26,7 +26,7 @@ short_title: Gaussian Splatting
 回到这篇paper Gaussian Splatting，文章指出，如果我们采用SFM的点云作为输入，由于SFM点云相对还是比较稀疏的，如果从中提取法向作为输入或者是先验，这个结果的准确度是比较有限的，所以本文选择直接提取SFM的点的位置作为先验，并且把一个面元/单位体，建模为一个三维高斯（沿空间xyz轴分布的有偏高斯，初始化时设定为无偏高斯，方差为相邻三个点的距离的均值）。
 
 
-例子：把一个投影到图片域的2D高斯可视化出来如图, 其中一个像素的渲染可以计算为$C_{\text {pixel }}=c_1 \alpha_1+c_2 \alpha_2+\ldots$, 其中$c_1, \alpha_1$分别为颜色以及概率密度:
+例子：把一个投影到图片域的2D高斯可视化出来如图, 其中一个像素的渲染可以计算为$C=\Sigma_{i \in N} c_i\alpha_i \Pi^{i-1}_{j=1}(1-\alpha_i)$, 其中$c_1, \alpha_1$分别为颜色以及概率密度:
 
 ![image](res/gaussian_render.jpg)
 
