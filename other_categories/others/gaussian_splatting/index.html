@@ -2143,7 +2143,7 @@
 <h3 id="describing-3d-gaussian">Describing 3D Gaussian</h3>
 <p><a href="https://zhuanlan.zhihu.com/p/664725693">数学介绍</a></p>
 <p>回到这篇paper Gaussian Splatting，文章指出，如果我们采用SFM的点云作为输入，由于SFM点云相对还是比较稀疏的，如果从中提取法向作为输入或者是先验，这个结果的准确度是比较有限的，所以本文选择直接提取SFM的点的位置作为先验，并且把一个面元/单位体，建模为一个三维高斯（沿空间xyz轴分布的有偏高斯，初始化时设定为无偏高斯，方差为相邻三个点的距离的均值）。</p>
-<p>例子：把一个投影到图片域的2D高斯可视化出来如图, 其中一个像素的渲染可以计算为<script type="math/tex">C_{\text {pixel }}=c_1 \alpha_1+c_2 \alpha_2+\ldots</script>, 其中<script type="math/tex">c_1, \alpha_1</script>分别为颜色以及概率密度:</p>
+<p>例子：把一个投影到图片域的2D高斯可视化出来如图, 其中一个像素的渲染可以计算为<script type="math/tex">C=\Sigma_{i \in N} c_i\alpha_i \Pi^{i-1}_{j=1}(1-\alpha_i)</script>, 其中<script type="math/tex">c_1, \alpha_1</script>分别为颜色以及概率密度:</p>
 <p><img alt="image" src="../res/gaussian_render.jpg" /></p>
 <p>这里面牵涉到数个技术细节:</p>
 <ol>
