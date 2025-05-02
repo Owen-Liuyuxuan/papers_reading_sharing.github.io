@@ -1768,6 +1768,12 @@
     </li>
                                     
     <li>
+        <a href="../../Planning_Control_DL/Diffusion_planner/" class="dropdown-item">
+            Diffusion Planner
+        </a>
+    </li>
+                                    
+    <li>
         <a href="../../Planning_Control_DL/EUDM/" class="dropdown-item">
             EUDM Planning
         </a>
@@ -2233,9 +2239,7 @@ B &= \frac{\sqrt{\alpha_t}}{1 - \alpha_t} x_t + \frac{x_t}{(1-\bar\alpha_{t-1})\
 </p>
 <p>上文第一项与<script type="math/tex">\theta</script>无关，因为<script type="math/tex">p(x_T)</script>就是噪声，正太高斯分布。最后一项根据的是最后一步的逆推公式做。而中间部分就是两个高斯之间的相似度(KL距离)，</p>
 <p>高斯之间的相似度严格来说应该如下:
-<script type="math/tex">
-<script type="math/tex; mode=display">\begin{aligned} K L(p, q) &=-\int p(x) \log q(x) d x+\int p(x) \log p(x) d x \\ &=\frac{1}{2} \log \left(2 \pi \sigma_{2}^{2}\right)+\frac{\sigma_{1}^{2}+\left(\mu_{1}-\mu_{2}\right)^{2}}{2 \sigma_{2}^{2}}-\frac{1}{2}\left(1+\log 2 \pi \sigma_{1}^{2}\right) \\ &=\log \frac{\sigma_{2}}{\sigma_{1}}+\frac{\sigma_{1}^{2}+\left(\mu_{1}-\mu_{2}\right)^{2}}{2 \sigma_{2}^{2}}-\frac{1}{2} \end{aligned}</script>
-</script>
+<script type="math/tex">\begin{aligned} K L(p, q) &=-\int p(x) \log q(x) d x+\int p(x) \log p(x) d x \\ &=\frac{1}{2} \log \left(2 \pi \sigma_{2}^{2}\right)+\frac{\sigma_{1}^{2}+\left(\mu_{1}-\mu_{2}\right)^{2}}{2 \sigma_{2}^{2}}-\frac{1}{2}\left(1+\log 2 \pi \sigma_{1}^{2}\right) \\ &=\log \frac{\sigma_{2}}{\sigma_{1}}+\frac{\sigma_{1}^{2}+\left(\mu_{1}-\mu_{2}\right)^{2}}{2 \sigma_{2}^{2}}-\frac{1}{2} \end{aligned}</script>
 </p>
 <p>但是可以通过训练噪音或者重建图片的相似性直接绕过这个损失函数的选择。不同点只是在参数的权重上，因而不是重点。但这个推理过程说明了此前简单损失的充分性。</p>
 <h2 id="youtube">youtube 上的上手视频</h2>

@@ -1768,6 +1768,12 @@
     </li>
                                     
     <li>
+        <a href="../../Planning_Control_DL/Diffusion_planner/" class="dropdown-item">
+            Diffusion Planner
+        </a>
+    </li>
+                                    
+    <li>
         <a href="../../Planning_Control_DL/EUDM/" class="dropdown-item">
             EUDM Planning
         </a>
@@ -2132,21 +2138,21 @@
 <thead>
 <tr>
 <th>Conclusions</th>
-<th align="center">Simple Ideas</th>
+<th style="text-align: center;">Simple Ideas</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>在深度学习中的模型组合与传统方法(类似<a href="../NTK/">NTK</a>方法)很不同</td>
-<td align="center">NTK这种类似线性的模型在模型ensemble时不会有显著性能提升，因而网络的学习机制和NTK还是有很大区别,网络不只是在随机权重中对特征进行选择，而是在训练中真的有为数据提取新的特征</td>
+<td style="text-align: center;">NTK这种类似线性的模型在模型ensemble时不会有显著性能提升，因而网络的学习机制和NTK还是有很大区别,网络不只是在随机权重中对特征进行选择，而是在训练中真的有为数据提取新的特征</td>
 </tr>
 <tr>
 <td>网络的ensemble不只是降低了预测的variance提高信心</td>
-<td align="center">网络在图像分类training set都是几乎无损失的，但是仍然能有测试准确度提升。 但是如果数据集是高斯采样的基础数据集，则没有这样的效果。是图像数据集中某些特定的分布特性造成的。</td>
+<td style="text-align: center;">网络在图像分类training set都是几乎无损失的，但是仍然能有测试准确度提升。 但是如果数据集是高斯采样的基础数据集，则没有这样的效果。是图像数据集中某些特定的分布特性造成的。</td>
 </tr>
 <tr>
 <td>hard label对ensemble很重要，甚至是必要</td>
-<td align="center">如果使用KD 也就是软label来训练单个网络，那么这些网络的组合不会带来测试准确度提升</td>
+<td style="text-align: center;">如果使用KD 也就是软label来训练单个网络，那么这些网络的组合不会带来测试准确度提升</td>
 </tr>
 </tbody>
 </table>
