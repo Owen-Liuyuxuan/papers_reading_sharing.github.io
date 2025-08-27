@@ -163,7 +163,7 @@ wheels = [
 [[package]]
 name = "mkdocs-awesome-pages-plugin"
 version = "2.8.0"
-source = { git = "ssh://git@github.com/Owen-Liuyuxuan/mkdocs-awesome-pages-plugin.git#f8c4e86596a9d862cfadfe7d38a2fea099e32e5d" }
+source = { git = "https://github.com/Owen-Liuyuxuan/mkdocs-awesome-pages-plugin.git#f8c4e86596a9d862cfadfe7d38a2fea099e32e5d" }
 dependencies = [
     { name = "mkdocs" },
     { name = "natsort" },
@@ -366,7 +366,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "mkdocs", specifier = ">=1.6.1" },
-    { name = "mkdocs-awesome-pages-plugin", git = "ssh://git@github.com/Owen-Liuyuxuan/mkdocs-awesome-pages-plugin.git" },
+    { name = "mkdocs-awesome-pages-plugin", git = "https://github.com/Owen-Liuyuxuan/mkdocs-awesome-pages-plugin.git" },
     { name = "numpy", specifier = ">=2.2.6" },
     { name = "python-markdown-math", specifier = ">=0.9" },
 ]
