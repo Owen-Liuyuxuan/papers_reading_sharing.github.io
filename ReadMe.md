@@ -19,6 +19,21 @@
 
 ## Getting Started
 
+### Update 2025/08/27
+
+Since 2025/08/27, we are able to use UV in this system and we provide a simple way to install everything with uv.
+
+```bash
+pip3 install uv
+
+### Synchronize the packagess
+uv sync
+
+### Run with mkdocs
+uv run mkdocs serve/build ...
+```
+
+
 总览：本文使用[mkdocs](https://www.mkdocs.org/)包,运行“pip install mkdocs, python-markdown-math”即可完成基础安装，进一步还需要安装[这个魔改库](https://github.com/Owen-Liuyuxuan/mkdocs-awesome-pages-plugin).之后git clone 本repo到本地即可开始工作。
 
 编译测试：下载后,在repo目录下运行“mkdocs build”会在本地编译网页，内容放在./site文件夹中，不需要更改，本repo的.gitignore自动忽略了此文件夹。

@@ -1,2 +1,4 @@
 site
 temp
+.vscode
+.venv
