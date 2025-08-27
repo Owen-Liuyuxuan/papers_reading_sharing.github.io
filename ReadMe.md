@@ -5,6 +5,10 @@
 [网页](https://owen-liuyuxuan.github.io/papers_reading_sharing.github.io/)
 <!-- [网页](http://192.168.1.122:8000) -->
 
+2025/08/27 更新：
+
+在AI时代，由于作者的职业变化，已经很难有很长的时间仔细研读论文了，现在本系统与 [EveryDayArxiv](https://github.com/Owen-Liuyuxuan/everyday_my_arxiv) 实现了整合，每天大陆时间中午十二点(JST 13pm)，将会用Gemini读取与作者专业相关的十篇arxiv论文，并使用Gemini PDF Reader进行内容分析整理，发布的markdown会自动push到本仓库，本仓库的自动release 系统再将内容发布为[网页版](https://owen-liuyuxuan.github.io/papers_reading_sharing.github.io/)
+
 # For Developers
 
 总体文件结构:
@@ -81,4 +85,5 @@ uv run mkdocs serve/build ...
 目前主要需要做(本人不够技术完成)的功能：
 
 1. 让主页有一个random walk的按钮，也就是随机跳转至某一篇论文
+
 2. 优化搜索
