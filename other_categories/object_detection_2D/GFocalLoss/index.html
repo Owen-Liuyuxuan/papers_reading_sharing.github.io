@@ -2162,62 +2162,62 @@ p, & \text { when } y=1 \\
 </p>
 <div id="qfocalLoss" ></div>
 
-<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">quality_focal_loss</span><span class="p">(</span>
-          <span class="n">pred</span><span class="p">,</span>          <span class="c1"># (n, 80)</span>
-          <span class="n">label</span><span class="p">,</span>         <span class="c1"># (n) 0, 1-80: 0 is neg, 1-80 is positive</span>
-          <span class="n">score</span><span class="p">,</span>         <span class="c1"># (n) reg target 0-1, only positive is good</span>
-          <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-          <span class="n">beta</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
-          <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
-          <span class="n">avg_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        from https://github.com/implus/GFocal/blob/cc0e72680f16a8abe0770eb531d6baa07a6e511f/mmdet/models/losses/gfocal_loss.py</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># all goes to 0</span>
-    <span class="n">pred_sigmoid</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
-    <span class="n">pt</span> <span class="o">=</span> <span class="n">pred_sigmoid</span>
-    <span class="n">zerolabel</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">new_zeros</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">binary_cross_entropy_with_logits</span><span class="p">(</span>
-           <span class="n">pred</span><span class="p">,</span> <span class="n">zerolabel</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">pt</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+<pre class="codehilite"><code class="language-python">def quality_focal_loss(
+          pred,          # (n, 80)
+          label,         # (n) 0, 1-80: 0 is neg, 1-80 is positive
+          score,         # (n) reg target 0-1, only positive is good
+          weight=None,
+          beta=2.0,
+          reduction='mean',
+          avg_factor=None):
+    &quot;&quot;&quot;
+        from https://github.com/implus/GFocal/blob/cc0e72680f16a8abe0770eb531d6baa07a6e511f/mmdet/models/losses/gfocal_loss.py
+    &quot;&quot;&quot;
+    # all goes to 0
+    pred_sigmoid = pred.sigmoid()
+    pt = pred_sigmoid
+    zerolabel = pt.new_zeros(pred.shape)
+    loss = F.binary_cross_entropy_with_logits(
+           pred, zerolabel, reduction='none') * pt.pow(beta)
 
-    <span class="n">label</span> <span class="o">=</span> <span class="n">label</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">label</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">pos</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+    label = label - 1
+    pos = (label &gt;= 0).nonzero().squeeze(1)
+    a = pos
+    b = label[pos].long()
 
-    <span class="c1"># positive goes to bbox quality</span>
-    <span class="n">pt</span> <span class="o">=</span> <span class="n">score</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-</span> <span class="n">pred_sigmoid</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span>
-    <span class="n">loss</span><span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">binary_cross_entropy_with_logits</span><span class="p">(</span>
-           <span class="n">pred</span><span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">],</span> <span class="n">score</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">pt</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+    # positive goes to bbox quality
+    pt = score[a] - pred_sigmoid[a, b]
+    loss[a,b] = F.binary_cross_entropy_with_logits(
+           pred[a,b], score[a], reduction='none') * pt.pow(beta)
 
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">weight_reduce_loss</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">reduction</span><span class="p">,</span> <span class="n">avg_factor</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">loss</span>
-</code></pre></div>
+    loss = weight_reduce_loss(loss, weight, reduction, avg_factor)
+    return loss
+</code></pre>
 
 <h2 id="distribution-focal-loss-dfl">Distribution Focal Loss (DFL)</h2>
 <p>当我们使用序列的多个分类值(multi-bin)分类时，inference的时候我们使用 <script type="math/tex">\hat{y}=\sum_{i=0}^{n} P\left(y_{i}\right) y_{i}</script>。 <script type="math/tex; mode=display">\mathbf{D F L}\left(\mathcal{S}_{i}, \mathcal{S}_{i+1}\right)=-\left(\left(y_{i+1}-y\right) \log \left(\mathcal{S}_{i}\right)+\left(y-y_{i}\right) \log \left(\mathcal{S}_{i+1}\right)\right)</script>
 </p>
 <p>其中 <script type="math/tex">\mathcal{S}_{i}=\frac{y_{i+1}-y}{y_{i+1}-y_{i}}, \mathcal{S}_{i+1}=\frac{y-y_{i}}{y_{i+1}-y_{i}}</script>,直觉就是按照权重使用loss鼓励multibin ground truth临近的两侧分类点的权重。</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">distribution_focal_loss</span><span class="p">(</span>
-            <span class="n">pred</span><span class="p">,</span>
-            <span class="n">label</span><span class="p">,</span>
-            <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span>
-            <span class="n">avg_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        from https://github.com/implus/GFocal/blob/cc0e72680f16a8abe0770eb531d6baa07a6e511f/mmdet/models/losses/gfocal_loss.py</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">disl</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
-    <span class="n">disr</span> <span class="o">=</span> <span class="n">disl</span> <span class="o">+</span> <span class="mi">1</span>
+<pre class="codehilite"><code class="language-python">def distribution_focal_loss(
+            pred,
+            label,
+            weight=None,
+            reduction='mean',
+            avg_factor=None):
+    &quot;&quot;&quot;
+        from https://github.com/implus/GFocal/blob/cc0e72680f16a8abe0770eb531d6baa07a6e511f/mmdet/models/losses/gfocal_loss.py
+    &quot;&quot;&quot;
+    disl = label.long()
+    disr = disl + 1
 
-    <span class="n">wl</span> <span class="o">=</span> <span class="n">disr</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">-</span> <span class="n">label</span>
-    <span class="n">wr</span> <span class="o">=</span> <span class="n">label</span> <span class="o">-</span> <span class="n">disl</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+    wl = disr.float() - label
+    wr = label - disl.float()
 
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">disl</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">wl</span> \
-         <span class="o">+</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">disr</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">wr</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">weight_reduce_loss</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">reduction</span><span class="p">,</span> <span class="n">avg_factor</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">loss</span>
-</code></pre></div>
+    loss = F.cross_entropy(pred, disl, reduction='none') * wl \
+         + F.cross_entropy(pred, disr, reduction='none') * wr
+    loss = weight_reduce_loss(loss, weight, reduction, avg_factor)
+    return loss
+</code></pre>
 
 <h2 id="generalized-focal-loss-gfl">Generalized Focal Loss (GFL)</h2>
 <p>

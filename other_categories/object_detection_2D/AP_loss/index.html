@@ -2189,62 +2189,62 @@
 1. 梯度与forward是一起计算的，因而作者是写成了一个functional,并重载其backward来实现的。
 2. mini-batch training，作者担心不同image之间会有score-shift使得AP的计算不准确。(极端的情况下一张图的最低score高于另一张图的最高score)，因而batch ranking是必须的
 3. 对最小的负样本点直接舍弃，如果一些负样本点score很低了就不会参与梯度的计算,后面大幅度加速计算。</p>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">AP_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span><span class="n">targets</span><span class="p">:</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    logits: Conv output, shape [B, N, Classes] (flatten from multi-scale)</span>
-<span class="sd">    targets: Int Tensor, shape [B, N, Classes] (-1: ignore, 0: negative, 1:positive)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<pre class="codehilite"><code class="language-python">def AP_loss(logits:torch.Tensor,targets:torch.Tensor):
+    &quot;&quot;&quot;
+    logits: Conv output, shape [B, N, Classes] (flatten from multi-scale)
+    targets: Int Tensor, shape [B, N, Classes] (-1: ignore, 0: negative, 1:positive)
+    &quot;&quot;&quot;
 
-    <span class="n">delta</span><span class="o">=</span><span class="mf">1.0</span> <span class="c1"># delta paramater for piecewise Step function -&gt; soft step function</span>
+    delta=1.0 # delta paramater for piecewise Step function -&gt; soft step function
 
-    <span class="n">grad</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
-    <span class="n">metric</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+    grad=torch.zeros(logits.shape).cuda()
+    metric=torch.zeros(1).cuda()
 
-    <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">grad</span><span class="p">,</span> <span class="n">metric</span>
+    if torch.max(targets)&lt;=0:
+        return grad, metric
 
-    <span class="n">labels_p</span><span class="o">=</span><span class="p">(</span><span class="n">targets</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">fg_logits</span><span class="o">=</span><span class="n">logits</span><span class="p">[</span><span class="n">labels_p</span><span class="p">]</span>
-    <span class="n">threshold_logit</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fg_logits</span><span class="p">)</span><span class="o">-</span><span class="n">delta</span>
+    labels_p=(targets==1)
+    fg_logits=logits[labels_p]
+    threshold_logit=torch.min(fg_logits)-delta
 
-    <span class="c1">######## Ignore those negative j that satisfy (L_{ij}=0 for all positive i), to accelerate the AP-loss computation.</span>
-    <span class="n">valid_labels_n</span><span class="o">=</span><span class="p">((</span><span class="n">targets</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">logits</span><span class="o">&gt;=</span><span class="n">threshold_logit</span><span class="p">))</span>
-    <span class="n">valid_bg_logits</span><span class="o">=</span><span class="n">logits</span><span class="p">[</span><span class="n">valid_labels_n</span><span class="p">]</span> 
-    <span class="n">valid_bg_grad</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">valid_bg_logits</span><span class="p">))</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
-    <span class="c1">########</span>
+    ######## Ignore those negative j that satisfy (L_{ij}=0 for all positive i), to accelerate the AP-loss computation.
+    valid_labels_n=((targets==0)&amp;(logits&gt;=threshold_logit))
+    valid_bg_logits=logits[valid_labels_n] 
+    valid_bg_grad=torch.zeros(len(valid_bg_logits)).cuda()
+    ########
 
-    <span class="n">fg_num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">fg_logits</span><span class="p">)</span>
-    <span class="n">prec</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">fg_num</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
-    <span class="n">order</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">fg_logits</span><span class="p">)</span>
-    <span class="n">max_prec</span><span class="o">=</span><span class="mi">0</span>
+    fg_num=len(fg_logits)
+    prec=torch.zeros(fg_num).cuda()
+    order=torch.argsort(fg_logits)
+    max_prec=0
 
-    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">order</span><span class="p">:</span>
-        <span class="n">tmp1</span><span class="o">=</span><span class="n">fg_logits</span><span class="o">-</span><span class="n">fg_logits</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> 
-        <span class="n">tmp1</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">tmp1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">delta</span><span class="p">)</span><span class="o">+</span><span class="mf">0.5</span><span class="p">,</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">tmp2</span><span class="o">=</span><span class="n">valid_bg_logits</span><span class="o">-</span><span class="n">fg_logits</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
-        <span class="n">tmp2</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">tmp2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">delta</span><span class="p">)</span><span class="o">+</span><span class="mf">0.5</span><span class="p">,</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">a</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tmp1</span><span class="p">)</span><span class="o">+</span><span class="mf">0.5</span>
-        <span class="n">b</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tmp2</span><span class="p">)</span>
-        <span class="n">tmp2</span><span class="o">/=</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
-        <span class="n">current_prec</span><span class="o">=</span><span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">max_prec</span><span class="o">&lt;=</span><span class="n">current_prec</span><span class="p">):</span>
-            <span class="n">max_prec</span><span class="o">=</span><span class="n">current_prec</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">tmp2</span><span class="o">*=</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">max_prec</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">current_prec</span><span class="p">))</span>
-        <span class="n">valid_bg_grad</span><span class="o">+=</span><span class="n">tmp2</span>
-        <span class="n">prec</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">=</span><span class="n">max_prec</span> 
+    for ii in order:
+        tmp1=fg_logits-fg_logits[ii] 
+        tmp1=torch.clamp(tmp1/(2*delta)+0.5,min=0,max=1)
+        tmp2=valid_bg_logits-fg_logits[ii]
+        tmp2=torch.clamp(tmp2/(2*delta)+0.5,min=0,max=1)
+        a=torch.sum(tmp1)+0.5
+        b=torch.sum(tmp2)
+        tmp2/=(a+b)
+        current_prec=a/(a+b)
+        if (max_prec&lt;=current_prec):
+            max_prec=current_prec
+        else:
+            tmp2*=((1-max_prec)/(1-current_prec))
+        valid_bg_grad+=tmp2
+        prec[ii]=max_prec 
 
-    <span class="n">grad</span><span class="p">[</span><span class="n">valid_labels_n</span><span class="p">]</span><span class="o">=</span><span class="n">valid_bg_grad</span>
-    <span class="n">grad</span><span class="p">[</span><span class="n">labels_p</span><span class="p">]</span><span class="o">=-</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prec</span><span class="p">)</span> 
+    grad[valid_labels_n]=valid_bg_grad
+    grad[labels_p]=-(1-prec) 
 
-    <span class="n">fg_num</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">fg_num</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    fg_num=max(fg_num,1)
 
-    <span class="n">grad</span> <span class="o">/=</span> <span class="p">(</span><span class="n">fg_num</span><span class="p">)</span>
+    grad /= (fg_num)
 
-    <span class="n">metric</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">prec</span><span class="p">,</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">/</span><span class="n">fg_num</span>
+    metric=torch.sum(prec,dim=0,keepdim=True)/fg_num
 
-    <span class="k">return</span> <span class="n">grad</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">metric</span>
-</code></pre></div>
+    return grad, 1-metric
+</code></pre>
 
 
 <iframe src=https://arxiv.org/pdf/2008.07294v1.pdf height="800" width="100%"></iframe>

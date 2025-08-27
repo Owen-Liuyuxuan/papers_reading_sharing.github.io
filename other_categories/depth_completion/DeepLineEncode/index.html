@@ -2137,81 +2137,81 @@
 <p>由于驾驶场景地面不一定是平整的,但是地面上的线特征可以辅助网络学习这些信息.本文就着重从线特征提取来入手进一步提升GAC的性能.</p>
 <p><img alt="image" src="../res/DLE_arch.png" /></p>
 <p>其主要修改了Core Module的流程代码.</p>
-<div class="codehilite"><pre><span></span><code><span class="k">class</span> <span class="nc">SelfMask</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The Conv Soft-max operation on (a) subgraph to select the most significant line at each channel.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">SelfMask</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mask1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<pre class="codehilite"><code class="language-python">class SelfMask(nn.Module):
+    &quot;&quot;&quot;
+        The Conv Soft-max operation on (a) subgraph to select the most significant line at each channel.
+    &quot;&quot;&quot;
+    def __init__(self, c):
+        super(SelfMask, self).__init__()
+        self.mask1 = nn.Conv2d(c, c, kernel_size=1)
+        self.max1 = nn.Softmax(dim=-1)
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    def forward(self, x):
 
-        <span class="n">mask1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">mask1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mask1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mask1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">mask1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">mask1</span> <span class="o">=</span> <span class="n">mask1</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">mask1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max1</span><span class="p">(</span><span class="n">mask1</span><span class="p">)</span>
-        <span class="n">mask1</span> <span class="o">=</span> <span class="n">mask1</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">mask1</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="n">x1</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x1</span>
-
-
-<span class="k">class</span> <span class="nc">YoloMono3DCore</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Some Information about YoloMono3DCore&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backbone_arguments</span><span class="o">=</span><span class="nb">dict</span><span class="p">()):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">YoloMono3DCore</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span> <span class="o">=</span><span class="n">resnet</span><span class="p">(</span><span class="o">**</span><span class="n">backbone_arguments</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">cord</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-                <span class="n">CoordinateConv</span><span class="p">(</span><span class="mi">256</span><span class="o">+</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span> <span class="c1"># The coorindate Conv after line pooling on (b) subgraph</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">vote_index</span> <span class="o">=</span> <span class="n">hough_transform</span><span class="p">(</span><span class="mi">72</span><span class="p">,</span><span class="mi">320</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">3.0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">vote_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vote_index</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dht</span> <span class="o">=</span> <span class="n">HT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vote_index</span><span class="p">)</span> <span class="c1"># Hough Transform Layer</span>
+        mask1 = self.mask1(x)
+        n, c, h, w = mask1.shape[0], mask1.shape[1], mask1.shape[2], mask1.shape[3]
+        mask1 = mask1.view(n, c, -1)
+        mask1 = self.max1(mask1)
+        mask1 = mask1.view(n, c, h, w)
+        x1 = x * mask1
+        x1 = x1.sum(dim=-1,keepdim=True).sum(dim=-2,keepdim=True)
+        return x1
 
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">dht_backbone</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-                <span class="n">CoordinateConv</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
-                <span class="n">SelfMask</span><span class="p">(</span><span class="mi">256</span><span class="p">))</span> <span class="c1"># Line Pooling Module</span>
+class YoloMono3DCore(nn.Module):
+    &quot;&quot;&quot;Some Information about YoloMono3DCore&quot;&quot;&quot;
+    def __init__(self, backbone_arguments=dict()):
+        super(YoloMono3DCore, self).__init__()
+        self.backbone =resnet(**backbone_arguments)
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">bt</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span>
-                <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span> <span class="c1"># Compress the number of channels for hough transform.</span>
+        self.cord = nn.Sequential(
+                CoordinateConv(256+512, 512, kernel_size=3, padding=1),
+                nn.BatchNorm2d(512),
+                nn.ReLU(True),
+                nn.Conv2d(512, 512, kernel_size=3, padding=1),
+                nn.BatchNorm2d(512),
+                nn.ReLU(True)) # The coorindate Conv after line pooling on (b) subgraph
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="c1">#x = self.backbone(x[&#39;image&#39;])</span>
-        <span class="c1">#x = x[0]</span>
+        self.vote_index = hough_transform(72,320,3.0,3.0)
+        self.vote_index = torch.tensor(self.vote_index).cuda().contiguous().float()
+        self.dht = HT(self.vote_index) # Hough Transform Layer
 
-        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span><span class="o">.</span><span class="n">forward1</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">])</span> <span class="c1"># Take the ResNet&#39;s output from layer1 and layer2; scale 4, 8</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">x1</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
-        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bt</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="c1"># Reduce features before hough transform</span>
-        <span class="n">dht</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dht</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="c1"># hough transform</span>
-        <span class="n">dht</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dht_backbone</span><span class="p">(</span><span class="n">dht</span><span class="p">)</span> <span class="c1"># Line Pooling</span>
 
-        <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">x2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">x2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">dht</span> <span class="o">=</span> <span class="n">dht</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        self.dht_backbone = nn.Sequential(
+                CoordinateConv(16, 64, kernel_size=3, padding=1),
+                nn.BatchNorm2d(64),
+                nn.ReLU(True),
+                nn.Conv2d(64, 256, kernel_size=3, padding=1),
+                nn.BatchNorm2d(256),
+                nn.ReLU(True),
+                SelfMask(256)) # Line Pooling Module
 
-        <span class="n">x2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span> <span class="n">dht</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cord</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="c1"># Merge back</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span><span class="o">.</span><span class="n">forward2</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span> <span class="c1"># ResNet at Scale 16</span>
-        <span class="k">return</span> <span class="n">x2</span>
-</code></pre></div>
+        self.bt = nn.Sequential(
+                nn.Conv2d(256, 64, kernel_size=1),
+                nn.BatchNorm2d(64),
+                nn.ReLU(True),
+                nn.Conv2d(64, 16, kernel_size=1),
+                nn.BatchNorm2d(16),
+                nn.ReLU(True)) # Compress the number of channels for hough transform.
+
+    def forward(self, x):
+        #x = self.backbone(x['image'])
+        #x = x[0]
+
+        x1, x2 = self.backbone.forward1(x['image']) # Take the ResNet's output from layer1 and layer2; scale 4, 8
+        x1 = 0.1 * x1 + 0.9 * x1.detach()
+        x1 = self.bt(x1) # Reduce features before hough transform
+        dht = self.dht(x1) # hough transform
+        dht = self.dht_backbone(dht) # Line Pooling
+
+        h, w = x2.shape[2], x2.shape[3]
+        dht = dht.expand(-1, -1, h, w)
+
+        x2 = torch.cat([x2, dht], 1)
+        x2 = self.cord(x2) # Merge back
+        x2 = self.backbone.forward2(x2) # ResNet at Scale 16
+        return x2
+</code></pre>
 
 
 <iframe src=https://www.bmvc2021-virtualconference.com/assets/papers/0299.pdf height="800" width="100%"></iframe>
