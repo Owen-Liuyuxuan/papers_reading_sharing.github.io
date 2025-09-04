@@ -1,0 +1,901 @@
+time: 20250904
+
+# Arxiv Computer Vision Papers - 2025-09-04
+
+## Executive Summary
+
+## Arxiv 计算机视觉领域最新论文执行摘要 (2025年9月3日)
+
+本报告总结了2025年9月3日发布的10篇Arxiv计算机视觉领域论文，旨在为忙碌的研究人员提供快速概览，了解该领域的最新进展和关键趋势。
+
+### 1. 主要主题与趋势概览
+
+本次发布的论文展现了计算机视觉领域以下几个显著趋势：
+
+*   **扩散模型 (Diffusion Models) 的主导地位：** 扩散模型在多样化的生成任务中展现出强大能力，从零样本深度图恢复 (InfraDiffusion)、视频合成 (GenCompositor)，到逼真手物交互建模 (Hand-Object Interaction) 以及通过合成数据增强零样本学习 (Pedestrian Attribute Recognition)。
+*   **基础模型 (Foundation Models) 的发展与领域适应：** 研究重点在于如何将大型视觉基础模型有效应用于特定领域，如医学图像分割 (MedDINOv3)，以及构建能够统一理解和生成的自回归模型 (OneCAT)。
+*   **医学影像分析的持续创新：** 多个工作聚焦于医学图像分割，强调了轻量化 (MedLiteNet)、鲁棒性 (LGBP-OrgaNet) 和基础模型在该领域的应用。
+*   **模型效率与优化：** 针对Vision Transformer的效率提升 (TinyDrop) 和轻量级模型设计 (MedLiteNet) 仍然是重要的研究方向，以适应实际部署需求。
+*   **混合架构的融合：** CNN与Transformer的结合 (LGBP-OrgaNet, Watermarking, MedLiteNet) 持续被探索，以期结合两者的优势，提升模型性能和鲁棒性。
+
+### 2. 显著或创新性论文亮点
+
+*   **OneCAT: Decoder-Only Auto-Regressive Model for Unified Understanding and Generation:** 这篇论文提出了一种解码器-only的自回归模型，旨在实现统一的理解和生成能力，预示着通用视觉基础模型的新范式，具有巨大的潜力。
+*   **InfraDiffusion: zero-shot depth map restoration with diffusion models and prompted segmentation from sparse infrastructure point clouds:** 该工作利用扩散模型和提示分割，实现了从稀疏基础设施点云进行零样本深度图恢复，在实际工程和3D重建领域具有重要的应用价值和创新性。
+*   **MedDINOv3: How to adapt vision foundation models for medical image segmentation?:** 深入探讨了如何将视觉基础模型有效适应于医学图像分割任务，为该领域的基础模型应用提供了关键指导和实践经验。
+*   **GenCompositor: Generative Video Compositing with Diffusion Transformer:** 采用Diffusion Transformer进行生成式视频合成，展示了在复杂视频内容创作方面的先进技术，推动了视频生成领域的发展。
+*   **Towards Realistic Hand-Object Interaction with Gravity-Field Based Diffusion Bridge:** 引入了基于重力场的扩散桥，为实现更逼真、物理一致的手物交互建模提供了新颖方法，对3D视觉和机器人领域具有启发意义。
+
+### 3. 新兴研究方向或技术
+
+*   **Diffusion Transformer (DiT) 架构：** 结合扩散模型和Transformer的强大能力，尤其在视频生成等复杂任务中展现潜力 (GenCompositor)。
+*   **统一多模态基础模型：** 发展能够处理多模态输入并执行理解与生成任务的单一通用模型，向通用人工智能迈进 (OneCAT)。
+*   **物理信息引导的生成模型：** 将物理约束（如重力场）融入生成过程，以提高生成内容的真实性和一致性 (Hand-Object Interaction)。
+*   **高效能Transformer设计：** 持续优化Transformer结构，使其在资源受限环境下也能高效运行，例如通过Token Dropping (TinyDrop)。
+*   **合成数据在零样本学习中的应用：** 利用生成模型（特别是扩散模型）创建高质量合成数据，以弥补真实数据稀缺性，提升零样本任务性能 (Pedestrian Attribute Recognition)。
+
+### 4. 建议完整阅读的论文
+
+为了更深入地了解当前领域的重要进展，我们建议您优先阅读以下论文：
+
+*   **OneCAT:** 对于关注通用AI和基础模型未来发展的研究人员，这篇论文提供了对统一理解与生成模型的新视角。
+*   **InfraDiffusion:** 对于从事3D视觉、重建和扩散模型实际应用的研究人员，该工作展示了零样本深度恢复的强大潜力。
+*   **MedDINOv3:** 对于医学AI领域，特别是希望利用基础模型进行医学图像分割的研究人员，这篇论文提供了宝贵的适应策略。
+*   **GenCompositor:** 对于视频生成和高级扩散架构感兴趣的研究人员，该论文展示了Diffusion Transformer在复杂视频合成中的应用。
+*   **Towards Realistic Hand-Object Interaction with Gravity-Field Based Diffusion Bridge:** 对于3D视觉、机器人和新颖生成建模方法的研究人员，该论文提供了一种结合物理约束的创新方法。
+
+---
+
+## Table of Contents
+
+1. [InfraDiffusion: zero-shot depth map restoration with diffusion models and prompted segmentation from sparse infrastructure point clouds](#2509.03324v1)
+2. [MedDINOv3: How to adapt vision foundation models for medical image segmentation?](#2509.02379v2)
+3. [OneCAT: Decoder-Only Auto-Regressive Model for Unified Understanding and Generation](#2509.03498v1)
+4. [GenCompositor: Generative Video Compositing with Diffusion Transformer](#2509.02460v1)
+5. [Enhancing Robustness in Post-Processing Watermarking: An Ensemble Attack Network Using CNNs and Transformers](#2509.03006v1)
+6. [TinyDrop: Tiny Model Guided Token Dropping for Vision Transformers](#2509.03379v1)
+7. [LGBP-OrgaNet: Learnable Gaussian Band Pass Fusion of CNN and Transformer Features for Robust Organoid Segmentation and Tracking](#2509.03221v1)
+8. [Towards Realistic Hand-Object Interaction with Gravity-Field Based Diffusion Bridge](#2509.03114v1)
+9. [Enhancing Zero-Shot Pedestrian Attribute Recognition with Synthetic Data Generation: A Comparative Study with Image-To-Image Diffusion Models](#2509.02161v1)
+10. [MedLiteNet: Lightweight Hybrid Medical Image Segmentation Model](#2509.03041v1)
+
+---
+
+## Papers
+
+<a id='2509.03324v1'></a>
+## [InfraDiffusion: zero-shot depth map restoration with diffusion models and prompted segmentation from sparse infrastructure point clouds](https://arxiv.org/abs/2509.03324v1)
+
+**Authors:** Yixiong Jing, Cheng Zhang, Haibing Wu, Guangming Wang, Olaf Wysocki, Brian Sheil
+
+**Published:** 2025-09-03
+
+**Categories:** cs.CV
+
+**Abstract:**
+
+Point clouds are widely used for infrastructure monitoring by providing
+geometric information, where segmentation is required for downstream tasks such
+as defect detection. Existing research has automated semantic segmentation of
+structural components, while brick-level segmentation (identifying defects such
+as spalling and mortar loss) has been primarily conducted from RGB images.
+However, acquiring high-resolution images is impractical in low-light
+environments like masonry tunnels. Point clouds, though robust to dim lighting,
+are typically unstructured, sparse, and noisy, limiting fine-grained
+segmentation. We present InfraDiffusion, a zero-shot framework that projects
+masonry point clouds into depth maps using virtual cameras and restores them by
+adapting the Denoising Diffusion Null-space Model (DDNM). Without task-specific
+training, InfraDiffusion enhances visual clarity and geometric consistency of
+depth maps. Experiments on masonry bridge and tunnel point cloud datasets show
+significant improvements in brick-level segmentation using the Segment Anything
+Model (SAM), underscoring its potential for automated inspection of masonry
+assets. Our code and data is available at
+https://github.com/Jingyixiong/InfraDiffusion-official-implement.
+
+**Analysis:**
+
+InfraDiffusion 论文摘要的专家分析如下：
+
+### 1. 论文主要贡献的简明总结 (2-3 句话)
+
+本论文提出了 InfraDiffusion，一个零样本（zero-shot）框架，旨在解决在低光照环境下从稀疏、嘈杂的点云中进行细粒度（如砖块级）分割的挑战。该框架通过将点云投影到深度图并利用适应后的去噪扩散零空间模型（DDNM）进行恢复，显著提升了深度图的视觉清晰度和几何一致性。最终，它在无需任务特定训练的情况下，显著改善了砖块级分割的性能，为基础设施的自动化检测提供了有效方案。
+
+### 2. 关键创新或方法学方法
+
+InfraDiffusion 的核心创新在于其**零样本深度图恢复方法**，以及对**Denoising Diffusion Null-space Model (DDNM) 的巧妙适应和应用**。具体而言：
+
+1.  **点云到深度图的转换与恢复范式：** 论文提出了一种新颖的流程，首先利用虚拟相机将非结构化的稀疏点云投影成深度图，然后将深度图的恢复视为一个图像修复问题。
+2.  **DDNM 的创新性适应：** DDNM 通常用于从损坏图像中进行修复（如去噪、补全）。InfraDiffusion 将其适应于从稀疏点云生成的“不完整”深度图进行恢复，以增强其视觉清晰度和几何一致性。这种适应使得模型能够在没有特定任务训练的情况下，从低质量的深度图中恢复出高保真度的信息。
+3.  **零样本能力：** 整个框架无需针对特定的砖块级分割任务进行训练，直接利用预训练的扩散模型和现有的分割模型（如 SAM），极大地提高了其泛化能力和应用效率。
+
+### 3. 对领域潜在影响
+
+1.  **推动基础设施自动化检测：** InfraDiffusion 为桥梁、隧道等基础设施的自动化、精细化检测提供了强大的工具，尤其是在传统方法受限的恶劣环境（如低光照）下。这将提高检测效率、降低成本并增强安全性。
+2.  **弥合 3D 点云与 2D 图像处理的鸿沟：** 该方法提供了一种有效途径，将稀疏、非结构化的 3D 点云数据转化为高质量的 2D 深度图，从而能够利用强大的 2D 视觉模型（如 SAM）进行细粒度分析，为点云处理开辟了新的思路。
+3.  **拓展扩散模型的应用边界：** 论文展示了扩散模型在非传统图像修复任务（从稀疏 3D 数据恢复 2D 深度图）中的巨大潜力，可能启发更多将扩散模型应用于其他类型传感器数据或数据转换任务的研究。
+4.  **促进零样本学习在实际应用中的落地：** 其零样本特性对于实际工程应用具有重要意义，因为它减少了对大量标注数据的依赖，使得模型能够更快地部署和适应新场景。
+
+### 4. 可能受益的相关领域或应用
+
+1.  **土木工程与结构健康监测：** 直接受益领域，用于桥梁、隧道、大坝等基础设施的裂缝、剥落、砂浆流失等缺陷的自动化检测。
+2.  **机器人与自主巡检：** 搭载 LiDAR 或深度传感器的巡检机器人或无人机，可在复杂或危险环境中利用此技术进行自主数据采集和分析。
+3.  **文化遗产保护：** 对历史建筑、古迹等砖石结构进行无损、精细化监测，评估其损坏程度。
+4.  **矿业与地下空间勘测：** 在光照条件差的矿井、地下通道等环境中，进行结构完整性评估。
+5.  **通用 3D 数据处理：** 任何需要从稀疏、嘈杂的 3D 点云中提取高精度 2D 几何或语义信息的应用场景。
+
+### 5. 从摘要中可推断的局限性
+
+1.  **点云质量的依赖性：** 尽管该方法旨在处理稀疏和嘈杂的点云，但其性能可能仍受原始点云极端稀疏度或噪声水平的限制。摘要未明确指出其能处理的最低点云密度或最高噪声容忍度。
+2.  **虚拟相机设置的敏感性：** 虚拟相机的选择、位置和参数设置可能会影响深度图的质量和恢复效果。这可能需要一定的领域知识或经验来优化。
+3.  **DDNM 泛化能力：** 虽然 DDNM 被适应用于深度图恢复，但其底层扩散模型是在图像数据上预训练的。其对深度图这种非 RGB 图像的泛化能力，以及对不同类型基础设施几何特征的适应性，可能仍有待进一步验证。
+4.  **计算资源需求：** 扩散模型通常计算成本较高，尤其是在生成高分辨率深度图时。摘要未提及推理速度或计算效率，这对于实时或大规模应用可能是一个考量因素。
+5.  **实验范围：** 实验仅在“砖石桥梁和隧道点云数据集”上进行。其在其他类型基础设施（如混凝土、钢结构）或不同材料上的表现尚不明确。
+6.  **“零样本”的边界：** 尽管实现了零样本分割，但最终的缺陷检测可能仍需要对分割结果进行后处理或分类，这部分可能不属于零样本范畴。
+
+**Key Findings:**
+
+- We present InfraDiffusion, a zero-shot framework that projects
+masonry point clouds into depth maps using virtual cameras and restores them by
+adapting the Denoising Diffusion Null-space Model (DDNM).
+
+**Links:**
+
+- [PDF](http://arxiv.org/pdf/2509.03324v1)
+- [arXiv](https://arxiv.org/abs/2509.03324v1)
+
+---
+
+<a id='2509.02379v2'></a>
+## [MedDINOv3: How to adapt vision foundation models for medical image segmentation?](https://arxiv.org/abs/2509.02379v2)
+
+**Authors:** Yuheng Li, Yizhou Wu, Yuxiang Lai, Mingzhe Hu, Xiaofeng Yang
+
+**Published:** 2025-09-02
+
+**Categories:** cs.CV
+
+**Abstract:**
+
+Accurate segmentation of organs and tumors in CT and MRI scans is essential
+for diagnosis, treatment planning, and disease monitoring. While deep learning
+has advanced automated segmentation, most models remain task-specific, lacking
+generalizability across modalities and institutions. Vision foundation models
+(FMs) pretrained on billion-scale natural images offer powerful and
+transferable representations. However, adapting them to medical imaging faces
+two key challenges: (1) the ViT backbone of most foundation models still
+underperform specialized CNNs on medical image segmentation, and (2) the large
+domain gap between natural and medical images limits transferability. We
+introduce MedDINOv3, a simple and effective framework for adapting DINOv3 to
+medical segmentation. We first revisit plain ViTs and design a simple and
+effective architecture with multi-scale token aggregation. Then, we perform
+domain-adaptive pretraining on CT-3M, a curated collection of 3.87M axial CT
+slices, using a multi-stage DINOv3 recipe to learn robust dense features.
+MedDINOv3 matches or exceeds state-of-the-art performance across four
+segmentation benchmarks, demonstrating the potential of vision foundation
+models as unified backbones for medical image segmentation. The code is
+available at https://github.com/ricklisz/MedDINOv3.
+
+**Analysis:**
+
+作为计算机视觉和机器学习领域的专家，我对这篇关于MedDINOv3的论文摘要进行如下分析：
+
+---
+
+### MedDINOv3: 如何将视觉基础模型应用于医学图像分割？
+
+**1. 论文主要贡献的简明总结 (2-3 句话)**
+
+MedDINOv3提出了一个简单而有效的框架，旨在将DINOv3视觉基础模型成功应用于医学图像分割。它通过改进ViT骨干网络以适应医学图像特性，并结合大规模CT数据集上的领域自适应预训练，克服了自然图像与医学图像之间的领域鸿沟。最终，MedDINOv3在多个医学分割基准上达到了或超越了最先进的性能，展示了基础模型作为医学图像统一骨干网络的巨大潜力。
+
+**2. 关键创新或方法学方法**
+
+该论文的核心创新在于其双管齐下的方法：
+1.  **ViT架构的适应性改进：** 作者重新审视了原始的Vision Transformer (ViT) 架构，并设计了一个具有“多尺度token聚合”能力的简单而有效的架构。这旨在解决ViT在医学图像分割任务上可能不如专用CNN的问题，使其能更好地捕捉医学图像中多尺度、精细的解剖结构信息。
+2.  **大规模领域自适应预训练：** 他们在大规模的CT数据集（CT-3M，包含3.87M轴向CT切片）上，采用“多阶段DINOv3配方”进行领域自适应预训练。这一策略有效地弥合了自然图像与医学图像之间的巨大领域鸿沟，使模型能够学习到对医学图像特有的鲁棒、密集的视觉特征，从而提高其在下游分割任务上的性能。
+
+**3. 对领域潜在影响**
+
+这项研究对医学图像分析领域具有深远影响：
+*   **推动通用医学AI模型发展：** 它为将强大的视觉基础模型（如DINOv3）应用于医学图像分割提供了一个有效范式，有望推动开发出更通用、更少依赖于特定任务标注数据的医学AI模型。
+*   **提高分割准确性与泛化能力：** 通过提供统一且高性能的骨干网络，MedDINOv3可以显著提高医学图像分割的准确性和跨模态、跨机构的泛化能力，从而加速诊断、治疗规划和疾病监测的自动化和标准化进程。
+*   **降低开发成本：** 预训练的基础模型可以作为新任务的起点，减少从头训练模型所需的数据量和计算资源，从而降低医学AI应用的开发成本和时间。
+
+**4. 可能受益的相关领域或应用**
+
+除了直接的器官和肿瘤分割，这项研究的成果可以推广到多种医学图像分析任务和应用中：
+*   **其他医学图像分析任务：** 例如病灶检测、疾病分类、图像配准、3D重建等，这些任务都可以受益于MedDINOv3学习到的强大且通用的医学图像特征。
+*   **不同医学影像模态：** 尽管当前预训练主要基于CT，但其框架和方法论可启发在MRI、X光、超声、病理图像等其他模态上进行类似的基础模型适应，以构建多模态的医学基础模型。
+*   **临床决策支持系统：** 提高自动化分析的准确性，辅助医生进行诊断和治疗方案制定，尤其是在处理大量影像数据时。
+*   **医学教育与研究：** 提供高性能的分割工具，加速医学研究和新疗法的开发，例如在药物筛选、生物标志物识别等领域。
+
+**5. 从摘要中可推断出的局限性**
+
+尽管MedDINOv3取得了显著进展，但从摘要中仍可推断出一些潜在局限性：
+*   **模态特异性：** 领域自适应预训练主要基于CT-3M数据集，这意味着其在MRI、超声、X光等其他医学影像模态上的直接泛化能力可能受限。要实现真正的“统一骨干”，可能需要更通用的多模态预训练数据和策略。
+*   **架构改进的细节与普适性：** 摘要中提到对ViT架构进行了“简单而有效”的改进，但具体细节未披露。其复杂性、计算效率以及在更广泛、更复杂的医学图像场景下的普适性仍需通过论文正文深入了解。
+*   **计算资源需求：** 大规模数据集（3.87M CT切片）上的多阶段DINOv3预训练通常需要巨大的计算资源和时间，这可能限制了其在资源受限环境下的应用或进一步开发。
+*   **基准测试的覆盖范围：** 尽管在四个分割基准上表现出色，但医学图像分割任务的多样性远超此范围。其在罕见疾病、特定病理或更复杂解剖结构上的表现仍需进一步验证。
+*   **可解释性与鲁棒性：** 摘要未提及模型的可解释性或对对抗性攻击的鲁棒性。在对安全性要求极高的医学应用中，这些是重要的考量因素。
+
+**Key Findings:**
+
+- MedDINOv3 matches or exceeds state-of-the-art performance across four
+segmentation benchmarks, demonstrating the potential of vision foundation
+models as unified backbones for medical image segmentation.
+
+**Links:**
+
+- [PDF](http://arxiv.org/pdf/2509.02379v2)
+- [arXiv](https://arxiv.org/abs/2509.02379v2)
+
+---
+
+<a id='2509.03498v1'></a>
+## [OneCAT: Decoder-Only Auto-Regressive Model for Unified Understanding and Generation](https://arxiv.org/abs/2509.03498v1)
+
+**Authors:** Han Li, Xinyu Peng, Yaoming Wang, Zelin Peng, Xin Chen, Rongxiang Weng, Jingang Wang, Xunliang Cai, Wenrui Dai, Hongkai Xiong
+
+**Published:** 2025-09-03
+
+**Categories:** cs.CV
+
+**Abstract:**
+
+We introduce OneCAT, a unified multimodal model that seamlessly integrates
+understanding, generation, and editing within a novel, pure decoder-only
+transformer architecture. Our framework uniquely eliminates the need for
+external components such as Vision Transformers (ViT) or vision tokenizer
+during inference, leading to significant efficiency gains, especially for
+high-resolution inputs. This is achieved through a modality-specific
+Mixture-of-Experts (MoE) structure trained with a single autoregressive (AR)
+objective, which also natively supports dynamic resolutions. Furthermore, we
+pioneer a multi-scale visual autoregressive mechanism within the Large Language
+Model (LLM) that drastically reduces decoding steps compared to diffusion-based
+methods while maintaining state-of-the-art performance. Our findings
+demonstrate the powerful potential of pure autoregressive modeling as a
+sufficient and elegant foundation for unified multimodal intelligence. As a
+result, OneCAT sets a new performance standard, outperforming existing
+open-source unified multimodal models across benchmarks for multimodal
+generation, editing, and understanding.
+
+**Analysis:**
+
+这篇论文摘要介绍的OneCAT模型在计算机视觉和机器学习领域具有显著的潜在趣味性和重要性。以下是详细分析：
+
+---
+
+### 1. 论文主要贡献 (Concise Summary)
+
+OneCAT是一个统一的多模态模型，采用纯解码器Transformer架构，无缝整合了理解、生成和编辑功能。它通过消除推理时对外部视觉组件（如ViT或视觉tokenizer）的依赖，并引入多尺度视觉自回归机制，显著提升了效率和性能，在多模态任务上超越了现有模型。
+
+### 2. 关键创新或方法 (Key Innovation or Methodological Approach)
+
+OneCAT的核心创新在于其**纯解码器Transformer架构**，该架构通过**模态特定的MoE（Mixture-of-Experts）结构**，在单一自回归目标下训练，从而在推理时无需外部ViT或视觉tokenizer，并原生支持动态分辨率。此外，它引入了**多尺度视觉自回归机制**，显著减少了生成任务的解码步骤，同时保持了最先进的性能。
+
+### 3. 对领域潜在影响 (Potential Impact on the Field)
+
+*   **范式转变：** 证明了纯自回归建模作为统一多模态智能基础的强大潜力，可能推动未来多模态模型设计向更简洁、统一的自回归范式发展，挑战当前主流的编码器-解码器或扩散模型范式。
+*   **效率提升：** 显著提升了多模态模型的推理效率，尤其是在处理高分辨率输入和生成任务时，通过减少对外部组件的依赖和优化解码步骤，解决了现有模型（如扩散模型）的效率瓶颈。
+*   **模型简化：** 消除对外部视觉组件的依赖，简化了多模态系统的部署和维护，降低了系统复杂性。
+*   **性能新标杆：** 在多模态理解、生成和编辑任务上树立了新的性能标准，为后续研究提供了更强的基线。
+
+### 4. 相关应用领域 (Related Areas or Applications that Might Benefit from this Research)
+
+*   **多模态内容创作：** 高质量图像/视频生成、风格迁移、文本引导的图像编辑、虚拟现实/增强现实中的内容生成。
+*   **多模态理解：** 视觉问答（VQA）、图像字幕生成（Image Captioning）、视频理解、跨模态检索、自动驾驶中的环境感知。
+*   **人机交互：** 更自然的多模态对话系统、智能助手、机器人与环境的交互。
+*   **高分辨率应用：** 医疗影像分析、遥感图像处理、专业设计领域等对高分辨率输入有需求的场景，将受益于其高效处理高分辨率输入的能力。
+
+### 5. 潜在局限性 (Any Limitations That Can Be Inferred from the Abstract)
+
+*   **训练成本：** 尽管摘要强调了推理效率，但训练一个纯解码器、统一的多模态模型，特别是包含MoE结构和多尺度机制的模型，其**计算资源和数据需求可能非常巨大**，这在摘要中未提及。
+*   **MoE的复杂性：** 模态特定的MoE结构虽然带来了灵活性，但其路由机制的复杂性、负载均衡以及如何有效训练以避免“专家坍塌”等问题，可能需要精细的设计和调优。
+*   **自回归模型的固有挑战：** 尽管声称性能优越，但纯自回归模型在处理某些复杂的生成任务时，如长距离一致性、新颖性或多样性方面，可能仍面临挑战，尤其是在与专门的扩散模型进行细致比较时。摘要中未详细说明生成质量的这些方面。
+*   **“开源”限定：** 论文声称超越了“现有开源统一多模态模型”，这可能意味着其性能尚未与所有最先进的（包括闭源或非统一但特定任务表现卓越的）模型）进行全面比较。
+*   **多尺度机制的泛化性：** 多尺度视觉自回归机制在不同分辨率、不同模态组合下的泛化能力和鲁棒性，需要进一步的实验验证。
+
+**Key Findings:**
+
+- We introduce OneCAT, a unified multimodal model that seamlessly integrates
+understanding, generation, and editing within a novel, pure decoder-only
+transformer architecture.
+- Furthermore, we
+pioneer a multi-scale visual autoregressive mechanism within the Large Language
+Model (LLM) that drastically reduces decoding steps compared to diffusion-based
+methods while maintaining state-of-the-art performance.
+- As a
+result, OneCAT sets a new performance standard, outperforming existing
+open-source unified multimodal models across benchmarks for multimodal
+generation, editing, and understanding.
+
+**Links:**
+
+- [PDF](http://arxiv.org/pdf/2509.03498v1)
+- [arXiv](https://arxiv.org/abs/2509.03498v1)
+
+---
+
+<a id='2509.02460v1'></a>
+## [GenCompositor: Generative Video Compositing with Diffusion Transformer](https://arxiv.org/abs/2509.02460v1)
+
+**Authors:** Shuzhou Yang, Xiaoyu Li, Xiaodong Cun, Guangzhi Wang, Lingen Li, Ying Shan, Jian Zhang
+
+**Published:** 2025-09-02
+
+**Categories:** cs.CV
+
+**Abstract:**
+
+Video compositing combines live-action footage to create video production,
+serving as a crucial technique in video creation and film production.
+Traditional pipelines require intensive labor efforts and expert collaboration,
+resulting in lengthy production cycles and high manpower costs. To address this
+issue, we automate this process with generative models, called generative video
+compositing. This new task strives to adaptively inject identity and motion
+information of foreground video to the target video in an interactive manner,
+allowing users to customize the size, motion trajectory, and other attributes
+of the dynamic elements added in final video. Specifically, we designed a novel
+Diffusion Transformer (DiT) pipeline based on its intrinsic properties. To
+maintain consistency of the target video before and after editing, we revised a
+light-weight DiT-based background preservation branch with masked token
+injection. As to inherit dynamic elements from other sources, a DiT fusion
+block is proposed using full self-attention, along with a simple yet effective
+foreground augmentation for training. Besides, for fusing background and
+foreground videos with different layouts based on user control, we developed a
+novel position embedding, named Extended Rotary Position Embedding (ERoPE).
+Finally, we curated a dataset comprising 61K sets of videos for our new task,
+called VideoComp. This data includes complete dynamic elements and high-quality
+target videos. Experiments demonstrate that our method effectively realizes
+generative video compositing, outperforming existing possible solutions in
+fidelity and consistency.
+
+**Analysis:**
+
+作为计算机视觉和机器学习领域的专家，我对这篇论文摘要进行如下分析：
+
+---
+
+### GenCompositor: Generative Video Compositing with Diffusion Transformer
+
+**1. 论文主要贡献的简明摘要 (Concise Summary)**
+
+本文提出了GenCompositor，一个基于Diffusion Transformer（DiT）的生成式视频合成系统，旨在自动化传统视频合成中耗时耗力的过程。它允许用户交互式地将前景视频的身份和运动信息自适应地注入到目标视频中，并提供对前景元素大小、运动轨迹等属性的定制化控制。为支持这一新任务，作者还构建了一个大规模的视频合成数据集VideoComp。
+
+**2. 关键创新或方法学方法 (Key Innovation or Methodological Approach)**
+
+GenCompositor的核心创新在于其为生成式视频合成任务量身定制的Diffusion Transformer (DiT) 管道。具体包括：
+
+*   **DiT-based 背景保持分支：** 设计了一个轻量级的DiT分支，通过掩码令牌注入（masked token injection）机制，确保目标视频在编辑前后的背景一致性，这是视频编辑任务中保持连贯性的关键。
+*   **DiT 融合块与前景增强：** 提出了一个采用全自注意力（full self-attention）的DiT融合块，用于高效地将前景动态元素继承并注入到视频中，并辅以简单而有效的前景增强策略进行训练。
+*   **扩展旋转位置编码 (ERoPE)：** 针对用户控制下不同布局（如前景大小、位置）的背景和前景视频融合，开发了一种新颖的位置编码ERoPE，以更好地处理空间布局的灵活性。
+*   **大规模新数据集VideoComp：** 为这一新任务精心策划并构建了一个包含61K视频集的大规模数据集，其中包含完整的动态元素和高质量的目标视频，为生成式视频合成的研究提供了宝贵的资源。
+
+**3. 对领域潜在影响 (Potential Impact on the Field)**
+
+*   **视频制作效率革命：** 极大地自动化了传统上劳动密集型且成本高昂的视频合成流程，有望显著缩短制作周期并降低人力成本，从而加速视频内容创作。
+*   **技术普惠性：** 将复杂的视频合成技术从专业人士扩展到更广泛的用户群体，降低了视频创作的门槛，赋能普通用户生成高质量的个性化视频。
+*   **新任务与新范式：** 正式定义并解决了“生成式视频合成”这一新任务，为计算机视觉和机器学习领域在视频生成与编辑方向开辟了新的研究范式和基准。
+*   **DiT应用拓展：** 进一步展示了Diffusion Transformer在复杂视频生成和编辑任务中的强大潜力，推动了DiT模型在视频理解和生成领域的应用边界。
+
+**4. 相关领域或应用受益 (Related Areas or Applications that Might Benefit)**
+
+*   **电影与电视制作：** 显著简化特效合成、场景构建、绿幕抠像后的元素融合等环节。
+*   **短视频与社交媒体内容创作：** 赋能普通用户快速生成高质量、个性化的视频内容，如在现有视频中添加虚拟角色、动态贴纸或特效。
+*   **广告与营销：** 快速制作定制化的产品演示或宣传视频，实现A/B测试和个性化投放。
+*   **虚拟现实 (VR) / 增强现实 (AR)：** 为虚拟环境或AR应用中的动态元素生成提供支持，实现更真实的虚拟与现实融合。
+*   **游戏开发：** 辅助生成游戏内过场动画或动态场景元素，提升开发效率。
+*   **专业视频编辑软件：** 作为插件或核心功能集成，提升现有工具（如Adobe Premiere, DaVinci Resolve）的智能化水平。
+
+**5. 从摘要中可推断的局限性 (Limitations that Can Be Inferred from the Abstract)**
+
+*   **背景保持的鲁棒性：** 尽管提出了轻量级背景保持分支，但在极端复杂的背景变化、光照条件或前景与背景深度交互场景下，其保持一致性的能力可能仍面临挑战，可能出现细微的伪影。
+*   **前景融合的真实感与多样性：** 摘要中提到“简单而有效的前景增强”，这可能意味着在处理高度复杂或需要精细物理交互（如光影、反射、遮挡）的前景元素时，其生成的多样性和真实感可能存在局限。
+*   **用户控制的粒度与复杂性：** 尽管允许用户定制大小、轨迹等属性，但对于更高级的交互（如前景与背景的物理碰撞、光影融合、材质匹配、语义理解驱动的交互等），摘要中未明确提及，可能仍需进一步探索。
+*   **计算资源需求：** Diffusion Transformer模型通常计算成本较高，尤其是在处理视频数据时。尽管部分模块设计为“轻量级”，但整体模型的训练和推理速度仍可能是实际应用中的一个考量因素，特别是在实时应用场景下。
+*   **数据集的泛化性：** 尽管构建了VideoComp数据集，但任何数据集都存在其固有的分布和偏差。模型在面对与训练数据分布差异较大的真实世界视频时，其泛化能力有待进一步验证。
+*   **“现有可行方案”的比较基准：** 论文提到超越“现有可行方案”，这可能暗示目前尚无针对“生成式视频合成”这一新任务的直接、成熟的基准模型。因此，比较的公平性和全面性可能需要更详细的实验分析来支撑，以确保其优势是针对同等难度和目标的方法。
+
+**Key Findings:**
+
+- This new task strives to adaptively inject identity and motion
+information of foreground video to the target video in an interactive manner,
+allowing users to customize the size, motion trajectory, and other attributes
+of the dynamic elements added in final video.
+- Specifically, we designed a novel
+Diffusion Transformer (DiT) pipeline based on its intrinsic properties.
+- Besides, for fusing background and
+foreground videos with different layouts based on user control, we developed a
+novel position embedding, named Extended Rotary Position Embedding (ERoPE).
+- Finally, we curated a dataset comprising 61K sets of videos for our new task,
+called VideoComp.
+- Experiments demonstrate that our method effectively realizes
+generative video compositing, outperforming existing possible solutions in
+fidelity and consistency.
+
+**Links:**
+
+- [PDF](http://arxiv.org/pdf/2509.02460v1)
+- [arXiv](https://arxiv.org/abs/2509.02460v1)
+
+---
+
+<a id='2509.03006v1'></a>
+## [Enhancing Robustness in Post-Processing Watermarking: An Ensemble Attack Network Using CNNs and Transformers](https://arxiv.org/abs/2509.03006v1)
+
+**Authors:** Tzuhsuan Huang, Cheng Yu Yeo, Tsai-Ling Huang, Hong-Han Shuai, Wen-Huang Cheng, Jun-Cheng Chen
+
+**Published:** 2025-09-03
+
+**Categories:** cs.CV
+
+**Abstract:**
+
+Recent studies on deep watermarking have predominantly focused on
+in-processing watermarking, which integrates the watermarking process into
+image generation. However, post-processing watermarking, which embeds
+watermarks after image generation, offers more flexibility. It can be applied
+to outputs from any generative model (e.g. GANs, diffusion models) without
+needing access to the model's internal structure. It also allows users to embed
+unique watermarks into individual images. Therefore, this study focuses on
+post-processing watermarking and enhances its robustness by incorporating an
+ensemble attack network during training. We construct various versions of
+attack networks using CNN and Transformer in both spatial and frequency domains
+to investigate how each combination influences the robustness of the
+watermarking model. Our results demonstrate that combining a CNN-based attack
+network in the spatial domain with a Transformer-based attack network in the
+frequency domain yields the highest robustness in watermarking models.
+Extensive evaluation on the WAVES benchmark, using average bit accuracy as the
+metric, demonstrates that our ensemble attack network significantly enhances
+the robustness of baseline watermarking methods under various stress tests. In
+particular, for the Regeneration Attack defined in WAVES, our method improves
+StegaStamp by 18.743%. The code is released
+at:https://github.com/aiiu-lab/DeepRobustWatermark.
+
+**Analysis:**
+
+这篇论文专注于提升后处理水印（Post-Processing Watermarking）的鲁棒性，这在计算机视觉和机器学习领域，尤其是在AI生成内容日益普及的背景下，具有重要的研究意义。
+
+---
+
+### 1. 论文主要贡献的简明摘要 (Concise Summary)
+
+本文提出了一种通过在训练过程中引入集成攻击网络（Ensemble Attack Network）来增强后处理水印鲁棒性的方法。该方法系统地探索了结合卷积神经网络（CNN）和Transformer架构，并在空间域和频率域构建攻击网络，发现CNN（空间域）与Transformer（频率域）的组合能显著提高水印模型的鲁棒性。在WAVES基准测试中，该方法在各种压力测试下，特别是再生攻击（Regeneration Attack）中，显著提升了基线水印方法的性能。
+
+### 2. 关键创新或方法论 (Key Innovation or Methodological Approach)
+
+核心创新在于提出并系统性地探索了一种用于训练鲁棒后处理水印模型的“集成攻击网络”（Ensemble Attack Network）。该网络在训练阶段模拟多种潜在攻击，通过结合卷积神经网络（CNN）和Transformer架构，并在空间域和频率域同时进行攻击建模。这种多模态、多域的集成攻击策略，使得水印模型能够学习抵御更广泛、更复杂的攻击类型，从而显著提升其鲁邦性。论文还通过实验确定了CNN（空间域）与Transformer（频率域）的最佳组合。
+
+### 3. 对领域潜在影响 (Potential Impact on the Field)
+
+鉴于当前生成模型（如GANs、扩散模型）的飞速发展，AI生成内容的版权保护、溯源和真实性验证变得日益重要。本文提出的鲁棒后处理水印技术，为这些问题提供了一个灵活且高效的解决方案。它使得水印能够独立于生成模型嵌入，极大地扩展了其应用范围。其对水印鲁棒性的显著提升，有望推动后处理水印技术在实际应用中的普及，成为AI生成内容生态系统中的关键组成部分，尤其是在内容真实性、版权归属和数字资产管理方面。
+
+### 4. 相关领域或应用 (Related Areas or Applications)
+
+*   **AI生成内容的版权保护与溯源：** 确保AI生成图像、视频等内容的原创性，防止未经授权的使用，并追踪其来源。
+*   **数字内容真实性验证：** 辅助识别AI生成内容，尤其是在对抗深度伪造（Deepfake）方面，通过水印的存在或缺失来判断内容的来源和完整性。
+*   **数字资产管理（DAM）：** 为大规模AI生成内容库提供有效的管理和追踪机制。
+*   **知识产权保护：** 保护创作者和企业的数字作品免受盗用。
+*   **多媒体取证：** 在数字图像和视频的篡改检测和来源分析中提供更可靠的证据。
+
+### 5. 可从摘要推断的局限性 (Limitations Inferred from the Abstract)
+
+*   **攻击类型覆盖范围：** 尽管集成了多种攻击网络，但摘要并未详细说明其能有效抵御的具体攻击类型集合。实际应用中可能存在未被模型训练充分覆盖的新型或组合攻击。
+*   **水印容量与不可感知性：** 摘要主要强调鲁棒性，但未提及水印的容量（能嵌入多少信息）以及嵌入水印后对图像视觉质量的影响（不可感知性）。在实际应用中，鲁棒性、容量和不可感知性之间往往存在权衡。
+*   **计算成本：** 训练过程中使用集成攻击网络可能会增加训练的复杂性和计算成本，尤其是在大规模数据集上。
+*   **泛化能力：** 尽管在WAVES基准测试上表现出色，但其在面对完全未知或高度定制化的攻击时的泛化能力仍需进一步验证。
+*   **特定攻击的局限性：** 摘要中提到对“再生攻击”的显著提升（18.743%），这暗示了该方法可能在某些特定攻击类型上表现尤为突出，但在其他攻击类型上的提升幅度可能有所不同。
+
+**Key Findings:**
+
+- In
+particular, for the Regeneration Attack defined in WAVES, our method improves
+StegaStamp by 18.743%.
+
+**Links:**
+
+- [PDF](http://arxiv.org/pdf/2509.03006v1)
+- [arXiv](https://arxiv.org/abs/2509.03006v1)
+
+---
+
+<a id='2509.03379v1'></a>
+## [TinyDrop: Tiny Model Guided Token Dropping for Vision Transformers](https://arxiv.org/abs/2509.03379v1)
+
+**Authors:** Guoxin Wang, Qingyuan Wang, Binhua Huang, Shaowu Chen, Deepu John
+
+**Published:** 2025-09-03
+
+**Categories:** cs.CV, cs.AI
+
+**Abstract:**
+
+Vision Transformers (ViTs) achieve strong performance in image classification
+but incur high computational costs from processing all image tokens. To reduce
+inference costs in large ViTs without compromising accuracy, we propose
+TinyDrop, a training-free token dropping framework guided by a lightweight
+vision model. The guidance model estimates the importance of tokens while
+performing inference, thereby selectively discarding low-importance tokens if
+large vit models need to perform attention calculations. The framework operates
+plug-and-play, requires no architectural modifications, and is compatible with
+diverse ViT architectures. Evaluations on standard image classification
+benchmarks demonstrate that our framework reduces FLOPs by up to 80% for ViTs
+with minimal accuracy degradation, highlighting its generalization capability
+and practical utility for efficient ViT-based classification.
+
+**Analysis:**
+
+好的，作为计算机视觉和机器学习领域的专家，我对这篇论文摘要进行如下分析：
+
+---
+
+### TinyDrop: Tiny Model Guided Token Dropping for Vision Transformers
+
+**1. 论文核心贡献的简洁总结 (Concise Summary)**
+
+本文提出了TinyDrop，一个无需训练的（针对主ViT模型）token丢弃框架，旨在显著降低大型Vision Transformers (ViTs)的推理计算成本。它通过利用一个轻量级视觉模型在推理时动态评估并选择性地丢弃低重要性token，从而在保持高精度的同时，将ViTs的FLOPs减少高达80%。
+
+**2. 关键创新或方法学方法 (Key Innovation or Methodological Approach)**
+
+核心创新在于其“轻量级模型引导的token丢弃”策略。TinyDrop引入了一个独立的、无需训练的（针对主ViT而言）框架，利用一个小型辅助模型在推理过程中实时评估ViT输入token的重要性。这种方法允许动态地、选择性地丢弃低重要性token，而无需修改原始ViT架构或进行额外的微调，实现了即插即用，并兼容多种ViT架构。
+
+**3. 对领域潜在影响 (Potential Impact on the Field)**
+
+该研究对计算机视觉领域具有重要影响，尤其是在ViT模型的实际部署方面。它显著降低了大型ViT模型的推理成本，同时保持了高精度，这使得ViT在资源受限的设备（如移动设备、嵌入式系统）上变得更加可行。这将加速ViT在各种实际应用中的普及，推动高效深度学习模型的发展，并可能启发更多关于模型压缩和推理优化的研究方向。
+
+**4. 可能受益的相关领域或应用 (Related Areas or Applications)**
+
+*   **高效图像分类:** 这是摘要中明确提到的主要应用，尤其是在需要快速响应的场景。
+*   **边缘计算与移动AI:** 在计算资源和功耗受限的设备上部署高性能ViT模型，如智能手机、物联网设备。
+*   **实时视觉系统:** 需要低延迟推理的应用，如自动驾驶、机器人视觉、视频监控。
+*   **ViT作为骨干网络的其他任务:** 虽然摘要只提到了分类，但如果ViT被用作目标检测、语义分割、姿态估计等任务的骨干网络，TinyDrop理论上也能提供效率提升。
+*   **可持续AI/绿色AI:** 减少模型运行的计算量和能耗，符合当前对可持续AI发展的需求。
+
+**5. 从摘要中可推断的局限性 (Limitations that can be inferred from the abstract)**
+
+*   **轻量级引导模型的开销:** 摘要未明确指出轻量级引导模型本身的计算开销。虽然它很轻量，但在极端资源受限的场景下，其推理时间或FLOPs是否完全可以忽略不计？以及这个引导模型是如何获取的（是否需要预训练或特定任务训练）？
+*   **“最小精度下降”的量化:** 尽管声称精度下降最小，但在某些对精度要求极高的应用中，即使是微小的下降也可能无法接受。具体的精度-效率权衡曲线（Pareto Frontier）未在摘要中详细说明。
+*   **FLOPs与实际延迟:** FLOPs的减少不总是直接等同于实际推理延迟的线性降低。token丢弃操作本身以及引导模型的推理可能会引入额外的内存访问、条件分支等开销，这可能影响实际的端到端延迟。
+*   **丢弃策略的鲁棒性:** 尽管声称具有泛化能力，但对于不同ViT架构、不同任务（例如，不仅仅是分类，还有检测、分割等）以及不同复杂度的图像，其token重要性估计的准确性和丢弃策略的鲁棒性如何，仍需更深入的验证。
+*   **“训练-free”的范围:** 摘要强调框架是“训练-free”的，这通常指主ViT模型无需额外训练。但轻量级引导模型本身是否需要训练？如果是，其训练成本和数据需求如何？这可能是一个隐藏的成本。
+
+---
+
+**Key Findings:**
+
+- To reduce
+inference costs in large ViTs without compromising accuracy, we propose
+TinyDrop, a training-free token dropping framework guided by a lightweight
+vision model.
+
+**Links:**
+
+- [PDF](http://arxiv.org/pdf/2509.03379v1)
+- [arXiv](https://arxiv.org/abs/2509.03379v1)
+
+---
+
+<a id='2509.03221v1'></a>
+## [LGBP-OrgaNet: Learnable Gaussian Band Pass Fusion of CNN and Transformer Features for Robust Organoid Segmentation and Tracking](https://arxiv.org/abs/2509.03221v1)
+
+**Authors:** Jing Zhang, Siying Tao, Jiao Li, Tianhe Wang, Junchen Wu, Ruqian Hao, Xiaohui Du, Ruirong Tan, Rui Li
+
+**Published:** 2025-09-03
+
+**Categories:** cs.CV, cs.AI
+
+**Abstract:**
+
+Organoids replicate organ structure and function, playing a crucial role in
+fields such as tumor treatment and drug screening. Their shape and size can
+indicate their developmental status, but traditional fluorescence labeling
+methods risk compromising their structure. Therefore, this paper proposes an
+automated, non-destructive approach to organoid segmentation and tracking. We
+introduced the LGBP-OrgaNet, a deep learning-based system proficient in
+accurately segmenting, tracking, and quantifying organoids. The model leverages
+complementary information extracted from CNN and Transformer modules and
+introduces the innovative feature fusion module, Learnable Gaussian Band Pass
+Fusion, to merge data from two branches. Additionally, in the decoder, the
+model proposes a Bidirectional Cross Fusion Block to fuse multi-scale features,
+and finally completes the decoding through progressive concatenation and
+upsampling. SROrga demonstrates satisfactory segmentation accuracy and
+robustness on organoids segmentation datasets, providing a potent tool for
+organoid research.
+
+**Analysis:**
+
+作为计算机视觉和机器学习领域的专家，我对这篇论文摘要的分析如下：
+
+---
+
+### LGBP-OrgaNet: Learnable Gaussian Band Pass Fusion of CNN and Transformer Features for Robust Organoid Segmentation and Tracking
+
+**1. 论文主要贡献的简明摘要 (2-3 句话)**
+
+本文提出了LGBP-OrgaNet，一个用于自动、无损类器官分割与追踪的深度学习系统。该模型通过创新的可学习高斯带通融合模块整合CNN和Transformer的互补特征，并在解码器中引入双向交叉融合块处理多尺度信息。它在类器官分割数据集上展现出令人满意的精度和鲁棒性，为类器官研究提供了有力工具。
+
+**2. 关键创新或方法学方法**
+
+核心创新在于其**可学习高斯带通融合（Learnable Gaussian Band Pass Fusion）模块**。该模块能够自适应地融合来自CNN（擅长局部特征提取）和Transformer（擅长全局依赖建模）分支的互补特征，以实现更鲁棒的表示。此外，解码器中提出的**双向交叉融合块（Bidirectional Cross Fusion Block）**用于有效整合多尺度特征，以及渐进式拼接和上采样完成解码，也是一个重要的技术贡献。
+
+**3. 对领域潜在影响**
+
+该研究为类器官研究领域提供了一个**自动化、无损且高精度**的分析工具。通过替代或减少对传统荧光标记等破坏性方法的依赖，它将极大地加速类器官在肿瘤治疗、药物筛选和发育生物学等领域的应用和研究进程，实现更可靠、更长期的动态观察和量化分析。这种非侵入性方法对于保持类器官的生理完整性至关重要。
+
+**4. 可能受益于该研究的相关领域或应用**
+
+*   **生物医学研究：** 类器官研究、药物筛选、肿瘤治疗、发育生物学、再生医学、疾病建模。
+*   **高通量筛选：** 自动化分析能力使其非常适合大规模的药物或基因功能筛选，提高效率和准确性。
+*   **通用生物图像分析：** 任何需要对复杂、形态多变的生物结构（如细胞群、组织切片、微流控芯片中的生物样本）进行鲁棒分割和追踪的场景，都可能从其融合架构和特征学习策略中受益。
+*   **显微图像处理：** 对于其他需要从复杂背景中精确提取目标并追踪其动态变化的显微图像分析任务，该方法也可能具有借鉴意义。
+
+**5. 从摘要中可推断出的局限性**
+
+*   **性能量化与比较：** 摘要中仅提及“令人满意的分割精度和鲁棒性”，但缺乏与现有SOTA方法进行定量比较的具体数据，因此其相对性能优势尚不明确。
+*   **泛化能力：** 模型在“类器官分割数据集”上进行了验证，但其对不同类型类器官（如不同器官来源、不同培养条件）、不同成像模态或更复杂病理情况下的泛化能力有待进一步验证。
+*   **计算资源需求：** 结合CNN和Transformer的混合架构，以及可学习的高斯带通融合模块和多尺度特征融合，可能意味着较高的计算复杂度和内存消耗，这在资源受限的环境中可能是一个考量。
+*   **“SROrga”的指代：** 摘要中提到“SROrga demonstrates...”，但模型名称是LGBP-OrgaNet，这可能是笔误或指代不明确，需要澄清。
+
+**Key Findings:**
+
+- Additionally, in the decoder, the
+model proposes a Bidirectional Cross Fusion Block to fuse multi-scale features,
+and finally completes the decoding through progressive concatenation and
+upsampling.
+- SROrga demonstrates satisfactory segmentation accuracy and
+robustness on organoids segmentation datasets, providing a potent tool for
+organoid research.
+
+**Links:**
+
+- [PDF](http://arxiv.org/pdf/2509.03221v1)
+- [arXiv](https://arxiv.org/abs/2509.03221v1)
+
+---
+
+<a id='2509.03114v1'></a>
+## [Towards Realistic Hand-Object Interaction with Gravity-Field Based Diffusion Bridge](https://arxiv.org/abs/2509.03114v1)
+
+**Authors:** Miao Xu, Xiangyu Zhu, Xusheng Liang, Zidu Wang, Jinlin Wu, Zhen Lei
+
+**Published:** 2025-09-03
+
+**Categories:** cs.CV
+
+**Abstract:**
+
+Existing reconstruction or hand-object pose estimation methods are capable of
+producing coarse interaction states. However, due to the complex and diverse
+geometry of both human hands and objects, these approaches often suffer from
+interpenetration or leave noticeable gaps in regions that are supposed to be in
+contact. Moreover, the surface of a real human hand undergoes non-negligible
+deformations during interaction, which are difficult to capture and represent
+with previous methods. To tackle these challenges, we formulate hand-object
+interaction as an attraction-driven process and propose a Gravity-Field Based
+Diffusion Bridge (GravityDB) to simulate interactions between a deformable hand
+surface and rigid objects. Our approach effectively resolves the aforementioned
+issues by generating physically plausible interactions that are free of
+interpenetration, ensure stable grasping, and capture realistic hand
+deformations. Furthermore, we incorporate semantic information from textual
+descriptions to guide the construction of the gravitational field, enabling
+more semantically meaningful interaction regions. Extensive qualitative and
+quantitative experiments on multiple datasets demonstrate the effectiveness of
+our method.
+
+**Analysis:**
+
+这篇论文《Towards Realistic Hand-Object Interaction with Gravity-Field Based Diffusion Bridge》提出了一种解决手部与物体交互中常见挑战的新方法。
+
+---
+
+### 1. 论文主要贡献的简洁总结
+
+现有手部-物体姿态估计方法在处理复杂几何形状时，常导致物体穿透或接触区域出现明显间隙，且难以捕捉手部在交互过程中的形变。本文提出了一种基于引力场的扩散桥（GravityDB）模型，将手部-物体交互建模为一种吸引驱动过程，能够生成无穿透、稳定抓取且捕捉真实手部形变的物理合理交互。此外，该方法还融入了文本描述的语义信息来指导引力场构建，从而实现更具语义意义的交互区域。
+
+### 2. 关键创新或方法论
+
+该论文的关键创新在于：
+1.  **引力场驱动的扩散桥模型 (GravityDB)**：将手部-物体交互建模为一种新颖的“吸引驱动过程”，并利用“扩散桥”框架来模拟可变形手部表面与刚性物体之间的交互。这直接解决了传统方法中物体穿透、间隙以及手部形变难以捕捉的问题。
+2.  **可变形手部表面建模**：明确提出并解决了手部在交互过程中非线性形变的问题，这是现有方法的一个主要痛点。
+3.  **语义信息融合**：创新性地将文本描述中的语义信息融入到引力场的构建中，使得生成的交互不仅在物理上合理，而且在语义上也更具意义，例如，根据文本描述“抓住杯柄”而非“抓住杯身”。
+
+### 3. 对该领域的潜在影响
+
+1.  **提升交互真实感和物理合理性**：通过解决穿透、间隙和手部形变问题，该方法将显著提高计算机视觉和图形学中手部-物体交互的真实感和物理可信度，为更高级的交互建模奠定基础。
+2.  **推动多模态交互理解**：结合文本语义信息来指导物理交互，为手部-物体交互研究引入了多模态的视角，可能启发更多结合语言理解的具身智能研究。
+3.  **为下游任务提供更鲁棒的输入**：生成的高质量、无穿透、形变准确的交互状态，可以作为机器人操作、虚拟现实、动画制作等下游任务更可靠的输入数据或训练目标。
+
+### 4. 可能受益的相关领域或应用
+
+1.  **机器人学与灵巧操作**：为机器人学习和执行复杂、精细的抓取和操作任务提供更真实的模拟环境和训练数据。
+2.  **虚拟现实 (VR) / 增强现实 (AR)**：提升虚拟环境中用户手部与虚拟物体交互的沉浸感和真实感，减少不自然的穿透现象。
+3.  **计算机图形学与动画**：用于生成电影、游戏和其他媒体中更逼真、更自然的虚拟角色手部与物体的交互动画。
+4.  **人机交互 (HCI)**：开发更智能、更直观的基于手势的交互系统，理解用户意图。
+5.  **3D 内容创作**：为艺术家和设计师提供工具，以更高效地创建高质量的手部-物体交互场景。
+6.  **手部姿态估计与重建**：作为后处理步骤或作为训练数据增强，以提高现有方法的准确性和鲁棒性。
+
+### 5. 从摘要中可推断的局限性
+
+1.  **对象刚性限制**：摘要明确指出是“可变形手部表面和刚性物体”之间的交互。这意味着该方法可能不适用于处理可变形物体（例如，挤压海绵、揉捏面团）的交互场景。
+2.  **计算成本**：扩散模型通常在训练和推理阶段都具有较高的计算成本。虽然摘要未直接提及，但“扩散桥”模型可能意味着在实时应用或大规模场景中存在计算效率的挑战。
+3.  **语义信息依赖**：语义信息的质量和覆盖范围将直接影响引力场的构建。如果文本描述模糊、不准确或缺乏细节，可能会限制交互的精确性和多样性。
+4.  **交互复杂性**：虽然解决了穿透和形变，但对于更复杂的交互，例如多指协同操作、工具使用或动态、长时间的交互序列，其处理能力仍需进一步验证。
+5.  **泛化能力**：在“多个数据集”上进行了实验，但其对未见过的新颖物体几何形状或交互类型的泛化能力如何，仍有待深入探讨。
+
+**Key Findings:**
+
+- Our approach effectively resolves the aforementioned
+issues by generating physically plausible interactions that are free of
+interpenetration, ensure stable grasping, and capture realistic hand
+deformations.
+- Extensive qualitative and
+quantitative experiments on multiple datasets demonstrate the effectiveness of
+our method.
+
+**Links:**
+
+- [PDF](http://arxiv.org/pdf/2509.03114v1)
+- [arXiv](https://arxiv.org/abs/2509.03114v1)
+
+---
+
+<a id='2509.02161v1'></a>
+## [Enhancing Zero-Shot Pedestrian Attribute Recognition with Synthetic Data Generation: A Comparative Study with Image-To-Image Diffusion Models](https://arxiv.org/abs/2509.02161v1)
+
+**Authors:** Pablo Ayuso-Albizu, Juan C. SanMiguel, Pablo Carballeira
+
+**Published:** 2025-09-02
+
+**Categories:** cs.CV
+
+**Abstract:**
+
+Pedestrian Attribute Recognition (PAR) involves identifying various human
+attributes from images with applications in intelligent monitoring systems. The
+scarcity of large-scale annotated datasets hinders the generalization of PAR
+models, specially in complex scenarios involving occlusions, varying poses, and
+diverse environments. Recent advances in diffusion models have shown promise
+for generating diverse and realistic synthetic images, allowing to expand the
+size and variability of training data. However, the potential of
+diffusion-based data expansion for generating PAR-like images remains
+underexplored. Such expansion may enhance the robustness and adaptability of
+PAR models in real-world scenarios. This paper investigates the effectiveness
+of diffusion models in generating synthetic pedestrian images tailored to PAR
+tasks. We identify key parameters of img2img diffusion-based data expansion;
+including text prompts, image properties, and the latest enhancements in
+diffusion-based data augmentation, and examine their impact on the quality of
+generated images for PAR. Furthermore, we employ the best-performing expansion
+approach to generate synthetic images for training PAR models, by enriching the
+zero-shot datasets. Experimental results show that prompt alignment and image
+properties are critical factors in image generation, with optimal selection
+leading to a 4.5% improvement in PAR recognition performance.
+
+**Analysis:**
+
+作为计算机视觉和机器学习领域的专家，我对这篇论文摘要进行如下分析：
+
+---
+
+**论文摘要分析：Enhancing Zero-Shot Pedestrian Attribute Recognition with Synthetic Data Generation: A Comparative Study with Image-To-Image Diffusion Models**
+
+**1. 论文主要贡献的简明总结 (2-3 句话)**
+本文旨在解决行人属性识别（PAR）中数据稀缺，尤其是在零样本场景下的泛化能力不足问题。作者探索了使用图像到图像（img2img）扩散模型生成合成行人图像的有效性，并系统性地研究了文本提示、图像属性等关键参数对生成质量的影响。通过将最佳生成方法应用于零样本数据集的扩充，实验结果表明PAR识别性能获得了4.5%的提升。
+
+**2. 关键创新或方法学方法**
+核心创新在于系统性地探索和优化图像到图像（img2img）扩散模型在生成高质量、适用于行人属性识别（PAR）任务的合成数据方面的潜力。论文详细研究了文本提示、图像属性以及扩散模型最新增强功能等关键参数对生成图像质量的影响，并首次将这种优化后的合成数据生成方法应用于零样本PAR数据集的扩充，以提升模型泛化能力。这种针对特定下游任务（PAR）的生成参数调优和数据扩充策略是其方法学的亮点。
+
+**3. 对该领域的潜在影响**
+这项研究为解决计算机视觉领域中普遍存在的数据稀缺问题提供了一个有前景的解决方案，特别是在行人属性识别（PAR）等需要大量标注数据的细粒度识别任务中。通过利用扩散模型生成高质量合成数据，可以显著提高PAR模型在复杂真实场景（如遮挡、姿态变化、多样环境）下的泛化能力和鲁棒性，从而推动智能监控系统等应用的发展。此外，其方法论可能为其他数据受限的细粒度识别或零样本学习任务提供借鉴。
+
+**4. 可能受益于这项研究的相关领域或应用**
+*   **智能监控系统 (Intelligent Monitoring Systems):** 直接应用，提升行人分析能力，如异常行为检测、人员检索等。
+*   **零样本/少样本学习 (Zero-shot/Few-shot Learning):** 为数据稀缺的场景提供有效的数据扩充策略，降低对大量标注数据的依赖。
+*   **细粒度图像识别 (Fine-grained Image Recognition):** 任何需要识别微小差异但数据量有限的任务，如动物种类识别、产品缺陷检测、时尚商品分类等。
+*   **数据增强与合成数据生成 (Data Augmentation and Synthetic Data Generation):** 为训练深度学习模型提供更丰富、多样的数据，减少过拟合。
+*   **领域适应 (Domain Adaptation):** 合成数据可用于弥合不同数据分布之间的差距，提高模型在不同环境下的泛化能力。
+*   **隐私保护AI (Privacy-preserving AI):** 在某些场景下，合成数据可以替代敏感的真实数据进行模型训练，从而保护用户隐私。
+
+**5. 从摘要中可推断出的局限性**
+*   **性能提升幅度：** 4.5%的性能提升虽然是积极的，但可能表明合成数据并非解决PAR数据稀缺问题的终极方案，仍有进一步提升的空间，或者需要结合其他技术。
+*   **参数探索范围：** 论文虽然探索了文本提示和图像属性等关键参数，但扩散模型具有复杂的内部机制和众多超参数，摘要中未明确说明是否已穷尽所有影响生成质量和PAR性能的关键因素。
+*   **生成数据质量的评估：** 摘要中提到“生成图像的质量”，但未详细说明除了最终的PAR识别性能外，如何具体量化和评估这些合成图像在语义一致性、属性多样性、真实感等方面的质量。
+*   **计算资源消耗：** 扩散模型生成高质量图像通常需要大量的计算资源和时间，这在实际应用中可能是一个限制。摘要中未提及生成数据的效率问题。
+*   **潜在的合成数据偏差：** 合成数据可能继承或放大原始训练数据或扩散模型自身预训练数据中的偏差，从而影响PAR模型在真实世界中的公平性和泛化能力。
+*   **仅限于零样本场景：** 研究主要关注零样本PAR数据集的扩充，其在全监督或少样本PAR场景下的有效性未在摘要中提及。
+
+**Key Findings:**
+
+- Experimental results show that prompt alignment and image
+properties are critical factors in image generation, with optimal selection
+leading to a 4.5% improvement in PAR recognition performance.
+
+**Links:**
+
+- [PDF](http://arxiv.org/pdf/2509.02161v1)
+- [arXiv](https://arxiv.org/abs/2509.02161v1)
+
+---
+
+<a id='2509.03041v1'></a>
+## [MedLiteNet: Lightweight Hybrid Medical Image Segmentation Model](https://arxiv.org/abs/2509.03041v1)
+
+**Authors:** Pengyang Yu, Haoquan Wang, Gerard Marks, Tahar Kechadi, Laurence T. Yang, Sahraoui Dhelim, Nyothiri Aung
+
+**Published:** 2025-09-03
+
+**Categories:** cs.CV, cs.AI
+
+**Abstract:**
+
+Accurate skin-lesion segmentation remains a key technical challenge for
+computer-aided diagnosis of skin cancer. Convolutional neural networks, while
+effective, are constrained by limited receptive fields and thus struggle to
+model long-range dependencies. Vision Transformers capture global context, yet
+their quadratic complexity and large parameter budgets hinder use on the
+small-sample medical datasets common in dermatology. We introduce the
+MedLiteNet, a lightweight CNN Transformer hybrid tailored for dermoscopic
+segmentation that achieves high precision through hierarchical feature
+extraction and multi-scale context aggregation. The encoder stacks depth-wise
+Mobile Inverted Bottleneck blocks to curb computation, inserts a
+bottleneck-level cross-scale token-mixing unit to exchange information between
+resolutions, and embeds a boundary-aware self-attention module to sharpen
+lesion contours.
+
+**Analysis:**
+
+作为计算机视觉和机器学习领域的专家，我对这篇论文摘要进行如下分析：
+
+---
+
+### MedLiteNet: 轻量级混合医学图像分割模型
+
+**1. 论文主要贡献的简明总结 (2-3 句话)**
+
+该论文提出了一种名为 MedLiteNet 的轻量级 CNN-Transformer 混合模型，专门用于皮肤镜图像的皮肤病灶分割。它旨在克服传统 CNN 在长距离依赖建模上的局限性以及 Vision Transformer 在小样本医学数据集上计算复杂度和参数量过大的问题。通过结合分层特征提取和多尺度上下文聚合，MedLiteNet 实现了高精度的病灶分割。
+
+**2. 关键创新或方法学方法**
+
+MedLiteNet 的关键创新在于其独特的混合架构设计，旨在实现轻量化和高精度：
+
+*   **轻量级编码器设计：** 编码器堆叠了**深度可分离的 Mobile Inverted Bottleneck Blocks (MobileNetV2 中的倒残差块)**，以有效抑制计算量，使其适用于资源受限的环境和小样本数据集。
+*   **跨尺度令牌混合单元 (Cross-scale Token-mixing Unit)：** 在瓶颈层（bottleneck-level）插入了**跨尺度令牌混合单元**，这是一种新颖的机制，用于在不同分辨率的特征之间交换信息。这使得模型能够捕获全局上下文信息，弥补了传统 CNN 感受野有限的缺点，同时避免了标准 Transformer 的高计算成本。
+*   **边界感知自注意力模块 (Boundary-aware Self-attention Module)：** 模型嵌入了**边界感知自注意力模块**，专门用于锐化病灶轮廓。这对于医学图像分割至关重要，因为精确的边界对于诊断具有决定性意义。
+
+**3. 对该领域的潜在影响**
+
+*   **提升皮肤癌诊断精度：** 通过提供更准确、更可靠的皮肤病灶分割工具，MedLiteNet 有望显著提高计算机辅助诊断皮肤癌的效率和准确性，从而可能改善患者预后。
+*   **推动轻量级混合模型发展：** 该研究为在计算资源受限和数据稀缺的场景下，有效结合 CNN 的局部特征提取能力和 Transformer 的全局上下文建模能力提供了一个成功的范例。这可能会启发更多针对特定应用（尤其是医学影像）的轻量级混合架构设计。
+*   **解决医学影像领域挑战：** 成功解决了医学影像领域常见的“小样本数据”和“长距离依赖”之间的矛盾，为其他医学图像分割任务（如器官分割、肿瘤检测等）提供了新的思路。
+*   **边缘计算和部署：** 其轻量级特性使其更易于部署在临床环境中的边缘设备上，实现实时或近实时的诊断辅助。
+
+**4. 可能受益于这项研究的相关领域或应用**
+
+*   **其他医学图像分割任务：** 任何需要精确分割、处理小样本数据集且对计算效率有要求的医学图像分析任务，例如：
+    *   CT/MRI 图像中的器官或肿瘤分割。
+    *   眼底图像中的视网膜血管分割。
+    *   病理切片中的细胞核或组织区域分割。
+*   **通用图像分割：** 对于具有复杂边界、需要同时考虑局部细节和全局上下文的通用图像分割任务，尤其是在数据集规模有限的情况下。
+*   **轻量级神经网络架构设计：** 对如何高效地集成不同类型神经网络模块（如 CNN 和 Transformer）感兴趣的研究人员。
+*   **计算机辅助诊断系统：** 任何旨在利用深度学习改进诊断流程的医疗 AI 应用。
+
+**5. 从摘要中可推断出的局限性**
+
+*   **特定领域性：** 摘要明确指出模型是“为皮肤镜分割量身定制的 (tailored for dermoscopic segmentation)”。这意味着其在其他医学图像模态（如 CT、MRI）或通用图像分割任务上的性能可能需要进一步验证和调整。特别是其“边界感知自注意力模块”可能针对皮肤病灶的特定形态进行了优化。
+*   **性能量化缺失：** 摘要中提到“实现了高精度 (achieves high precision)”，但没有提供具体的量化指标（如 Dice 系数、IoU、准确率等），因此无法评估其相对于现有 SOTA 方法的实际提升幅度。
+*   **泛化能力：** 尽管旨在解决小样本问题，但“小样本医学数据集”的定义相对宽泛。模型在面对极度稀缺或高度异质性的数据集时的泛化能力仍需通过实验验证。
+*   **训练复杂性：** 混合架构，尤其是包含跨尺度信息交换和自注意力机制的，通常在训练上可能比纯粹的 CNN 更复杂，可能需要更精细的超参数调优。摘要中未提及训练的难度或资源需求。
+*   **计算效率的绝对值：** 尽管强调“轻量级”和“抑制计算量”，但没有给出具体的参数量、FLOPs 或推理速度数据，因此无法与其他轻量级模型进行直接的量化比较。
+
+**Key Findings:**
+
+- We introduce the
+MedLiteNet, a lightweight CNN Transformer hybrid tailored for dermoscopic
+segmentation that achieves high precision through hierarchical feature
+extraction and multi-scale context aggregation.
+
+**Links:**
+
+- [PDF](http://arxiv.org/pdf/2509.03041v1)
+- [arXiv](https://arxiv.org/abs/2509.03041v1)
+
+---
+
