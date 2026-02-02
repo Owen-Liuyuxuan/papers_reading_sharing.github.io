@@ -1,0 +1,88 @@
+name: AI Comment Bot
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  trigger-paper-helper:
+    # Only run on comments containing @paper-helper
+    if: contains(github.event.comment.body, '@paper-helper')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: read
+
+    steps:
+      - name: Generate GitHub App token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: Owen-Liuyuxuan
+          repositories: paper-helper-server
+
+      - name: Extract page URL and dispatch to server
+        uses: actions/github-script@v7
+        env:
+          SERVER_TOKEN: ${{ steps.generate-token.outputs.token }}
+        with:
+          script: |
+            const issueNumber = context.payload.issue.number;
+            const commentBody = context.payload.comment.body;
+            const commenter = context.payload.comment.user.login;
+            
+            console.log(`Processing comment from ${commenter} on issue #${issueNumber}`);
+            
+            // Get the issue body to extract the page URL
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber
+            });
+            
+            // Extract URL from issue body (utterances format)
+            let pageUrl = '';
+            const urlMatch = issue.body?.match(/https?:\/\/[^\s\]]+/);
+            if (urlMatch) {
+              pageUrl = urlMatch[0].replace(/[)\]>]+$/, '');
+            }
+            
+            if (!pageUrl) {
+              console.log('Could not find URL in issue body, using base URL as fallback');
+              pageUrl = `https://owen-liuyuxuan.github.io/papers_reading_sharing.github.io/`;
+            }
+            
+            console.log(`Extracted page URL: ${pageUrl}`);
+            
+            // Dispatch to server repository using repository_dispatch for better automation support
+            const serverToken = process.env.SERVER_TOKEN;
+            const octokit = github.getOctokit(serverToken);
+            
+            try {
+              await octokit.rest.repos.createDispatchEvent({
+                owner: 'Owen-Liuyuxuan',
+                repo: 'paper-helper-server',
+                event_type: 'ai_comment_request',
+                client_payload: {
+                  client_repo: `${context.repo.owner}/${context.repo.repo}`,
+                  issue_number: issueNumber.toString(),
+                  comment_body: commentBody,
+                  commenter: commenter,
+                  page_url: pageUrl
+                }
+              });
+              
+              console.log('Successfully dispatched repository_dispatch to paper-helper-server');
+            } catch (error) {
+              console.error('Failed to dispatch:', error.message);
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: `@${commenter} Sorry, Paper Helper encountered an error triggering the analysis.\n\nError: ${error.message}`
+              });
+              
+              throw error;
+            }

@@ -2,3 +2,4 @@ site
 temp
 .vscode
 .venv
+.cursor
