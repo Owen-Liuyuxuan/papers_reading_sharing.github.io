@@ -199,12 +199,12 @@ jobs:
             console.log('Signature generated:', signedPayload.signature.substring(0, 16) + '...');
             console.log('Timestamp:', signedPayload.timestamp);
             
-            // Dispatch to server repository
+            // Dispatch to server repository using server token
             const serverToken = process.env.SERVER_TOKEN;
-            const octokit = github.getOctokit(serverToken);
+            const serverOctokit = github.getOctokit(serverToken);
             
             try {
-              await octokit.rest.repos.createDispatchEvent({
+              await serverOctokit.rest.repos.createDispatchEvent({
                 owner: 'Owen-Liuyuxuan',
                 repo: 'paper-helper-server',
                 event_type: 'ai_comment_request',
