@@ -41,6 +41,10 @@ Papers are now sorted in Several categories
 
 本博客站使用[utterances](https://github.com/utterance/utterances),对每一篇文章开启单独的评论区.
 
+## AI Q&A (since 2026.02)
+
+现在特定人员可以在评论区 @paper-helper触发AI回答，AI会阅读原论文以及网页上的信息并回答您的问题。由于Token的使用是花费token的金钱的，有需要使用者请用email/微信联系刘所
+
 <!-- <div id="tester" style="width:600px;height:250px;"></div>
 
 <script src="index.js">
