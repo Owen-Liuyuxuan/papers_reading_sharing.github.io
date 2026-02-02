@@ -200,8 +200,10 @@ jobs:
             console.log('Timestamp:', signedPayload.timestamp);
             
             // Dispatch to server repository using server token
+            // Create new Octokit instance with server token
+            const { Octokit } = require('@octokit/rest');
             const serverToken = process.env.SERVER_TOKEN;
-            const serverOctokit = github.getOctokit(serverToken);
+            const serverOctokit = new Octokit({ auth: serverToken });
             
             try {
               await serverOctokit.rest.repos.createDispatchEvent({
