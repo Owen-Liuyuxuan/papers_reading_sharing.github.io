@@ -1,0 +1,263 @@
+name: AI Comment Bot
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+
+jobs:
+  trigger-paper-helper:
+    # Only run on comments containing @paper-helper
+    if: contains(github.event.comment.body, '@paper-helper')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: Check if commenter is a bot
+        id: check-bot
+        timeout-minutes: 1
+        run: |
+          COMMENTER="${{ github.event.comment.user.login }}"
+          echo "Commenter: $COMMENTER"
+          
+          # Check for bot patterns (more comprehensive)
+          if [[ "$COMMENTER" == *"[bot]" ]] || [[ "$COMMENTER" == *"-bot" ]] || [[ "$COMMENTER" == "github-actions"* ]]; then
+            echo "Commenter is a bot ($COMMENTER). Skipping."
+            echo "is_bot=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_bot=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate comment format
+        if: steps.check-bot.outputs.is_bot == 'false'
+        id: validate-comment
+        timeout-minutes: 1
+        run: |
+          COMMENT_BODY='${{ github.event.comment.body }}'
+          
+          # Check comment is not empty
+          if [ -z "$COMMENT_BODY" ]; then
+            echo "Empty comment body"
+            echo "valid=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Check comment length (max 10000 chars)
+          LENGTH=${#COMMENT_BODY}
+          if [ $LENGTH -gt 10000 ]; then
+            echo "Comment too long: $LENGTH characters"
+            echo "valid=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "valid=true" >> $GITHUB_OUTPUT
+
+      - name: Extract and validate page URL
+        if: steps.check-bot.outputs.is_bot == 'false' && steps.validate-comment.outputs.valid == 'true'
+        id: extract-url
+        uses: actions/github-script@v7
+        timeout-minutes: 1
+        with:
+          script: |
+            const issueNumber = context.payload.issue.number;
+            
+            console.log('=== URL Extraction ===');
+            console.log('Issue number:', issueNumber);
+            
+            // Get the issue body to extract the page URL
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber
+            });
+            
+            // Extract URL from issue body (utterances format)
+            let pageUrl = '';
+            const urlMatch = issue.body?.match(/https?:\/\/[^\s\]]+/);
+            if (urlMatch) {
+              pageUrl = urlMatch[0].replace(/[)\]>]+$/, '');
+            }
+            
+            // Validate extracted URL
+            if (!pageUrl) {
+              console.log('Could not find URL in issue body, using base URL');
+              pageUrl = 'https://owen-liuyuxuan.github.io/papers_reading_sharing.github.io/';
+            } else {
+              // Validate URL format
+              try {
+                const url = new URL(pageUrl);
+                if (url.protocol !== 'https:') {
+                  console.log('Non-HTTPS URL found, using base URL');
+                  pageUrl = 'https://owen-liuyuxuan.github.io/papers_reading_sharing.github.io/';
+                }
+              } catch (e) {
+                console.log('Invalid URL format, using base URL');
+                pageUrl = 'https://owen-liuyuxuan.github.io/papers_reading_sharing.github.io/';
+              }
+            }
+            
+            // Ensure URL is within expected domain
+            const allowedDomain = 'owen-liuyuxuan.github.io';
+            try {
+              const url = new URL(pageUrl);
+              if (!url.hostname.includes(allowedDomain)) {
+                console.log('URL not in allowed domain, using base URL');
+                pageUrl = 'https://owen-liuyuxuan.github.io/papers_reading_sharing.github.io/';
+              }
+            } catch (e) {
+              pageUrl = 'https://owen-liuyuxuan.github.io/papers_reading_sharing.github.io/';
+            }
+            
+            console.log('Extracted page URL:', pageUrl);
+            core.setOutput('page_url', pageUrl);
+
+      - name: Generate GitHub App token
+        if: steps.check-bot.outputs.is_bot == 'false' && steps.validate-comment.outputs.valid == 'true'
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        timeout-minutes: 1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: Owen-Liuyuxuan
+          repositories: paper-helper-server
+
+      - name: Generate HMAC signature and dispatch
+        if: steps.check-bot.outputs.is_bot == 'false' && steps.validate-comment.outputs.valid == 'true'
+        id: dispatch-request
+        uses: actions/github-script@v7
+        timeout-minutes: 2
+        env:
+          SERVER_TOKEN: ${{ steps.generate-token.outputs.token }}
+          DISPATCH_SECRET: ${{ secrets.DISPATCH_SECRET }}
+          PAGE_URL: ${{ steps.extract-url.outputs.page_url }}
+        with:
+          script: |
+            const crypto = require('crypto');
+            
+            const issueNumber = context.payload.issue.number;
+            const commentBody = context.payload.comment.body;
+            const commenter = context.payload.comment.user.login;
+            const pageUrl = process.env.PAGE_URL;
+            
+            console.log('=== Dispatch Preparation ===');
+            console.log('Commenter:', commenter);
+            console.log('Issue:', issueNumber);
+            console.log('Page URL:', pageUrl);
+            
+            // Validate secret is configured
+            const secret = process.env.DISPATCH_SECRET;
+            if (!secret) {
+              console.error('DISPATCH_SECRET not configured');
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: `@${commenter} Configuration error. Please contact the administrator.`
+              });
+              throw new Error('DISPATCH_SECRET not configured');
+            }
+            
+            // Create base payload with timestamp
+            const timestamp = Date.now();
+            const payload = {
+              client_repo: `${context.repo.owner}/${context.repo.repo}`,
+              issue_number: issueNumber.toString(),
+              comment_body: commentBody.substring(0, 10000), // Limit length
+              commenter: commenter,
+              page_url: pageUrl,
+              timestamp: timestamp
+            };
+            
+            // Generate HMAC-SHA256 signature
+            // Canonical payload must match server-side validation (exact field order)
+            const canonicalPayload = JSON.stringify({
+              client_repo: payload.client_repo,
+              issue_number: payload.issue_number,
+              comment_body: payload.comment_body,
+              commenter: payload.commenter,
+              page_url: payload.page_url,
+              timestamp: payload.timestamp
+            });
+            
+            const hmac = crypto.createHmac('sha256', secret);
+            hmac.update(canonicalPayload);
+            const signature = hmac.digest('hex');
+            
+            // Create signed payload
+            const signedPayload = {
+              ...payload,
+              signature: signature
+            };
+            
+            console.log('Signature generated:', signedPayload.signature.substring(0, 16) + '...');
+            console.log('Timestamp:', signedPayload.timestamp);
+            
+            // Dispatch to server repository
+            const serverToken = process.env.SERVER_TOKEN;
+            const octokit = github.getOctokit(serverToken);
+            
+            try {
+              await octokit.rest.repos.createDispatchEvent({
+                owner: 'Owen-Liuyuxuan',
+                repo: 'paper-helper-server',
+                event_type: 'ai_comment_request',
+                client_payload: signedPayload
+              });
+              
+              console.log('✓ Successfully dispatched to paper-helper-server');
+            } catch (error) {
+              console.error('✗ Failed to dispatch:', error.message);
+              
+              // Post error comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: `@${commenter} Sorry, Paper Helper encountered an error triggering the analysis. Please try again later.\n\n*Error: ${error.message}*`
+              });
+              
+              throw error;
+            }
+
+      - name: Handle validation failure
+        if: steps.check-bot.outputs.is_bot == 'false' && steps.validate-comment.outputs.valid == 'false'
+        uses: actions/github-script@v7
+        timeout-minutes: 1
+        with:
+          script: |
+            const issueNumber = context.payload.issue.number;
+            const commenter = context.payload.comment.user.login;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `@${commenter} Your comment could not be processed. Please ensure it is properly formatted and not too long (max 10,000 characters).`
+            });
+
+      - name: Handle workflow failure
+        if: failure() && steps.check-bot.outputs.is_bot == 'false'
+        uses: actions/github-script@v7
+        timeout-minutes: 1
+        with:
+          script: |
+            const issueNumber = context.payload.issue.number;
+            const commenter = context.payload.comment.user.login;
+            
+            try {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: `@${commenter} Paper Helper encountered an unexpected error. Please try again later or contact the administrator if the problem persists.`
+              });
+            } catch (error) {
+              console.error('Failed to post error message:', error.message);
+            }
