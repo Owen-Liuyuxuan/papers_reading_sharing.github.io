@@ -199,19 +199,29 @@ jobs:
             console.log('Signature generated:', signedPayload.signature.substring(0, 16) + '...');
             console.log('Timestamp:', signedPayload.timestamp);
             
-            // Dispatch to server repository using server token
-            // Create new Octokit instance with server token
-            const { Octokit } = require('@octokit/rest');
+            // Dispatch to server repository using GitHub REST API
             const serverToken = process.env.SERVER_TOKEN;
-            const serverOctokit = new Octokit({ auth: serverToken });
+            const dispatchUrl = 'https://api.github.com/repos/Owen-Liuyuxuan/paper-helper-server/dispatches';
             
             try {
-              await serverOctokit.rest.repos.createDispatchEvent({
-                owner: 'Owen-Liuyuxuan',
-                repo: 'paper-helper-server',
-                event_type: 'ai_comment_request',
-                client_payload: signedPayload
+              const response = await fetch(dispatchUrl, {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/vnd.github+json',
+                  'Authorization': `Bearer ${serverToken}`,
+                  'X-GitHub-Api-Version': '2022-11-28',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  event_type: 'ai_comment_request',
+                  client_payload: signedPayload
+                })
               });
+              
+              if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`GitHub API error: ${response.status} ${errorText}`);
+              }
               
               console.log('✓ Successfully dispatched to paper-helper-server');
             } catch (error) {
