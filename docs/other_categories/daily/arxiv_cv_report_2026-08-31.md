@@ -24,6 +24,20 @@ time: 20260831
 ## 阅读建议
 
 若重点关注自动驾驶和机器人，建议优先阅读驾驶视频扩散缩放规律、GAAT、uScenes 与 Contact-Guided Exploration；若关注视觉基础模型效率，则优先阅读 Ariadne Attention、Cut-ViT 和 3DGS 压缩论文。
+# 2026-08-31 arXiv CV/RO 执行摘要
+
+本期 10 篇论文呈现出一个清晰趋势：视觉与机器人系统正在把“更强的单一模型”推进为“几何、数据、算力和部署约束共同设计”的系统。代表性工作覆盖自动驾驶视频生成、UAV 多模态对齐与大规模测绘、鱼眼视觉适配、VLM 的高效注意力、3DGS 压缩、视觉基础模型剪枝，以及面向真实接触动力学的移动操作。共同方法是将可靠性或结构先验显式化，再以稀疏交互、坐标锚定、非均匀量化或任务特定子空间保持计算效率。
+
+最值得优先阅读的工作包括：
+
+- **How Far Can 5,500 Hours of Driving Take You?**：在约 5,500 小时驾驶数据上系统拟合模型规模、训练曝光和算力缩放律；结果显示固定模型时延长训练比扩大模型更有效，同时 9B 模型仍具有更低渐近损失，并在 nuScenes 上取得强视频生成结果。其对自动驾驶生成模型训练预算具有直接工程价值。
+- **GeoFF3D**：将地理平移与重力方向直接作为前馈 3D 重建的坐标锚，并通过分层足迹聚合解决大规模 UAV 航迹的近共线退化和块间接缝；在 UAVScenes 上相对 π³X+SLRF 将 completeness 误差降低约 48%，是大规模测绘部署方向的重要进展。
+- **GAAT**：在跨模态融合前估计局部对应可靠性，用稀疏查询替代不可靠的全 patch 交互，并配套 StateBench 诊断采集状态；在分割、检测、变化检测等任务上均有稳定收益，适合研究真实 UAV 多传感器系统。
+- **Semantic Head Specialization / Ariadne Attention**：把 ViT 注意力头的前景/背景专化转化为可测量的 SHS-Index，并据此设计混合注意力；在约 6.5 倍较低注意力计算量下接近 full attention，说明可解释诊断信号能够指导 VLM 编码器架构。
+
+其他论文补充了这一方向的不同环节。DEX 用轻量调制器把透视预训练特征迁移到鱼眼深度和开放词汇分割，避免标定与重采样；Cut-ViT 通过 Gram 锚定保持任务相关子空间，在高稀疏率下显著降低时间和显存；Non-Uniform Quantisation 将渲染重要性用于 3DGS 的加权合并与 Lloyd–Max 量化，在 V-PCC/G-PCC 上获得明显 BD-Rate 降低。uScenes 提供同步 RGB 与 3D 多波束声呐数据，但目前缺少逐帧密集标注；A-PAIR 将空地指代检测改为 pair-level identity-consistent 评测，暴露航拍召回仍是瓶颈；Multi-Critic PPO 通过接触引导探索改善非抓取移动操作，仿真成功率达 94.1%，但真机合计成功率为 69.0%，反映 sim-to-real 接触与本体定位误差仍需解决。
+
+正在形成的研究方向包括：以局部几何可靠性控制多模态交互；把物理/重力/地理先验直接嵌入基础模型；用任务相关子空间和感知重要性进行模型与表示压缩；以及用 scaling law 指导受限数据条件下的生成模型训练。建议完整阅读顺序为 **GeoFF3D、GAAT、自动驾驶视频缩放律、Ariadne Attention、DEX**；若关注机器人真实部署，再加入 **Multi-Critic PPO、uScenes**。
 
 ---
 
@@ -1195,7 +1209,7 @@ Non-prehensile manipulation offers versatile skills for moving and rearranging h
 # Contact-Guided Exploration for Non-Prehensile Locomanipulation with Multi-Critic RL
 
 - **ArXiv ID**: 2608.28140v1
-- **source**: `local_cli_pdf`
+- **analysis_source: local_cli_pdf**
 - **来源**: `pdfs/2608.28140v1.pdf`（local_cli_pdf）
 - **页数验证**: 全文 8 页；`agent_pdfs/part-001.pdf` 8 页；提取完整
 
@@ -1300,6 +1314,16 @@ Non-prehensile manipulation offers versatile skills for moving and rearranging h
 | 载荷/扰动（图 8） | 6 |
 | 洗碗机接触序列（图 9） | 7 |
 | 真机统计（表 II） | 5 |
+
+## 本地 PDF 阅读与图像核验
+
+本分析基于本地原始文件 `pdfs/2608.28140v1.pdf`，并逐页阅读了 `pdf_context/2608.28140v1/full_text.txt` 与 `agent_pdfs/part-001.pdf`（8/8 页，未使用摘要替代）。文本提取中的分栏顺序在第 4—7 页存在交错，因此对照了候选页的高分辨率渲染图：第 3 页确认图 2 的共享骨干、三 critic head、actor 与三个任务的连接；第 5 页确认图 4 的目标导向搬运轨迹、表 I 权重以及图 5 的四种方法/失败模式堆叠柱；第 7 页确认图 6 的四类真实物体泛化、图 7 的失触恢复、图 8 的加负载与扰动实验；第 8 页确认图 9 的洗碗机“把手→门板”接触序列。`figures/2608.28140v1/index.txt` 选择了页面 3、5、7、8 作为最终 QQ 候选，均为包含架构、关键定量结果或真实机器人行为的完整页面，而非任意嵌入图像。
+
+## 评价
+
+这项工作的关键不是把接触距离奖励简单加到 PPO 标量奖励中，而是让探索、任务完成和安全正则化各自拥有 value head，再只在优势混合时施加阶段性权重。这样既避免了没有探索奖励时的“永不接触”解，也避免固定探索权重让策略持续追逐一个可能已经不再有利于运输的接触点。证据链较完整：仿真中提出方法达到 94.1% 椅子搬运成功率、tipover 仅 4.4%，箱子推动超过 90%；真实 IKEA 物体则为 40/58（69.0%），并且在折叠椅、三脚桌上展示了零样本形态泛化、失触恢复、6.5 kg 负载和动态目标跟踪。
+
+主要风险是仿真到真实仍有明显落差，尤其侧向接近产生的剧烈 yaw 会造成状态估计/里程计误差；真实实验还依赖外部 mocap。论文目前使用人工调定的 5k—10k 更新线性 schedule，尚未证明在不同物体、摩擦和任务时长下无需重新调参。后续最有价值的验证是用自适应性能触发的 critic 权重课程、机载视觉/本体估计替代 mocap，并报告跨随机种子置信区间及更多非凸、可动和易滑物体。
 
 **Links:**
 
