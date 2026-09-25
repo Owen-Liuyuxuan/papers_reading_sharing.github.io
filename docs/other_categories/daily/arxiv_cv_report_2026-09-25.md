@@ -2,116 +2,82 @@ time: 20260925
 
 # Arxiv Computer Vision Papers - 2026-09-25
 
+## Executive Summary
+
+## 执行摘要
+
+本期 10 篇论文呈现出鲜明的机器人系统导向：研究从单点感知或规划模块，延伸到传感器、在线决策与实体执行之间的完整链路。一个共同主题是让机器人在信息不完整、环境受限或仿真与现实存在差异时保持可靠：跨模态融合覆盖航空可见光—红外检测、Doppler LiDAR—惯性初始化、远程摄像头导航，以及视觉—触觉—音频操作；控制与规划工作则关注受限空间中的臂手协调、多机器人装配受力、持续挖掘和稀疏落脚点上的人形机器人跑酷。
+
+值得重点关注的工作各自针对真实部署中的不同瓶颈。[CAMP](https://arxiv.org/abs/2609.29021v1) 将手部可行构型与机械臂路径联合搜索，并通过轨迹压缩和分层优化控制高维规划成本，适合关注灵巧操作与狭窄空间规划的读者。[WRAP](https://arxiv.org/abs/2609.29407v1) 把装配顺序、机器人分工和静力支撑统一到无夹具装配规划中，突出几何规划与接触力学的结合。[Free-Init](https://arxiv.org/abs/2609.29375v1) 利用 Doppler LiDAR 的逐点速度信息辅助惯性初始化，探索弱化扫描去畸变、激励运动和地图对应依赖的定位路线。感知方面，[FoCal](https://arxiv.org/abs/2609.29125v1) 按频段区分跨模态交互，并根据光谱差异调节融合；[ReVNM](https://arxiv.org/abs/2609.28976v1) 则从远程摄像头生成机器人自中心深度表征，展示了将环境基础设施纳入导航感知的可能性。
+
+研究方向上，传感信息正从“增加模态”转向“按可靠性与任务阶段使用模态”：频域线索、时间记忆、接触信号及多普勒速度都被赋予明确的结构角色。另一个趋势是轻量化适配——在线故障检测以边缘模型递推更新，扭矩观测对齐以低成本校准支撑零样本抓取迁移。与此同时，挖掘、装配、导航和跑酷等工作更多在物理平台上检验系统闭环，而不止报告离线指标。
+
+若优先阅读全文，建议从 CAMP（受限操作规划）、WRAP（受力约束的多机器人装配）、Free-Init（新型速度传感与状态初始化）和 Echo in the Steps（深度感知、门控记忆与人形步态）入手；研究多模态感知的读者可进一步关注 FoCal 与 PolyUMI。
+
+---
+
 ## Table of Contents
 
-1. [SARFusion: Scene-Aware Routing Fusion for Robust Camera-LiDAR 3D Object Detection](#2609.29235v1)
-2. [FMCW-LIO: A Doppler LiDAR-Inertial Odometry](#2609.29374v1)
-3. [CAMP: Cooperative Arm-Hand Motion Planning in Constrained Spaces](#2609.29021v1)
-4. [WRAP: Fixtureless Wrench-aware Multi-Robot Assembly Planning](#2609.29407v1)
+1. [FoCal: Frequency-Oriented Cross-Modal Interaction and Spectral Calibration for Aerial Visible-Infrared Object Detection](#2609.29125v1)
+2. [CAMP: Cooperative Arm-Hand Motion Planning in Constrained Spaces](#2609.29021v1)
+3. [WRAP: Fixtureless Wrench-aware Multi-Robot Assembly Planning](#2609.29407v1)
+4. [Continuous Online Fault Detection for Mobile Robots via Adaptive Edge Models](#2609.29194v1)
 5. [PolyUMI: Accessible Visual-Tactile-Audio Data Collection for Object Inference and Manipulation](#2609.29760v1)
-6. [Echo in the Steps: Learning Perceptive Humanoid Parkour with Gated Memory](#2609.28960v1)
-7. [TactileStep: Sole Tactile Learning for Regulating Foot-Terrain Interaction in Humanoid Locomotion](#2609.28959v1)
-8. [UCON: Uncertainty-aware Navigation with Historical Re-association in Dynamic Environments](#2609.29419v1)
-9. [DAWN: Noise-Robust Quadruped Parkour via Depth-Denoising World Models](#2609.29092v1)
-10. [Markerless Multi-Modal Autonomous Robotic Inspection of Large Space Structures](#2609.29644v1)
+6. [From Target Selection to Digging: A Learning-Based Framework for Continuous Autonomous Excavation](#2609.29750v1)
+7. [Free-Init: Scan-Free, Motion-Free, and Correspondence-Free Initialization for Doppler LiDAR-Inertial Systems](#2609.29375v1)
+8. [Simple Torque-Observation Alignment for Zero-Shot Sim-to-Real Grasping with a Direct-Drive Gripper](#2609.29031v1)
+9. [ReVNM: Learning-Based Visual Navigation from a Remote Camera](#2609.28976v1)
+10. [Echo in the Steps: Learning Perceptive Humanoid Parkour with Gated Memory](#2609.28960v1)
 
 ---
 
 ## Papers
 
-<a id='2609.29235v1'></a>
-## [SARFusion: Scene-Aware Routing Fusion for Robust Camera-LiDAR 3D Object Detection](https://arxiv.org/abs/2609.29235v1)
+<a id='2609.29125v1'></a>
+## [FoCal: Frequency-Oriented Cross-Modal Interaction and Spectral Calibration for Aerial Visible-Infrared Object Detection](https://arxiv.org/abs/2609.29125v1)
 
-**Authors:** Yuting Zhao, Ziyi Zheng, Shuxiao Li
+**Authors:** Ben Liang, Chao Sui, Junqi Bai, Yuan Liu, Chunlai Li, Xiubao Sui, Qian Chen
 
 **Published:** 2026-09-24
 
-**Categories:** cs.CV, cs.AI
+**Categories:** cs.CV
 
 **Abstract:**
 
-Camera-LiDAR fusion has become a prevailing paradigm for 3D object detection in autonomous driving. However, existing fusion detectors often establish strong inter-modality dependencies by decoding object queries from tightly coupled multimodal representations. Under corrupted driving conditions, such dependencies make the detector vulnerable to unreliable modalities, where degraded observations may interfere with reliable modality-specific evidence and lead to suboptimal predictions. Moreover, modality reliability can vary across both global driving scenes and individual object queries, requiring adaptive fusion decisions at a finer granularity. To bridge this gap, we reformulate robust camera-LiDAR fusion as a scene-aware branch routing problem and propose SARFusion, a robust 3D object detector. Instead of producing detections from a single fused representation, SARFusion decouples object-query decoding into three parallel reasoning branches: a camera branch, a LiDAR branch, and a camera-LiDAR fusion branch. Guided by a Scene Reliability Prior estimated from the global driving context, SARFusion further incorporates object-level evidence to route each query to the most suitable branch. This query-wise routing strategy alleviates harmful cross-modal interference while preserving the benefits of multimodal fusion when complementary cues are trustworthy. On the nuScenes test set, SARFusion achieves strong performance with 72.5 mAP and 74.4 NDS. Extensive analyses demonstrate its robustness under challenging conditions, including sensor corruptions and environmental changes.
+In aerial RGB--IR object detection, effectively exploiting complementary information across modalities is critical for robust perception under complex illumination and environmental conditions. Existing multimodal detectors mainly focus on spatial-domain interaction or frequency-specific feature enhancement, while the cross-modal interaction patterns of different frequency components remain insufficiently explored. Moreover, spectral discrepancy itself may contain both useful complementary cues and unreliable modality-specific responses, making indiscriminate frequency fusion suboptimal. To address these issues, we propose FoCal, a frequency-oriented framework for aerial RGB--IR object detection. First, a Frequency-Aware Dual-Domain Calibration (FADC) module is developed to explicitly model frequency-dependent cross-modal interaction. Low-frequency components are collaboratively consolidated into a shared structural consensus, whereas high-frequency components preserve modality-specific information through selective cross-modal exchange. The resulting frequency-aware cues are further transferred to the original feature domain to regulate cross-modal calibration. Second, we introduce a Discrepancy-Guided Spectral Modulation (DGSM) module, which characterizes cross-modal spectral imbalance using confidence-weighted relative amplitude discrepancy and transforms it into a bounded signed gate for adaptive enhancement, preservation, or attenuation of the joint multimodal spectrum. Extensive experiments on DroneVehicle, ESCVehicle, and ATR-UMOD demonstrate the effectiveness of FoCal, yielding $\mathrm{mAP}_{50}$ values of 83.5\%, 54.8\%, and 64.6\%, respectively. Meanwhile, with only 3.0M parameters, FoCal achieves 113.6 FPS while preserving leading detection accuracy, highlighting a favorable accuracy--efficiency trade-off. Code is available at {https://github.com/universeliang/FoCal.
 
 ### 论文解读
 
 #### 摘要翻译
-相机与LiDAR融合检测器依赖紧密耦合的多模态表示；一类传感器受损时，不可靠观测可能连带干扰可靠信息。SARFusion将鲁棒融合改写为场景感知路由：同时保留相机、LiDAR、相机-LiDAR融合分支，根据全局场景条件和单个目标的局部观测质量，为查询选择解码分支。作者报告在nuScenes测试集取得72.5 mAP和74.4 NDS，并称对传感器损坏及环境变化更稳健。
+航空可见光—红外检测要在复杂光照和天气下利用两种传感器的互补信息。FoCal 指出现有方法常在空间域融合，或统一增强频率，却没有区分不同频带的交互方式；同时模态间频谱差异可能是有效线索，也可能是噪声。为此，FoCal 以频率感知双域校准（FADC）建模频带交互，以差异引导光谱调制（DGSM）按置信度调节联合频谱。在 DroneVehicle、ESCVehicle、ATR-UMOD 上分别取得 83.5%、54.8%、64.6% 的 mAP50，模型为 3.0M 参数、113.6 FPS。
 
 #### 方法动机分析
-相机有丰富外观语义、利于远处识别，但深度不确定；LiDAR几何定位准确，却可能因点稀疏而漏掉远处或遮挡目标。固定融合容易让坏模态污染好模态，整帧统一选模态又忽略同一场景内目标间的差异。论文的假设是同时利用帧级天气、光照等可靠性背景和对象级可见度、点密度等局部证据，逐查询选择更合适的信息路径。
+低频通常承载轮廓和整体结构，高频对应边缘与局部细节。若所有频率都用同一种融合规则，容易让有用的模态特性被冲淡；若直接融合两路频谱，也难区分互补差异与不可靠噪声。论文的关键假设是：低频宜建立共享结构，高频宜保留各模态特点并选择性交换，频谱差异则应结合能量置信度决定增强或抑制。方法针对配对、对齐的航空 RGB-IR 目标检测。
 
 #### 方法设计详解
-多视角图像和点云分别编码成相机token与LiDAR BEV token，并拼接形成融合上下文。网络保留三个候选Transformer解码分支，分别只读取相机、只读取LiDAR或读取两者。场景先验模块加入可学习场景token，让Transformer汇总全局上下文，经MLP得到可靠性向量；训练时用描述天气和时段的文本提示，通过双向对比损失对齐该向量，推理不需要文本。对每个三维目标查询，把参考点投影到图像特征面和LiDAR BEV面，在两个局部邻域做掩码注意力，汇集局部证据。路由器将局部证据与全局先验拼接，经MLP和Softmax估计三分支概率，再把查询送到概率最大的分支解码检测框。训练还用三分支检测损失和路由交叉熵；模态退化或dropout提供路由监督。作者采用先训练检测分支、再学习场景先验、最后优化路由并联合检测目标的分阶段策略。
+输入为可见光与红外图像对，双流骨干提取多尺度特征，在 P5 共享高层语义以削减冗余；FADC、DGSM 用于 P3、P4。FADC 用 Haar 小波把特征拆为低频近似项和三个方向的高频项。低频按学习权重加权成共同结构锚点；高频则双向传递，接收掩码控制对方细节注入，避免简单相加。重组后的频率特征再生成空间、通道可靠性掩码，校准回原特征流。DGSM 将两路特征投影后作 FFT，计算归一化幅度差，并以谱能量置信项加权；可学习映射和 tanh 生成有符号门控，正值增强、负值衰减联合频谱，再经逆变换回到空间域并残差融合。最终由 PAN 汇聚尺度信息，检测头输出目标框和类别。
 
 #### 方法对比分析
-相较固定融合，SARFusion保留互相独立的单模态解码路径，减少坏模态的跨模态干扰；相较整帧切换，它逐对象路由；相较只看局部特征置信度，路由还读取天气、光照等场景先验。其主要贡献是将三条候选路径、全局可靠性和局部查询证据组合起来，不是新的图像或点云编码器。适用于不同目标、不同场景的模态质量变化明显的多传感器检测。
+FADC 的主要差异在于频率相关的交互拓扑：“低频共识、高频选择交换”，而非全频统一融合。DGSM 也不同于固定频谱增益，它根据相对差异及置信度进行双向调制。另有 RR 共享高层语义以降低参数冗余，属于轻量化结构策略。该设计适用于传感器配准良好的成对检测输入；非对齐或视频场景的有效性尚未验证。
 
 #### 实验分析（精简版）
-实验使用nuScenes官方700个训练、150个验证、150个测试场景，以mAP和NDS评估。测试集为72.5/74.4，较CMT的72.0/74.1高0.5/0.3个百分点。验证集雾天SARFusion为69.2 mAP，较CMT的61.4高7.8个百分点；雪、雨、强阳光下分别为64.8、69.7、68.3 mAP，也领先所列对比方法。直接训练与分阶段训练的验证结果分别为65.7/69.6和71.1/73.7。作者称退化评估无需按天气微调，但未说明退化强度和生成细节；模型在雪天仍较干净条件下降6.3 mAP，也没有跨数据集、运行成本或多次运行方差结果。
+论文在三个航空车辆数据集上报告 COCO 风格 mAP50/mAP。DroneVehicle 上 FoCal 为 83.5%，高于 C²DFF-Net 的 82.0%；ESCVehicle 为 54.8%，高于 C²-VeD 的 52.4%；ATR-UMOD 为 64.6%，略高于 COMO 的 64.2%。DroneVehicle 消融中，双流基线为 80.8%，加 RR、FADC、DGSM 后完整模型达到 83.5%。复杂度为 3.0M 参数、8.4G FLOPs；RTX 4090、batch size 1 下延迟 8.8 ms/对。结果显示精度与速度兼顾，但论文未专门评估 TensorRT 或混合精度部署，也未验证时序场景。
 
 #### 实用指南
-作者表示代码将公开，但论文未给仓库、权重或许可证链接。复现需实现三分支解码、参考点局部掩码注意力、天气/时段提示对比学习和模态退化路由监督，并遵循“检测分支—场景先验—路由”训练阶段；数据划分和mAP/NDS评估应与nuScenes一致。主干、学习率、批量大小、训练轮数、损失权重和硬件均未披露，需自行确定。迁移到其他传感器或机器人时，应替换编码器、局部投影关系及退化监督并重新训练。
+实现基于 Ultralytics 扩展，模型从头训练：150 epoch、batch size 16、SGD 初始学习率 0.01，动量 0.937、权重衰减 0.0005。复现需准备配对图像及检测标注，并保证可见光与红外输入对齐；部署时应在目标硬件上重新测时。作者提供代码：https://github.com/universeliang/FoCal。迁移到其他传感器或类别时，需适配标注和类别并重新训练、验证频率交互是否仍然合适。
 
 #### 总结
-核心思想：按场景与目标可靠性路由
-1. 编码相机、LiDAR，保留三条候选解码分支。
-2. 用场景文本监督全局可靠性先验。
-3. 汇集目标查询投影邻域的局部证据。
-4. 合并两类证据，为查询选择分支并检测。
+核心思想：按频带分工并校准融合
+1. 双流提取两种模态特征，共享高层语义。
+2. 小波分解，低频形成共识、高频选择性交换。
+3. 用可靠性掩码校准跨模态回注。
+4. 根据置信度加权频谱差异，正负门控调制联合频谱。
+5. 多尺度汇聚后预测框与类别。
 
 **Links:**
 
-- [PDF](https://arxiv.org/pdf/2609.29235v1)
-- [arXiv](https://arxiv.org/abs/2609.29235v1)
-
----
-
-<a id='2609.29374v1'></a>
-## [FMCW-LIO: A Doppler LiDAR-Inertial Odometry](https://arxiv.org/abs/2609.29374v1)
-
-**Authors:** Mingle Zhao, Jiahao Wang, Tianxiao Gao, Chengzhong Xu, Hui Kong
-
-**Published:** 2026-09-24
-
-**Categories:** cs.RO, cs.CV, eess.SY
-
-**Abstract:**
-
-Conventional LiDAR-inertial odometry (LIO) or simultaneous localization and mapping (SLAM) methods heavily rely on geometric features of environments, as LiDARs primarily provide range measurements instead of motion measurements. From now on, however, the situation changes thanks to the novel Frequency Modulated Continuous Wave (FMCW) Doppler LiDARs. FMCW Doppler LiDARs not only offer the point range with high resolution but also capture the instant point Doppler velocity through the Doppler effect. In the letter, we propose FMCW-LIO, a novel and robust LIO, leveraging intrinsic Doppler measurements from FMCW Doppler LiDARs. To correctly exploit Doppler velocities, a motion compensation method is designed, and a Doppler-aided observation model is applied for on-manifold state estimation. Then, dynamic points can be effectively removed by the Doppler criteria, deriving more consistent geometric observations. FMCW-LIO eventually achieves accurate state estimation and static mapping, even in structure-degenerated environments. Extensive experiments in diverse scenes are performed and FMCW-LIO outperforms other algorithms on both accuracy and robustness.
-
-### 论文解读
-
-#### 摘要翻译
-传统激光雷达惯性里程计（LIO）主要依赖环境几何，因为激光雷达通常测距而不直接测运动。调频连续波（FMCW）多普勒激光雷达既提供高分辨率距离，也能测得点的瞬时径向速度。论文提出 FMCW-LIO，借助 IMU 补偿多普勒量测，在流形上进行多普勒辅助状态估计，并据此删除动态点、改善几何观测。作者报告，该方法在结构退化环境中仍能准确估计状态与构建静态地图，在多种场景下精度和鲁棒性优于比较算法。
-
-#### 方法动机分析
-隧道等场景的几何约束不足，传统扫描到地图匹配容易漂移；行人和车辆又会污染点云对应关系及地图。论文利用静态点的径向多普勒作为不依赖历史几何匹配的速度线索，先稳定运动估计，再清理动态回波。这个设计依赖可靠的原始多普勒、IMU和静态点，并未消除对几何建图的需求。
-
-#### 方法设计详解
-输入是逐点带时间戳的距离与多普勒、IMU角速度/加速度及外参。滤波器维护姿态、位置、速度、IMU偏置、重力和LiDAR-IMU外参；IMU在流形上传播状态与协方差。算法将各采样时刻的点坐标及径向速度补偿到扫描末端，修正不同帧间的距离比例、传感器运动和视线变化，也纳入LiDAR杆臂转动造成的速度。
-随后把点的视线方向和多普勒组成线性速度观测，以三点RANSAC抑制动态离群，再用最小二乘拟合三维LiDAR速度；文中示例以30%离群率、99%成功率设定11次迭代，并按视线与速度的夹角加权采样。这个速度先经误差状态滤波更新。再将每点实测多普勒与静态点预测值比较，超过角度相关阈值的点视为动态点而剔除。剩余点形成点到平面残差，交给流形迭代误差状态卡尔曼滤波（IESEKF）完成第二次更新和地图维护。论文使用ikd-Tree局部地图，范围1000米；实验传感器为10 Hz LiDAR、200 Hz IMU。
-
-#### 方法对比分析
-FAST-LIO2等方法主要依靠扫描到地图的几何约束。FMCW-LIO在类似的滤波几何更新前加入跨帧多普勒补偿、速度观测和动态点筛除，针对退化与动态污染；不同于只将多普勒放入ICP目标的DICP，它构成IMU融合里程计和静态建图流程。该方法适用于能获得原始Doppler且需要处理弱几何或动态物体的场景。
-
-#### 实验分析（精简版）
-实验包括校园、窄街和S形隧道的八段实采序列，比较LINS、LIO-SAM、DLIO、FAST-LIO2及STEAM-DICP，并消融多普勒补偿和动态点移除。最长的1712米隧道序列上，FMCW-LIO达到0.13米RMSE、0.02米终点误差；FAST-LIO2对应为60.09米和23.84米。结构化与退化环境中平均每扫描处理39.71和21.33毫秒，低于10 Hz扫描的100毫秒周期。补偿对快速隧道序列尤其重要；动态移除改善拥挤街道结果，但并非所有场景和指标均提升。地图去除动态物体的展示为定性结果，论文未报告检测精确率或召回率。
-
-#### 实用指南
-论文说明FMCW-LIO数据集（五段手持序列）和Free-Init数据集（四段动态初始化序列）已发布，但所读文本未给出项目链接；未明确说明算法代码开源。复现需原始逐点多普勒、点级时间戳、IMU同步与外参标定，并实现速度补偿、RANSAC拟合、动态点判定和两阶段滤波。实验用Intel i7-1165G7、ikd-Tree和1000米局部地图；完整噪声、标定与筛点阈值未列全。迁移到其他传感器时应重新标定并验证时序、多普勒噪声及运动条件。
-
-#### 总结
-核心思想：用多普勒速度补几何退化
-
-1. IMU补偿逐点距离与多普勒。
-2. RANSAC从径向速度估计LiDAR速度。
-3. 用速度预测并剔除动态点。
-4. 对保留点进行滤波更新和静态建图。
-
-**Links:**
-
-- [PDF](https://arxiv.org/pdf/2609.29374v1)
-- [arXiv](https://arxiv.org/abs/2609.29374v1)
+- [PDF](https://arxiv.org/pdf/2609.29125v1)
+- [arXiv](https://arxiv.org/abs/2609.29125v1)
 
 ---
 
@@ -131,32 +97,32 @@ Coordinated arm-hand motion planning is fundamental to dexterous robotic manipul
 ### 论文解读
 
 #### 摘要翻译
-受限环境中的灵巧操作要求机械臂与手协同运动。分开规划容易漏掉必须沿程改变臂手姿态的解，直接在高维联合空间搜索又很困难。论文提出 CAMP，以“可行手部纤维”描述每个臂姿态下无碰撞的手形集合，再结合分层手部搜索、局部臂路径松弛和保持端点的 VMP 轨迹优化。六项仿真任务成功率为 84.2%–98.5%，并进行了真实机器人验证。
+协调机械臂与灵巧手运动，是复杂受限环境中灵巧操作的基础。分开规划臂与手容易漏掉必须协同调整的解；直接在高维联合空间搜索又很困难。论文定义每个臂姿态对应的可行手型集合，并据此提出 CAMP：先分层搜索手部路径，受阻时局部调整臂，再以端点保持的运动基元表示轨迹并粗到细联合优化。六项仿真成功率为 84.2%–98.5%，并验证实体可执行性。
 
 #### 方法动机分析
-臂移动会改变周围障碍对手形的限制；即使一条臂路径处处存在可行手形，也不代表这些手形能连续地从起点连接到终点。固定手形会限制可走的臂路径，固定臂路径又可能阻断手形变化。CAMP 的关键假设是用低维臂路径提供全局方向，同时允许局部调整臂和手，以处理两者互相影响的碰撞约束。
+臂和手的无碰撞构型并不能独立处理：臂姿态变化会改变可用手型，固定手型会排除一些可行臂路；反过来，逐层存在可行手型也不保证相邻层之间能连续连接。论文的核心假设是，先用低维臂路径提供多样全局引导，再根据路径位置搜索变化的可行手纤维，遇到连接障碍时小幅放松臂姿态，可避免盲目联合搜索的维度负担并修复僵化分解的失败。
 
 #### 方法设计详解
-先用 RRT-Connect 在臂关节空间生成多条路线，并按进度分层。每条路线上的双向 Hand-RRT 从指定起始手形和目标手形出发，在各层搜索无碰撞手形并尝试连接相邻层。算法检查层间中点；若插值碰撞，就在该小段两端及中点共同调整手关节和有界臂关节偏移，再拼回原路线。这样既保留全局路线，又能在手部可行集合断开的地方改变机械臂。
+输入是机器人臂手模型、已知障碍及起终点构型。RRT-Connect 先在臂空间生成路径并分层；双向 Hand-RRT 沿各层对应的无碰撞手型集合寻找从初始手型到目标手型的连接。若相邻层插值中点碰撞，局部重规划同时调整手构型和臂关节偏移，在邻近臂姿态诱导的新可行集合中寻找过渡。
 
-每个候选臂手轨迹随后由端点保持 VMP 表示：线性端点参考叠加高斯基函数加权形变，端点包络在起终点归零，因此优化权重不会移动任务端点。初始化通过轨迹拟合、权重正则和二阶平滑共同求解。粗阶段并行筛选多条候选，较强地约束其偏离初始臂路径，优先消除碰撞和其他约束违反，但臂与手都可以调整；选出前三条后，细阶段放松路径锚定并增加轨迹质量权重。目标兼顾关节平滑、偏离初始轨迹和距离场碰撞惩罚，同时受关节位置、速度、环境碰撞、自碰撞及逐点手形可行性约束。
+初始化轨迹再编码为 VMP：每个时刻的关节值由端点线性参考、带高斯基函数的形变和端点包络组成；包络在起终点为零，因此优化权重不会破坏端点。系统含 6 自由度 UR7e 和 16 自由度 LinkerHand，轨迹用 200 个点；臂、手每关节分别用 30、20 个基函数，总计 500 个权重，远少于逐点表示的 4,356 个变量。目标兼顾轨迹平滑质量、相对初始路线的偏离和基于有符号距离场的碰撞惩罚，并受关节位置、速度及碰撞约束。规划先运行 16 个初始化实例、每路最多 10 秒和 20 层；臂偏移限于 ±0.1 rad，最多保留 8 个初始候选。粗阶段并行优化至多 100 次迭代，选出前 3 个候选；细阶段再优化最多 200 次迭代，重点提升轨迹质量和可行性。
 
 #### 方法对比分析
-相较于固定开手或紧凑手的分阶段方案，CAMP 可沿路径改变手形；相较于全 22 自由度直接搜索，它先利用低维臂空间生成路线；相较于固定路线提升和单一初始化优化，它能局部移动臂路径并优化多种候选。主要创新贡献在于局部臂松弛与手形搜索形成闭环，再用多候选 VMP 优化提升可行性；相比单独更换某个标准规划器，区别是显式处理“臂姿态改变可行手形集合”的双向耦合。代价是需要准确的机器人/障碍碰撞模型和较多候选优化，当前重点仍是已知静态环境。
+Arm-Then-Hand 固定手型规划臂，预设手型法仍难处理途中变手型。RRT-Connect 搜索完整联合空间，QRRT* 分层简化机器人，CHOMP 与 A*+CHOMP 依赖单一初始化。CAMP 将多个臂空间引导、纤维上的分层手搜索、局部臂松弛和紧凑 VMP 联合优化组合起来，兼顾路线多样性和协同细化，适用于已知静态障碍下的狭窄臂手操作。
 
 #### 实验分析（精简版）
-仿真平台为 6 自由度 UR7e 加 16 自由度 LinkerHand；规划使用 PyRoKi 距离场，MuJoCo 作精确碰撞验证。每任务每方法进行 10 批、每批 100 次。CAMP 在六项任务均获最高成功率：墙面穿越 98.5%、多球避障 91.3%、窄通道 92.5%、盒中球预抓取 92.0%、按键接近 94.4%、柜内圆柱预抓取 84.2%。例如窄通道成功率高于 A*+CHOMP 的 71.5%，时间为 30.10 秒，对方为 53.80 秒。盒中球消融中，固定臂成功率 74%，加入臂松弛后为 92%；VMP 相比逐路点优化为 92% 对 79%，平均时间 32.45 对 84.97 秒。真实机器人每任务 10 次，成功率为 80%、90%、80%；其中按键任务只验证指尖到达目标，并未实际按键，预抓取任务也不要求真实抓取或抬起。失败主要发生在窄间隙，反映定位、标定与执行误差影响。
+六项仿真任务与 RRT-Connect、QRRT*、CHOMP、A*+CHOMP 对比，每个任务—方法进行 10 批、每批 100 次试验，并用 MuJoCo 做最终碰撞验证。CAMP 在窄通道成功率为 92.50%，对比 A*+CHOMP 的 71.50% 和 RRT-Connect 的 3.00%；柜体圆柱预抓取成功率为 84.20%，高于 A*+CHOMP 的 18.80%，平均规划 42.60 秒（对方 98.40 秒）。Ball-in-Box 消融中，去掉臂松弛后成功率由 92% 降为 74%；逐点表示耗时 84.97 秒、成功率 79%，完整 VMP 法耗时 32.45 秒、成功率 92%。真实机器人各做 10 次，球盒、按键目标到达、柜体圆柱成功率为 80%、90%、80%；按键实验未实际按下按钮。结果支持可行性提升，但平台只有一套，且真实执行仍受定位、标定和执行误差影响。
 
 #### 实用指南
-论文给出 UR7e+LinkerHand、i9-14900KF/RTX 5070 Ti 的仿真配置；每轨迹 200 路点，初始化 16 路并行实例、20 层，局部臂偏移 ±0.1 rad；VMP 每臂关节 30 个基函数、每手关节 20 个，粗/细阶段迭代上限 100/200，保留 3 条候选精修。实机按已知障碍模型规划并留 1 cm 碰撞裕量。论文提供项目网站 camp-armhand.github.io，但未明确交代代码、模型或数据是否开放；迁移时需替换运动学、碰撞几何和关节限制，并重新验证。
+论文给出项目网站，但未明确说明代码、模型及数据的开放许可。该方法不训练神经网络；复现设置为 200 个轨迹点、臂/手 30/20 个基函数、16 路初始化、20 层、±0.1 rad 臂松弛、粗/细 100/200 次迭代。原评估用 PyRoKi 的 SDF 与胶囊近似规划，再以 MuJoCo 精确验碰；迁移到新机械臂或手时需替换运动学、碰撞模型、目标构型生成和验证器，并重新调节层数、偏移范围及基函数设置；动态障碍和不确定性尚未处理。
 
 #### 总结
-核心思想：臂手协同穿越可行纤维
-
-1. 生成多条臂空间路线。
-2. 分层搜索手形，碰撞处松弛臂路径。
-3. 以端点保持 VMP 压缩候选。
-4. 粗筛可行性、细调轨迹质量。
+核心思想：沿可行手纤维协同规划
+1. 在臂空间产生多条全局引导。
+2. 沿途分层搜索可行手型并连接。
+3. 碰撞时局部调整臂手，修复过渡。
+4. 用端点保持 VMP 压缩轨迹、粗筛候选。
+5. 细化优选轨迹并进行精确碰撞验证。
 
 **Links:**
 
@@ -181,34 +147,81 @@ Assembly using robots often requires specially designed fixtures, or relies on t
 ### 论文解读
 
 #### 摘要翻译
-机器人装配往往需要定制夹具，或受限于自上而下的顺序流程。WRAP 面向多零件、多机器人任务，输入零件间依赖关系、网格与初始状态，用线性规划判断抓取能否承受装配力；廉价反向搜索为正向搜索提供启发式，逐步求出可行装配计划，再生成多机器人运动并拆分为接触装配技能和自由空间运动。作者在仿真与真实机器人上验证了方法。
+机器人装配常依赖定制夹具或仅自上而下的操作。多机器人协作有望减少夹具并提高灵活性，但装配顺序和任务分配组合很多，还必须判断装配反作用力是否需要额外机械臂或桌面支撑。WRAP 接收部件依赖关系、网格和初始状态，以线性规划检验抓取支撑能力，再用便宜的反向搜索启发式引导逐步的正向搜索；随后求解多机器人运动规划，并将接触装配与自由运动分开执行。
 
 #### 方法动机分析
-多机器人可替代夹具、提升装配灵活性，但任务分配、操作顺序与抓取选择组合巨大；压配等任务还会产生侧向力和倾覆力矩。只检查几何可达性，可能选出无法承载配合力的抓取。WRAP 的关键假设是零件及装配依赖已知，可用机器人、桌面与零件接口的扳手能力描述支撑；目标是在搜索成本可控的同时避免不可执行的受力方案。
+传统方案常固定机器人角色、装配方向或定制夹具，难适应高混合、低重复任务；忽略力的几何规划也可能让压配部件滑动或倾倒。WRAP 假设装配依赖及所需作用力已知，且抓取器、部件接口和桌面可承受的力能用集合表示。若各步骤存在满足静力平衡的支撑组合，就可让协作机器人或桌面充当临时夹具。它关注任务和支撑可行性，不从零推断装配关系。
 
 #### 方法设计详解
-输入为零件网格与初始位姿、装配依赖和目标相对位姿，并描述机器人末端、桌面及接口扳手能力。首先为子装配采样稳定放置姿态和抓取。对每个零件建立静力平衡：机器人扳手、桌面支撑、相邻零件接口力与重力等外力之和为零，再以线性规划检查各扳手是否落在能力集合内。鲁棒检查还要求有界插入力不确定集的每个顶点均可平衡。搜索按装配里程碑展开；反向 Dijkstra 在抽象状态上用碰撞与力约束生成启发式，正向惰性搜索再逐个动作做逆运动学验证，并缓存成功构型、挂起暂时失败项以增加后续搜索预算。大邻域搜索扩展每次填充的动作窗口，窗口内结合贪心搜索和有上界的 A*；随后优化关键帧关节运动与机器人间净空，规划自由空间轨迹，并用局部交互力控制执行接触密集的插接。该规划假设为抓取式操作，不以刚性接口替代其受力能力模型。
+系统输入部件网格、初始位姿、装配依赖图和装配作用力。它先为各子装配求稳定放置姿态，再采样二指对向抓取或吸盘法向抓取。候选装配步骤建立每个部件的静力平衡：机器人和桌面的支撑 wrench、连接接口可传递的 wrench，与重力及装配外力相加为零。线性规划在各能力集合内寻找可行分配；为容忍误差，还把横向力扰动和作用点偏移纳入外力集合，并要求每个顶点都能平衡。搜索状态涵盖已完成装配、桌面放置和机器人抓取，动作包括抓取、放置、装配、交接和释放。依赖图将搜索切成装配里程碑；反向拆解搜索用碰撞和力约束检查，并把抓取归并成“能否传递所需装配力”的类别，用 Dijkstra 得到启发式，再引导正向贪心搜索。找到初解后，搜索逐步扩大装配窗口并以精确 A* 降低动作成本；关键帧经动态规划减少关节运动并增大机械臂间隙。仿真装配力为 10 N；真实规划名义力为 25 N。
 
 #### 方法对比分析
-传统装配序列规划多以零件为中心，机器人仅作可行性筛选；WRAP 把抓取、机器人分配和受力支撑共同纳入搜索。与 AutoMate 的接触策略学习不同，它面向多零件次序和多机器人任务；与 Fabrica 相比，它显式检查配合扳手并可重新抓取或调整姿态，而非固定部分装配体位姿、只用抓取稳定性启发式。代价是依赖已知依赖和扳手模型，以及昂贵的碰撞与 IK 检查。
+不同于仅凭几何排程或忽略力的协作规划，WRAP 把承力检查纳入机器人分工、抓取、交接、放置和装配步骤。相较 Fabrica 固定部分装配姿态的做法，WRAP 可重抓、重定向、交接或暂放桌面，并显式验证装配力是否有支撑；代价是依赖给定的装配图与已建模的力能力。它适用于需要多臂协作或临时支撑的装配，不适用于非抓取推移等尚未建模的操作。
 
 #### 实验分析（精简版）
-仿真使用 MuJoCo，默认插入力 10 N、未另行说明时不加噪声，通常每项重复 10 次。Cross、Cube、Chair 三种任务中，不做受力检查或仅考虑重力时成功率均为 0%；完整模型分别为 100%、90%、100%，Cube 有一次插接就位失败。结果说明桌面和多机器人支撑约束对力控装配有实际作用，但并不代表所有零件与摩擦条件都能成功。实机由固定在 Husky 底座上的两台 UR5e 完成半张凳子装配，计划含 7 个动作、一次交接和两次插腿。论文未报告多次实机成功率；模型也忽略了零件受载弯曲及内部应力。
+实验覆盖自建椅凳、十字、立方体和多种 Fabrica 装配；仿真大多使用四台机械臂，每种设置重复十次。Cross 上，WRAP 初始方案平均耗时 2.01±0.02 秒，Optimistic 基线为 11.25±0.15 秒，二者动作成本均为 22。Stool 上 WRAP 用时 1.60±0.02 秒、成本 32，基线用时 14.42±0.09 秒、成本 20，说明快速找到方案不等于动作最少。MuJoCo 支撑消融中，忽略装配力或只考虑重力的 Cross、Cube、Chair 成功率均为 0%；完整方法分别达到 100%、90%、100%。真实系统由两台 UR5e 完成七动作半凳装配，包含一次交接和两次插入。优势是力约束避免缺少支撑的方案；局限是搜索随机器人数量增长，真机尚未闭环重规划。
 
 #### 实用指南
-常规规划推理每个末端采样20个抓取；Fabrica用64个固定抓取且关闭抓取扩展。实机夹爪限值经施力至滑移/释放测试标定，名义规划力设为 25 N（含安全系数）；论文指出仿真并未精确复现真实接触摩擦。复现需实现碰撞检查、优化式逆运动学、力可行性线性规划、多目标运动规划与接触控制。摘要给出项目主页作为代码和视频入口，但未详述许可、模型权重及数据集发布。这是显式搜索规划器；迁移时需校准运动学、抓取与接口扳手集合及装配依赖。
+代码、视频和三维模型见论文项目页 vhartmann.com/wrap；论文未说明独立数据集。复现需准备部件网格、初始位姿、依赖图、装配力，并针对所用夹爪实测承载边界。真实规划采用 25 N 名义力，来自最大实测轴向 17.32 N、横向 5.38 N 并留有余量；仿真使用 10 N。迁移到新任务需重新建立几何、依赖、机器人与接口 wrench 能力、稳定放置姿态及接触控制器；不同材料和夹具应重新标定。
 
 #### 总结
-核心思想：用力可行性驱动多机器人装配
-1. 按依赖图生成装配里程碑和可用抓取。
-2. 用静力平衡 LP 筛除无法支撑插入力的方案。
-3. 以反向启发式引导正向 IK 搜索并优化操作序列。
-4. 联合运动规划，把接触片段交由力控技能执行。
+核心思想：以力平衡安排协作支撑。
+1. 从依赖图建立装配里程碑和可用抓取。
+2. 用静力平衡筛选机器人、接口及桌面支撑。
+3. 反向承力类别搜索启发正向装配动作。
+4. 扩大搜索窗口优化动作，并生成多臂轨迹。
 
 **Links:**
 
 - [PDF](https://arxiv.org/pdf/2609.29407v1)
 - [arXiv](https://arxiv.org/abs/2609.29407v1)
+
+---
+
+<a id='2609.29194v1'></a>
+## [Continuous Online Fault Detection for Mobile Robots via Adaptive Edge Models](https://arxiv.org/abs/2609.29194v1)
+
+**Authors:** Jordan Levy, Nicolas Verstaevel, Vincent Talon, Benoit Gaudou
+
+**Published:** 2026-09-24
+
+**Categories:** cs.RO, cs.LG
+
+**Abstract:**
+
+Mobile robots require robust, real-time fault detection capable of continuous adaptation on constrained edge hardware. While deep time-series models excel at unsupervised anomaly detection, their computational cost prohibits high-frequency onboard execution. This paper bridges this gap via a Teacher-Student distillation framework. An offline foundation model (TSPulse) generates pseudo-labels from unlabeled time series augmented with fault injections. A lightweight MiniRocket Student, adapted with a Recursive Least Squares estimator, approximates this complex decision boundary to execute real-time inference onboard. Evaluations on the TSB-AD benchmark and a physical mobile robot demonstrate the Student achieves a 4.30 ms CPU inference latency. During real-world domain shifts, online adaptation enables the Student to recover from unseen mechanical degradation, improving VUS-PR scores from 0.26 to 0.75 without catastrophic forgetting. Crucially, an uncertainty-guided active learning strategy minimizes operator cognitive load, requesting sparse interventions only when encountering novel fault distributions. These results validate the deployment of state-of-the-art anomaly detection on resource-constrained robotics through offline-to-online distillation.
+
+### 论文解读
+
+#### 摘要翻译
+移动机器人需要能在边缘硬件上持续适应的实时故障检测。深度时间序列模型虽擅长无监督异常检测，却难以高频机载运行。本文以 TSPulse 离线处理无标签序列并生成伪标签，再蒸馏给轻量 MiniRocket 学生；学生用递归最小二乘（RLS）在线适配。基准与实体机器人实验中，学生 CPU 推理为 4.30 ms；真实域偏移下 VUS-PR 从 0.26 提升到 0.75，且未出现灾难性遗忘。不确定性门控仅在新颖故障时请求人工反馈。
+
+#### 方法动机分析
+固定检测器会受磨损、载荷与环境变化影响；大模型推理昂贵，持续反向传播还会增加边缘计算负担并可能遗忘旧模式。作者假设教师产生的连续异常分数足以监督紧凑学生，而固定随机特征加在线线性头可在保持快速推理的同时适应新故障。目标是检测与适应，不是故障根因诊断。
+
+#### 方法设计详解
+流程的输入是历史传感器窗口，输出为连续异常分数及可在线更新的学生检测结果。教师 TSPulse 对窗口评分，分数经滚动平均平滑、z-score 标准化，并以指数权重强调严重异常。为扩展训练覆盖，作者向序列注入尖峰、截断、漂移和噪声，再训练 MiniRocket 回归教师分数。MiniRocket 以固定卷积核把窗口映射为高维特征，统计响应为正的比例；学生仅需学习特征到异常分数的映射。在线推理阶段用 RLS 替换静态 ridge 头：利用预测误差和协方差逆矩阵更新权重，无需反向传播。遗忘因子为 0.99；不确定性由特征空间新颖度与预测方差共同决定，只有乘积达到阈值才触发反馈和更新。实验采用 TSPulse 窗口 512、学生窗口 100、2,000 个核；机器人数据含 63 个通道、50 Hz 采样。
+
+#### 方法对比分析
+直接运行 TSPulse 可保留复杂检测能力但延迟较高；蒸馏后的 MiniRocket 更轻。与静态学生相比，RLS 可针对新分布修改线性头；固定特征也避免全模型在线训练。新意在于把教师伪标签、故障注入、递推适配与不确定性门控串成边缘检测流程，组件本身并非全新。它适合有历史无标签数据、持续传感器流和稀疏人工确认的场景；成效取决于教师标签及注入样本能否覆盖目标故障。
+
+#### 实验分析（精简版）
+评估涵盖 TSB-AD 与校园四轮机器人数据，指标为兼顾迟报和持续误报的 VUS-PR；真实故障包括过量耗电、超载与 GNSS 干扰。Jetson Orin Nano Super CPU 上，MiniRocket（窗口 100）平均延迟 4.30 ms，相比 TSPulse（窗口 512）的 343.45 ms 大幅降低。域偏移实验中，在线适配把 VUS-PR 从静态/离线基线的 0.26 提至 0.75；2,000 核的 RLS 更新为 12.08 ms。合成注入优于所比较的 VAE 和混合增强，增强量为 6 左右后收益趋平。优势是较快且可适应；局限是缺乏多小时连续转换评估、特征不易解释，统计型合成扰动也未必代表复杂物理故障。
+
+#### 实用指南
+论文提供代码和复现数据：https://anonymous.4open.science/r/ICRA2027-AB08。复现时先生成并平滑教师分数，再做加权蒸馏与四类故障注入；部署时冻结 MiniRocket 特征，以 RLS 更新，并依据不确定性阈值控制人工反馈。文中给出遗忘因子 0.99、2,000 个核及 Jetson CPU 延迟。迁移至新机器人需调整传感器窗口、标准化和故障注入，并重新训练学生、校准阈值。论文未说明全部依赖版本和通用阈值选择流程；较大特征维度会增加 RLS 更新耗时。
+
+#### 总结
+核心思想：蒸馏后按不确定性在线适配。
+1. TSPulse 给无标签序列打分并平滑。
+2. 注入故障模式，训练 MiniRocket 拟合教师。
+3. 固定特征，用 RLS 递推更新学生线性头。
+4. 不确定性越阈时才请求确认并学习新分布。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2609.29194v1)
+- [arXiv](https://arxiv.org/abs/2609.29194v1)
 
 ---
 
@@ -228,35 +241,224 @@ Humans typically rely on vision, touch, hearing, and proprioception to perceive 
 ### 论文解读
 
 #### 摘要翻译
-机器人模仿学习常只记录视觉与本体状态，难利用视觉难以推断的接触信息。本文提出开源平台 PolyUMI：无线手持夹爪同步记录腕部相机、光学触觉、接触音频和本体感觉；同一传感手指可装到机器人末端，保持采集与执行的感知几何一致。作者还提出 VisTA，以 token 级融合传感器与时间信息，预测接触感知动作。实验显示，触觉、音频可补充视觉，VisTA 在部分任务优于现有多模态策略。
+人类利用视觉、触觉、听觉和本体感觉调整操作；多数模仿学习只记录视觉与位姿，难获被遮挡的接触信息。本文提出开源平台 PolyUMI：无线手持夹爪同步记录腕部视觉、光学触觉、接触音频和本体状态；同一传感手指可转装到机器人末端，保持示教和执行的感知几何一致。配套的 VisTA 将多模态、多时刻观测融合为接触感知动作。实验表明触觉和音频能补充视觉，VisTA 在接触丰富任务中有竞争力。
 
 #### 方法动机分析
-视觉难以揭示遮挡物体属性、细小纹理、滑移与真实接触状态，模仿会缺失反馈。作者假设光学触觉表征接触形变，接触音频记录碰撞或摩擦，二者与视觉、本体状态互补。另一个痛点是示范器与机器人传感布局不同会造成观测偏移；同一传感手指用于缩小差异。若任务状态清晰可见，多模态未必胜过视觉。
+相机难直接观察指尖局部形变，也可能错过滑移、碰撞或旋紧到位等短暂事件。已有接口通常只整合触觉或音频；PolyUMI 将视触听集成进无线示教设备，并复用传感手指以减小域偏移。作者的关键假设是，视觉提供全局场景，触觉与结构振动揭示接触状态，保留这些信号的空间和时间细节后联合推理，能改善需要持续接触调节的任务。
 
 #### 方法设计详解
-PolyUMI 有手持夹爪与机器人安装形态，共用同一传感手指。触觉相机透过弯曲镜观察七层 VHB 胶带和铝粉反光层的形变，以 20 fps 采集；接触麦克风以 16 kHz 录制结构传导声音；腕部 GoPro 约有 177° 视场、60 fps，另记录本体状态。传感流按 10 Hz 时间轴对齐到最高延迟流的最新时间戳，并校正执行延迟。视觉和触觉图像缩至 224×224，使用当前及前一帧；音频转为 128 Mel 频带、48 帧（约 0.5 秒）。输入图像由 CNN 各编码 98 个 token，音频编码 96 个，状态由 MLP 编码，宽度均为 624。八层、八头 transformer 对共 294 个 token 做跨模态和跨时间双向注意力，使触觉与声音事件关联视觉上下文。融合结果通过交叉注意力条件化 18 层 DiT 动作模型，以条件流匹配预测未来 16 步、每步 10 维的相对末端位姿及夹爪宽度。控制采用滚动规划：时间集成后先执行前三步，再重新观测预测。策略在 Franka FR3 上训练 120 epochs；论文未给学习率和批量大小。
+手持夹爪内置电池、计算机和音频接口；可移装的传感指以内部相机观察七层 VHB 胶带和铝粉反射层形成的触觉表面（20 fps），压电麦克风记录 16 kHz 单声道接触音频；GoPro Hero 12 以 60 fps、1920×1080 记录约 177° 腕部视野。手持位姿由相机和 IMU 上的 ORB-SLAM3 估计，机器人端使用关节状态，两端都记录夹爪宽度。不同频率的信号按统一时间轴对齐，并以 10 Hz 插值。VisTA 使用当前及前一时刻（H=2）：图像缩放至 224×224，约 0.5 秒音频转为 128 频带 log-Mel 谱（3×128×48），机器人状态为 16 维。独立 CNN 将视觉、触觉编码为带空间信息的 token，音频 CNN 输出 96 个 token，状态由 MLP 编码；嵌入维度 624、合计 294 个 token。八层、八头 Transformer 对 token 做双向自注意力，使局部触觉、短音频事件和视觉上下文跨模态交互。融合表征经 cross-attention 条件化 18 层 DiT 风格动作头，以条件流匹配预测 16 步动作块；每步 10 维，包含相对平移、旋转和夹爪宽度。控制执行前三步后重新观测；延迟通过校准决定跳过动作数，机器人再以 1 kHz 阻抗控制执行插值轨迹。
 
 #### 方法对比分析
-PolyUMI 的核心贡献是无线同步采集视觉、触觉、音频，并让同一传感手指从演示装置迁至机器人。VisTA 保留局部 token 并统一时空融合；MulSA、Sparsh-X、PolyTouch 则采用独立编码、注意力瓶颈/池化或预训练表示。VisTA 适合需持续接触、视觉难判断接触质量的操作；视觉线索充分时，多模态可能无益。
+相较视觉为主的 UMI，PolyUMI 同步加入光学触觉和接触音频；相较 PolyTouch，重点是独立开源、无线手持采集和传感手指跨手持夹爪/机器人复用。VisTA 保留带空间、时间标记的细粒度 token，再以全序列自注意力融合，不像将每种模态先压成单个向量；之后由 flow-matching 动作头生成动作。基线包括视觉 Diffusion Policy、MulSA、Sparsh-X 与 PolyTouch，覆盖视觉策略及不同多模态融合方式。接触遮挡、滑移和持续贴合更可能受益；若任务状态本来清晰可见，多传感器未必增加效果。
 
 #### 实验分析（精简版）
-触觉形状识别在场景隔离测试集准确率为 92.3%。盒中物体分类每类用 20 段训练示范，无音频配置为 42%–44%，加音频约 80%，随机猜测为 33%；触觉＋音频和三模态对粗螺丝达 100%。滑移控制每种配置测 10 次，三模态成功 8/10（80%），纯视觉 2/10（20%），纯音频 0/10。擦拭中 VisTA 更能保持接触并擦完线，但正文未列精确成功率；灯泡旋紧各策略至少 80%，纯视觉最佳，VisTA 与最强多模态基线相当。价值依任务而异；操作仅测两个任务、单一机器人，滑移样本少。
+五类触觉形状的 2700 张图像按场景划分，留出 714 张测试；分类器训练 120 epoch、RTX 4060 上约 11 分钟，准确率 92.3%。闭盒识别三类物体时，每类用 20 次示范训练、10 次验证；不含音频的视觉/触觉组合约 42–44%，接近随机猜测 33%，加入音频后约 80%。防滑控制中视触听策略成功 8/10 次，视觉策略 2/10，触觉加音频 7/10。约 25 cm 擦板任务中 VisTA 成功率约 90%，Sparsh-X 约 40%，视觉 Diffusion Policy 与 MulSA 约 20–25%；前者更能保持接触并沿线擦除。灯泡旋入时所有方法至少 80%，视觉基线最高、VisTA 接近，说明接触模态的收益依任务而异。真机验证覆盖的任务数量有限，跨机器人泛化尚未展示。
 
 #### 实用指南
-论文称 PolyUMI 开源，项目页 https://polyumi-vista.github.io 介绍硬件、电子、固件、制作说明和学习软件；未明确数据集链接或许可证。复现需保持手指几何一致，处理 10 Hz 时间对齐及观测延迟，并按文中采样率预处理。训练 120 epochs；学习率、batch size、优化器未说明。迁移到其他机械臂需适配安装件、状态和控制器并重新采集演示，跨机器人泛化尚无证据。
+项目页公开硬件设计、电子、固件、制造说明和学习软件；论文没有明确说明数据集是否公开。多模态指约增加 240 美元、装配约 4 小时，传感指换装约 10 分钟。复现需实现统一时间戳、10 Hz 同步和手持位姿估计，并按论文构建两帧图像、0.5 秒音频窗及 token 策略。触觉分类训练 120 epoch；优化器、学习率和 batch size 未说明。迁移时须校准传感延迟、末端坐标及夹爪控制，并为新任务另采示范、重新训练。
 
 #### 总结
-核心思想：让接触信号进入策略
-1. 用可转移传感手指采集同步多模态示范。
-2. 校正异步视觉、触觉和音频的时间差。
-3. 将各传感器编码为时空 token 并逐 token 融合。
-4. 以融合结果驱动流匹配策略预测动作块。
-5. 执行部分动作后重新感知，闭环调整抓持与接触。
+核心思想：**同一传感指连通多模态示教与执行**。
+1. 手持端同步采集视、触、听和位姿。
+2. 把异步信号对齐并编码为细粒度 token。
+3. 用 Transformer 融合模态及时间线索。
+4. 流匹配动作块，校准延迟后闭环执行。
 
 **Links:**
 
 - [PDF](https://arxiv.org/pdf/2609.29760v1)
 - [arXiv](https://arxiv.org/abs/2609.29760v1)
+
+---
+
+<a id='2609.29750v1'></a>
+## [From Target Selection to Digging: A Learning-Based Framework for Continuous Autonomous Excavation](https://arxiv.org/abs/2609.29750v1)
+
+**Authors:** Shuai Zhao, Ji-an Pan, Quantao Yang, Zheng Wang, Chaoyi Chen, Qing Xu, Keqiang Li
+
+**Published:** 2026-09-24
+
+**Categories:** cs.RO
+
+**Abstract:**
+
+Repeated excavation continuously reshapes pile geometry, requiring an autonomous excavator to adapt its digging targets and coordinate motion across successive excavation cycles. We present a learning-based framework for continuous autonomous excavation that integrates terrain-aware target selection with reinforcement- and imitation-learning controllers. The framework separates target-conditioned motion from local digging: a shared task-conditioned RL policy controls waypoint-guided approach and loaded transport, while an IL policy learns vision-based digging and lifting from expert demonstrations. Digging targets are selected from LiDAR elevation maps and converted into bucket-tip waypoints for motion control. The control architecture coordinates the learned policies and deterministic unloading through a shared motion interface. The complete system is deployed on a scaled hydraulic excavator with multimodal sensing and closed-loop actuator control. Offline replay and physical experiments demonstrate more consistent target selection, shorter local motion time, and increased payload compared with the respective baselines. The learned digging policy achieves a mean payload of 6.52 kg per completed cycle, compared with 2.68 kg for Fixed Dig. Three five-scoop runs further demonstrate consecutive autonomous excavation under continuously changing pile geometry.
+
+### 论文解读
+
+#### 摘要翻译
+重复挖掘改变料堆形状，要求系统连续更新目标并协调运动。本文提出学习式框架：地形感知模块从激光雷达高程图选择目标，共享强化学习策略负责路径点引导的接近和载料运输，模仿学习策略则从专家示范学习视觉挖掘与提升。斗尖路径点连接目标与运动，共享接口协调策略及固定卸料；系统部署于具多模态传感和闭环控制的缩比液压挖掘机。实验报告了更稳定的选点、更快的局部运动，以及相较固定挖掘更高的单循环载荷；三次五铲连续运行验证了料堆变化下的无人作业。
+
+#### 方法动机分析
+每次取土都会改变下一次作业面对的地形，逐帧选择最高点容易受观测噪声影响；而接近目标和实际挖土又有不同控制目标。前者适合路径跟踪，后者需要协调斗杆、铲斗的插入、卷挖和提升。液压死区也会让小幅指令无法产生预期动作。核心假设是先把铲斗带到合适预挖状态，局部示范技能即可复用于变化目标，无需输入绝对地形目标。
+
+#### 方法设计详解
+流程从激光雷达10厘米高程网格开始，以表面与地面高度差估计土层厚度，过滤低置信度、过陡或不合适的区域，再按厚度、置信度、边界间隙、相对高度和粗糙度评分。跨帧关联、连续三帧确认、0.10分数迟滞和最多十帧缺测保留，抑制目标跳变。目标转成斗尖路径点后，共享PPO控制策略按任务模式执行空斗接近或载料运输；其38维观测包括液压缸、斗尖、路径误差、任务模式和斗角状态，并惩罚偏离路径、动作突变及死区内无效指令。接近和运输的目标斗角分别为70度与180度。PPO策略采用两层、每层256单元的MLP，训练步数为200万。进入预挖位后，ACT读取640×480 RGB图像和11维本体状态，输出20步动作块，每执行10步便用新观测更新。结束后由RL运输、固定策略卸料，再观测地形进入下一循环。
+
+#### 方法对比分析
+与全局最高点或仅按空间特征评分相比，时间目标选择器显式维护历史并使用迟滞，以时间一致性换取少量无输出帧。与DLS运动控制相比，PPO学习液压响应，并共享用于两种目标条件运动。与固定缸位置挖掘相比，ACT从专家数据学习局部视觉动作。主要贡献是把可更新的几何目标、路径跟踪和可复用的局部挖掘技能组合成闭环作业流程；这种设计仍要求预挖姿态落在示范技能适用范围内。
+
+#### 实验分析（精简版）
+离线回放中，时间目标选择器在1041对相邻有效输出中出现1次XY跳变，最高点法为300次，空间法为523次；目标输出率为98.68%。五次10厘米局部运动均达到2厘米位置容差，PPO平均耗时1.04±0.54秒，DLS为1.93±0.11秒。以相同目标序列完成的20个循环里，ACT平均载荷6.52千克，固定挖掘为2.68千克。实机完成三次五铲运行，共转运94.75千克，未需人工干预。证据覆盖单一土类、静止的缩比机器；选点对照主要证明回放稳定性，尚不足以证明跨工地泛化。
+
+#### 实用指南
+论文未明确提供代码、模型或数据的公开仓库。复现需实现10厘米地形网格、候选筛选与跨帧迟滞，按论文设定训练PPO，并以83段训练、21段验证的遥操作序列训练ACT；部署时20步预测、执行10步后更新观测。还须标定坐标系、斗尖运动学、液压方向相关速度限制和死区，并在策略切换时确认零指令。迁移到不同土质、机器尺度或移动底盘时，应重新标定并采集覆盖目标工况的示范，再验证预挖姿态和载荷表现。
+
+#### 总结
+核心思想：以几何目标连接运动与挖掘
+1. 从地形评分选点，并跨帧确认稳定目标。
+2. 将目标转为斗尖路径点，由PPO控制接近。
+3. ACT依据图像与机身状态分段完成挖掘、提升。
+4. RL运输、固定卸料，再观测地形开始下一铲。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2609.29750v1)
+- [arXiv](https://arxiv.org/abs/2609.29750v1)
+
+---
+
+<a id='2609.29375v1'></a>
+## [Free-Init: Scan-Free, Motion-Free, and Correspondence-Free Initialization for Doppler LiDAR-Inertial Systems](https://arxiv.org/abs/2609.29375v1)
+
+**Authors:** Mingle Zhao, Jiahao Wang, Tianxiao Gao, Chengzhong Xu, Hui Kong
+
+**Published:** 2026-09-24
+
+**Categories:** cs.RO, cs.CV, eess.SY
+
+**Abstract:**
+
+Robust initialization is crucial for online systems. In the letter, a high-frequency and resilient initialization framework is designed for LiDAR-inertial systems, leveraging both inertial sensors and Doppler LiDAR. The innovative FMCW Doppler LiDAR opens up a novel avenue for robotic sensing by capturing not only point range but also Doppler velocity via the intrinsic Doppler effect. By fusing point-wise Doppler velocity with inertial measurements under non-inertial kinematics, the proposed framework, Free-Init, eliminates reliance on motion undistortion of LiDAR scans, excitation motions, and map correspondences during the initialization phase. Free-Init is also plug-and-play compatible with typical LiDAR-inertial systems and is versatile to handle a wide range of initial motions when the system starts, including stationary, dynamic, and even violent motions. The embedded Doppler-inertial velocimeter ensures fast convergence and high-frequency performance, delivering outputs exceeding 10 kHz. Comprehensive experiments on diverse platforms and across myriad motion scenes validate the framework's effectiveness. The results demonstrate the superior performance of Free-Init, highlighting the necessity of fast, resilient, and dynamic initialization for online systems.
+
+### 论文解读
+
+#### 摘要翻译
+Free-Init 面向 FMCW 多普勒激光雷达与 IMU 组成的里程计系统，提出高频、鲁棒的初始化框架。方法融合逐点径向多普勒速度和惯性测量，在初始化阶段免扫描去畸变、免特定激励动作、免地图对应，可用于静止、动态乃至剧烈运动启动，并可接入常见 LIO。
+
+#### 方法动机分析
+很多 LIO 初始化默认设备静止，或依赖先去畸变的扫描和地图匹配；车辆已经行驶、手持设备剧烈运动，或环境缺少几何特征时，这些条件难以满足。要求人为旋转、加速的方案也不适合所有平台。Free-Init 的核心假设是 FMCW 雷达能为静态回波提供逐点多普勒速度，且雷达与 IMU 刚性连接、外参已标定；以运动学直接从这些观测恢复启动状态。
+
+#### 方法设计详解
+输入包括逐点雷达多普勒读数、陀螺仪和加速度计。首先，12 维 Doppler-Inertial Velocimeter（DIV）状态包含雷达及机体线速度、机体角速度和陀螺偏置。每个静态点的径向速度约束雷达速度在视线方向上的投影，陀螺读数约束角速度与偏置之和；滤波器逐点更新，残差阈值用于剔除动态点。接着，方法把估计速度、加速度计读数和非惯性运动学关系放入优化，求加速度计偏置与重力；相对加速度约束同时考虑角速度、角加速度和科氏项，重力模长设为 9.81 m/s²。姿态在初始化窗口中按固定轴旋转假设积分，点云据此投影成初始地图，再将位姿、速度、偏置、重力和地图交给后续 LIO。推理时，DIV 逐点输出频率超过 10 kHz。
+
+#### 方法对比分析
+与先去畸变再做扫描匹配的初始化相比，关键差别是把雷达多普勒作为直接速度观测，不等待整帧几何对应；相较静止启动或人为激励法，它支持非零初速且不要求操作者执行特定动作。重力和加速度计偏置优化、姿态积分及建图属于后续估计环节。方法适用于具备逐点多普勒测量的 FMCW 雷达，不适用于普通 ToF 雷达；它仍依赖足够静态回波、有效外参及初始化中的固定轴旋转近似。
+
+#### 实验分析（精简版）
+实验使用 Aeva Aeries II 雷达和 Xsens MTi-G-710 IMU，覆盖手持、轮式与车辆平台的动态和静止序列，并把初始化接入 FAST-LIO2、DLIO，以绝对平移 RMSE、端到端误差和运行时间评估；速度对照 RTK/INS。车辆启动速度约 60–75 km/h。FAST-LIO2 在 dyna_01 的 RMSE，默认初始化为 8.21 m、Free-Init 为 0.25 m（RMSE 由 8.21 到 0.25 m）；在 dyna_02 默认法失败，而 Free-Init 为 0.10 m。DLIO 在 dyna_05 的 RMSE，默认初始化为 36.90 m、Free-Init 为 1.10 m（RMSE 由 36.90 到 1.10 m）。动态、静止序列平均运行时间分别为 0.208 s、0.116 s。结果显示高动态启动有明显收益；实验硬件和序列有限，跨设备泛化及极端动态点比例的系统评估仍不足。
+
+#### 实用指南
+论文资源栏给出 Free-Init、FMCW-LIO 代码与数据序列链接及实验视频。复现需要逐点多普勒 FMCW 雷达、同步 IMU 和离线标定的雷达—IMU 外参，依次实现逐点滤波、动态点筛除、重力/加速度计偏置优化和地图初始化。论文报告的硬件为 Aeva Aeries II 与 Xsens MTi-G-710；完整噪声参数和所有优化实现细节未说明，需从代码确认。迁移平台时应重新标定外参并检查时间同步、静态点假设与固定轴近似；换成 ToF 雷达则须替换核心多普勒观测机制。
+
+#### 总结
+核心思想：多普勒速度直接初始化
+1. 逐点多普勒与陀螺观测更新 DIV。
+2. 估计雷达/机体速度、角速度和陀螺偏置。
+3. 以非惯性加速度约束求重力与加速度计偏置。
+4. 积分姿态、生成初始地图并交给 LIO。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2609.29375v1)
+- [arXiv](https://arxiv.org/abs/2609.29375v1)
+
+---
+
+<a id='2609.29031v1'></a>
+## [Simple Torque-Observation Alignment for Zero-Shot Sim-to-Real Grasping with a Direct-Drive Gripper](https://arxiv.org/abs/2609.29031v1)
+
+**Authors:** Doyoung Kim, Edgar Lee, Hyeonsun Park, Chunghyeon Lee, Chihyun Han, Uisu Hwang, Seokhwan Jeong
+
+**Published:** 2026-09-24
+
+**Categories:** cs.RO
+
+**Abstract:**
+
+Torque observations in reinforcement learning remain challenging because simulated and measured torque differ in scale, offset, and noise. In this paper, we propose a simple torque observation alignment method for robots with direct-drive (DD) actuators, in which motor current maps linearly to joint torque through a motor-type-specific torque constant K_tau. First, dynamometer calibration identifies K_tau* and corrects the scale mismatch between simulated and real torque. Second, the method uses delta_tau(t) = tau(t) - tau(t-1) as the observation in both domains to eliminate the constant offset instead of using the direct torque tau(t), which carries a domain-dependent bias. Third, Gaussian noise obtained from the dynamometer measurement data is injected during the learning process. To validate the proposed method, we train a teacher-student grasping policy entirely in simulation and deploy the distilled student on a multifingered DD gripper. The deployed policy performs proprioceptive grasping using only joint positions and torque differences. We conduct an ablation study comparing the proposed method with alternative alignment variants on nine in-distribution (ID) objects. The proposed method achieves 100% grasp success. These results demonstrate that the proposed alignment method improves the robustness of zero-shot policy transfer on the DD gripper against real-world torque-observation mismatches.
+
+### 论文解读
+
+#### 摘要翻译
+强化学习中的扭矩观测存在尺度、偏移和噪声差异。本文为直接驱动（DD）执行器提出扭矩对齐方法：测功机标定电机扭矩常数以修正尺度；仿真和真实策略都使用相邻扭矩差以消除恒定偏移；训练时注入由测量数据估计的高斯噪声。作者完全在仿真中训练教师—学生抓取策略，将仅使用关节位置和扭矩差的学生部署到多指 DD 夹爪。九种分布内物体上达到 100% 抓取成功，说明该方法有助于降低真实扭矩观测失配对零样本迁移的影响。
+
+#### 方法动机分析
+仿真策略看到的扭矩可能与实机不同：规格书扭矩常数不准确，绝对电流读数含偏置，传感噪声也未必匹配。策略若依赖这些域特有的绝对数值，直接部署容易失败。作者利用 DD 电机电流与扭矩近似线性的特点，以物理标定修正比例、差分抵消恒定偏移，并按实测误差匹配噪声，避免另训复杂域映射。此假设适用于可校准的 DD 执行器；快速变化偏置及持续负载信息仍是边界。
+
+#### 方法设计详解
+先用旋转测功机标定每类电机的有效扭矩常数 $K_\tau^*$，并用测量回归 RMSE 设定高斯噪声。仿真与实机的扭矩关系用尺度、偏置和噪声近似表示；策略观测采用 $\Delta\tau_t=\tau_t-\tau_{t-1}$，恒定基线因相减而消去。随后在 Isaac Sim/Isaac Lab 中训练教师—学生策略：教师为 MLP，利用物体和指尖状态等特权信息通过 PPO 学会抓取；学生为 Transformer，仅输入九维关节位置与九维扭矩差，输出九维相对关节位置变化。学生由教师示范进行行为克隆，部署时以 20 Hz 控制夹爪。系统以抓持高度和水平偏差奖励抓取，并惩罚动作幅值与变化率；仿真随机化质量、摩擦、执行器增益、初始姿态和外部扰动。真实协议依次经过初始状态、抓取、抬升和保持，物体需保持至 10 秒回合结束。训练使用 9,000 个并行仿真环境；教师训练 2,000 次 PPO 迭代，学生用 90,000 条示范轨迹训练 2,000 epochs。学生上下文长度为 30，Transformer 为 6 层、512 维嵌入、8 个注意力头。
+
+#### 方法对比分析
+相比直接输入绝对扭矩，本文把误差拆为三项并分别处理：测功机校准改正尺度，时间差分削弱偏置，测量驱动的噪声注入匹配随机误差。其创新是轻量、可解释的物理对齐与标准教师—学生训练组合，而不是新的强化学习算法。适用于具备线性电流—扭矩关系、可完成电机标定的 DD 多指抓取；对非线性较强的减速执行器或需要感知稳态力的任务，尚无证据保证有效。
+
+#### 实验分析（精简版）
+真实试验覆盖九种 ID 和 12 种 OOD 物体，每物体进行 10 次抓取。完整方法在 ID 上为 90/90（100.0%），OOD 成功率 98.3%，21 种物体总体 99.0%。消融中，仅位置输入成功率为 15.6%，仅加噪声但未校准尺度、仍使用绝对扭矩为 10.0%；三项机制齐备为 100.0%，显示尺度、偏置与噪声对齐具有互补性。网球和灯泡的 OOD 成功率各为 90%。实验支持固定基座夹爪上的抓取—抬升—保持迁移；温度/电机个体变化及机械臂安装场景未测试，差分也不直接保留持续扭矩大小。
+
+#### 实用指南
+复现需对各电机测量并标定有效扭矩常数，以回归残差估噪声，再保证仿真与实机采用一致关节顺序、单位、差分和 20 Hz 控制。论文给出主要网络和 PPO/行为克隆参数及随机化范围，但未完整报告软件版本、计算资源和推理延迟。文中未提供公开代码、原始数据或模型权重链接，仅提到补充视频。换用电机需重新标定；换夹爪或任务则需调整观测/动作映射并重新训练，还应评估稳态负载不可见的影响。
+
+#### 总结
+核心思想：标定差分对齐扭矩
+
+1. 测功机校准电机扭矩尺度和噪声。
+2. 用扭矩时间差分抵消恒定偏置。
+3. 仿真注入实测噪声并随机化物理条件。
+4. 蒸馏出只依赖关节位置与扭矩差的学生策略。
+5. 零样本部署并检验抓取、抬升与保持。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2609.29031v1)
+- [arXiv](https://arxiv.org/abs/2609.29031v1)
+
+---
+
+<a id='2609.28976v1'></a>
+## [ReVNM: Learning-Based Visual Navigation from a Remote Camera](https://arxiv.org/abs/2609.28976v1)
+
+**Authors:** Michikuni Eguchi, Kohei Honda, Masafumi Endo, Yasuhiro Yoshimura, Ryo Yonetani
+
+**Published:** 2026-09-24
+
+**Categories:** cs.RO
+
+**Abstract:**
+
+Visual Navigation Models (VNMs) enable robots to navigate from egocentric visual observations without geometric localization and planning, but long-range navigation still requires pre-built maps. This paper presents the Remote Visual Navigation Model (ReVNM), which uses a single remote surveillance camera to serve as both an observation source and an implicit environmental map for visual navigation. While the use of remote cameras could eliminate the need for pre-built maps as well as onboard vision processing, their limited field of view instead of egocentric observations makes it hard to achieve collision-free navigation. The lack of existing data with diverse remote viewpoints, which are crucial for training robust VNMs, further complicates the challenge. In this work, we propose a learning-by-synthesis approach to address this two-fold challenge. Our ReVNM extends a state-of-the-art VNM architecture with an exocentric-to-egocentric (exo2ego) module that predicts an egocentric depth observation from remote-camera observations. This helps the VNM to plan a path while considering obstacles in front of the robot. Trained only on randomly generated worlds with diverse obstacle layouts and camera viewpoints, ReVNM can generalize well to real robot navigation without additional fine-tuning. Experiments in both simulation and real-world environments confirmed the effectiveness of the proposed approach.
+
+### 论文解读
+
+#### 摘要翻译
+视觉导航模型（VNM）可依据第一视角图像导航，但长距离任务通常需要预建地图。ReVNM 使用一台远程监控相机，同时作为观测源和隐式环境地图，从而免去预建地图及机载视觉处理。远程视角受限且与机器人视角不同，障碍物可能遮住机器人附近地面；同时缺少多样远程视角训练数据。作者提出“通过合成进行学习”：增加外视角到自中心视角（exo2ego）模块，从远程图像预测机器人第一视角深度。模型只在含随机障碍布局与相机视角的合成环境训练，无需微调即可迁移至真实机器人；仿真及实机实验验证了有效性。
+
+#### 方法动机分析
+远程相机降低了机器人端传感与算力要求，却不能直接看清机器人周围的局部几何。核心假设是，利用仿真可得的机器人位姿和真实自中心深度监督，模型能够从外中心观测合成足以规划的局部深度表示。这样既处理视角差异，也能以随机场景和相机布局弥补实测数据不足。
+
+#### 方法设计详解
+输入为固定 RGB 相机图像、机器人在图像中的位置与相对朝向，以及图像中的目标像素。RGB 经 Depth Anything v3 转成外中心深度；系统截取机器人周围区域，将深度和位姿送入 DiT-S/2 条件扩散模型，生成 (32\times32) 自中心深度图，再缩放至 (224\times224)。扩散网络用仿真自中心深度作像素级 MSE 监督，推理采用 8 步 DDIM。导航策略融合长度为 5 的外中心与合成自中心深度历史、机器人状态和目标，使用 ResNet-34 特征骨干及 ACT 风格 CVAE 预测未来 5 个机器人坐标系中的米制航点。训练损失由航点 L1 误差和潜变量 KL 正则组成。航点交给共享的 LiDAR-MPPI 控制器跟踪和避障。训练在 Gazebo 随机障碍环境中收集约 5 万片段、100 万样本，并加入约 5000 个 DAgger 启发的恢复片段。策略训练 20 epochs、AdamW、学习率 (2\times10^{-4})、batch size 512；视角合成模块训练 30 epochs。
+
+#### 方法对比分析
+NoMaD 等 VNM 依赖机器人第一视角传感，并常需地图；ReVNM 将感知移至远程相机，用合成自中心深度弥补近身遮挡。相较 IBVS 直接在远程图像中规划，它学习从远程观测到局部航点的映射。关键贡献是视角合成与随机化合成训练，仍假设机器人能被相机定位且未离开视野。
+
+#### 实验分析（精简版）
+仿真每个场景进行 250 次试验，成功要求 60 秒内到达且无碰撞。ReVNM 在 Random Pillar、Book Store、Warehouse 的成功率为 88±3%、88±5%、70±6%；Warehouse 中 IBVS 为 52±7%，NoMaD 微调后为 22±4%。移除 exo2ego 后 Warehouse 降至 26±8%；完整模型去掉恢复数据则为 43±6%。实机 Kachaka 的 Wall 场景成功率为 5/5，IBVS 为 0/5，无 exo2ego 变体为 2/5；Forest 场景完整模型为 19/25。结果支持遮挡环境的价值，但实机试验有限，定位使用 AprilTag。
+
+#### 实用指南
+复现需构造随机障碍和相机视角，采集专家及恢复轨迹，并以仿真第一视角深度监督扩散模块；部署还需机器人定位、深度估计和 LiDAR-MPPI 控制。实机位姿由 AprilTag 检测，仿真使用真值；推理约需 30 ms 生成深度、0.1 s 预测航点。论文未提供 ReVNM 代码或数据集链接，仅提及可用的 aws-robotics Warehouse 环境。迁移到新相机或机器人需校准像素定位、姿态和深度/坐标约定。
+
+#### 总结
+核心思想：远程视角合成机器人局部深度。
+1. 从远程 RGB 提取深度并定位机器人与目标。
+2. 用位姿条件扩散补出自中心深度。
+3. 融合双视角历史预测多步局部航点。
+4. 由 LiDAR-MPPI 跟踪，并以恢复示范增强鲁棒性。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2609.28976v1)
+- [arXiv](https://arxiv.org/abs/2609.28976v1)
 
 ---
 
@@ -276,221 +478,34 @@ While recent advances in perceptive locomotion have enabled humanoid robots to t
 ### 论文解读
 
 #### 摘要翻译
-感知运动控制虽已帮助人形机器人穿越结构化地形，但在高度不连续环境中敏捷跑酷仍很困难。跨越稀疏落脚点和狭窄支撑面，要求精确选点、有效利用视觉并在快速转换时保持双脚交替。本文提出仅依靠机载深度感知的跑酷框架，以显著性先验和门控记忆跨帧保留有用深度线索，并以交替损失改善步态。仿真和实机实验显示，该方法提高了复杂地形上的成功率与落脚准确性。
+感知运动让类人机器人能通过结构化地形，但在高度不连续环境中跑酷仍有挑战。稀疏落脚点和窄支撑面要求精确选点、利用视觉并保持双脚交替。本文提出仅使用机载深度的跑酷框架，以显著性先验和门控记忆跨帧保留有用深度特征，并用交替损失改进对称性正则。仿真与实机实验显示，该方法提高复杂地形上的通过成功率和落脚精度。
 
 #### 方法动机分析
-单帧深度可能看不到完整落脚几何；地图方法又依赖定位和稳定更新，在动态跑酷中容易受限。历史视角能补充被遮挡或已离开视野的线索，但直接累积会引入冗余。镜像一致性虽能利用人形双侧结构，却可能让左右腿同步跳跃，不适合窄支撑上的连续换脚。作者以“显著性筛选有价值历史、门控融合补充几何、交替约束组织步态”为核心假设。
+小平台与窄梁对落脚误差敏感，单帧深度视野有限，下一个踏点可能暂时不可见；直接堆叠历史又会带入冗余。作者假设深度图几何边缘可提示地形线索，历史相对当前越有价值就越应被利用。单纯镜像对称还可能使双腿同步、形成双脚一起跳，因此加入交替约束，鼓励运动中左右脚错相。
 
 #### 方法设计详解
-深度图先计算垂直相邻像素差，并按图像高度加权，突出近身几何边缘；像素显著性均值形成帧级先验。共享编码器处理当前帧与历史帧，MLP结合历史潜变量和相对显著性预测softmax权重。门控模块将加权历史特征相对当前潜变量的残差注入当前表示，避免简单平均。融合视觉与本体感觉历史后，由MLP策略输出29个关节目标位置；PPO非对称actor–critic训练时，critic还使用特权状态。镜像一致性约束双侧动作，交替损失只在机器人移动时惩罚两腿动作同向。训练在Isaac Sim/Isaac Lab中使用2048个并行G1；本体感觉历史为8帧、深度历史为4帧，地形用20×10课程网格逐步增加难度。
+相机图像从 480×270 缩至 64×36，再裁取中央下方 32×18 区域。策略融合角速度、重力方向、速度指令、29 维关节位置与速度、上一动作，以及 8 帧本体感觉和 4 帧深度历史。共享编码器将当前及历史深度映射为潜变量；相邻行深度差经纵向加权得到显著图，其均值概括每帧几何线索。系统计算历史相对当前的显著性差，以 MLP 结合历史潜变量产生 softmax 权重，再把加权历史残差加入当前潜变量。可学习 sigmoid 门控控制修正幅度，保留当前视角并利用此前看到的踏点补充信息。PPO 的非对称 Actor-Critic 由特权状态训练 Critic，Actor 输出 29 个关节目标，经 PD 转为力矩；奖励包括速度跟踪、能耗与动作变化、安全项及 AMP 自然动作先验。镜像损失维持结构一致；速度超过 0.25 时，交替损失惩罚双腿动作余弦相似度的正值。训练使用 Isaac Sim/Isaac Lab、2048 个并行环境和 RTX 4090，最多 50,000 次迭代；Jetson Orin NX 上策略以 50 Hz 推理，深度相机为 60 Hz。
 
 #### 方法对比分析
-与高度图或体素地图不同，该方法不依赖全局重建；与直接深度策略不同，它显式强调支撑几何并利用可学习记忆。关键创新是显著性权重与门控残差的组合，以及在镜像正则中加入交替步态约束。它面向稀疏落脚、狭窄支撑的快速移动；错列落点的支撑腿规划和急转时的视野不足仍未解决。
+普通历史拼接让策略自行筛选帧；本文按几何显著性加权，再以残差门控限制记忆影响，针对局部踏点短时不可见。交替损失则在镜像对称之外明确削弱双腿同相动作。该方法无需独立足点检测器，适合局部深度反馈下的快速跑酷；需规划交错落脚或急转向的场景仍受局部视野和缺少高层规划限制。
 
 #### 实验分析（精简版）
-仿真比较覆盖箱、桩、梁、楔和梯形地形，每实验5000次、三个随机种子。相较同设置训练的Hiking基线，主结果平均成功率为92.7%、落脚准确率83.6%，分别提升16.7和7.8个百分点；梯形地形成功率为97.1%，基线为64.2%。消融中，学习权重加显著性后成功率/准确率为88.14%/90.63%，再加门控记忆为98.27%/91.10%；完整模型消融汇总与主结果平均不一致，论文未解释。对称正则在箱地形将成功率从85.0%提高至96.7%。实机每类地形测试10次，但只报告高成功率，未公布精确数值或不确定性；因此实机证据主要是定性验证。
+仿真在盒子、木桩、横梁、楔形和梯形地形上与 Hiking in the Wild 比较。本文成功率依次为 98.1%、88.1%、91.8%、88.4%、97.1%，基线为 79.4%、70.7%、82.2%、83.5%、64.2%；平均成功率提高 16.7%，落脚精度提高 7.8%。消融的平均成功率/落脚精度从历史均匀聚合的 52.12%/70.80%，到加入显著性后的 88.14%/90.63%，最终门控方案为 98.27%/91.10%。交替损失使成功率从 85.0%升至96.7%，双支撑比例从0.806降至0.308。实机每种地形试验10次，盒子、横梁、梯形成功率超过80%，木桩和楔形约70–80%；试验规模有限，交错桩布局仍较困难。
 
 #### 实用指南
-论文提供项目主页 https://echo-in-the-steps.github.io/，但未明确说明代码、模型权重或数据开放。复现需实现深度预处理、4帧记忆、显著性调权、PPO非对称critic及双腿镜像映射；已报告初始学习率为1×10⁻³，使用RTX 4090训练。实机使用RealSense D435i（60 Hz）和Orin NX，深度由480×270缩至64×36后裁为32×18，策略以50 Hz推理。相机标定、部分归一化和延迟设置未完整交代。迁移时需重做相机/关节映射并针对新机器人与地形重新训练；作者建议以脚步规划和广角或主动感知处理交叉步及急转视野不足。
+复现起点包括 Isaac Lab、2048 并行环境、深度裁剪、历史长度及部署频率；论文报告学习率 1e-3、对称损失系数 10.0。迁移需调整关节映射、相机视场与裁剪、控制周期和动力学参数，并重新训练评估。作者提供项目主页，但未明确说明代码、模型权重或训练数据已公开。
 
 #### 总结
-核心思想：显著性记忆辅助交替落脚
-1. 用深度跳变定位重要支撑线索。
-2. 按显著性加权历史帧并门控融合残差。
-3. 融合视觉与本体感觉，预测关节目标。
-4. 加入交替损失，减少同步跳跃并稳定换脚。
+核心思想：显著性门控记忆助力跑酷
+1. 编码当前和历史深度，提取几何显著性。
+2. 加权历史信息，以门控残差补全当前表征。
+3. PPO 生成关节目标，PD 控制器执行动作。
+4. 结合镜像约束与交替损失，稳定步态。
 
 **Links:**
 
 - [PDF](https://arxiv.org/pdf/2609.28960v1)
 - [arXiv](https://arxiv.org/abs/2609.28960v1)
-
----
-
-<a id='2609.28959v1'></a>
-## [TactileStep: Sole Tactile Learning for Regulating Foot-Terrain Interaction in Humanoid Locomotion](https://arxiv.org/abs/2609.28959v1)
-
-**Authors:** Zizhuo Wang, Ming-ju Lee, Shaoting Zhu, Haozhe Lou, Hang Zhao, Yiming Li
-
-**Published:** 2026-09-24
-
-**Categories:** cs.RO
-
-**Abstract:**
-
-Humanoid parkour policies can traverse various terrains, but task completion may mask challenges of harsh landings, edge contacts, and unstable stance contacts. Humans naturally regulate foot-terrain interaction through tactile feedback, modulating contact compliance according to terrain stiffness. This highlights a key domain gap between humans and humanoid robots: the absence of rich tactile sensing in most humanoid systems. We address this problem with TactileStep, a deployable tactile learning framework that brings sole pressure sensing into humanoid locomotion control for softer touchdowns and more stable support. TactileStep aligns tactile simulation with the real pressure insole, allowing the policy to learn from the same contact features available on hardware. During training, we use tactile and motion cues to recognize different foot-contact phases and apply phase-aware rewards that encourage safer landing and more stable stance. Evaluated in simulation and on a Unitree G1 humanoid across diverse terrains, TactileStep reduces peak touchdown force by up to 48.8% and peak A-weighted impact noise by up to 30.1 dB over a strong perceptive baseline, while increasing stance contact area by up to 23.8%.
-
-### 论文解读
-
-#### 摘要翻译
-TactileStep 面向人形机器人步行，使用可部署的足底压力传感，并在训练和真实控制中持续输入触觉，以同时改善触地柔和度和站立稳定性。作者认为，越过障碍不代表落脚轻柔或支撑充分。仿真及多地形实测显示，相对感知式基线，峰值触地力最多降低48.8%，峰值A计权撞击噪声最多降低30.1 dB，站立接触面积最多增加23.8%。
-
-#### 方法动机分析
-视觉能在触地前描述地形，却看不到落脚后压力分布；本体感觉或估计地面反力也难直接表征接触面积、压力中心及脚底是否偏载。论文的核心假设是把鞋底压力摘要纳入部署策略，并按预着地、着地、支撑阶段分别优化，便能把“怎样接触地面”变成可控目标，而不仅追求穿越成功。方法仍依赖刚性接触近似与手工相位规则。
-
-#### 方法设计详解
-仿真为每只脚布置60个虚拟压力单元：射线检测鞋底与地形的间隙和法向，按接触方向及距离分配合力，再对相邻单元平滑载荷；随后提取归一化法向力、受力单元比例作为接触面积、以及力加权压力中心CoP。真实鞋垫读数通过校准映射为力。策略输入包括关节与基座状态历史、深度历史，以及左右脚两帧触觉特征；Actor输出29个关节目标位置，由PD控制器执行。每脚根据压力是否超过阈值、足部下行速度和离地高度，在线划分摆动、预着地、着地、支撑四相。奖励在预着地抑制向下速度和加速度，在着地阶段惩罚力及其突增，并针对窗口峰值施加事件奖励；支撑时鼓励更大接触面积和CoP边界余量、抑制CoP抖动。PPO配合双critic分别估计连续运动奖励与稀疏接触/事件奖励，再混合优势更新策略。
-
-#### 方法对比分析
-相较Hiking in the Wild视觉感知式parkour基线，本文不只增加一个输入，而是在部署时保留鞋底压力闭环，并将落脚品质直接写入分相奖励；作者也将其与仅把触觉用于训练监督的思路区分。无触觉观测、无软着地奖励、无稳定支撑奖励和单critic消融分别检验传感反馈、着地目标、支撑目标和价值分解。它适合配备可校准足底压力传感的类人机器人；对软地面和高速动作的迁移尚未验证。
-
-#### 实验分析（精简版）
-仿真每种策略、每类地形评估4096回合；真实机器人每个条件采集20个样本。平台上台阶的平均触地力从基线695.0 N降至355.7 N（48.8%）；下楼峰值噪声从97.2 dB降至67.1 dB（30.1 dB）；下楼接触面积比从0.483升至0.598（相对增加23.8%）。模拟楼梯下行中，TactileStep接触面积比0.545，高于无稳定奖励的0.455；CoP余量29.43 mm，高于基线27.07 mm。移除软着地奖励会增加冲击。常规行走成功率与基线相当或略高，但速度误差和能耗通常略增；论文未报告显著性检验，且“±”的统计定义未说明。
-
-#### 实用指南
-训练使用Isaac Sim、2048个并行环境、50,000次迭代，每次每环境采集24步；策略为PPO，学习率1×10⁻³。部署无线鞋垫采样率25 Hz，采集后的处理与通信延迟小于1 ms；100 Hz有线测试用于检查峰值采样误差。文中提供项目网站，但未明确说明代码、权重或数据是否开放。复现或迁移时需按新鞋垫重新校准压力映射、taxel布局与噪声，并在目标机器人及地面重新评测。
-
-#### 总结
-核心思想：足底触觉闭环调节落足接触
-1. 由模拟压力单元提取法向力、接触面积与CoP。
-2. 用足速、高度和压力划分四相，触发对应接触奖励。
-3. 双critic分开估计运动与接触目标，混合优势更新策略。
-4. 把关节目标交给PD执行，并根据鞋底反馈调整落足。
-
-**Links:**
-
-- [PDF](https://arxiv.org/pdf/2609.28959v1)
-- [arXiv](https://arxiv.org/abs/2609.28959v1)
-
----
-
-<a id='2609.29419v1'></a>
-## [UCON: Uncertainty-aware Navigation with Historical Re-association in Dynamic Environments](https://arxiv.org/abs/2609.29419v1)
-
-**Authors:** Bing Sun, Yue Lin, Yongsheng Yuan, Yang Liu, Dong Wang, Huchuan Lu
-
-**Published:** 2026-09-24
-
-**Categories:** cs.RO
-
-**Abstract:**
-
-Autonomous navigation in dynamic environments is hindered by two fundamental challenges: perception instability and uncertainty-optimization mismatch. The former leads to identity switches and unreliable motion estimation, while the latter prevents principled incorporation of motion uncertainty into trajectory optimization. To address these challenges, we propose UCON, an uncertainty-aware navigation algorithm in dynamic environments. For perception instability, we present a point-level historical re-association mechanism that leverages historical point cloud fragments to recover lost targets while maintaining identity continuity. Subsequently, a Kalman filter is employed to provide anisotropic motion state estimation and covariance propagation. To resolve the uncertainty-optimization mismatch, we transform predicted states and their covariances into uncertainty sectors, which are embedded as differentiable cost terms within a trajectory optimization framework. This achieves consistent uncertainty-aware dynamic obstacle avoidance while maintaining smoothness and feasibility. Extensive simulations and real-world experiments demonstrate that, while maintaining high computational efficiency, UCON achieves superior perception stability and robust navigation performance in dynamic environments compared to state-of-the-art methods. The code will be open-sourced to facilitate further research.
-
-### 论文解读
-
-#### 摘要翻译
-动态环境导航既受感知不稳定影响，也面临运动不确定性难以进入轨迹优化的问题。UCON用历史点云片段进行点级重关联以恢复目标身份，以卡尔曼滤波估计运动状态和协方差，再把预测状态转为不确定性扇区并加入可微规划代价。作者通过仿真和真实机器人实验报告了感知稳定性与动态避障表现，并称计算效率较高。
-
-#### 方法动机分析
-遮挡、目标交叠和稀疏LiDAR观测会导致物体级关联断裂，单帧几何难以找回丢失目标。规划器若只用障碍物均值轨迹，或统一扩大安全半径，也无法区分沿运动方向和横向的风险。UCON的假设是：短时历史点云仍能通过运动预测在当前扫描中找回；协方差则可转成有方向性的安全区域，直接影响轨迹搜索。
-
-#### 方法设计详解
-流程从LiDAR点云聚类与运动过滤开始，以水平投影框IoU、速度方向相似性和尺寸变化进行物体级匹配。若匹配失败，方法保留历史物体点云，将各点按预测速度和观测间隔外推，再在当前环境点云的KD树中查找邻点；距离小于0.6 m且匹配数超过原点数35%时恢复点云与身份。随后以位置、速度组成六维恒速状态，通过卡尔曼滤波传播协方差。障碍物风险扇区沿速度方向扩张半径，横向不确定性则增大扇区角度。机器人相对位置的径向与角向余量经两个Sigmoid形成可微动态避障代价。最后，MINCO分段轨迹同时优化该代价、三阶导数平方和行驶时间，并约束静态间距、速度、加速度及段间连续性；数值积分后用L-BFGS求解。
-
-#### 方法对比分析
-相对FAPP，UCON新增点级历史恢复，并以方向相关扇区替代椭圆式不确定区域，目标是在保留主要运动方向安全性的同时释放侧向空间。相比Intent-MPC等视觉或学习式方法，它以显式卡尔曼协方差和几何优化为核心，不依赖语义推理。因而更适合关注低延迟和身份连续性的LiDAR导航；语义理解及行人意图建模仍不在其范围内。
-
-#### 实验分析（精简版）
-真实感知测试包含三名随机运动行人，每次持续243秒。UCON的MOTA为85.2%、身份切换3次，优于FAPP的70.3%与16次、Intent-MPC的66.4%与17次；平均感知耗时17.78 ms/帧。仿真在50、80、110个动态障碍下各重复50次，完整UCON成功率依次为90%、86%、74%，高于FAPP的88%、78%、66%；110个障碍时不建模运动不确定性的消融版本仅60%。Jetson AGX Orin上规划耗时为2.24–3.02 ms。真实机器人展示了多人阻挡时的避障，但没有给出重复试验统计；因此定量优势主要来自感知测试和仿真。
-
-#### 实用指南
-硬件设定为Mecanum全向底盘、Livox Mid-360和Jetson AGX Orin；雷达以50 Hz发布点云，平均每帧约4922点，定位使用Faster-LIO且无需预建地图。复现时应校准运动噪声和测量噪声，并针对点云稀疏度调整0.6 m匹配阈值、35%点数门槛及扇区参数。实验还需报告成功率、规划时间与轨迹平滑度。作者表示未来开放代码，当前论文未提供可确认的代码仓库或公开数据集；迁移到其他传感器和底盘需重新标定并验证安全边界。
-
-#### 总结
-核心思想：历史找回身份，协方差塑造避障
-1. 聚类LiDAR动态目标并完成几何运动匹配。
-2. 用速度外推历史点，在当前扫描中重建失配目标。
-3. 将卡尔曼位置协方差转为纵横向不等的风险扇区。
-4. 把扇区代价并入MINCO轨迹优化，兼顾避碰与平滑。
-
-**Links:**
-
-- [PDF](https://arxiv.org/pdf/2609.29419v1)
-- [arXiv](https://arxiv.org/abs/2609.29419v1)
-
----
-
-<a id='2609.29092v1'></a>
-## [DAWN: Noise-Robust Quadruped Parkour via Depth-Denoising World Models](https://arxiv.org/abs/2609.29092v1)
-
-**Authors:** Yohan Choi, Min-Jun Kim, Jin-Sung Kim, Yong-Jae Kim, Youn-Hee Han
-
-**Published:** 2026-09-24
-
-**Categories:** cs.RO, cs.AI, cs.CV, cs.LG
-
-**Abstract:**
-
-Vision-based legged locomotion methods assume clean depth at training time and rely on hand-tuned post-processing filters at deployment. However, filter parameters are rarely disclosed, hindering reproducibility, and performance degrades substantially when depth noise is left unaddressed. Building noise robustness directly into the learning pipeline would eliminate this dependency. While such robustness has been explored for proprioceptive inputs, analogous approaches for depth perception remain largely absent in legged locomotion. We propose DAWN (Denoising and Alignment in World models for Noise-robustness), a noise-robust perception framework for legged locomotion, which builds noise robustness directly into a world model via two modifications: (1) feeding noisy depth to the encoder while keeping clean depth as the reconstruction target, forcing the model to implicitly denoise its input; and (2) applying contrastive learning to align the latent states of noisy and clean depth. Importantly, DAWN is not tied to a specific noise model, requiring no manual tuning to the noise distribution at deployment. Furthermore, it incurs no additional inference cost over existing world model-based methods. Without any manual filter calibration -- relying solely on the learned noise-robust representation -- DAWN achieves zero-shot quadruped parkour on a Unitree Go1: traversing stairs up to 18 cm, clearing gaps up to 70 cm, and mounting steps up to 45 cm from raw depth observations. Ablation studies show that denoising and contrastive alignment contribute at complementary levels -- reconstruction and representation, respectively -- and yield additive gains when combined. Videos and code are available at: https://dawn-parkour.github.io/
-
-### 论文解读
-#### 摘要翻译
-视觉足式运动通常在干净深度上训练，部署时再用人工调参的滤波器；参数不公开影响复现，未处理噪声则会损害性能。DAWN 将去噪和对比对齐加入世界模型：以带噪深度为输入、干净深度为重建目标，并拉近两者的潜在状态。作者称其无需按部署噪声手调滤波器且不增加推理开销；Go1 实机可通过最高18厘米楼梯、70厘米沟隙和45厘米台阶。
-
-#### 方法动机分析
-深度噪声常集中在物体边缘且随距离变化，会破坏楼梯、沟隙等关键几何。仅在训练时加入噪声未必能学到稳定表征，外挂滤波器又需要人工校准。DAWN 假设，以受噪输入预测干净观测可压制无关噪声，再把同一场景的干净/带噪表示显式对齐，能让控制策略保留地形信息。
-
-#### 方法设计详解
-方法沿用 RSSM 世界模型和 PPO 控制器。输入由深度图与本体感知组成；GRU 汇总历史状态和动作，编码器得到随机状态，动力学模块预测先验，解码器重建观测，确定性状态供策略输出关节位置目标。DAWN 对同一时刻构造干净和带噪深度配对，带噪观测进入编码器，干净观测作为解码目标；损失包含重建项和后验—先验 KL 正则。另将两种状态送入 MLP 投影头，以余弦相似度计算 NT-Xent：同场景为正对、其他场景为负对。总损失为去噪目标加权叠加对比项。投影头只在训练时使用，部署沿用原世界模型推理路径。训练控制频率为50 Hz、深度分辨率64×64，每5个控制步更新深度；噪声包括标准差0.01米的高斯扰动、边缘丢失和远距粒子噪声。
-
-#### 方法对比分析
-WMP 用干净输入重建自身；DAWN 改为带噪输入、干净目标，并增加潜在对齐。它不是另加推理期滤波器，也不改 RSSM/PPO 主干。相较仅做噪声训练，两个目标直接约束几何恢复与表征一致性，适用于深度噪声会影响视觉控制的场景。
-
-#### 实验分析（精简版）
-仿真在坡面、楼梯、沟隙和台阶上比较 WMP、噪声训练 WMP、DAWN、Oracle 等方法，使用3个随机种子、每条件100回合。楼梯/沟隙/台阶成功率分别为96.6%、97.2%、97.0%，均值96.9%；干净深度 WMP 对应89.7%、88.6%、95.9%。最高难度平均成功率为88.2%。噪声增至训练尺度的2倍时，DAWN 成功率下降6.5个百分点，干净训练 WMP 下降17.5个百分点。Go1 室外最难楼梯18厘米、沟隙70厘米、台阶45厘米成功率为80%、60%、70%，每难度仅10次；结果有提升但仍会失败，且未报告显著性检验。
-
-#### 实用指南
-摘要提供项目页 https://dawn-parkour.github.io/ 并称含代码和视频；论文未明确模型权重或数据是否公开。复现需构造干净/带噪配对并实现两项训练损失。损失权重、温度、优化器和学习率未说明；噪声模型针对 RealSense D435i，迁移其他传感器需重新验证噪声和 sim-to-real 效果。
-
-#### 总结
-核心思想：噪声输入对齐干净几何
-1. 为干净深度生成带噪配对。
-2. 用带噪观测编码，以干净目标训练重建。
-3. 对齐同场景两种潜在表示。
-4. 用鲁棒状态驱动原策略控制。
-
-**Links:**
-
-- [PDF](https://arxiv.org/pdf/2609.29092v1)
-- [arXiv](https://arxiv.org/abs/2609.29092v1)
-
----
-
-<a id='2609.29644v1'></a>
-## [Markerless Multi-Modal Autonomous Robotic Inspection of Large Space Structures](https://arxiv.org/abs/2609.29644v1)
-
-**Authors:** Juan De Dios Alfaro, Arturo Ríos, David Rodríguez-Martínez, Carlos Pérez-del-Pulgar
-
-**Published:** 2026-09-24
-
-**Categories:** cs.RO
-
-**Abstract:**
-
-Future orbital infrastructures, such as deployable antennas, solar farms, and large orbital platforms will require autonomous inspection systems able to operate with limited prior knowledge and without cooperative markers. Current on-orbit servicing approaches often rely on predefined trajectories, standard interfaces, fiducial markers or accurate target models, which limits scalability for large, heterogeneous or partially unknown structures. This paper presents a markerless autonomous robotic inspection pipeline in which 3D reconstruction is used as an inspection-support representation. The system integrates a Kinova Gen2 manipulator with an end-effector-mounted multimodal sensor head composed of an RGB-D camera, a thermal camera and a 2D LiDAR. The pipeline estimates an approximate inspection volume, generates viewpoints, plans collision-free motions with MoveIt, and synchronously records RGB-D images, thermal data, and robot poses in ROS2. Candidate reconstruction methods were evaluated to select a practical method for this pipeline, with Nerfacto used for geometric reconstruction and Thermal-Nerfacto used to demonstrate thermal-aware rendering for inspection. Validation in a Gazebo-based simulator and preliminary laboratory tests reveal that the proposed system can autonomously acquire spatially coherent inspection data and produce reconstructions suitable for visual and geometric assessment, representing a step towards inspection of large non-cooperative space structures.
-
-### 论文解读
-
-#### 摘要翻译
-面向可展开天线、太阳能阵列和大型轨道平台等未来基础设施，论文提出无标记自主机器人巡检流程：用多模态传感器估计巡检范围、生成观察视点、规划无碰撞运动，并同步记录影像与机器人位姿。系统以 Nerfacto 重建几何，以 Thermal-Nerfacto 展示热感知渲染。Gazebo 仿真和初步实验室测试表明，它能采集空间连贯的数据并生成可供视觉、几何评估的重建结果。
-
-#### 方法动机分析
-大型、异构或部分未知结构难以预先建模；依赖合作标记、标准接口或固定轨迹是现有方案的痛点，也限制了扩展。作者的动机是先取得“够规划用”的粗几何，再让机械臂主动补采多视角数据；核心假设是粗体积与机器人位姿足以驱动采集。论文解决感知到可用数据的衔接，不是自动判定损伤。
-
-#### 方法设计详解
-整体流程的输入是传感器观测与机械臂位姿，输出是多视角数据和重建结果。原型使用 7 自由度 Kinova Gen 2，末端固定 RealSense D435i RGB-D、Optris PI 热相机和 RPLIDAR S3 二维 LiDAR。相机内参由平面标定板估计；手眼外参通过 AX=XB 求解，并用 ArUco 与 easy_handeye 标定。目标巡检时不需要标志物，但标定阶段仍需标志。机械臂沿已知轨迹移动 LiDAR，将扫描与机器人位姿组合成空间点云；过滤地面、天花板及无关点后，以 Open3D 提取目标近似包围盒。系统在可达区域围绕包围盒生成朝向中心的视点，由 MoveIt 求逆运动学并检查碰撞、关节限制。机器人停稳后同步采集 RGB、深度、热图和相机位姿，位姿含时间戳、平移及四元数，可整理为 Nerfstudio 数据。Nerfacto 用于主要几何重建，Thermal-Nerfacto 生成热感知渲染；论文没有展示 RGB-D、LiDAR 与热像完整融合的几何，也没有从热图自动诊断故障。推理/采集设置为机器人在每个视点停稳后再同步记录多模态数据；模型训练超参数未说明。
-
-#### 方法对比分析
-相较于依赖先验模型或预设轨迹的巡检，本文用现场 LiDAR 粗体积来驱动视点，再以统一的机器人规划和数据记录串起采集、重建。作者定性比较 COLMAP、CasMVSNet、MASt3R、NeuS、3D Gaussian Splatting 与 Nerfacto，选择 Nerfacto 是因其视觉效果、几何连贯性和集成实用性的折中；论文未给出比较评分或量化基准。因此主要贡献是系统集成，而非新重建算法。方案适合机械臂可达、传感器外参稳定且能获取多视角图像的场景。
-
-#### 实验分析（精简版）
-Gazebo 仿真使用全向移动底座实现目标周边多视角采集，并完成 Nerfacto 重建；实体实验使用固定底座，只覆盖大致正面扇区。两者均展示了采集和重建流程，另有热感知渲染示例。结果是定性的：论文未报告定量结果，无重建误差、覆盖率、规划成功率、延迟或温度精度等数字，也无消融指标，故只能说明原型链路可运行，不能据此量化精度或在轨可靠性。
-
-#### 实用指南
-复现需完成相机内参与手眼标定，建立 ROS 2 坐标变换，再依序实现 LiDAR 体积估计、可达视点生成、MoveIt 碰撞规划、停稳同步采集和 Nerfstudio 重建。文中提到 ROS 2、MoveIt、Open3D、Gazebo 等工具，但没有提供该项目代码、数据集或明确开源声明。视点间隔、滤波阈值、图像规格、训练超参数及算力未说明；迁移到其他机械臂或空间结构时需重做标定、工作空间配置，并验证光照、纹理和同步条件。仿真的移动底座不等同于自由漂浮航天器动力学。
-
-#### 总结
-核心思想：粗几何引导无标记多模态巡检
-1. 用带位姿的 LiDAR 扫描圈定目标包围体。
-2. 在可达范围布置朝向目标的视点。
-3. 规划机械臂停稳采集并同步保存影像、位姿。
-4. 用 Nerfacto 重建几何，以热分支呈现热感知视图。
-
-**Links:**
-
-- [PDF](https://arxiv.org/pdf/2609.29644v1)
-- [arXiv](https://arxiv.org/abs/2609.29644v1)
 
 ---
 
