@@ -1,0 +1,456 @@
+time: 20261030
+
+# Arxiv Computer Vision Papers - 2026-10-30
+
+## Executive Summary
+
+## 今日速览
+
+本批论文横跨具身机器人、计算机视觉与多模态评测，呈现出一个共同取向：把系统级结果与单一代理指标分开测量。机器人方向中，HERON 将障碍感知可达性图推向嵌入式实时推理；SKiD-SLAM 在低带宽现场验证多机地图融合；SpaceAct 则用闭环物理任务显示，已知计划后，三维定位与控制仍是模型主要瓶颈。Minimum Sufficient Communication 进一步用任务成功率和置信界共同评估通信开销。
+
+视觉与学习论文强调数据和评测协议的边界。立体匹配缩放实验发现域内误差随数据扩张后会饱和，而跨域收益更受多样性影响；CuraEval 未发现筛选演示普遍优于全量训练，提示策略下游测试与多重比较校正不可省略。低照度基准审计指出标签偏移可能改变测试时调整和模型排名。长视频 REEL 则把逐题答案变化、实际 GPU 计算和存储占用并列，说明平均准确率与 token 数都不足以单独代表记忆质量。
+
+建议优先精读 SpaceAct（闭环诊断设计）、REEL（答案保留与计算复用的成对测量）、CuraEval（演示筛选的下游评估）以及低照度基准审计（数据与指标复核）。面向机器人部署，可结合阅读 HERON、SKiD-SLAM 与 SimRetract，并重点区分仿真、假体和现场结果各自支持的结论。
+
+---
+
+## Table of Contents
+
+1. [HERON: Real-Time Obstacle-Aware Reachability Maps for Mobile Manipulators](#2610.38233v1)
+2. [Same Label, Different Interface: Beyond Action-Space Labels in Robot Learning](#2610.38104v1)
+3. [SKiD-SLAM: Resource-Aware Distributed Multi-Robot LiDAR SLAM for Planetary Missions with Field Deployments at Analog Sites](#2610.38141v1)
+4. [Minimum Sufficient Communication for Independent Behaviour Tree Robot Teams](#2610.38176v1)
+5. [CuraEval: Evaluating Demonstration Curation on Mixed-Skill Robot Data](#2610.38221v1)
+6. [SimRetract: Zero-Shot Sim-to-Real Robotic Assistance for Retractor Take-Over in Open Surgery](#2610.38234v1)
+7. [SpaceAct: Benchmarking 3D Spatial and Temporal Reasoning via Closed-Loop Action and Active Perception](#2610.38405v1)
+8. [Data Scaling Laws in Stereo Matching: From In-domain Fitting to Cross-domain Generalization](#2610.38600v1)
+9. [What Does LOL Measure? Hidden Label Shifts in Low-Light Enhancement Benchmarks](#2610.38121v1)
+10. [REEL: Same Frames, Different Answers and Different Costs](#2610.38158v1)
+
+---
+
+## Papers
+
+<a id='2610.38233v1'></a>
+## [HERON: Real-Time Obstacle-Aware Reachability Maps for Mobile Manipulators](https://arxiv.org/abs/2610.38233v1)
+
+**Authors:** G. Dupoiron, F. Michaud, J. P. Roberge
+
+**Published:** 2026-10-28
+
+**Categories:** cs.RO
+
+**Abstract:**
+
+Mobile manipulator robots rarely reposition their base during manipulation, because doing so requires real-time knowledge of how well the arm can reach its surroundings among obstacles. Reachability maps (RMs) encode this knowledge, but existing methods are slow, coarse (typically 5 cm), or ignore real obstacles. This article asks whether a neural network can predict an obstacle-aware RM at 2 cm resolution from a live depth camera, on embedded hardware, fast enough for online use. We present HERON, a 3D U-Net trained on RMs computed with the GPU-accelerated inverse kinematics of cuRobo, first on synthetic scenes and then on real depth data, and deployed on a Jetson AGX Orin with TensorRT and INT8 quantization. HERON predicts the RM of a 2.56 m cube around the arm in 115 ms on average, for a measured system rate of 8.57 Hz, close to the 10 Hz update rate of the obstacle map, whereas computing the same map with cuRobo takes about 90 min. Against the cuRobo ground truth, 95% of the voxels lie within 1 class out of 51 with the FP32 model and within 3 classes with the INT8 model, with a Pearson correlation of 0.99 and a quadratic weighted kappa above 0.9. Accuracy degrades mainly at the workspace boundaries.
+
+### 论文解读
+#### 摘要翻译
+移动操作臂常在固定底座位置完成操作，因为要边操作边调整底座，就必须实时知道手臂在障碍环境中的可达程度。传统可达性图谱计算慢、分辨率粗，或忽略真实障碍。HERON 使用神经网络从深度相机得到的障碍图预测高分辨率、障碍感知的三维可达性图谱，并在嵌入式设备上测试其速度与精度。
+#### 方法动机分析
+可达性图谱把机器人周围空间划分为体素，并以该位置可达到的末端朝向比例衡量操作能力。逐体素运行逆运动学并做碰撞检测非常昂贵；离线图则无法适应相机中新出现的人、设备或环境变化。作者利用 GPU 逆运动学生成监督标签，再训练网络近似该计算。方法假设固定机械臂几何下，障碍体素与工作空间结构之间存在可学习映射，近似结果足以支持底座位置排序。
+#### 方法设计详解
+输入到输出的流程分为标签生成与在线预测两个模块。首先，使用 cuRobo 在 2 厘米体素网格上，对每格均匀采样 50 个末端位姿，并以求解成功比例作为可达性标签。为降低查询量，先筛掉无障碍场景下本就不可达的位姿。训练分两阶段：随机合成障碍数据预训练，再用真实深度相机形成的场景数据微调；网格模型从观测中移除机械臂本体，避免它被误当作环境障碍。网络的编码器模块逐层压缩体素空间以获取上下文，解码器模块恢复空间分辨率，跨层跳连保留障碍边界细节。BCE 提供局部体素误差，Dice 项鼓励整体可达区域形状匹配。实际推理将 ESDF 转为 128³ 占据网格，再以 TensorRT、半精度或 INT8 和 CUDA Graph 加速；训练约用千个样本，2 厘米网格覆盖以机械臂基座为中心的 2.56 米立方区域。
+#### 方法对比分析
+与逐点 IK 相比，HERON 把高成本计算转移到离线数据生成，在线网络一次输出全体素图；与预先计算的逆可达性图谱相比，它能纳入当前相机观测到的障碍。主要贡献是将 3D、2 厘米分辨率和障碍感知结合，并在嵌入式平台运行。它没有证明对不同机械臂可直接零样本迁移，也没有替代后续碰撞规划。
+#### 实验分析（精简版）
+在 100 个未见的 cuRobo 标注样例上，FP32 模型全局二次加权 Kappa 为 0.999，ridge 高梯度区域为 0.980；这说明整体排序一致性高，但边界误差更大。Jetson AGX Orin 上 INT8 TensorRT 的平均网络推理时间为 115 毫秒，完整 ROS 流水线输出速率为 8.57 Hz，接近障碍地图的 10 Hz 更新率。量化使达到 95% 准确度所需的容差由 ±1 类增至 ±3 类。验证以计算得到的可达性图谱为参照，未检验底座闭环移动后的任务成功率。
+#### 实用指南
+代码和数据集由作者公开在项目仓库。复现需固定机械臂 URDF、深度相机视野、体素分辨率和碰撞场景生成流程；改变机械臂几何或网格分辨率通常要重新训练。迁移到操作系统时，应保留未知空间标记，并测量错误可达性对候选底座位置、碰撞风险及任务完成率的影响。网络输出适合作为估计或排序信号，不能单独充当安全证明。
+#### 总结
+核心思想：学习实时预测障碍下的可达性图谱
+1. 采集障碍体素与逆运动学可达性标签。
+2. 用合成场景预训练，再以真实深度数据微调 3D U-Net。
+3. 从当前体素图快速预测工作空间评分，供后续底座规划使用。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2610.38233v1)
+- [arXiv](https://arxiv.org/abs/2610.38233v1)
+
+---
+
+<a id='2610.38104v1'></a>
+## [Same Label, Different Interface: Beyond Action-Space Labels in Robot Learning](https://arxiv.org/abs/2610.38104v1)
+
+**Authors:** Arshia Sangwan, Zhongyang Zhang
+
+**Published:** 2026-10-28
+
+**Categories:** cs.RO, cs.LG, eess.SY
+
+**Abstract:**
+
+Robot-learning studies often compare position and velocity actions as though each label identified a single experimental treatment, yet the label alone does not determine what the robot executes. Before affecting robot motion, bounded policy output passes through filtering, physical scaling, reference construction, feedback, timing, and effort limits. We study how these omitted properties affect attribution under one shared learner and training budget. Across three contact-rich Factory tasks (PegInsert, GearMesh, and NutThread), we compare five joint-space interfaces, with ten independently trained policies per condition. We first remain within the same position-feedback law and vary the executed interface: substituting only the physical action scale as the directly modified component changes sample-median evaluation success by 0.645-1.000 across tasks, while removing an exponential moving average produces task-dependent changes. We then move to a cross-law comparison and choose a velocity scale that exactly matches the position interface's local raw-torque command gain. This calibration raises the sample median on GearMesh and NutThread, with no median change on PegInsert. Yet clear residual sample-median gaps remain on PegInsert and GearMesh, while the NutThread interval includes zero. Thus, even this explicit equality leaves feedback and held-action dynamics unmatched and does not establish position-velocity trained-outcome equivalence. Action-interface comparisons should therefore report the executed pathway and state the physical quantity they match.
+
+### 论文解读
+#### 摘要翻译
+机器人学习论文常把位置动作和速度动作视作明确的实验条件，但策略输出还会经过滤波、物理尺度变换、参考值构造、反馈、时间保持和力矩限幅。作者在三项接触丰富的 Factory 仿真任务中，用同一学习器和训练预算比较五种关节接口。结果表明，仅改变位置动作尺度就能显著改变中位成功率；即使把位置与速度接口的局部原始力矩增益设为相等，反馈与保持动作期间的动力学仍不同。因此，研究者应报告实际执行链和所匹配的物理量。
+#### 方法动机分析
+动作空间名称只描述接口的一部分。同样的归一化策略输出，经过不同尺度或滤波后可能对应完全不同的关节位移、力矩和接触过程。这一归因痛点使跨论文结论变得脆弱。若实验只写“位置控制优于速度控制”，差异可能来自尺度、参考构造或反馈，而非动作类别本身。本文把实际执行路径拆开，并在同一学习器配置下逐项替换，以明确结果支持哪种解释。
+#### 方法设计详解
+方法流程先将接口形式化为九个有序因素：动作裁剪、滤波、命令坐标、物理尺度、参考构造、参考保持、反馈律、策略周期和力矩限幅。控制链的参考模块中，位置控制构造关节目标并持续八个仿真子步，速度控制构造目标速度；五种条件包括任务校准位置尺度、按关节限位距离设定的位置尺度、去除指数移动平均，以及未匹配和局部增益匹配的两种速度尺度。匹配尺度通过控制增益解析求得，使“归一化动作到原始力矩”的局部导数一致，但不匹配状态反馈项、动作保持期间的状态演化、参考重置或限幅。三项 Factory 装配任务使用同一 Franka、PPO 网络、奖励、观测、仿真设置与训练预算；每个条件训练十个独立策略，采用确定性评估并以策略级成功率作为统计样本。
+#### 方法对比分析
+本文贡献在于提供接口归因框架和一组控制变量替换实验，而非提出新的控制器。与简单对比“位置/速度”标签相比，它明确区分直接改变的尺度或滤波，以及这些变化造成的下游力矩和轨迹后果。局部命令增益匹配是一种有边界的物理量校准，不能被称为两个控制接口闭环等价。
+#### 实验分析（精简版）
+位置接口只改变物理尺度时，P-Cal 相对 P-Limit 的中位成功率差在 PegInsert、GearMesh、NutThread 分别为 1.000、0.980 和 0.645；每个任务每种条件各训练十个策略。匹配命令增益的速度接口在 GearMesh 中位成功率相对基线提高 0.141，在 NutThread 提高 0.234，但 PegInsert 无中位变化。P-Cal 与 V-Match 在 PegInsert、GearMesh 仍有中位差 1.000 和 0.305。证据来自一个仿真器、一个 Franka 和三项任务，不能外推到真机或充分调参后的控制器排名。
+#### 实用指南
+实验采用 Isaac Lab 与 Factory，策略以 PPO 训练 200 个 epoch、每策略 3,276,800 环境步，策略频率 15 Hz、物理仿真 120 Hz。复现或引用接口比较时，应报告裁剪范围、滤波系数、单位尺度、参考更新频率、反馈增益、力矩限幅、动作保持、历史动作观测的语义及学习器是否独立调参。迁移到不同机械臂时，要重新确认执行器尺度、关节限值和反馈律。
+#### 总结
+核心思想：动作标签不能代替执行链
+1. 将策略输出到力矩的全部环节逐一列明。
+2. 固定学习器，只替换一个明确的接口因素。
+3. 说明匹配了什么，以及仍有哪些动力学差异。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2610.38104v1)
+- [arXiv](https://arxiv.org/abs/2610.38104v1)
+
+---
+
+<a id='2610.38141v1'></a>
+## [SKiD-SLAM: Resource-Aware Distributed Multi-Robot LiDAR SLAM for Planetary Missions with Field Deployments at Analog Sites](https://arxiv.org/abs/2610.38141v1)
+
+**Authors:** Hogyun Kim, Juwon Kim, Dongjin Cho, Jiwon Choi, Geonmo Yang, Seokhwan Jeong, Jiyun Lee, Miryeong Park, Hyungtae Lim, Younggun Cho
+
+**Published:** 2026-10-28
+
+**Categories:** cs.RO
+
+**Abstract:**
+
+Future planetary exploration missions require teams of robots to collaboratively map unknown environments under severe communication limits, constrained onboard computation, and no central infrastructure. In this field report, we present SKiD-SLAM, a distributed multi-robot LiDAR simultaneous localization and mapping (SLAM) system for such environments, and report its deployment across two mission concepts: cave exploration and scientific surface exploration. We survey the communication and computation budgets of actual planetary missions and select modules that fit these budgets for inter-robot place recognition, relative pose estimation, and distributed trajectory fusion. Before field deployment, we verify the assembled system on public datasets resembling planetary environments and in a simulator built on NASA JPL's Open Source Rover. We then validate SKiD-SLAM through field deployments in South Korea: a team of wheeled rovers explores the Majang lava-tube cave on Jeju Island, and quadruped robots carry out a crater-and-rock science scenario on a planetary analog terrain at the Korea Institute of Civil Engineering and Building Technology (KICT) in Yeoncheon. Across both deployments, SKiD-SLAM reliably performed distributed multi-robot LiDAR SLAM within a 250 kbps inter-robot communication budget, demonstrating its feasibility under challenging field conditions. Supplementary materials, including code and field data, are available at https://sparolab.github.io/research/skid_slam/.
+
+### 论文解读
+#### 摘要翻译
+低带宽环境中的多机器人协同建图，不只需要压缩数据，还要保证另一台机器人能正确识别并合并地图。SKiD-SLAM 组合紧凑的 SOLiD 描述子、KISS-Matcher 特征匹配、Small-GICP 几何配准及一致性筛选，在地下洞穴和类月面场地测试协作建图。作者报告描述子很小，并在 250 kbps 链路上实现多机器人地图融合。
+#### 方法动机分析
+传统地图共享容易受带宽限制，压缩点云也未必能解决回环错误。论文的重点是把通信、候选匹配、几何验证和图优化放到一条链路里考察。这样能够区分“消息足够小”与“地图真的合并成功”，也让低带宽测试更接近部署时的系统问题。 核心动机是让“能否传过去”与“能否成功融合”成为同一系统目标，解决只看压缩率的评估痛点。
+
+#### 方法设计详解
+每台机器人先独立运行本地定位建图并选择关键帧，SOLiD 为关键帧生成约 320 字节的全局描述子，供远端检索候选地点。匹配候选由 KISS-Matcher 建立，再由 Small-GICP 计算几何变换。系统用截断均方误差限制异常配准影响，并通过 PCM 检查不同回环之间是否相互一致，筛掉冲突约束后再优化位姿图。数据流从本地关键帧、紧凑描述子传输开始，经过候选检索、精配准和回环验证，最终进入地图融合。 整体流程由本地建图、描述子生成、跨机检索、精配准和回环一致性模块组成。关键帧平均处理约100至200毫秒，偶尔超过500毫秒，这是推理链路延迟的重要参照。输入是关键帧与位姿，输出是经过筛选的图间约束；几何优化与 PCM 验证分别处理精度和一致性。
+
+#### 方法对比分析
+这项工作的贡献是将轻量描述与稳健回环验证组合成低带宽协同建图系统，并在真实野外环境中测试。描述子大小与整套系统的融合率是不同指标，不能只看通信压缩比。与只在离线数据上评估匹配器的工作相比，现场实验补充了环境复杂度和通信链路的影响。 与单独优化描述子或只比较通信字节的基线相比，本文的主要贡献是把多阶段流程和现场建图结果联动评估。
+
+#### 实验分析（精简版）
+在 Moon 数据上，KISS-Matcher 配合 Small-GICP 的配准成功率为 99.71%；描述子载荷为 320 字节，作为对照的 LiDAR Iris 为 230,400 字节。野外部署包括三台轮式机器人探索暗色熔岩管，以及两台四足机器人在坑洼场地协作。250 kbps 下该方法完成地图融合；但在 200 毫秒时延或 75% 丢包下仍不能融合。系统采用同构机器人和 Intel NUC，尚未验证异构队伍或飞行硬件。
+#### 实用指南
+移植时应按目标传感器重新评估描述子区分能力、几何配准质量和错误回环的系统后果。现场链路还应覆盖时变带宽、相关丢包和长尾处理耗时。论文给出的低带宽成功不代表高时延鲁棒，也不能代替对地图漂移与闭环导航安全性的测量。 复现时需固定关键帧策略、通信负载和匹配阈值；迁移时先在目标传感器和链路上做端到端压力测试，并记录失败地图。
+
+#### 总结
+核心思想：压缩通信并验证协同回环
+1. 本地建图并为关键帧生成紧凑描述子。
+2. 远端执行匹配、几何配准和回环一致性检查。
+3. 只将可信约束纳入地图融合并实测链路边界。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2610.38141v1)
+- [arXiv](https://arxiv.org/abs/2610.38141v1)
+
+---
+
+<a id='2610.38176v1'></a>
+## [Minimum Sufficient Communication for Independent Behaviour Tree Robot Teams](https://arxiv.org/abs/2610.38176v1)
+
+**Authors:** Sherry Jiang, Oliver Obst
+
+**Published:** 2026-10-28
+
+**Categories:** cs.RO
+
+**Abstract:**
+
+We present an experimental framework for determining sufficient communication in robot teams running fixed, independent Behaviour Trees with private blackboards. Within a declared policy family, we vary message content and admission frequency and measure traffic in recipient-weighted bits per robot decision. A dense sweep identifies candidate policies for comparison with full-state communication. We retest selected candidates and the reference on fresh, paired scenarios, using one-sided simultaneous confidence bounds to assess whether success remains within five percentage points of the full-state reference. The bounds also assess whether tested cheaper policies can be ruled out as insufficient. Depending on the evidence, the framework reports an exact minimum, a positive bracket, a sufficient upper bound, or an unresolved boundary. Experiments with eight content policies across four warehouse conditions identify zero communication as the exact minimum under low contention. In the scaled condition, the no-release policy at gate $q=0.992222$ is confirmed sufficient, achieving 96.33% success at an estimated rate of 738.55 bits per robot decision, or 0.544% of full-state traffic. The positive minimum remains unresolved. These claims apply only to the declared policy family, sampled gate values and operating conditions.
+
+### 论文解读
+#### 摘要翻译
+多机器人系统经常限制通信频率或总流量，却未确认接收方是否获得足够信息完成任务。本文提出用任务结果来衡量“充分通信”：固定行为树任务，在不同消息内容和发送门控下测量接收方加权比特数与成功率，并用配对仿真检验策略是否达到预设置信标准。
+#### 方法动机分析
+减少流量只有在任务质量保持时才有意义；更丰富的消息也可能在网络拥堵时来不及送达。通信的内容与何时放行是两个设计变量。作者选择独立行为树和预设策略，避免把任务逻辑变化混入通信策略效果，并将统计认证作为确定最低充分水平的依据。 研究动机来自固定限流可能造成关键信息缺失这一痛点；论文试图把“少通信但任务成功”变成可检验假设。
+
+#### 方法设计详解
+实验把通信状态分成完整状态、缩减状态和不发布等内容方案，再分别配合立即发布、无发布或共享令牌桶等门控。每种组合在同一批场景中运行，按接收者对任务的贡献加权统计实际通信量。先以探索场景筛选策略，再用新的三千个配对确认场景进行检验，并根据同时单侧置信界与预设显著性阈值判断是否满足成功率要求。方法并未自动学习消息，而是对预先列出的策略做逐项比较。 处理流程分为策略内容模块、发送门控模块、仿真执行模块和统计确认模块。输入是固定任务、候选消息与门控规则，输出为成功率、比特开销及置信界；新场景仅用于最终确认。
+
+#### 方法对比分析
+与固定频率或只统计比特数的方案相比，这个框架将通信开销与任务表现共同纳入准入条件。它能说明某个候选策略是否足够，但只能在已测试策略集合中找最省的方案，无法证明全局最小通信量。低争用下的零通信结果尤其依赖任务结构，不能据此推断所有多机器人任务都不需要通信。 与单纯令牌桶或平均流量基线相比，主要贡献是把门控、消息内容和任务完成联合比较，并提供统计认证流程。
+
+#### 实验分析（精简版）
+低争用策略通过任务能力分配消除冲突，因此零通信时成功率为 95.40%。一项基线为 95.40% 成功率和 356.36 加权比特；缩减状态方案为 96.33% 和 738.55 比特，约为完整状态的 0.544%。失包条件下丰富状态达到 93.67% 和 3127.66 比特。令牌桶虽然流量相近，却造成 2.3 至 11.4 个百分点的成功率损失，说明通信时机和内容都重要。
+#### 实用指南
+将框架移到真实机器人时，应把无线拥塞、相关丢包、时序和重传代价放进环境模型，并重新确认统计界限。还需检查行为树是否隐含消除了冲突，以及接收方权重能否代表实际任务损失。上线决策不应只凭平均成功率或总比特，而要保留配对场景和置信区间。 复现需要保存配对场景、候选策略和置信界计算；迁移到真实网络时，应加入丢包相关性、时延与拥塞模型再重新认证。
+
+#### 总结
+核心思想：按任务质量认证通信预算
+1. 固定任务与接收方权重。
+2. 组合待评估的消息内容和放行规则。
+3. 用新的配对场景验证成功率与通信量。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2610.38176v1)
+- [arXiv](https://arxiv.org/abs/2610.38176v1)
+
+---
+
+<a id='2610.38221v1'></a>
+## [CuraEval: Evaluating Demonstration Curation on Mixed-Skill Robot Data](https://arxiv.org/abs/2610.38221v1)
+
+**Authors:** Jiuyi Xu, Meida Chen, Yang Ye, Yangming Shi
+
+**Published:** 2026-10-28
+
+**Categories:** cs.RO, cs.AI
+
+**Abstract:**
+
+Robot imitation learning uses demonstrations from operators of varying skill, but selecting training data remains challenging. Existing methods score demonstrations using smoothness, diversity, or estimated influence on policy performance, but differences in selection and evaluation protocols make it difficult to determine whether they outperform simple baselines. We introduce \textbf{CuraEval}, a framework combining mathematical analysis of demonstration scores with controlled comparisons against fixed size-matched random subsets and full-data training on mixed-skill robomimic data using Diffusion Policy and BC-RNN. We show that the evaluated PSD score depends only on episode length and squared position magnitudes, and produces nearly the same ranking as episode length on \textit{square} ($ρ=0.999$). With Diffusion Policy, selecting the shortest 50\% of demonstrations improves \textit{square} success from 70.7\% under random selection to 76.5\%. Compared with random selection, our adapted geometric-entropy LOO selector reduces success at 25\% retention from 94.7\% to 74.0\% on \textit{can} and achieves 41.7\% on \textit{square}, below the mean success rates of all three independently sampled random subsets (59.8--62.5\%). On the same 3 \textit{square} Diffusion Policy training seeds, length-based selection at 75\% retention improves success over full-data training from 76.7\% to 86.7\% under the original protocol, but lowers it from 80.5\% to 79.5\% after checkpoint reporting, rollout count, and evaluation seed change jointly. No evaluated curated condition significantly outperforms full-data training after Holm correction, although confidence intervals still permit useful gains. Code is available at https://github.com/jiuyixu25/CuraEval.
+
+### 论文解读
+#### 摘要翻译
+机器人模仿学习的数据筛选方法常依据轨迹分数保留“好”演示，但筛选集未必比全部数据训练出更好的策略。CuraEval 构建了可控比较流程，在多个任务、不同数据保留比例和策略架构下测量筛选效果，并检验轨迹距离是否受到回合长度影响。
+#### 方法动机分析
+数据筛选若只依据演示内部指标，无法说明下游机器人策略是否受益。即便平均表现看似提高，也可能来自随机波动、评估预算不足或筛选指标偏爱某种轨迹长度。本文通过随机选择对照、独立策略训练和多重比较校正，尝试让筛选收益能被实际任务结果支撑。 其动机是评测分数可能由标签处理差异而非增强质量驱动；小型测试集和反复调参带来的痛点会让方法排名不稳定。
+
+#### 方法设计详解
+作者在 Can、Square、Transport 三项仿真操作任务中采集各 300 条示范，使用 Diffusion Policy 与 BC-RNN 等状态条件策略。不同规则从数据中保留 25%、50% 或 75%，随后训练并评估策略。总计执行 267 次策略训练和 44,100 个评测回合；结果经过 Holm 校正。论文还检查全频谱位置距离与轨迹长度的关系，并改变数据协议观察筛选结论是否稳定。 审计流程包括统一评测、标签统计、跨集重叠检测、训练拟合与测试拟合校准比较，最后通过受控 checkpoint 选择实验观察偏差。输入为官方数据和公开权重，输出为指标复现、标签差异及选择偏差估计。
+
+#### 方法对比分析
+CuraEval 主要贡献是评估协议和实证审计，而不是新筛选算法。它提醒研究者将筛选器与随机基线、全量数据策略直接比较，并在多个任务上做统计校正。若改变协议后结论反转，则不能只展示最有利的那组设置。 相比只报告网络结构和单一 PSNR，本文的贡献是审计数据、脚本与选择规则，并将观察到的偏移和因果解释区分开。
+
+#### 实验分析（精简版）
+PSD 全谱位置距离的总和等于 T²‖x‖²，与演示长度的相关系数为 0.999，因此它可能主要按时长排序。部分简单启发式超过随机选择，但经过多重比较校正，没有筛选条件显著优于全量训练。HG-WT-LOO 会明显降低表现，且协议变化能翻转表面结论。Transport 任务的策略还可能尚未充分收敛。 实验使用18个公开 checkpoint，并从头训练0.88M参数 U-Net；后者以L1加SSIM损失、AdamW和20,000步训练，每1,000步比较验证集与测试集。
+
+#### 实用指南
+实际使用筛选器时，应先报告数据采集协议、保留率和策略训练预算，再进行多任务成对评估。评分函数需要控制轨迹长度等混杂因素；随机筛选和全量数据都是必要对照。筛选收益应以独立策略测试的置信区间说明，不能只依据演示分数。 复现需校验官方档案、解码方式、指标实现和 bootstrap 设置；迁移时应先做标签分布审计，并在独立验证集上选择模型。
+
+#### 总结
+核心思想：用下游策略验证数据筛选
+1. 在多任务中固定采集和训练条件。
+2. 对照随机选择与完整数据训练。
+3. 校正多重比较并检查协议敏感性。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2610.38221v1)
+- [arXiv](https://arxiv.org/abs/2610.38221v1)
+
+---
+
+<a id='2610.38234v1'></a>
+## [SimRetract: Zero-Shot Sim-to-Real Robotic Assistance for Retractor Take-Over in Open Surgery](https://arxiv.org/abs/2610.38234v1)
+
+**Authors:** Xucheng Wang, Zhizhou Yang, Sung Eun Kim, Romain Hardy, Michael P. Sampson, Aakash Reddy, Ankit Pal, Xiaoman Zhang, Luyang Luo, Pranav Rajpurkar
+
+**Published:** 2026-10-28
+
+**Categories:** cs.RO
+
+**Abstract:**
+
+We demonstrate the first zero-shot sim-to-real transfer for a surgeon-robot collaboration task in open surgery: retractor take-over. A robot arm takes a retractor from the surgeon's hand and preserves retraction at handoff, using a policy trained only on simulated demonstrations, without human demonstrations or real-world fine-tuning. Imitation learning from real demonstrations is limited by collection and labeling costs, and by performance degradation when the environment changes. Our framework, SimRetract, generates simulated demonstrations designed for transfer: the policy observes masked instrument images and grasp geometry, learns to recover from off-nominal states, and acts with margin for execution drift. Deployed zero-shot, it grasps the retractor in 90% of 50 surgeon-defined phantom presentations and preserves retraction at handoff in 78%. Results on unseen retractors suggest potential for generalization to instruments with similar grasp geometry. Across ten policy configurations and 1,200 simulated and real trials, we localize the sim-to-real gap to components: in simulation, grasp rates across ablations span 80-96%, while on the real robot removing the instrument mask alone drops performance to 22% grasped and 12% held. Transfer-oriented design thus makes zero-shot sim-to-real transfer feasible for a surgical assistance task without human demonstrations. Code is available here: https://anonymous.4open.science/r/simretract-58D2.
+
+### 论文解读
+#### 摘要翻译
+内镜操作需要在狭小空间接近目标、抓取并保持术野，但视觉动作策略可能碰撞或丢失目标。SimRetract 在仿真环境中训练视觉语言动作模型，并通过遮罩、平滑接近、扰动恢复等流程生成演示，评估其在不同假体上的抓取和暴露效果。
+#### 方法动机分析
+直接在真实手术器械上采集大量接触数据成本高，且组织损伤风险不适合无约束探索。作者转而在仿真中构造目标明确的有效轨迹，重点强调接近距离和恢复动作。研究要回答的是这些训练机制能否让策略在仿真假体中完成抓取，并不直接验证真实临床安全性。 关键挑战是接近目标时同时保持避碰与目标可见；真实内镜数据采集风险高，因此作者用仿真脚本控制接触过程。
+
+#### 方法设计详解
+模型读取遮罩后的 RGB-D、目标平面法向和关节状态，预测器械控制动作。演示由脚本生成，包括平滑 standoff 接近、短距离进给、目标抓取和受扰后的恢复，再用 π0 进行策略训练。数据约含 1500 条模拟演示和 167,216 帧；训练进行 15,000 个优化步、约 960,000 次抽样，batch size 64。每个预测包含 50 步动作，约覆盖两秒，控制频率为 25 Hz。 方法流程包括仿真场景生成、有效动作示范、视觉状态编码、分块动作预测和假体评测模块。输入为遮罩 RGB-D、平面法向及关节状态，输出为每次50步的控制动作；训练以π0策略和约1500条演示进行。
+
+#### 方法对比分析
+这项工作的主要变化是把组织区域遮罩和动作分阶段设计加入 VLA 训练，而不是提出新的视觉编码器或控制理论。消融能显示各模块在当前仿真任务中的作用，但仿真脚本本身提供了干净、有效的监督，不一定包含真实手术的复杂失败。 相较只报告抓取成功率的操作策略，本文的贡献是将目标暴露、接近距离与恢复能力一起纳入训练和消融，当前证据仍限于仿真与假体。
+
+#### 实验分析（精简版）
+50 次假体展示中，策略抓取率为 90%，保持目标暴露为 78%。去除组织遮罩后两项分别降到 22% 和 12%。未见过的 Army–Navy 假体结果为 80%/64%，Richardson 假体为 58%/50%，表现随材料变化。论文没有在生物组织或真实手术器械上测试，也没有展示独立在线碰撞监视器。
+#### 实用指南
+应用到真实器械前，需要处理软组织形变、镜面反光、液体、相机标定误差和工具接触等仿真差距，并保留独立的碰撞限制、急停和人工接管。评估应分别报告抓取与术野保持，增加不同组织和扰动条件，避免将有限假体结果解释成临床有效性。 复现应固定假体、遮罩生成和动作周期；迁移到真机前，加入独立碰撞监视、软组织模型和人工接管，并分开报告各项安全指标。
+
+#### 总结
+核心思想：通过分阶段训练提升仿真抓取
+1. 生成接近、抓取和恢复演示。
+2. 结合视觉遮罩与器械状态训练策略。
+3. 在不同假体上分别测抓取与暴露。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2610.38234v1)
+- [arXiv](https://arxiv.org/abs/2610.38234v1)
+
+---
+
+<a id='2610.38405v1'></a>
+## [SpaceAct: Benchmarking 3D Spatial and Temporal Reasoning via Closed-Loop Action and Active Perception](https://arxiv.org/abs/2610.38405v1)
+
+**Authors:** Chenglong Shi, Zekai Yuan, Yue Song, Jon Pu, Will Wu
+
+**Published:** 2026-10-28
+
+**Categories:** cs.RO, cs.AI
+
+**Abstract:**
+
+To solve problems in 3D space rather than merely describe images, multimodal large language models (MLLMs) need 3D spatiotemporal reasoning: reconstructing 3D geometry from occluded 2D views, anticipating physical dynamics, and executing precise, closed-loop actions. Prior studies test passive VQA on static images or symbolic planning, requiring no execution or supplying privileged coordinates while ignoring collision, statics, and timing. We introduce SpaceAct, an interactive benchmark evaluating 3D spatiotemporal reasoning via closed-loop physical action and active perception, with SAPA, a Spatiotemporal Active-Probing Agent framework. Built on interlocking bricks and mechanical puzzles, it has 108 verified instances across 36 task families in six categories, without privileged coordinates, and diagnostic modes (+plan, +state, no-camera, blind, L7 levers). In brick-bridging or aperture-threading, models rotate the camera to resolve occlusion, read in-scene rulers, output 6-DoF poses under swept-collision and statics checks, and self-correct via split-screen rollback feedback (dynamic tasks freeze time during deliberation and give five strobe frames). Across 10 frontier MLLMs on the 44 hardest instances, scores span 4.8-79.1 (seven solve at most 27.3% of 6-DoF tasks); for the top three, a reference plan (+plan) closes 44% of the gap while leaving collisions at 5.2 per episode, whereas adding exact 3D state (+state) closes 90% and cuts collisions to 0.5; for four others, +plan lifts the mean score from 10.9 to 35.3 and +state to 81.8; and 46% of failures are collision or observation loops. SpaceAct and SAPA advance evaluation to closed-loop physical interaction, showing that even with a valid plan, MLLMs remain bottlenecked by 3D visual grounding and action refinement, while offering a testbed for active multi-view exploration and explicit 3D grounding.
+
+### 论文解读
+#### 摘要翻译
+SpaceAct 是一个让多模态模型在三维环境中观察、规划和连续行动的基准。它覆盖建造、谜题、六自由度操作、多视角感知和动态机制等任务，并使用统一的物理约束与回滚反馈。作者借助加入参考计划和精确坐标的诊断条件，分析模型失败主要来自哪里。
+#### 方法动机分析
+静态图像问答不能检验模型能否把视觉理解转成准确的三维动作；抽象计划正确也可能因为坐标估计错而碰撞。SpaceAct 将观察、探测、动作和物理反馈放入同一回合，使失败可以归因于几何定位、物理判断、规划或控制。核心挑战是从像素闭环到连续空间操作。 核心挑战是把视觉中的像素位置变成可执行的度量动作；碰撞后的反馈常未被模型转成有效修正，因此基准需要能定位这些瓶颈。
+
+#### 方法设计详解
+基准包含 36 个任务族、108 个验证实例，主矩阵选取 44 个困难实例。SAPA 每回合读取带标尺的 RGB 图像、任务规则、历史记录和持久记忆，可调整视角、探测隐藏属性并发出一至五个结构化动作。模拟时间在模型思考时冻结；动作按细步执行，任一碰撞或静力约束违规都会停止后续操作并提供回滚画面。诊断实验加入高层参考计划，再进一步提供精确三维状态，以逐步降低模型所需能力。 系统流程包含主动观察、物理探测、任务规划、连续控制和违规回滚模块。输入为带标尺的图像、规则与历史记忆，模型输出结构化动作；仿真执行器逐步检查几何碰撞和静力条件，再把有效状态反馈到下一轮。
+
+#### 方法对比分析
+与只需语义编辑或选择宏动作的基准相比，SpaceAct 要求度量定位、连续运动、碰撞约束和物理稳定性。它不仅报告最终成功，还提供计划、视觉状态和相机干预等诊断结果。它仍是模拟基准，价值在于定位错误类型，而不是证明机器人系统已经能安全部署。 与离散语义操作基准相比，SpaceAct 的创新在于强制连续三维控制、动态观察和物理检查，并以计划/状态注入形成可诊断对比。
+
+#### 实验分析（精简版）
+十个模型主矩阵成绩从 4.8 到 79.1，中位数为 23.1；多视角感知和六自由度操作尤其困难。对前三模型，加入计划后分数由 65.1 升至 80.3，但碰撞仍为每回合 5.2 次；再给精确三维状态，分数升至 96.6，碰撞降至 0.5。去除图像后碰撞显著增多，显示视觉定位和闭环纠错的重要性。
+#### 实用指南
+复用该基准时应报告模型接口、任务难度、运行失败与重试，并避免把诊断条件当作常规能力。真实机器人验证还需覆盖不同物理引擎、传感器误差、执行器延迟和多随机种子。论文主矩阵每模型每任务仅运行一次，种子复验只涉及部分模型和任务。 复现时应固定仿真器版本、实例生成器、运行重试规则和随机种子；迁移到真机必须新增传感器噪声、执行延迟及独立碰撞保护测试。
+
+#### 总结
+核心思想：用物理闭环诊断三维行动能力
+1. 在统一任务中联合观察、探测与动作。
+2. 用计划和状态注入逐层定位瓶颈。
+3. 把模拟结论作为现实测试的假设起点。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2610.38405v1)
+- [arXiv](https://arxiv.org/abs/2610.38405v1)
+
+---
+
+<a id='2610.38600v1'></a>
+## [Data Scaling Laws in Stereo Matching: From In-domain Fitting to Cross-domain Generalization](https://arxiv.org/abs/2610.38600v1)
+
+**Authors:** Tong Zhao, Di Liang, Yiming Zeng, Bo Xu, Yingzhi Tang, Chen Bai
+
+**Published:** 2026-10-28
+
+**Categories:** cs.CV
+
+**Abstract:**
+
+In the era of large models, stereo matching is developing towards generalizable foundation models trained on million-scale synthetic images. However, how model performance scales up with synthetic data is still underexplored. In this work, we preliminarily investigate the in-domain and cross-domain data scaling laws in stereo matching. A realistic synthetic dataset, named XStereo, containing 200 thousand samples is first built to serve as a high-quality benchmark for data scaling research. In-domain training on five large-scale datasets demonstrate a two-regime scaling behavior with data, transitioning from the standard power law to saturation, where the critical transition point is approximately invariant under a fixed model. Cross-domain performance exhibits a substantially weaker and less predictable dependence on the source-domain data scale. The distribution and coverage diversity are more effective for diminishing domain gaps. More instructive suggestions are provided for high-efficiency data construction and training. The insightful findings are significant verification and extension of the existing scaling laws in both language and vision, paving the way to efficient and stronger stereo matching. The XStereo dataset is public at https://huggingface.co/datasets/Tong-Zhao/XStereo.
+
+### 论文解读
+#### 摘要翻译
+立体匹配数据集越大，模型在训练域内是否总会更好？扩大合成数据能否带来真实场景泛化？本文构建 XStereo，并用固定模型比较多个数据集和规模，发现域内误差先下降后饱和，而跨域效果更依赖场景多样性与分布覆盖。
+#### 方法动机分析
+合成数据能够提供精确视差标签，但简单复制或重复渲染可能增加样本数，却没有带来新场景信息。只看训练域测试误差，也不能说明模型能否迁移到自然图像。论文将数据规模、计算预算和目标域拆开，尝试回答增加样本何时有用，以及何种情况下多样性比数量更重要。 数据扩张的效果是立体匹配研究的关键挑战：重复样本可能只增加计算，无法填补自然域差距。论文的动机是区分数量饱和与场景覆盖。
+
+#### 方法设计详解
+XStereo 由 UE5 渲染，覆盖 162 个室内外场景，共 20 万对立体图像。实验固定一个 1100 万参数网络，在 XStereo、Scene Flow、FSD、TartanAir 及混合数据上抽取递增的嵌套子集训练，并以有标签像素数表示数据规模。模型在域内测试集和 KITTI、WHUStereo、RSRD 等自然数据上评估。作者拟合分段幂律，并提出 Effective Fitting Utilization 指标估算特定模型有效利用的数据比例。 流程包括构建场景数据、抽取嵌套规模子集、固定模型训练、拟合域内曲线和自然域测试模块。输入是合成左右图像与视差标签，输出为域内误差、跨域指标及模型相关 EFU；模型训练采用固定计算预算。
+
+#### 方法对比分析
+论文的重点是数据规律和评估方式，不是新的匹配架构。它提醒数据规模效应需与计算量和训练域区分，也指出跨域表现不能由单一域内缩放曲线预测。EFU 是基于特定模型、数据与拟合方式的诊断量，不是数据集质量的普遍分数。 相比只混合大规模数据并报最优结果，本文的贡献是分开分析幂律区间、饱和区间与跨域误差，并指出EFU依赖模型。
+
+#### 实验分析（精简版）
+各训练集的域内误差通常先呈幂律下降，随后快速饱和，估计幂指数为 0.2 至 0.4。XStereo 的 EFU 为 27.63%，TartanAir 为 24.92%。跨域误差更快稳定且不规则，扩大源域数据不能保证持续改善；混合训练整体有所帮助，但模型在不同目标域上的名次不同。容量扩展到 18M/40M 的实验被作者描述为初步结果。
+#### 实用指南
+准备数据时应同时报告独特场景、样本密度、视差范围、有标签像素、训练步数与跨域结果。目标域标注和成像条件可能改变指标，因此部署场景需要单独验证。使用 EFU 时应写明模型和拟合方法，不要把它当作脱离模型的固有数据属性。 复现应保存数据划分、有效标签像素、训练步数与目标域协议；迁移到新场景时检查视差分布、相机基线和图像风格，并重新测量跨域性能。
+
+#### 总结
+核心思想：数据规模与域多样性分别评估
+1. 固定架构并控制训练预算。
+2. 分开测量域内饱和与跨域变化。
+3. 在目标场景验证数据组合效果。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2610.38600v1)
+- [arXiv](https://arxiv.org/abs/2610.38600v1)
+
+---
+
+<a id='2610.38121v1'></a>
+## [What Does LOL Measure? Hidden Label Shifts in Low-Light Enhancement Benchmarks](https://arxiv.org/abs/2610.38121v1)
+
+**Authors:** Adityan Thirumani Srinivasan
+
+**Published:** 2026-10-28
+
+**Categories:** cs.CV, cs.LG, eess.IV
+
+**Abstract:**
+
+LOL-v1 and LOLv2-Real are the standard benchmarks for supervised low-light image enhancement, and several leading methods ship hand-set test-time adjustments with their evaluation scripts. We audit both benchmarks with 18 public checkpoints of eight methods under one metric implementation that reproduces every published number to within 0.09 dB, and find that their test labels differ from their training labels. (i) The 15 LOL-v1 test labels are rendered differently: the same captures appear in LOLv2 with labels of identical luminance but 1.48x lower saturation, and LOL-v1's own training labels match the LOLv2 rendering; we confirm this on the official release. (ii) The LOLv2-Real test set is the contiguous block of images 690-789, whose labels are 14% darker than the training labels (Cliff's delta = -0.45, p < 1e-12) with no comparable shift in the input statistics we examined; methods trained without any labels score up to 5.5 dB higher on test than on train. (iii) All 15 LOL-v1 test inputs reappear in LOLv2-Real, 12 in its training set. The released test-time settings are consistent with compensating for these shifts. Separating what can be calibrated on training data from what only test-set tuning finds, the test-only residual has median 0.00 dB on LOLv2-Syn, which has no shift, but 0.37 dB on LOL-v1 and 0.92 dB on LOLv2-Real (up to 3.9 dB). Under the shift, test-set checkpoint selection inflates a from-scratch model by 0.9-2.0 dB, and removing the released settings changes which method ranks first. We give concrete reporting recommendations.
+
+### 论文解读
+#### 摘要翻译
+低照度增强方法通常在 LOL-v1 和 LOLv2 上按 PSNR 排名。本文审计发现，训练与测试标签的色彩和亮度可能存在差异，而部分公开测试时设置会朝着测试标签偏移的方向调整输出。作者也展示了测试集选 checkpoint 可能挑中欠训练模型。
+#### 方法动机分析
+小型配对基准容易被少数样本和评测细节影响。如果测试标签并非训练标签分布的公平样本，模型分数就混合了增强能力与标签渲染差异。评测脚本中的后处理参数、测试集选模型和跨基准重复数据，会让不同方法排名更难解释，因此需要检查数据和评测程序本身。 核心痛点是小测试集上微小分数差异常被当成算法进步，但标签渲染和测试调参可能改变比较对象。作者把这作为可验证的基准有效性假设。
+
+#### 方法设计详解
+作者统一复现八种方法、18 个公开模型权重，再比较 LOL-v1、LOLv2-Real 和 LOLv2-Syn 的图像及标签统计。分析包括官方数据校验、跨基准重复图像、测试时亮度或饱和度网格搜索，以及训练集可拟合调整与测试专属收益的区分。最后从头训练小型 U-Net，并每隔一千步在独立验证集和测试集上测量表现，以观察模型选择偏差。 审计流程由模型重评分、输入与标签统计、重复图像核验、后处理搜索及独立验证 checkpoint 实验组成。数据和公开脚本为输入，输出包括校准收益分解、排名变化和标签偏移证据。
+
+#### 方法对比分析
+这是一项基准审计，不是新的图像增强网络。其贡献是把标签处理、样本重叠、指标选择、后处理和 checkpoint 选择分别分析，并提供更谨慎的报告建议。作者没有断言任何研究者的主观意图，也没有证明所有低照度基准都存在相同问题。 与单纯复现排行榜相比，本文的贡献是检查数据标签与测试时程序，并区分相关证据和对作者意图的判断。
+
+#### 实验分析（精简版）
+LOL-v1 的 15 张测试输入与 LOLv2-Real 图像相同，但标签饱和度中位数约高 1.48 倍；LOLv2-Real 的最后一百张测试标签则比训练标签暗约 14%。统一实现复现公开分数，误差不超过 0.09 dB。两次受控 LOLv2-Real 训练中，测试选择的 checkpoint 比验证选择高 0.92 和 2.03 dB，并落在 2000 步的早期阶段。
+#### 实用指南
+论文建议报告不含测试时调整的结果，说明指标采用 RGB 或亮度通道、是否使用标签均值校准，并只用独立验证集选择 checkpoint。还应检查训练和测试标签处理、重复样本以及 label-free 对照。测试集仅 15 张时，小幅排名差异不应过度解读。 复现时应记录官方数据来源、PSNR实现和所有后处理参数；迁移到其他基准，先核验训练/测试标签处理并使用独立验证集。
+
+#### 总结
+核心思想：先审计基准标签再解读分数
+1. 比较训练与测试输入和标签统计。
+2. 单独报告测试时设置与 checkpoint 规则。
+3. 用独立验证和无偏移数据复核结论。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2610.38121v1)
+- [arXiv](https://arxiv.org/abs/2610.38121v1)
+
+---
+
+<a id='2610.38158v1'></a>
+## [REEL: Same Frames, Different Answers and Different Costs](https://arxiv.org/abs/2610.38158v1)
+
+**Authors:** Xin Liang, Jiangpeng He
+
+**Published:** 2026-10-28
+
+**Categories:** cs.CV
+
+**Abstract:**
+
+Video understanding keeps moving toward longer recordings, and the longer a recording is, the more questions can be asked about it. But processing it again for every question does not scale, so many systems watch the video once, build a memory, and answer later questions from it. Yet what to remember is decided before anyone knows what will be asked, and whatever is left out cannot be recovered later.   Moreover, whether the savings pay off is judged by token counts, which fall when the input gets shorter but not when the model reuses what it has already computed. We present REEL, an evaluation framework that compares three saved representations built from exactly the same observed frames, so that a change in answers can come only from what the system remembered. Text writes a short record of what happened, Visual keeps the encoder outputs, and Prefix State also keeps the language-model prefix. Each is compared with full reprocessing (Frames) by paired correctness changes, cumulative GPU time, and storage size. Across six vision-language models and two benchmarks, Text and Frames differ in correctness on 20\% to 29\% of questions, even when their mean accuracy is almost the same. By contrast, Visual and Prefix State stay much closer to Frames. With unlimited storage, Prefix State is the cheapest in total GPU time among memories that keep almost all of the answers Frames gets right, for every model on both benchmarks. The trade-off is storage: Prefix State keeps up to about 21 GiB per video, whereas Text needs only kilobytes. Reusing computation and discarding information both look like efficiency, but only the second removes evidence that later questions may need, and neither mean accuracy nor token count tells them apart. REEL makes that difference measurable for any system that answers many questions from one saved memory.
+
+### 论文解读
+#### 摘要翻译
+长视频可以被反复提问，逐次重新处理视频会耗费计算。REEL 在相同视频帧上比较完整重算、文字摘要、视觉编码缓存和前缀状态缓存，分别测量答案变化、GPU 时间和存储量。结果显示，压缩成文字很省空间，却会改变许多具体答案。
+#### 方法动机分析
+平均准确率可能掩盖不同问题上的得失相抵；token 数减少也不一定代表 GPU 实际少做了工作。REEL 将帧选择和表示保存分开，让所有表示先观察相同帧，再衡量记忆本身对答案的影响。该设计也把信息是否保留和计算是否复用作为不同问题处理。 主要动机是长视频反复处理成本不断累积，而文字摘要可能在用户提出问题前删掉关键细节；平均准确率难以呈现这种风险。
+
+#### 方法设计详解
+研究比较四种表示：Frames 每题重新处理；Text 在问题出现前写短记录；Visual 缓存视觉编码输出；Prefix State 进一步保存语言模型前缀的 KV 状态。六个视觉语言模型在 CG-Bench 和 HD-EPIC 上回答相同问题，主实验固定采样 64 帧。作者以逐题成对正确性计算丢失率、恢复率和答案翻转率，再累计一次性构建与每题问答 GPU 时间，并记录每段视频保留字节。 流程先固定采样帧，再分成完整重算、摘要写作、视觉特征缓存和前缀缓存四条路径。输入包括视频帧和逐题问题，输出为配对答案转移、累计 GPU 时间及保留字节。
+
+#### 方法对比分析
+相比只报准确率和 token 数，REEL 同时衡量哪些问题改答、实际计算和存储代价。视觉特征与 KV 状态复用已经算过的模型状态，文字记录则是有损压缩；它们不应被当作同一种“记忆”。论文也单独比较问题盲的 MaxVol 与问题感知的 AKS，避免把检索成本藏在总耗时之外。 相较只比输入 token 或平均准确率，REEL 的贡献是同时报告逐题变化、计算复用与存储代价，并将帧选择成本单独计入。
+
+#### 实验分析（精简版）
+12 个模型与数据集组合中，Text 与完整重算的逐题正确性差异为 19.7%–28.7%，尽管平均准确率差可能很小；Visual 和 Prefix State 的差异不超过 2%。存储不受限时，Prefix State 是全部组合中满足答案保留标准且 GPU 计算最低的方案，但单段视频缓存最高约 20.97 GiB。AKS 在 CG-Bench 更准，在 HD-EPIC 略低，且重复搜索成本为 MaxVol 的 1.63–5.59 倍。
+#### 实用指南
+比较长视频记忆系统时，应明确是否共享帧、记录构建是否看过问题、缓存复用的实际范围，以及问题级答案翻转。GPU 时间、输入 token 和存储分别报告。本文结果针对多选问答、有限数据集和特定服务器配置，不能直接外推到开放式视频生成。 复现需要固定视频帧、问题顺序、硬件和缓存策略；迁移到其他任务时，应重新定义可接受的答案损失与存储预算，并区分 GPU 时间和计费 token。
+
+#### 总结
+核心思想：同时测答案保留与计算复用
+1. 固定视频帧和问题比较不同记忆。
+2. 统计逐题变化、GPU 时间及字节数。
+3. 按答案质量与存储预算选择表示。
+
+**Links:**
+
+- [PDF](https://arxiv.org/pdf/2610.38158v1)
+- [arXiv](https://arxiv.org/abs/2610.38158v1)
+
+---
+
